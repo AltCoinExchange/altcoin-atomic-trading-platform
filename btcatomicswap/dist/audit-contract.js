@@ -37,12 +37,14 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
 
   var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(ct);
 
-  var recipientAddr = pushes.recipientHash;
-  var refundAddress = pushes.refundHash160;
+  var recipientAddrString = pushes.recipientHash.replace('0x', '');
+  console.log(recipientAddrString);
+  console.log(Address.fromScriptHash(new Buffer(recipientAddrString), 'testnet'));
+  var refundAddress = pushes.refundHash160; //todo
 
-  console.log('Contract address:       ', ct);
+  // console.log('Contract address:       ', ct);
   console.log('Contract value:         ', 'todo');
-  console.log('Recipient address:      ', recipientAddr);
+  console.log('Recipient address:      ', recipientAddrString); // msZVEMShiSmZtzYc64ggSmu4VKLTWCqEF5 -> should be
   console.log('Authors refund address: ', refundAddress);
   console.log('Secret hash:            ', pushes.secretHash.replace('0x', ''));
   console.log('Locktime:               ', new Date(pushes.lockTime * 1000));

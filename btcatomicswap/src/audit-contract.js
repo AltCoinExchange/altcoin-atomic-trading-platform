@@ -29,12 +29,15 @@ export const auditContract = (ct, tx) => {
 
   const pushes = extractAtomicSwapContract(ct);
 
-  const recipientAddr = pushes.recipientHash; //todo
+  const recipientAddrString = pushes.recipientHash.replace('0x', '');
+  console.log(recipientAddrString);
+
+
   const refundAddress = pushes.refundHash160; //todo
 
-  console.log('Contract address:       ', ct);
+  // console.log('Contract address:       ', ct);
   console.log('Contract value:         ', 'todo');
-  console.log('Recipient address:      ', recipientAddr);
+  console.log('Recipient address:      ', recipientAddrString); // msZVEMShiSmZtzYc64ggSmu4VKLTWCqEF5 -> should be
   console.log('Authors refund address: ', refundAddress);
   console.log('Secret hash:            ', pushes.secretHash.replace('0x', ''));
   console.log('Locktime:               ', new Date(pushes.lockTime * 1000));
