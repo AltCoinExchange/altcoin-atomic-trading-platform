@@ -1,3 +1,5 @@
+import {extractAtomicSwapContract} from './extract-atomic-swap-contract';
+
 const Script = require('bitcore').Script;
 const Transaction = require('bitcore').Transaction;
 
@@ -20,6 +22,9 @@ export const auditContract = (ct, tx) => {
     console.error('transaction does not contain the secret');
     return;
   }
+
+  const pushes = extractAtomicSwapContract(ct);
+
 
   console.log(hasTxOut);
 

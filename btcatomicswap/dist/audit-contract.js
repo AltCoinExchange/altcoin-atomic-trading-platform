@@ -3,6 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.auditContract = undefined;
+
+var _extractAtomicSwapContract = require('./extract-atomic-swap-contract');
+
 var Script = require('bitcore').Script;
 var Transaction = require('bitcore').Transaction;
 
@@ -25,6 +29,8 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
     console.error('transaction does not contain the secret');
     return;
   }
+
+  var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(ct);
 
   console.log(hasTxOut);
 };
