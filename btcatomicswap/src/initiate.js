@@ -11,6 +11,7 @@ export async function initiate(cp2Addr, amount) {
   console.log('** secretHash    ', secretHash);
 
   const lockTime = getUnixTimeFor2Days();
+  console.log('lockTime', lockTime);
   console.log('build');
   const signedTx = await buildContract(cp2Addr, amount, lockTime, secretHash);
   const rawTx = await publishTx(signedTx);

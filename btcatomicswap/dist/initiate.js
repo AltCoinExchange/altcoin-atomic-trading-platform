@@ -22,6 +22,7 @@ async function initiate(cp2Addr, amount) {
   console.log('** secretHash    ', secretHash);
 
   var lockTime = (0, _unixTs.getUnixTimeFor2Days)();
+  console.log('lockTime', lockTime);
   console.log('build');
   var signedTx = await (0, _buildContract.buildContract)(cp2Addr, amount, lockTime, secretHash);
   var rawTx = await (0, _publicTx.publishTx)(signedTx);
