@@ -7,14 +7,19 @@ exports.auditContract = undefined;
 
 var _extractAtomicSwapContract = require('./extract-atomic-swap-contract');
 
+var _secretHash = require('./common/secret-hash');
+
 var Script = require('bitcore').Script;
 var Transaction = require('bitcore').Transaction;
+var Address = require('bitcore').Address;
+var PublicKey = require('bitcore').PublicKey;
 
 var auditContract = exports.auditContract = function auditContract(ct, tx) {
 
   var contract = new Script(ct);
   var contractScriptHashOut = contract.toScriptHashOut();
-  var contractAddress = contractScriptHashOut.toAddress().toJSON().hash;
+  var contractAddress = contractScriptHashOut.toAddress();
+  var contractAddressString = contractScriptHashOut.toAddress().toJSON().hash;
 
   var transaction = new Transaction(tx);
 
@@ -22,7 +27,7 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
     var script = new Script(output.script);
     var address = script.toAddress('testnet');
     var addressHash = address.toJSON().hash;
-    return addressHash === contractAddress;
+    return addressHash === contractAddressString;
   });
 
   if (!hasTxOut) {
@@ -32,5 +37,13 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
 
   var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(ct);
 
-  console.log(hasTxOut);
+  var recipientAddr = pushes.recipientHash;
+  var refundAddress = pushes.refundHash160;
+
+  console.log('Contract address:       ', ct);
+  console.log('Contract value:         ', 'todo');
+  console.log('Recipient address:      ', recipientAddr);
+  console.log('Authors refund address: ', refundAddress);
+  console.log('Secret hash:            ', pushes.secretHash.replace('0x', ''));
+  console.log('Locktime:               ', new Date(pushes.lockTime * 1000));
 };

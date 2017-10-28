@@ -25,22 +25,17 @@ export const extractAtomicSwapContract = (ct) => {
     (new Opcode(opCodes[15]).toString() === new Opcode(Opcode.OP_EQUALVERIFY).toString()) &&
     (new Opcode(opCodes[16]).toString() === new Opcode(Opcode.OP_CHECKSIG).toString());
 
-  console.log('isAtomicSwap', isAtomicSwap);
-
+  if (!isAtomicSwap) {
+    console.error('contract is not an atomic swap script!')
+    return;
+  }
 
   const data = pops.filter(opcode => opcode.indexOf('0x') !== -1);
-
 
   const secretHash = data[0];
   const recipientHash = data[1];
   const lockTime = data[2].replace('0x', '');
   const refundHash160 = data[3];
-
-  console.log('secretHash', secretHash);
-  console.log('recipientHash', recipientHash);
-  console.log('lockTime', lockTime);
-  console.log('lockTime Date', new Date(lockTime * 1000));
-  console.log('refundHash160', refundHash160);
 
   return {
     secretHash,
