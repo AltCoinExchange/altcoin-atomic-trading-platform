@@ -1,0 +1,31 @@
+{
+  "name": "ethatomicswap",
+  "version": "0.1.0",
+  "description": "Ethereum Atomic Swap",
+  "main": "main.js",
+  "scripts": {
+    "test": "test/testatomicswap.js"
+  },
+  "author": "Sulejman Sarajlija & Anto Brajkovic <sule@altcoinexchange.com>",
+  "license": "ISC",
+  "dependencies": {
+    "bigchaindb-driver": "^0.3.0",
+    "bignumber.js": "^4.1.0",
+    "clone": "^2.1.1",
+    "crypto": "^1.0.1",
+    "crypto-js": "^3.1.9-1",
+    "install": "^0.10.1",
+    "minimist": "^1.2.0",
+    "mocha": "^4.0.1",
+    "npm": "^5.5.1",
+    "random-hex": "^1.0.2",
+    "ripemd160": "^2.0.1",
+    "web3": "^1.0.0-beta.24",
+    "web3-utils": "^1.0.0-beta.24",
+    "webpack": "^3.8.1",
+    "webpack-obfuscator": "^0.12.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
+}
