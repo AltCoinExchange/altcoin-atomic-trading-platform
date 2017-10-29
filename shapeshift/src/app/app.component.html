@@ -7,4 +7,52 @@
 
     <span>BTC balance <strong>0.1213123123</strong> BTC</span>
   </mat-toolbar>
+
+
+  <mat-vertical-stepper>
+    <mat-step>
+      <div>
+        <ng-template matStepLabel>Deposit</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="First Name">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Last Name">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </div>
+
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <div>Confirmation</div>
+      </ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Phone number">
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <div>Swap</div>
+      </ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Address">
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+
+
 </mat-sidenav-container>
