@@ -62,3 +62,17 @@ function toBase16(val) {
   }
   return result;
 }
+
+/**
+ * TODO GOAL!!!!!
+ *
+ *
+
+ Contract address:        2Mvyb3QKtiHgwgxYLJin3iQYLN3sDJ3dnjq
+ Contract value:          0.01 BTC
+ Recipient address:       mvJQhCbsH22Rq32apjuCast1RmY1kTo8G5
+ Author's refund address: mpRMZoyNoFc3sYfZsvVcfnSvR6B4SYuM2W
+
+ Secret hash: 1c43aad028199ba9a06c88cc350ef068f50808c6
+
+ */
