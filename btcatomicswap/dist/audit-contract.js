@@ -12,7 +12,6 @@ var _secretHash = require('./common/secret-hash');
 var Script = require('bitcore').Script;
 var Transaction = require('bitcore').Transaction;
 var Address = require('bitcore').Address;
-var PublicKey = require('bitcore').PublicKey;
 
 var auditContract = exports.auditContract = function auditContract(ct, tx) {
 
@@ -38,20 +37,22 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
   var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(ct);
 
   var recipientAddrString = pushes.recipientHash.replace('0x', '');
+  var refundAddressString = pushes.refundHash160.replace('0x', ''); // -> mpRMZoyNoFc3sYfZsvVcfnSvR6B4SYuM2W
 
-  console.log('pushes.recipientHash', pushes.recipientHash);
-  console.log('current:     ', recipientAddrString);
-  console.log('should be:   ', 'mvJQhCbsH22Rq32apjuCast1RmY1kTo8G5');
+  console.log('refundAddressString', refundAddressString);
+  console.log('new Address(new Buffer(toBase16(recipientAddrString))', new Address(new Buffer(toBase16(refundAddressString))));
+  console.log('new Address(new Buffer(toBase16(recipientAddrString))', (0, _secretHash.hash160)(new Address(new Buffer(toBase16(refundAddressString))).toJSON().hash));
 
-  var pubKeyHashAddress = new Address(new Buffer(toBase16(recipientAddrString)));
+  // console.log('pushes.recipientHash', pushes.recipientHash);
+  // console.log('current:     ', recipientAddrString);
+  // console.log('should be:   ', 'mvJQhCbsH22Rq32apjuCast1RmY1kTo8G5');
+  //
+  // let pubKeyHashAddress = new Address(new Buffer(toBase16(recipientAddrString)));
+  //
+  // console.log('pubKeyHashAddress', pubKeyHashAddress);
+  // console.log(pubKeyHashAddress.isPayToPublicKeyHash());
+  //
 
-  console.log('pubKeyHashAddress', pubKeyHashAddress);
-  console.log(pubKeyHashAddress.isPayToPublicKeyHash());
-
-  console.log('--- contract ---');
-  console.log(contract);
-  console.log(ct);
-  console.log(contract.toScriptHashOut().toAddress());
 
   var refundAddress = pushes.refundHash160; //todo
   // console.log('Contract address:       ', ct);
@@ -69,3 +70,17 @@ function toBase16(val) {
   }
   return result;
 }
+
+/**
+ * TODO GOAL!!!!!
+ *
+ *
+
+ Contract address:        2Mvyb3QKtiHgwgxYLJin3iQYLN3sDJ3dnjq
+ Contract value:          0.01 BTC
+ Recipient address:       mvJQhCbsH22Rq32apjuCast1RmY1kTo8G5
+ Author's refund address: mpRMZoyNoFc3sYfZsvVcfnSvR6B4SYuM2W
+
+ Secret hash: 1c43aad028199ba9a06c88cc350ef068f50808c6
+
+ */
