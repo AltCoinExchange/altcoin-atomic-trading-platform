@@ -1,5 +1,5 @@
 const driver = require('bigchaindb-driver');
-const WebSock = global.WebSocket || global.MozWebSocket || require('ws');
+const WebSocket = global.WebSocket || global.MozWebSocket || require('ws');
 
 /**
  * Atomic swap class
