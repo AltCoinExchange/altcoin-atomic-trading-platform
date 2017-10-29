@@ -1,4 +1,4 @@
-import {configuration} from '../config';
+import {configuration} from '../config/config';
 import {estimateFee} from './rawRequest';
 
 const RpcClient = require('bitcoind-rpc');

@@ -1,8 +1,8 @@
-import {fundRawTransaction, getRawChangeAddress} from './common/rawRequest';
+import {fundRawTransaction, getRawChangeAddress} from '../common/rawRequest';
 import {atomicSwapContract} from './atomic-swap-contract';
-import {getFeePerKb} from './common/fee-per-kb';
-import {signTransaction} from './common/sign-transaction';
-import {hash160} from './common/secret-hash';
+import {getFeePerKb} from '../common/fee-per-kb';
+import {signTransaction} from '../common/sign-transaction';
+import {hash160} from '../common/secret-hash';
 
 const Buffer = require('buffer/').Buffer;
 const Transaction = require('bitcore').Transaction;

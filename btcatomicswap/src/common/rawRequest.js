@@ -1,5 +1,5 @@
 const axios = require('axios');
-import {configuration} from '../config';
+import {configuration} from '../config/config';
 
 const url =
   configuration.protocol + '://' +

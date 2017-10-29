@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.signTransaction = undefined;
 
-var _config = require('../config');
+var _config = require('../config/config');
 
 var RpcClient = require('bitcoind-rpc');
 var rpc = new RpcClient(_config.configuration);

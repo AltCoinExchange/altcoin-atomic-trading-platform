@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.initiate = initiate;
 
-var _buildContract = require('./build-contract');
+var _buildContract = require('./contract/build-contract');
 
 var _secretHash = require('./common/secret-hash');
 

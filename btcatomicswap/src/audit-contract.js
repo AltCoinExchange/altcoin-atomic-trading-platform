@@ -1,9 +1,12 @@
-import {extractAtomicSwapContract} from './extract-atomic-swap-contract';
-import {hash160} from './common/secret-hash';
+import {extractAtomicSwapContract} from './contract/extract-atomic-swap-contract';
 
 const Script = require('bitcore').Script;
 const Transaction = require('bitcore').Transaction;
 const Address = require('bitcore').Address;
+const PrivateKey = require('bitcore').PrivateKey;
+
+const Hash = require('bitcore').crypto.Hash;
+const BN = require('bitcore').crypto.BN;
 
 
 export const auditContract = (ct, tx) => {
@@ -32,15 +35,7 @@ export const auditContract = (ct, tx) => {
   const recipientAddrString = pushes.recipientHash.replace('0x', '');
   const refundAddressString = pushes.refundHash160.replace('0x', ''); // -> mpRMZoyNoFc3sYfZsvVcfnSvR6B4SYuM2W
 
-  console.log('refundAddressString', refundAddressString);
-  console.log('new Address(new Buffer(toBase16(recipientAddrString))', new Address(new Buffer(toBase16(refundAddressString))));
-  console.log('new Address(new Buffer(toBase16(recipientAddrString))', hash160(new Address(new Buffer(toBase16(refundAddressString))).toJSON().hash));
 
-
-  // console.log('pushes.recipientHash', pushes.recipientHash);
-  // console.log('current:     ', recipientAddrString);
-  // console.log('should be:   ', 'mvJQhCbsH22Rq32apjuCast1RmY1kTo8G5');
-  //
   // let pubKeyHashAddress = new Address(new Buffer(toBase16(recipientAddrString)));
   //
   // console.log('pubKeyHashAddress', pubKeyHashAddress);

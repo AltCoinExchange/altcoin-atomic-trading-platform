@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.publishTx = undefined;
 
-var _config = require('../config');
+var _config = require('../config/config');
 
 var RpcClient = require('bitcoind-rpc');
 

@@ -1,4 +1,4 @@
-import {atomicSwapContract} from '../src/atomic-swap-contract';
+import {atomicSwapContract} from '../src/contract/atomic-swap-contract';
 const assert = require('assert');
 
 describe('Script creation', function () {

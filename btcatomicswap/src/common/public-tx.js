@@ -1,5 +1,5 @@
 const RpcClient = require('bitcoind-rpc');
-import {configuration} from '../config';
+import {configuration} from '../config/config';
 
 const rpc = new RpcClient(configuration);
 

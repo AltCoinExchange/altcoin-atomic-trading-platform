@@ -1,4 +1,4 @@
-import {buildContract} from './build-contract';
+import {buildContract} from './contract/build-contract';
 import {generateSecret} from './common/secret-hash';
 import {getUnixTimeFor2Days} from './common/unix-ts';
 import {publishTx} from './common/public-tx';

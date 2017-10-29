@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.estimateFee = exports.fundRawTransaction = exports.getRawChangeAddress = undefined;
 
-var _config = require('../config');
+var _config = require('../config/config');
 
 var axios = require('axios');
 
