@@ -12,6 +12,10 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
 
   const refundAddr = await getChangeAddress();
   let refundAddrH = refundAddr.toString();
+  console.log('refundAddrH', refundAddrH);
+  console.log('hash160(refundAddrH)', hash160(refundAddrH));
+  console.log('them', them);
+  console.log('hash160(them)', hash160(them));
 
   try {
     const contract = atomicSwapContract(

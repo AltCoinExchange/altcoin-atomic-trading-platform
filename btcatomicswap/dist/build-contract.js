@@ -22,6 +22,10 @@ var buildContract = exports.buildContract = async function buildContract(them, a
 
   var refundAddr = await getChangeAddress();
   var refundAddrH = refundAddr.toString();
+  console.log('refundAddrH', refundAddrH);
+  console.log('hash160(refundAddrH)', (0, _secretHash.hash160)(refundAddrH));
+  console.log('them', them);
+  console.log('hash160(them)', (0, _secretHash.hash160)(them));
 
   try {
     var contract = (0, _atomicSwapContract.atomicSwapContract)((0, _secretHash.hash160)(refundAddrH), (0, _secretHash.hash160)(them), lockTime, secretHash);
