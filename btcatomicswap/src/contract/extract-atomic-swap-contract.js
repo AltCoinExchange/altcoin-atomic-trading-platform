@@ -15,7 +15,7 @@ export const extractAtomicSwapContract = (ct) => {
     (new Opcode(opCodes[5]).toString() === new Opcode(Opcode.OP_HASH160).toString()) &&
     (parseInt(opCodes[6]) === 20) &&
     (new Opcode(opCodes[7]).toString() === new Opcode(Opcode.OP_ELSE).toString()) &&
-    (parseInt(opCodes[8]) === 5) &&
+    (parseInt(opCodes[8])) &&
     (new Opcode(opCodes[9]).toString() === new Opcode(Opcode.OP_CHECKLOCKTIMEVERIFY).toString()) &&
     (new Opcode(opCodes[10]).toString() === new Opcode(Opcode.OP_DROP).toString()) &&
     (new Opcode(opCodes[11]).toString() === new Opcode(Opcode.OP_DUP).toString()) &&
