@@ -6,16 +6,13 @@ import {hash160} from '../common/secret-hash';
 
 const Buffer = require('buffer/').Buffer;
 const Transaction = require('bitcore').Transaction;
+const Address = require('bitcore').Address;
 
 
 export const buildContract = async (them, amount, lockTime, secretHash) => {
-
-  const refundAddr = await getChangeAddress();
-  let refundAddrH = refundAddr.toString();
-  console.log('refundAddrH', refundAddrH);
-  console.log('hash160(refundAddrH)', hash160(refundAddrH));
-  console.log('them', them);
-  console.log('hash160(them)', hash160(them));
+  await getChangeAddress();
+  const refundAddr = new Address(await getChangeAddress());
+  const refundAddrH = refundAddr.toString();
 
   try {
     const contract = atomicSwapContract(
@@ -24,12 +21,10 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
       lockTime,
       secretHash,
     );
-    console.log('** contract    ', contract.toHex());
 
     const contractP2SH = contract.toScriptHashOut();
 
     let feePerKb = await getFeePerKb();
-    console.log('** feePerKb    ', feePerKb);
 
     const transaction = new Transaction().fee(+amount);
     const output = Transaction.Output({
@@ -40,9 +35,19 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
 
     try {
       const fundRawTx = await fundRawTransaction(transaction.toString(), feePerKb);
-      const signedTx = await signTransaction(fundRawTx.data.result.hex);
-      console.log('** signedTx    ', signedTx.hex);
-      return signedTx.hex;
+      const contractFee = fundRawTx.data.result.fee;
+      const contractTx = await signTransaction(fundRawTx.data.result.hex);
+      const contractTxHash = contractTx.hex;
+
+      // TODO build REFUND !
+
+      return {
+        contract,
+        contractP2SH,
+        contractTxHash,
+        contractTx,
+        contractFee,
+      }
     } catch (fundErr) {
       if (fundErr && fundErr.response) {
         console.log('fundErr', fundErr.response.data, 'fundErr');
@@ -58,6 +63,5 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
 
 const getChangeAddress = async function () {
   const refundAddr = await getRawChangeAddress();
-  const addressHex = new Buffer(refundAddr).toString('hex');
-  return addressHex;
+  return refundAddr;
 };

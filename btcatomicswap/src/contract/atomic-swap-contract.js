@@ -7,19 +7,19 @@ export const atomicSwapContract = (refundAddress, pkhThem, lockTime, secretHash)
   const script = new Script();
   script.add(Opcode.OP_IF);
   script.add(Opcode.OP_RIPEMD160);
-  script.add(new Buffer(secretHash, 'hex'));
+  script.add(Buffer.from(secretHash));
   script.add(Opcode.OP_EQUALVERIFY);
   script.add(Opcode.OP_DUP);
   script.add(Opcode.OP_HASH160);
-  script.add(new Buffer(pkhThem, 'hex'));
+  script.add(Buffer.from(pkhThem));
 
   script.add(Opcode.OP_ELSE);
-  script.add(new Buffer(String(lockTime), 'hex'));
+  script.add(Buffer.from(String(lockTime)));
   script.add('OP_CHECKLOCKTIMEVERIFY');
   script.add(Opcode.OP_DROP);
   script.add(Opcode.OP_DUP);
   script.add(Opcode.OP_HASH160);
-  script.add(new Buffer(refundAddress, 'hex'));
+  script.add(Buffer.from(refundAddress));
 
   script.add(Opcode.OP_ENDIF);
 

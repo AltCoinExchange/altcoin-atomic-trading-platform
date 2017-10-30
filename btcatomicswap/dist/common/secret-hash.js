@@ -7,7 +7,6 @@ var RIPEMD160 = require('ripemd160');
 var crypto = require('crypto-browserify');
 
 var generateSecret = exports.generateSecret = function generateSecret() {
-
   var secretBuffer = crypto.randomBytes(32);
   var secret = secretBuffer.toString('hex');
   var secretHash = new RIPEMD160().update(secretBuffer).digest('hex');

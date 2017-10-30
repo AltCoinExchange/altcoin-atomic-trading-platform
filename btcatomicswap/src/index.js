@@ -1,4 +1,4 @@
-// import {initiate} from './initiate';
+import {initiate} from './initiate';
 // export * from './initiate';
 
 console.log('-------------------------------------------------------');
@@ -7,7 +7,7 @@ console.log('-------------------------------------------------------');
  */
 // ubuntu@ip-172-31-31-226:~$ bitcoin-cli -testnet -rpcuser=bedrock -rpcpassword=bedrock getnewaddress
 // mxTRJVKSPjjrFeDBkzNZFTy4cur83WQk5R
-// initiate("mxTRJVKSPjjrFeDBkzNZFTy4cur83WQk5R", "0.01");
+initiate("n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.01");
 
 
 import {auditContract} from './audit-contract';
@@ -15,8 +15,8 @@ import {auditContract} from './audit-contract';
 /**
  * AUDIT CONTRACT
  */
-auditContract("63a6141c43aad028199ba9a06c88cc350ef068f50808c68876a914a22a841f0212b3bb1d51691a3b1a9a9d5dee180d67051509448849b17576a91461aa0fff7c9ffecd01a2f2d969271378c030aa366888ac",
-  "01000000019a529f2e22b7dd6aba86d7e864c955197969d5037a6bb47f880e5010897b17b8010000006b483045022100993dd7d10120feee0d5b458d54e25acdd9659883b9a35a54321dcfaf3be9c332022041ddf9e0ac21df94a7aca684f104e044dc85b1e2d7281a7c1cb161450c8aef21012103eb3fce004b800dff453bd32ab80d436c0f3ce89df657722cc127e90cf7fb3c03feffffff0240420f000000000017a91428eb6c2c7f38dedd9761eb9a7c56961ee93dd9d487aeff0f05000000001976a914225c1a683e295aeef9d0b2f05a71fb2e3ad5131e88ac00000000");
+// auditContract("63a6141c43aad028199ba9a06c88cc350ef068f50808c68876a914a22a841f0212b3bb1d51691a3b1a9a9d5dee180d67051509448849b17576a91461aa0fff7c9ffecd01a2f2d969271378c030aa366888ac",
+//   "01000000019a529f2e22b7dd6aba86d7e864c955197969d5037a6bb47f880e5010897b17b8010000006b483045022100993dd7d10120feee0d5b458d54e25acdd9659883b9a35a54321dcfaf3be9c332022041ddf9e0ac21df94a7aca684f104e044dc85b1e2d7281a7c1cb161450c8aef21012103eb3fce004b800dff453bd32ab80d436c0f3ce89df657722cc127e90cf7fb3c03feffffff0240420f000000000017a91428eb6c2c7f38dedd9761eb9a7c56961ee93dd9d487aeff0f05000000001976a914225c1a683e295aeef9d0b2f05a71fb2e3ad5131e88ac00000000");
 // contract
 // 63a61464687e4d92afd1761ecb22d3aae42c609d5e2a368876a914a22a841f0212b3bb1d51691a3b1a9a9d5dee180d67051509379577b17576a914fd3c3fa09a1db2a3ef7a8be039325c924130c8df6888ac
 
