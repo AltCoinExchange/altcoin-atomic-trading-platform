@@ -6,9 +6,20 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+import {
+  RouterModule,
+  PreloadAllModules
+} from '@angular/router';
+
+import { ROUTES } from './app.routes';
+import '../styles/styles.scss';
+
+import { SwapComponent } from './swap';
+
 @NgModule({
   declarations: [
     AppComponent,
+    SwapComponent
   ],
   imports: [
     BrowserModule,
@@ -19,6 +30,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatToolbarModule,
     MatStepperModule,
     MatCheckboxModule,
+    RouterModule.forRoot(ROUTES, {
+      useHash: Boolean(history.pushState) === false,
+      preloadingStrategy: PreloadAllModules
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

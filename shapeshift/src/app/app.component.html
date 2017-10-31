@@ -1,58 +1,24 @@
-<mat-sidenav-container fullscreen>
-  <mat-toolbar color="primary">
-    <span>altcoin</span>
+<nav>
+    <a class="logo">
+        <img [src]="altcoinLogo">
+    </a>
+</nav>
 
-    <!-- This fills the remaining space of the current row -->
-    <span class="example-fill-remaining-space"></span>
+<main>
+    <router-outlet></router-outlet>
+</main>
 
-    <span>BTC balance <strong>0.1213123123</strong> BTC</span>
-  </mat-toolbar>
-
-
-  <mat-vertical-stepper>
-    <mat-step>
-      <div>
-        <ng-template matStepLabel>Deposit</ng-template>
-        <mat-form-field>
-          <input matInput placeholder="First Name">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input matInput placeholder="Last Name">
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperNext type="button">Next</button>
-        </div>
-      </div>
-
-    </mat-step>
-
-    <mat-step>
-      <ng-template matStepLabel>
-        <div>Confirmation</div>
-      </ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Phone number">
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious type="button">Back</button>
-        <button mat-button matStepperNext type="button">Next</button>
-      </div>
-    </mat-step>
-
-    <mat-step>
-      <ng-template matStepLabel>
-        <div>Swap</div>
-      </ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Address">
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious type="button">Back</button>
-        <button mat-button matStepperNext type="button">Next</button>
-      </div>
-    </mat-step>
-  </mat-vertical-stepper>
-
-
-</mat-sidenav-container>
+<footer>
+    <ul>
+        <li>
+            <a href="">
+                <i class="fa fa-telegram fa-2x" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</footer>

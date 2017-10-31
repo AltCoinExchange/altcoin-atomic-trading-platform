@@ -1,0 +1,162 @@
+@import 'variables';
+$fa-font-path: "../../node_modules/font-awesome/fonts";
+@import "../../node_modules/font-awesome/scss/font-awesome.scss";
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: $background-color;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: $text-color;
+}
+
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+a{
+  text-decoration: none;
+}
+
+.fa{
+  color: $text-color;
+}
+
+.input-box{
+  background-color: $main-gray;
+  border: 1px solid $border-color;
+  margin-bottom: 15px;
+
+  input{
+    width: 60%;
+    font-size: 16px;
+    margin: 0px 15px;
+    padding: 15px;
+    background-color: $main-gray;
+    color: $text-color;
+    text-align: center;
+    border: none;
+    border-style: none;
+    font-weight: 600;
+  }
+  input:focus{
+    outline: none;
+  }
+}
+
+.label{
+  text-align: center;
+  text-transform: uppercase;
+  margin: 6px 0px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+button{
+  width: 100%;
+  background-color: $main-blue;
+  border: none;
+  height: 50px;
+  cursor: pointer;
+  color: $main-gray;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+
+.circle-loader {
+  margin: 0 0 30px 10px;
+  border: $check-thickness solid rgba(0, 0, 0, 0.2);
+  border-left-color: $check-color;
+  animation-name: loader-spin;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.circle-loader,
+.circle-loader:after {
+  border-radius: 50%;
+  width: $loader-size;
+  height: $loader-size;
+}
+
+.load-complete {
+  -webkit-animation: none;
+  animation: none;
+  border-color: $check-color;
+  transition: border 500ms ease-out;
+}
+
+.checkmark {
+  display: none;
+  
+  &.draw:after {
+    animation-duration: 800ms;
+    animation-timing-function: ease;
+    animation-name: checkmark;
+    transform: scaleX(-1) rotate(135deg);
+  }
+  
+  &:after {
+    opacity: 1;
+    height: $check-height;
+    width: $check-width;
+    transform-origin: left top;
+    border-right: $check-thickness solid $check-color;
+    border-top: $check-thickness solid $check-color;
+    content: '';
+    left: $check-left;
+    top: $check-height;
+    position: absolute;
+  }
+}
+
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 1;
+  }
+  20% {
+    height: 0;
+    width: $check-width;
+    opacity: 1;
+  }
+  40% {
+    height: $check-height;
+    width: $check-width;
+    opacity: 1;
+  }
+  100% {
+    height: $check-height;
+    width: $check-width;
+    opacity: 1;
+  }
+}

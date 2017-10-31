@@ -1,0 +1,77 @@
+.container{
+    width: 500px;
+    margin: auto;
+}
+
+.swap{
+    padding: 100px 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.swap-icons{
+    text-align: center;
+}
+
+.swap-icon{
+    vertical-align: middle;
+    display: inline-block;
+    width: 30%;
+}
+
+.swap-icon img{
+    width: 100%;
+    height: 100%;
+}
+
+.swap-inputs{
+    margin: 15px 30px 0px;
+}
+
+.input-icon{
+    display: inline;
+    height: 34px;
+    float: left;
+    margin: 6px;
+}
+
+.input-value{
+    display: inline;
+    margin: 14px;
+    font-size: 16px;
+    float: right;
+    font-weight: 600;
+}
+
+.swap-submit{
+    margin: 25px 0px;
+}
+
+.fa-angle-left{
+    padding-right: 5px;
+}
+
+.qr-code-image{
+    width: 50%;
+    margin: auto;
+    padding-top: 10px;
+}
+
+.qr-code-image img{
+    width: 100%;
+    height: 100%;
+}
+
+.deposit-address{
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    font-size: 20px;
+}
+
+.spinner{
+    width: 100%;
+    margin: auto;
+    padding-top: 20px;
+    text-align: center;
+}
