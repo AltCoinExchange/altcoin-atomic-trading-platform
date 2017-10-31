@@ -22,3 +22,27 @@ import {auditContract} from './audit-contract';
 
 // tx
 // 01000000012547d15fa7eb699fc384fe7ca364453db8cbc07099fd610090b5a4b79f2949d1010000006b483045022100ee8596cdd246b934c4f9c5573c065568be45d457e73053d2d9b11ea56ecc1d1d02204a1470e0ad4710f1dda32252d162f6f4fb2882e8bc64845dd73b5033b16a5f130121039df726f88a9cd11ed00ea32ea8e6f3dda1ee90602ee406c210c966a97ce73cc9feffffff0240420f000000000017a9145490886592e5cf3110d38e3da09449aca38d89e1875f173105000000001976a91443707c19148f5beef8fd0a4e354f01fe927f64b488ac00000000
+
+
+
+
+
+
+// ANTO AND ADMIR !! GENERATE address from hash
+const Base58Check = require('bitcore').encoding.Base58Check;
+const Base58 = require('bitcore').encoding.Base58;
+const Address = require('bitcore').Address;
+
+
+const recipientHash = "ebcf822c4a2cdb5f6a6b9c4a59b74d66461da581";
+
+const testnetBuffer = Buffer.from([0x6F]);
+const recipientBuffer = Buffer.from(recipientHash, "hex");
+
+const buffer21 = Buffer.concat([testnetBuffer, recipientBuffer], 21);
+
+const encoded = Base58Check.encode(buffer21);
+
+console.log(Address.fromString(encoded));
+
+//HELL YEAH!!!
