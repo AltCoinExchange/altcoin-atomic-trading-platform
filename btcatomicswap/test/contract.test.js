@@ -27,7 +27,7 @@ describe('Contract', function () {
       const b = await buildContract("n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.01", lockTime, secretHash);
       const values = extractAtomicSwapContract(b.contract.toHex());
       assert.equal(Object.keys(values).length, 4);
-      assert.equal(values.recipientHash, '0x463055c28b17b0892c4a14a41776cb90d23cf5fc');
+      assert.equal(values.recipientHash, '0x0fb84f231500e5ce0700da88fecad65185699a06');
     });
   });
 });

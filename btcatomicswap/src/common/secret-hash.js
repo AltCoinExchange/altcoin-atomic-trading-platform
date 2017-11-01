@@ -12,6 +12,18 @@ export const generateSecret = () => {
   };
 };
 
+/**
+ * Hash256 then RIPEMD160 = hash160
+ * @param value
+ */
+
 export const hash160 = (value) => {
-  return new RIPEMD160().update(value).digest('hex');
+  const hashScriptBuffer = crypto.createHash('sha256').update(value).digest();
+  return new RIPEMD160().update(hashScriptBuffer).digest('hex');
+};
+
+
+export const hash160Buffer = (value) => {
+  const hash = crypto.createHash('sha256').update(value).digest();
+  return new RIPEMD160().update(hash).digest();
 };
