@@ -15,3 +15,8 @@ export const generateSecret = () => {
 export const hash160 = (value) => {
   return new RIPEMD160().update(value).digest('hex');
 };
+
+
+export const hash160Buffer = (value) => {
+  return new RIPEMD160().update(value).digest();
+};

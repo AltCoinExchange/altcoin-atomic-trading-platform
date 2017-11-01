@@ -1,20 +1,15 @@
 import {extractAtomicSwapContract} from './contract/extract-atomic-swap-contract';
+import {AddressUtil} from './common/address-util';
 
 const Script = require('bitcore').Script;
 const Transaction = require('bitcore').Transaction;
-const Address = require('bitcore').Address;
-const PrivateKey = require('bitcore').PrivateKey;
-
-const Hash = require('bitcore').crypto.Hash;
-const BN = require('bitcore').crypto.BN;
-
 
 export const auditContract = (ct, tx) => {
 
   const contract = new Script(ct);
   const contractScriptHashOut = contract.toScriptHashOut();
   const contractAddress = contractScriptHashOut.toAddress();
-  const contractAddressString = contractScriptHashOut.toAddress().toJSON().hash;
+  const contractAddressString = contractAddress.toJSON().hash;
 
   const transaction = new Transaction(tx);
 
@@ -33,22 +28,19 @@ export const auditContract = (ct, tx) => {
   const pushes = extractAtomicSwapContract(ct);
 
   const recipientAddrString = pushes.recipientHash.replace('0x', '');
+  const recipientAddress = AddressUtil.NewAddressPubKeyHash(recipientAddrString, 'testnet');
+
   const refundAddressString = pushes.refundHash160.replace('0x', ''); // -> mpRMZoyNoFc3sYfZsvVcfnSvR6B4SYuM2W
+  const refundAddress = AddressUtil.NewAddressPubKeyHash(refundAddressString, 'testnet');
 
 
-  // let pubKeyHashAddress = new Address(new Buffer(toBase16(recipientAddrString)));
-  //
-  // console.log('pubKeyHashAddress', pubKeyHashAddress);
-  // console.log(pubKeyHashAddress.isPayToPublicKeyHash());
-  //
-
-
-  const refundAddress = pushes.refundHash160; //todo
-  // console.log('Contract address:       ', ct);
+  console.log('Contract address:       ', AddressUtil.NewAddressScriptHash(ct).toString());
   console.log('Contract value:         ', 'todo');
-  console.log('Recipient address:      ', recipientAddrString); // msZVEMShiSmZtzYc64ggSmu4VKLTWCqEF5 -> should be
-  console.log('Authors refund address: ', refundAddress);
+  console.log('Recipient address:      ', recipientAddress.toString());
+  console.log('Authors refund address: ', refundAddress.toString());
+  console.log('\n');
   console.log('Secret hash:            ', pushes.secretHash.replace('0x', ''));
+  console.log('\n');
   console.log('Locktime:               ', new Date(pushes.lockTime * 1000));
 };
 

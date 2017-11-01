@@ -7,20 +7,17 @@ exports.auditContract = undefined;
 
 var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contract');
 
+var _addressUtil = require('./common/address-util');
+
 var Script = require('bitcore').Script;
 var Transaction = require('bitcore').Transaction;
-var Address = require('bitcore').Address;
-var PrivateKey = require('bitcore').PrivateKey;
-
-var Hash = require('bitcore').crypto.Hash;
-var BN = require('bitcore').crypto.BN;
 
 var auditContract = exports.auditContract = function auditContract(ct, tx) {
 
   var contract = new Script(ct);
   var contractScriptHashOut = contract.toScriptHashOut();
   var contractAddress = contractScriptHashOut.toAddress();
-  var contractAddressString = contractScriptHashOut.toAddress().toJSON().hash;
+  var contractAddressString = contractAddress.toJSON().hash;
 
   var transaction = new Transaction(tx);
 
@@ -39,22 +36,18 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
   var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(ct);
 
   var recipientAddrString = pushes.recipientHash.replace('0x', '');
+  var recipientAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(recipientAddrString, 'testnet');
+
   var refundAddressString = pushes.refundHash160.replace('0x', ''); // -> mpRMZoyNoFc3sYfZsvVcfnSvR6B4SYuM2W
+  var refundAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(refundAddressString, 'testnet');
 
-
-  // let pubKeyHashAddress = new Address(new Buffer(toBase16(recipientAddrString)));
-  //
-  // console.log('pubKeyHashAddress', pubKeyHashAddress);
-  // console.log(pubKeyHashAddress.isPayToPublicKeyHash());
-  //
-
-
-  var refundAddress = pushes.refundHash160; //todo
-  // console.log('Contract address:       ', ct);
+  console.log('Contract address:       ', _addressUtil.AddressUtil.NewAddressScriptHash(ct).toString());
   console.log('Contract value:         ', 'todo');
-  console.log('Recipient address:      ', recipientAddrString); // msZVEMShiSmZtzYc64ggSmu4VKLTWCqEF5 -> should be
-  console.log('Authors refund address: ', refundAddress);
+  console.log('Recipient address:      ', recipientAddress.toString());
+  console.log('Authors refund address: ', refundAddress.toString());
+  console.log('\n');
   console.log('Secret hash:            ', pushes.secretHash.replace('0x', ''));
+  console.log('\n');
   console.log('Locktime:               ', new Date(pushes.lockTime * 1000));
 };
 

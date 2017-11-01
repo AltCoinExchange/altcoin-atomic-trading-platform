@@ -20,3 +20,7 @@ var generateSecret = exports.generateSecret = function generateSecret() {
 var hash160 = exports.hash160 = function hash160(value) {
   return new RIPEMD160().update(value).digest('hex');
 };
+
+var hash160Buffer = exports.hash160Buffer = function hash160Buffer(value) {
+  return new RIPEMD160().update(value).digest();
+};
