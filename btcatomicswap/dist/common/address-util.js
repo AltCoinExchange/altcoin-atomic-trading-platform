@@ -11,7 +11,7 @@ var _secretHash = require('./secret-hash');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var crypto = require('crypto-browserify');
+// const Buffer = require('buffer/').Buffer;
 var Base58Check = require('bitcore').encoding.Base58Check;
 var Address = require('bitcore').Address;
 
@@ -31,6 +31,7 @@ var AddressUtil = exports.AddressUtil = function () {
       }
       var pkhBuffer = Buffer.from(hash, "hex");
       var versionPayload = Buffer.concat([netBuffer, pkhBuffer], 21);
+      console.log('versionPayload', versionPayload);
       var encoded = Base58Check.encode(versionPayload);
       return Address.fromString(encoded);
     }

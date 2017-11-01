@@ -15,7 +15,6 @@ var _signTransaction = require('../common/sign-transaction');
 
 var _secretHash = require('../common/secret-hash');
 
-var Buffer = require('buffer/').Buffer;
 var Transaction = require('bitcore').Transaction;
 var Address = require('bitcore').Address;
 

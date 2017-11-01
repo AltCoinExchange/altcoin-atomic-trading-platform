@@ -41,12 +41,24 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
   var refundAddressString = pushes.refundHash160.replace('0x', '');
   var refundAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(refundAddressString, 'testnet');
 
-  console.log('Contract address:       ', _addressUtil.AddressUtil.NewAddressScriptHash(ct, 'testnet').toString());
-  console.log('Contract value:         ', hasTxOut.satoshis / 100000000 + ' BTC');
+  var contractSH = _addressUtil.AddressUtil.NewAddressScriptHash(ct, 'testnet').toString();
+  var contractValue = hasTxOut.satoshis / 100000000 + ' BTC';
+
+  console.log('Contract address:       ', contractSH);
+  console.log('Contract value:         ', contractValue);
   console.log('Recipient address:      ', recipientAddress.toString());
   console.log('Authors refund address: ', refundAddress.toString());
   console.log('\n');
   console.log('Secret hash:            ', pushes.secretHash.replace('0x', ''));
   console.log('\n');
   console.log('Locktime:               ', new Date(pushes.lockTime * 1000));
+
+  return {
+    contractSH: contractSH,
+    contractValue: contractValue,
+    recipientAddress: recipientAddress.toString(),
+    refundAddress: refundAddress.toString(),
+    secretHash: pushes.secretHash.replace('0x', ''),
+    lockTime: new Date(pushes.lockTime * 1000)
+  };
 };

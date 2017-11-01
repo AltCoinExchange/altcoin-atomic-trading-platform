@@ -4,7 +4,6 @@ import {getFeePerKb} from '../common/fee-per-kb';
 import {signTransaction} from '../common/sign-transaction';
 import {hash160} from '../common/secret-hash';
 
-const Buffer = require('buffer/').Buffer;
 const Transaction = require('bitcore').Transaction;
 const Address = require('bitcore').Address;
 
