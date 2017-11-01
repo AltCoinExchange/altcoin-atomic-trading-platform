@@ -1,4 +1,4 @@
-import {redeemP2SHContract} from './redeemP2SHContract';
+import {redeemP2SHContract} from './contract/redeemP2SHContract';
 const Script = require('bitcore').Script;
 const Address = require('bitcore').Address;
 import {getRawChangeAddress} from './common/rawRequest';
