@@ -1,4 +1,3 @@
-import {redeemP2SHContract} from './redeemP2SHContract';
 const Script = require('bitcore').Script;
 const Address = require('bitcore').Address;
 import {getRawChangeAddress} from './common/rawRequest';
@@ -8,6 +7,7 @@ const Base58Check  = require('bitcore').encoding.Base58Check;
 import {extractAtomicSwapContract} from './contract/extract-atomic-swap-contract';
 import {createSig} from './common/createSig';
 import {hash160} from './common/secret-hash';
+import {configuration} from './config/config';
 
 // const util = require('util')
 
@@ -56,7 +56,7 @@ export async function redeem(ct, ctTx, secret) {
 
   for(let i = 0; i<ctTx.outputs.length; i ++ ){
     const script = new Script(ctTx.outputs[i].script)
-    const address = script.toAddress("testnet")
+    const address = script.toAddress(configuration.network)
     const addressHash = address.toJSON().hash;
 
     // TODO: implement a check to see if its a p2sh and then check the address

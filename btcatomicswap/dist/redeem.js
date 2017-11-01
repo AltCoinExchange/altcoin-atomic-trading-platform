@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.redeem = redeem;
 
-var _redeemP2SHContract = require('./redeemP2SHContract');
-
 var _rawRequest = require('./common/rawRequest');
 
 var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contract');
@@ -14,6 +12,8 @@ var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contrac
 var _createSig = require('./common/createSig');
 
 var _secretHash = require('./common/secret-hash');
+
+var _config = require('./config/config');
 
 var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
@@ -70,7 +70,7 @@ async function redeem(ct, ctTx, secret) {
 
   for (var i = 0; i < ctTx.outputs.length; i++) {
     var script = new Script(ctTx.outputs[i].script);
-    var address = script.toAddress("testnet");
+    var address = script.toAddress(_config.configuration.network);
     var addressHash = address.toJSON().hash;
 
     // TODO: implement a check to see if its a p2sh and then check the address

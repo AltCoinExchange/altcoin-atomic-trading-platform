@@ -35,13 +35,3 @@ var redeemP2SHContract = exports.redeemP2SHContract = function redeemP2SHContrac
   // script.add(Buffer.from(contract, "hex"));
   return script;
 };
-
-// func redeemP2SHContract(contract, sig, pubkey, secret []byte) ([]byte, error) {
-// 	b := txscript.NewScriptBuilder()
-// 	b.AddData(sig)
-// 	b.AddData(pubkey)
-// 	b.AddData(secret)
-// 	b.AddInt64(1)
-// 	b.AddData(contract)
-// 	return b.Script()
-// }

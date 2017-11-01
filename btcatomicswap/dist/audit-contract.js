@@ -9,6 +9,8 @@ var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contrac
 
 var _addressUtil = require('./common/address-util');
 
+var _config = require('./config/config');
+
 var Script = require('bitcore').Script;
 var Transaction = require('bitcore').Transaction;
 
@@ -23,7 +25,7 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
 
   var hasTxOut = transaction.toJSON().outputs.find(function (output) {
     var script = new Script(output.script);
-    var address = script.toAddress('testnet');
+    var address = script.toAddress(_config.configuration.network);
     var addressHash = address.toJSON().hash;
     return addressHash === contractAddressString;
   });
@@ -36,12 +38,12 @@ var auditContract = exports.auditContract = function auditContract(ct, tx) {
   var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(ct);
 
   var recipientAddrString = pushes.recipientHash.replace('0x', '');
-  var recipientAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(recipientAddrString, 'testnet');
+  var recipientAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(recipientAddrString, _config.configuration.network);
 
   var refundAddressString = pushes.refundHash160.replace('0x', '');
-  var refundAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(refundAddressString, 'testnet');
+  var refundAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(refundAddressString, _config.configuration.network);
 
-  var contractSH = _addressUtil.AddressUtil.NewAddressScriptHash(ct, 'testnet').toString();
+  var contractSH = _addressUtil.AddressUtil.NewAddressScriptHash(ct, _config.configuration.network).toString();
   var contractValue = hasTxOut.satoshis / 100000000 + ' BTC';
 
   console.log('Contract address:       ', contractSH);
