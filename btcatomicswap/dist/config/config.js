@@ -8,5 +8,6 @@ var configuration = exports.configuration = {
   user: 'bedrock',
   pass: 'bedrock',
   host: '34.215.58.192',
-  port: '18332'
+  port: '18332',
+  network: 'testnet'
 };

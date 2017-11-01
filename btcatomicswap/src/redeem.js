@@ -39,7 +39,7 @@ export async function redeem(strCt, strCtTx, secret) {
 
   for(let i = 0; i<ctTx.outputs.length; i ++ ){
     const script = new Script(ctTx.outputs[i].script)
-    const address = script.toAddress("testnet")
+    const address = script.toAddress(configuration.network)
     const addressHash = address.toJSON().hash;
 
 

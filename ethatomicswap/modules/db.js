@@ -18,14 +18,14 @@ var Db = function (configuration) {
      * @returns {Promise}
      * @constructor
      */
-    this.Send = function(data, callbackPost) {
+    this.Send = function(data) {
         that = this;
         var tx = driver.Transaction.makeCreateTransaction(
             data,
             null,
             [ driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(this.kp.publicKey))], this.kp.publicKey);
         var txSigned = driver.Transaction.signTransaction(tx, this.kp.privateKey);
-        this.conn.postTransaction(txSigned).then(callbackPost);
+        return this.conn.postTransaction(txSigned);
     };
 
     /**
@@ -44,6 +44,16 @@ var Db = function (configuration) {
      */
     this.Find = function(data) {
         return this.conn.searchAssets(data);
+    };
+
+    /**
+     * Find
+     * @param data
+     * @returns {*}
+     * @constructor
+     */
+    this.FindEx = function(data) {
+        return this.conn.searchAssetsEx(data);
     };
 
     /**
