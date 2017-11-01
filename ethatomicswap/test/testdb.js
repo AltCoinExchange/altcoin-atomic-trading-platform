@@ -34,6 +34,15 @@ db.Subscribe(function (data) {
 });
 
 // Find by any data
-db.Find(JSON.stringify({currencyBuy:"BTC"})).then(function(r) {
+db.Find("BTC").then(function(r) {
+    console.log(r);
+});
+
+db.FindEx(JSON.stringify({})).then(function(r) {
+    console.log(r);
+});
+
+
+db.FindEx(JSON.stringify({"data.currencySell":"ETH"})).then(function(r) {
     console.log(r);
 });

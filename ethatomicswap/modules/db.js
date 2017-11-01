@@ -47,6 +47,16 @@ var Db = function (configuration) {
     };
 
     /**
+     * Find
+     * @param data
+     * @returns {*}
+     * @constructor
+     */
+    this.FindEx = function(data) {
+        return this.conn.searchAssetsEx(data);
+    };
+
+    /**
      * Subscribe to transaction feed
      * @param callback events
      */
