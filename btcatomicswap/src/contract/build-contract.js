@@ -9,8 +9,7 @@ const Address = require('bitcore').Address;
 
 
 export const buildContract = async (them, amount, lockTime, secretHash) => {
-  await getChangeAddress();
-  const refundAddr = new Address(await getChangeAddress());
+  const refundAddr = new Address(await getRawChangeAddress());
   const refundAddrH = refundAddr.toString();
 
   try {
@@ -23,7 +22,7 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
 
     const contractP2SH = contract.toScriptHashOut();
 
-    let feePerKb = await getFeePerKb();
+    const feePerKb = await getFeePerKb();
 
     const transaction = new Transaction().fee(+amount);
     const output = Transaction.Output({
@@ -57,10 +56,4 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
   } catch (err) {
     console.log('err: ', err);
   }
-};
-
-
-const getChangeAddress = async function () {
-  const refundAddr = await getRawChangeAddress();
-  return refundAddr;
 };
