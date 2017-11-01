@@ -27,3 +27,7 @@ export const hash160Buffer = (value) => {
   const hash = crypto.createHash('sha256').update(value).digest();
   return new RIPEMD160().update(hash).digest();
 };
+
+export const ripemd160 = (value) => {
+  return new RIPEMD160().update(value).digest('hex');
+};
