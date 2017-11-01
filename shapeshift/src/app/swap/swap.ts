@@ -11,4 +11,5 @@ export class SwapProcess {
     receiveCoin: Coin;
     submitAmount: boolean;
     showQRCode: boolean;
+    showLink: boolean;
 };

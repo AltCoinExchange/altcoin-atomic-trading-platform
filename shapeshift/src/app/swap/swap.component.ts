@@ -78,10 +78,13 @@ import {
       depositCoin: this.eth,
       receiveCoin : this.btc,
       submitAmount: false,
-      showQRCode: false
+      showQRCode: false,
+      showLink: false
     }
 
     qrCode = 'assets/img/qr-code.png';
+    firstSpinner = true;
+    secondSpinner = true;
 
     constructor() {
      
@@ -111,15 +114,31 @@ import {
     }
 
     doSubmit(){
-      console.log('submited');
       this.swapProcess.submitAmount = true;
     }
 
-    animationDone(event){
-      console.log('animation done')
-      console.log(event);
-      if(event.toState === 'void')
+    firstAnimationDone(event){
+      if(event.toState === 'void'){
         this.swapProcess.showQRCode = true;
+        setTimeout(() => { 
+          this.firstSpinner = false;
+          setTimeout(() => { 
+             this.swapProcess.showQRCode = false;
+          }, 500); 
+        }, 2000);
+      }
+        
+    }
+
+    secondAnimationDone(event){
+      if(event.toState === 'void'){
+        this.swapProcess.showLink = true;
+        setTimeout(() => { 
+          this.secondSpinner = false;
+        }, 2000);
+      }
+      
+        
     }
 
     public ngOnInit() {

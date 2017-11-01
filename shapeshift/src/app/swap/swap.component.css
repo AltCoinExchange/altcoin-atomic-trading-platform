@@ -75,3 +75,8 @@
     padding-top: 20px;
     text-align: center;
 }
+
+.url-copy{
+    display: inline-block;
+    padding: 0px 10px;
+}
