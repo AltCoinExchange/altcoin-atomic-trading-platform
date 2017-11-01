@@ -11,9 +11,12 @@ module.exports = {
         path: '/Users/djenadrazic/MachinezDesign/AltCoin/ethatomicswap/ethatomicswap/dist',
         filename: 'dist.js'
     },
-    plugins: [
-        new JavaScriptObfuscator({
-            rotateUnicodeArray: true
-        }, ["source-**.js"])
-    ]
+    node: {
+        fs: 'empty'
+    }
+    // plugins: [
+    //     new JavaScriptObfuscator({
+    //         rotateUnicodeArray: true
+    //     }, ["source-**.js"])
+    // ]
 };

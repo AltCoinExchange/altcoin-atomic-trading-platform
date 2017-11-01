@@ -9,7 +9,7 @@ var secret = (new Common()).GenerateSecret();
 // Init
 var atomicSwap = new AtomicSwap(AbiConfig, AppConfig.hosts[0]);
 try {
-    atomicSwap.Initiate(7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 10, 2000000).then(function (result) {
+        atomicSwap.Initiate(7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 10, 2000000).then(function (result) {
         console.log("Generated initial transaction: " + result);
     });
 
@@ -21,4 +21,3 @@ try {
 } catch (e) {
     console.log(e);
 }
-
