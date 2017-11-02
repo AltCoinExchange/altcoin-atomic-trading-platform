@@ -13,8 +13,6 @@ var _unixTs = require('./common/unix-ts');
 
 var _publicTx = require('./common/public-tx');
 
-var Buffer = require('buffer/').Buffer;
-
 async function initiate(cp2Addr, amount) {
   var _generateSecret = (0, _secretHash.generateSecret)(),
       secret = _generateSecret.secret,
@@ -22,7 +20,6 @@ async function initiate(cp2Addr, amount) {
 
   var lockTime = (0, _unixTs.getUnixTimeFor2Days)();
   var b = await (0, _buildContract.buildContract)(cp2Addr, amount, lockTime, secretHash);
-  console.log('contractTx', new Buffer(b.contractTxHash).toString('hex'));
 
   var rawTx = await (0, _publicTx.publishTx)(b.contractTx.hex);
 
