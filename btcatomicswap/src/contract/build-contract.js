@@ -5,6 +5,7 @@ import {signTransaction} from '../common/sign-transaction';
 import {hash160} from '../common/secret-hash';
 import {AddressUtil} from '../common/address-util';
 import {buildRefund} from '../common/build-refund';
+import {configuration} from '../config/config';
 
 const Transaction = require('bitcore').Transaction;
 const Address = require('bitcore').Address;
@@ -24,7 +25,7 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
       secretHash,
     );
 
-    const contractP2SH = AddressUtil.NewAddressScriptHash(contract.toHex(), "testnet");
+    const contractP2SH = AddressUtil.NewAddressScriptHash(contract.toHex(), configuration.network);
     const contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
     const feePerKb = await getFeePerKb();
 
