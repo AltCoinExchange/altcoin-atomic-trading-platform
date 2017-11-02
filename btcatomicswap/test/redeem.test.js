@@ -8,7 +8,7 @@ const strContractTx = "010000000267864c7145e43c84d13b514518cfdc7ca5cf2b04764ed26
 
 
 describe('#reedem()', function () {
-  it.only('should create reedemTx', async () => {
+  it('should create reedemTx', async () => {
     redeem(strContract, strContractTx, strSecret)
   });
 });

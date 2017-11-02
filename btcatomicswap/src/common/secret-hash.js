@@ -4,7 +4,7 @@ const crypto = require('crypto-browserify');
 export const generateSecret = () => {
   const secretBuffer = crypto.randomBytes(32);
   const secret = secretBuffer.toString('hex');
-  const secretHash = new RIPEMD160().update(secretBuffer).digest('hex');
+  const secretHash = ripemd160(secretBuffer);
 
   return {
     secret,
