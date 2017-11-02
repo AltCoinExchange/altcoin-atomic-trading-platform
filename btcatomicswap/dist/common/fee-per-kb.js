@@ -38,5 +38,5 @@ var getFeePerKb = exports.getFeePerKb = async function getFeePerKb() {
   }
 
   var estimateRawResp = await (0, _rawRequest.estimateFee)();
-  return estimateRawResp.data.result;
+  return estimateRawResp.data.result.feerate;
 };

@@ -19,7 +19,12 @@ var getRawChangeAddress = exports.getRawChangeAddress = async function getRawCha
     "rpcpassword": _config.configuration.pass
   };
   try {
-    var response = await axios.post(url, data);
+    var response = await axios.post(url, data, {
+      auth: {
+        username: _config.configuration.user,
+        password: _config.configuration.pass
+      }
+    });
     return response.data.result;
   } catch (err) {
     console.log(err);
@@ -39,6 +44,11 @@ var fundRawTransaction = exports.fundRawTransaction = async function fundRawTran
     "rpcpassword": _config.configuration.pass,
     "method": "fundrawtransaction",
     "params": [tx, { "feeRate": feePerKb }]
+  }, {
+    auth: {
+      username: _config.configuration.user,
+      password: _config.configuration.pass
+    }
   });
 };
 
@@ -46,7 +56,12 @@ var estimateFee = exports.estimateFee = async function estimateFee() {
   return await axios.post(url, {
     "rpcuser": _config.configuration.user,
     "rpcpassword": _config.configuration.pass,
-    "method": "estimatefee",
+    "method": "estimatesmartfee",
     "params": [6]
+  }, {
+    auth: {
+      username: _config.configuration.user,
+      password: _config.configuration.pass
+    }
   });
 };

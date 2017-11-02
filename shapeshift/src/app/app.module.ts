@@ -15,6 +15,7 @@ import { ROUTES } from './app.routes';
 import '../styles/styles.scss';
 
 import { SwapComponent } from './swap';
+import {HttpModule} from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SwapComponent } from './swap';
       useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
     }),
+    HttpModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

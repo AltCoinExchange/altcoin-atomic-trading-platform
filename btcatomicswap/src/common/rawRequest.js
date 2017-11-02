@@ -18,6 +18,12 @@ export const getRawChangeAddress = async () => {
     const response = await axios.post(
       url,
       data,
+      {
+        auth: {
+          username: configuration.user,
+          password: configuration.pass,
+        },
+      },
     );
     return response.data.result;
   } catch (err) {
@@ -44,6 +50,12 @@ export const fundRawTransaction = async (tx, feePerKb,) => {
         {"feeRate": feePerKb},
       ],
     },
+    {
+      auth: {
+        username: configuration.user,
+        password: configuration.pass,
+      },
+    },
   );
 };
 
@@ -56,6 +68,12 @@ export const estimateFee = async () => {
       "rpcpassword": configuration.pass,
       "method": "estimatesmartfee",
       "params": [6],
+    },
+    {
+      auth: {
+        username: configuration.user,
+        password: configuration.pass,
+      },
     },
   );
 };
