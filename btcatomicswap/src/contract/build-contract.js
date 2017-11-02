@@ -29,7 +29,7 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
     const contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
     const feePerKb = await getFeePerKb();
 
-    const transaction = new Transaction().fee(+amount);
+    const transaction = new Transaction().fee(+amount * 100000000);
     const output = Transaction.Output({
       script: contractP2SHPkScript,
       satoshis: amount * 100000000,

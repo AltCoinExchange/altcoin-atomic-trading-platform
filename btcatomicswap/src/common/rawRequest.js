@@ -54,7 +54,7 @@ export const estimateFee = async () => {
     {
       "rpcuser": configuration.user,
       "rpcpassword": configuration.pass,
-      "method": "estimatefee",
+      "method": "estimatesmartfee",
       "params": [6],
     },
   );

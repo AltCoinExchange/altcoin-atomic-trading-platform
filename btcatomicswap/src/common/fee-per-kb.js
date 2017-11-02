@@ -30,5 +30,5 @@ export const getFeePerKb = async () => {
   }
 
   const estimateRawResp = await estimateFee();
-  return estimateRawResp.data.result;
+  return estimateRawResp.data.result.feerate;
 };

@@ -4,6 +4,7 @@ import {getRawChangeAddress} from './rawRequest';
 import {extractAtomicSwapContract} from '../contract/extract-atomic-swap-contract';
 import {ScriptUtil} from './script-util';
 import {hash160} from './secret-hash';
+import {estimateRefundSerializeSize} from './sizeest';
 
 const Address = require('bitcore').Address;
 const Transaction = require('bitcore').Transaction;
@@ -26,6 +27,8 @@ export const buildRefund = async (contract, contractTx) => {
     script: refundOutScript,
     satoshis: 0, // ammount set bellow
   }));
+
+  const refundSize = estimateRefundSerializeSize(contract, refundTx.outputs);
 
   // const refundSize; TODO
   // const refundFee; TODO

@@ -12,14 +12,14 @@ const assert = require('assert');
 describe('Contract', function () {
   this.timeout(5000);
   describe('#buildContract()', function () {
-    it('should create contract', async () => {
+    it.only('should create contract', async () => {
       const {secretHash} = generateSecret();
       const lockTime = getUnixTimeFor2Days();
-      const b = await buildContract("n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.01", lockTime, secretHash);
+      const b = await buildContract("n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.0001", lockTime, secretHash);
       assert.equal(b.contract instanceof Script, true, "Contract is instance of Script");
       assert.equal(b.contractP2SH instanceof Address, true, "Contract P2SH is instance of Script");
       assert.equal(b.contractP2SHPkScript instanceof Script, true, "Contract P2SH is instance of Script");
-      assert.equal(b.contractFee.toString(), '0.00000229', "Fee is 0.00000229");
+      assert.equal(b.contractFee.toString(), '0.00000676', "Fee is 0.00000676");
     });
   });
 
@@ -27,7 +27,7 @@ describe('Contract', function () {
     it('should extract atomic swap contract', async () => {
       const {secretHash} = generateSecret();
       const lockTime = getUnixTimeFor2Days();
-      const b = await buildContract("n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.01", lockTime, secretHash);
+      const b = await buildContract("n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.001", lockTime, secretHash);
       const values = extractAtomicSwapContract(b.contract.toHex());
 
       assert.equal(Object.keys(values).length, 4);
