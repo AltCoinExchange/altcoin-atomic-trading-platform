@@ -1,5 +1,6 @@
 import {ScriptUtil} from '../src/common/script-util';
 import {hash160} from '../src/common/secret-hash';
+const assert = require('assert');
 
 describe('ScriptUtil', function () {
   describe('#payToPubKeyHashScript()', function () {

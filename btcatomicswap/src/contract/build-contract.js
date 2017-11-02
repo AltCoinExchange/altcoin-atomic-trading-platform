@@ -13,12 +13,13 @@ const Script = require('bitcore').Script;
 
 export const buildContract = async (them, amount, lockTime, secretHash) => {
   const refundAddr = new Address(await getRawChangeAddress());
-  const refundAddrH = refundAddr.toString();
+  const refundAddressHash = refundAddr.toJSON().hash;
+  const themHash = new Address(them).toJSON().hash;
 
   try {
     const contract = atomicSwapContract(
-      hash160(refundAddrH),
-      hash160(them),
+      refundAddressHash,
+      themHash,
       lockTime,
       secretHash,
     );

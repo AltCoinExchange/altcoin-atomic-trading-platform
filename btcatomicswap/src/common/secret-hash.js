@@ -31,3 +31,7 @@ export const hash160Buffer = (value) => {
 export const ripemd160 = (value) => {
   return new RIPEMD160().update(value).digest('hex');
 };
+
+export const ripemd160Buffer = (value) => {
+  return new RIPEMD160().update(value).digest();
+};
