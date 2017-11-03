@@ -14,9 +14,16 @@ export class SwapEffect {
   generateLink$: Observable<Action> = this.actions$
     .ofType(swapAction.START_SWAP)
     .mergeMap((action: swapAction.StartSwapAction) => {
-        console.log(action);
         //TODO generate address here
+        const data = {
+          t: new Date(),
+          a: action.payload.amount,
+          b: 'n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG', //fake address
+        };
+        const stringified = JSON.stringify(data);
+        const link = btoa(stringified);
         return Observable.from([
+          new swapAction.SetLinkAction(link),
           new Go({
             path: ['/transfer'],
           }),

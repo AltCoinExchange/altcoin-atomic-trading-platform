@@ -11,3 +11,6 @@ export const getDepositCoin = createSelector(getSwapState,
 
 export const getReceiveCoin = createSelector(getSwapState,
   fromSwap.getReceiveCoin);
+
+export const getLink = createSelector(getSwapState,
+  fromSwap.getLink);

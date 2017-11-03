@@ -4,6 +4,7 @@ import {Coin} from '../models/coin.model';
 
 export interface State {
   swapProcess: SwapProcess;
+  link: string;
 }
 
 export const initialState: State = {
@@ -24,6 +25,7 @@ export const initialState: State = {
     showQRCode: false,
     showLink: false,
   } as SwapProcess,
+  link: undefined,
 };
 
 export function reducer(state = initialState, action: swap.Actions): State {
@@ -50,6 +52,12 @@ export function reducer(state = initialState, action: swap.Actions): State {
         },
       };
     }
+    case swap.SET_LINK: {
+      return {
+        ...state,
+        link: action.payload,
+      };
+    }
     default: {
       return state;
     }
@@ -59,3 +67,4 @@ export function reducer(state = initialState, action: swap.Actions): State {
 export const getSwapProcess = (state: State) => state.swapProcess;
 export const getDepositCoin = (state: State) => state.swapProcess.depositCoin;
 export const getReceiveCoin = (state: State) => state.swapProcess.receiveCoin;
+export const getLink = (state: State) => state.link;

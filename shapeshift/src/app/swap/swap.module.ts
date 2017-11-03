@@ -5,10 +5,11 @@ import {ShapeShiftCommonModule} from '../common/common.module';
 import {SwapIconComponent} from '../components/swap-icon/swap-icon.component';
 import {QrCodeComponent} from './qr-code/qr-code.component';
 import {SwapContainerComponent} from './swap-container/swap-container.component';
-import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
+import {SwapStartComponent} from './swap-start/swap-start.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferLinkComponent} from './transfer-link/transfer-link.component';
 import {SwapInputsModule} from '../components/swap-inputs/swap-inputs.module';
+import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
 
 @NgModule({
   imports: [
@@ -17,9 +18,10 @@ import {SwapInputsModule} from '../components/swap-inputs/swap-inputs.module';
       {
         path: '', component: SwapContainerComponent, children: [
         {path: '', redirectTo: 'swap', pathMatch: 'full'},
-        {path: 'swap', component: SwapInitiateComponent},
+        {path: 'swap', component: SwapStartComponent},
         {path: 'insufficient-amount', component: QrCodeComponent},
         {path: 'transfer', component: TransferLinkComponent},
+        {path: 'initiate/:link', component: SwapInitiateComponent},
       ],
       },
     ]),
@@ -31,8 +33,9 @@ import {SwapInputsModule} from '../components/swap-inputs/swap-inputs.module';
     SwapIconComponent,
     QrCodeComponent,
     SwapContainerComponent,
-    SwapInitiateComponent,
+    SwapStartComponent,
     TransferLinkComponent,
+    SwapInitiateComponent,
   ],
 })
 export class SwapModule {
