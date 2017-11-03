@@ -7,14 +7,15 @@ exports.extractSecret = undefined;
 
 var _secretHash = require('./common/secret-hash');
 
+var _util = require('./common/util');
+
+var buffer = require('buffer');
 var Transaction = require('bitcore').Transaction;
 var Script = require('bitcore').Script;
 
 var extractSecret = exports.extractSecret = function extractSecret(redemptionTx, secretHash) {
   var transaction = new Transaction(redemptionTx);
-
-  var secret = void 0;
-  transaction.toJSON().inputs.some(function (input) {
+  var txData = (0, _util.flatMap)(transaction.toJSON().inputs.map(function (input) {
     var script = new Script(input.scriptString);
     var pops = script.toString().split(' ');
     var data = pops.filter(function (opcode) {
@@ -22,14 +23,10 @@ var extractSecret = exports.extractSecret = function extractSecret(redemptionTx,
     }).map(function (opdata) {
       return opdata.replace('0x', '');
     });
-
-    var sc = data.find(function (d) {
-      return (0, _secretHash.hash160)(Buffer.from(d, "hex")) === secretHash;
-    });
-    secret = sc;
-
-    return sc;
+    return data;
+  }));
+  var secret = txData.find(function (sc) {
+    return (0, _secretHash.ripemd160)(buffer.Buffer.from(sc, "hex")) === secretHash;
   });
-  console.log(secret);
   return secret;
 };

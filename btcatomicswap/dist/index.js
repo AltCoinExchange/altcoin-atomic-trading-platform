@@ -27,3 +27,15 @@ Object.keys(_auditContract).forEach(function (key) {
     }
   });
 });
+
+var _extractSecret = require('./extract-secret');
+
+Object.keys(_extractSecret).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _extractSecret[key];
+    }
+  });
+});

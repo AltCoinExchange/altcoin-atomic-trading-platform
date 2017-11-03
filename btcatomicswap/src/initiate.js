@@ -8,7 +8,8 @@ export async function initiate(cp2Addr, amount) {
   const {secret, secretHash} = generateSecret();
   const lockTime = getUnixTimeFor2Days();
   const b = await buildContract(cp2Addr, amount, lockTime, secretHash);
-  const rawTx = await publishTx(b.contractTxHash);
+
+  const rawTx = await publishTx(b.contractTx.hex);
 
   console.log('Secret:              ', secret);
   console.log('Secret hash:         ', secretHash);
@@ -17,13 +18,12 @@ export async function initiate(cp2Addr, amount) {
   console.log('\n');
   console.log(
     'Contract:            ',
-    '(', b.contractP2SH.toAddress().toString(), ')',
-    '-- TODO -- PLEASE CHECK',
+    '(' + b.contractP2SH.toString() + ')',
   );
   console.log(b.contract.toHex());
   console.log('\n');
-  console.log('Contract transaction:', '(', b.contractP2SH.toAddress().toString(), '-- TODO --', ')');
-  console.log(b.contractTxHash);
+  console.log('Contract transaction:', '(' + b.contractTxHash + ')');
+  console.log(b.contractTx.hex);
   console.log('\n');
   console.log('Refund transaction:  ', '(', '-- TODO --', ')');
   console.log('Published contract transaction: ', rawTx);

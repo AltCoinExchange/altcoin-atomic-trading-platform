@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.redeem = redeem;
 
+var _redeemP2SHContract = require('./contract/redeem-P2SH-contract');
+
 var _rawRequest = require('./common/rawRequest');
 
 var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contract');
@@ -13,7 +15,7 @@ var _createSig = require('./common/createSig');
 
 var _secretHash = require('./common/secret-hash');
 
-var _config = require('./config/config');
+var _addressUtil = require('./common/address-util');
 
 var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
@@ -22,43 +24,22 @@ var Transaction = require('bitcore').Transaction;
 var Base58 = require('bitcore').encoding.Base58;
 var Base58Check = require('bitcore').encoding.Base58Check;
 
+var strPubKey = "03b10e3690bcaf0eae7098ec794666963803bcec5acfbe6a112bc8cdc93797f002";
 
-// const util = require('util')
+var util = require('util');
 
-async function redeem(ct, ctTx, secret) {
-  // console.log(ctTx);
-  var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(ct);
-  ctTx = new Transaction(ctTx);
-  // console.log(require('util').inspect(Transaction.Output, { depth: null }));
-  // console.log(require('util').inspect(ctTx, { depth: null }));
-  // console.log(ctTx);
-  var hash = pushes.recipientHash.replace('0x', '');
-  console.log('hash', hash);
+async function redeem(strCt, strCtTx, secret) {
 
-  var encoded = Base58Check.encode(Buffer.from(hash));
-  var base58 = Base58.encode(Buffer.from(hash));
+  var contract = new Script(strCt);
+  var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(strCt);
 
-  console.log('encoded', encoded);
-  console.log('base58', base58);
-  console.log(new Address(encoded));
-  // const recipientHashString = pushes.recipientHash.replace('0x', '');
-  // const recipientHash = new Address(recipientHashString, 'testnet')
+  var ctTx = new Transaction(strCtTx);
 
-  // console.log(new Script(recipientHashString).toScriptHashOut().toAddress());
-  // console.log(new Script(recipientHashString).toAddress());
-  //const recipientHash = new Address(hash160(recipientHashString), 'testnet')
+  var recipientAddrString = pushes.recipientHash.replace('0x', '');
+  var recipientAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(recipientAddrString, 'testnet');
 
-  // console.log("**recipientHash   ", recipientHash);
-  // 0xebcf822c4a2cdb5f6a6b9c4a59b74d66461da581
+  var contractSH = _addressUtil.AddressUtil.NewAddressScriptHash(strCt, 'testnet').toString();
 
-  // createSig()
-  // console.log('address: ', new Script(recipientHashString).toScriptHashOut().toAddress().toJSON());
-  //const recipientHash = new Address(hash160(recipientHashString), 'testnet')
-  // console.log("**recipientHash   ", recipientHash);
-  // createSig()
-
-  var contract = new Script(ct);
-  console.log("**Script:   ", contract);
   var contractScriptHashOut = contract.toScriptHashOut();
   var contractAddress = contractScriptHashOut.toAddress();
   var contractAddressString = contractScriptHashOut.toAddress().toJSON().hash;
@@ -70,7 +51,7 @@ async function redeem(ct, ctTx, secret) {
 
   for (var i = 0; i < ctTx.outputs.length; i++) {
     var script = new Script(ctTx.outputs[i].script);
-    var address = script.toAddress(_config.configuration.network);
+    var address = script.toAddress(configuration.network);
     var addressHash = address.toJSON().hash;
 
     // TODO: implement a check to see if its a p2sh and then check the address
@@ -79,6 +60,7 @@ async function redeem(ct, ctTx, secret) {
       break;
     }
   }
+  console.log(pushes.recipientHash);
 
   console.log(ctTxOutIdx);
   // let addr = await getChangeAddress()
@@ -91,20 +73,50 @@ async function redeem(ct, ctTx, secret) {
   // console.log(ctTx.outputs[ctTxOutIdx].satoshis);
   var amount = ctTx.outputs[ctTxOutIdx].satoshis;
   console.log(amount);
-
-  // const output = Transaction.output({
-  //   script: outScript,
-  //   satoshis: amount*100000000
-  // })
-  //
+  var reedemTx = new Transaction();
+  console.log(reedemTx);
+  var output = Transaction.Output({
+    script: outScript,
+    satoshis: amount
+  });
+  reedemTx.addOutput(output);
+  console.log(reedemTx);
+  // createSig(recipientAddress)
+  console.log("---------");
+  // console.log(Transaction.Sighash);
+  var tAddr = "n4Fc4SbP7tqhCVch1eVS8sj9E919X1SUqS";
   // const script = redeemP2SHContract(strContract, strSig, strPubkey, strSecret);
   //
-  // const input = Transaction.input({
-  //   prevTxId: ctTx.id,
-  //   outputIndex: ctTxOutIdx,
-  //   script:
-  // })
+  var input = Transaction.Input({
+    prevTxId: ctTx.id,
+    outputIndex: ctTxOutIdx,
+    script: new Script(ctTx.outputs[ctTxOutIdx].script)
+  });
 
+  console.log(input);
+  console.log(reedemTx.uncheckedAddInput(input));
+
+  var _ref = await (0, _createSig.createSig)(reedemTx, 0, contract, tAddr),
+      sig = _ref.sig,
+      pubKey = _ref.pubKey;
+  // const obj = await createSig(reedemTx, 0, contract, tAddr )
+  // console.log(obj);
+
+
+  console.log(sig);
+  console.log(pubKey);
+  //
+  console.log("**strCt  ", strCt);
+  console.log("**Ct  ", contract.toHex());
+  console.log("**strCtTx  ", strCtTx);
+  console.log("**CtTx  ", ctTx);
+  console.log("**Pubkey  ", pubKey.toString());
+  // console.log("**strPubkey  ", strPubkey);
+  console.log("**secret  ", secret);
+  console.log("**verify  ", sig);
+  console.log("**sig  ", sig.toString());
+
+  // const script = redeemP2SHContract(strCt, sig, pubKey.toString(), secret);
 
   // check the contract
   // return errors.New("contract is not an atomic swap script recognized by this tool")
@@ -113,8 +125,6 @@ async function redeem(ct, ctTx, secret) {
   // check if the contractTx containes the contract
   // and return the index of the contract
   // return errors.New("transaction does not contain a contract output")
-
-  // const script = redeemP2SHContract(contract, sig, pubkey, secret);
 }
 
 var getChangeAddress = async function getChangeAddress() {
