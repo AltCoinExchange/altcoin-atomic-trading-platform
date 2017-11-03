@@ -1,0 +1,10 @@
+<app-swap-icon [fromCoin]="eth" [toCoin]="btc"></app-swap-icon>
+<div class="swap-inputs">
+  <app-shapeshift-input [coin]="swapProcess.depositCoin">
+    <p class="label">for the amount of</p>
+  </app-shapeshift-input>
+  <app-shapeshift-input [coin]="swapProcess.receiveCoin" [disabled]="true">
+    <p class="label">you are geting</p>
+  </app-shapeshift-input>
+  <app-shapeshift-button (click)="doSubmit()"></app-shapeshift-button>
+</div>
