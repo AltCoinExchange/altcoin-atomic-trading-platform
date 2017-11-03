@@ -4,6 +4,12 @@
  * @author Djenad Razic
  * @company Altcoin Exchange, Inc.
  */
+
+var Common = require("./common");
+var Web3 = require("web3");
+var EthereumWallet = require('ethereumjs-wallet');
+var Accounts = require("web3-eth-accounts");
+
 var Engine = function (configuration, appConfiguration) {
     this.config = configuration;
     this.appConfig = appConfiguration;
@@ -12,9 +18,8 @@ var Engine = function (configuration, appConfiguration) {
     this.clone = require("clone");
     this.common = null;
     this.web3 = null;
-
-    var Common = require("./common");
-    var Web3 = require("web3");
+    this.wallet = null;
+    this.walletN = 256;
 
     /**
      * Get function configuration
@@ -80,6 +85,28 @@ var Engine = function (configuration, appConfiguration) {
                 reject(e);
             }
         });
+    };
+
+    /**
+     * Create wallet
+     * @param password
+     * @constructor
+     */
+    this.CreateAccount = function(password) {
+        var accounts = new Accounts();
+
+        var acc = accounts.create();
+        var keystore = acc.encrypt(password, {n: this.walletN});
+
+        return {wallet: acc, keystore: keystore};
+    };
+
+    this.Login = function(keystore, password) {
+        var accounts = new Accounts();
+
+        var wallet = accounts.decrypt(keystore, password);
+
+        return wallet;
     };
 
     /**
