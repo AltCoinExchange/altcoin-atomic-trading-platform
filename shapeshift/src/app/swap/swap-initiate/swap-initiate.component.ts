@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
+import * as btcswap from 'btc-atomic-swap';
 
 @Component({
   selector: 'app-swap-initiate',
@@ -27,4 +28,7 @@ export class SwapInitiateComponent implements OnInit {
   ngOnInit() {
   }
 
+  startInitiate() {
+    btcswap.initiate(this.data.b, this.data.a);
+  }
 }
