@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ChangeDetectionStrategy, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Coin} from '../../models/coin.model';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -14,6 +14,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
       transition('* <=> *', animate('500ms ease-in-out')),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SwapIconComponent implements OnInit {
   @Input() fromCoin: Coin;
@@ -22,13 +23,17 @@ export class SwapIconComponent implements OnInit {
 
   fromCoinAnimationSwapState = 'slideBack';
   toCoinAnimationSwapState = 'slideBack';
+  firstCoin = undefined;
+  secondCoin = undefined;
 
   constructor() {
+    
   }
 
   ngOnInit() {
+    this.firstCoin = this.fromCoin;
+    this.secondCoin = this.toCoin;
   }
-
 
   animateCoinSwap(event) {
     event.stopPropagation();
