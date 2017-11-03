@@ -11,34 +11,23 @@
       <app-shapeshift-button (click)="doSubmit()"></app-shapeshift-button>
     </div>
   </div>
-  <div *ngIf="swapProcess.showQRCode" class="swap" [@flyInOut]="'in'" (@flyInOut.done)="secondAnimationDone($event)">
-    <p class="label">You don't have enough bitcoin in wallet</p>
-    <p class="label">Deposit to this address</p>
-    <div class="qr-code-image">
-      <img [src]="qrCode"/>
-    </div>
-    <p class="deposit-address">185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe</p>
-    <p class="label">BTC miner fee: 0.001 BTC</p>
-    <div class="spinner">
-      <div class="circle-loader" [ngClass]="{'load-complete' : !firstSpinner}">
-        <div [hidden]="firstSpinner" class="checkmark draw"></div>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="swapProcess.showLink" class="swap" [@flyInOut]="'in'">
-    <p class="label">Copy this URL and send to second party for deposit</p>
-    <div class="input-box">
-      <p class="url-copy">http://altcoin.io/hfdMnj7hFtjjhg85hGhguyr4ghgf</p>
-      <p class="input-value">
-        <a href="">
-          <i class="fa fa-clone" aria-hidden="true"></i>
-        </a>
-      </p>
-    </div>
-    <div class="spinner">
-      <div class="circle-loader" [ngClass]="{'load-complete' : !secondSpinner}">
-        <div [hidden]="secondSpinner" class="checkmark draw"></div>
-      </div>
-    </div>
-  </div>
-</div>
+  <!--<div *ngIf="swapProcess.showQRCode" class="swap">-->
+    <!--<app-qr-code></app-qr-code>-->
+  <!--</div>-->
+  <!--<div *ngIf="swapProcess.showLink" class="swap" [@flyInOut]="'in'">-->
+    <!--<p class="label">Copy this URL and send to second party for deposit</p>-->
+    <!--<div class="input-box">-->
+      <!--<p class="url-copy">http://altcoin.io/hfdMnj7hFtjjhg85hGhguyr4ghgf</p>-->
+      <!--<p class="input-value">-->
+        <!--<a href="">-->
+          <!--<i class="fa fa-clone" aria-hidden="true"></i>-->
+        <!--</a>-->
+      <!--</p>-->
+    <!--</div>-->
+    <!--<div class="spinner">-->
+      <!--<div class="circle-loader" [ngClass]="{'load-complete' : !secondSpinner}">-->
+        <!--<div [hidden]="secondSpinner" class="checkmark draw"></div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

@@ -1,14 +1,3 @@
-.container{
-    width: 500px;
-    margin: auto;
-}
-
-.swap{
-    padding: 100px 0px;
-    width: 100%;
-    height: 100%;
-}
-
 .swap-icon img{
     width: 100%;
     height: 100%;
@@ -24,24 +13,6 @@
 
 .fa-angle-left{
     padding-right: 5px;
-}
-
-.qr-code-image{
-    width: 50%;
-    margin: auto;
-    padding-top: 10px;
-}
-
-.qr-code-image img{
-    width: 100%;
-    height: 100%;
-}
-
-.deposit-address{
-    text-align: center;
-    font-weight: 600;
-    color: white;
-    font-size: 20px;
 }
 
 .spinner{

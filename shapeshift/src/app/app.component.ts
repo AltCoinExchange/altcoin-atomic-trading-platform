@@ -6,7 +6,7 @@ import * as btcswap from 'btc-atomic-swap';
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
-    './app.component.css',
+    './app.component.scss',
   ],
   templateUrl: './app.component.html',
 })
@@ -22,5 +22,4 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
 
   }
-
 }

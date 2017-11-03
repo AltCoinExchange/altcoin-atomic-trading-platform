@@ -1,4 +1,4 @@
-nav{
+nav {
   position: fixed;
   padding: 0px 15px;
   right: 0;
@@ -13,14 +13,14 @@ nav{
   box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
 }
 
-main{
-  min-height: -webkit-calc(100% - 70px);    
-  min-height: -moz-calc(100% - 70px); 
+main {
+  min-height: -webkit-calc(100% - 70px);
+  min-height: -moz-calc(100% - 70px);
   min-height: calc(100% - 70px);
-  overflow: hidden;  
+  overflow: hidden;
 }
 
-a.logo{
+a.logo {
   color: #ffffff !important;
   font-size: 32px;
   margin-top: 8px;
@@ -29,13 +29,13 @@ a.logo{
   cursor: pointer;
 }
 
-footer{
+footer {
   width: 100%;
   height: 70px;
   background-color: #283142;
 }
 
-footer ul{
+footer ul {
   text-align: center;
   width: 220px;
   list-style: none;
@@ -44,14 +44,14 @@ footer ul{
   padding: 0;
 }
 
-footer li{
+footer li {
   width: 32px;
   height: 32px;
   display: inline-block;
   margin-right: 15px;
 }
 
-footer li a{
+footer li a {
   display: inline-block;
   width: 32px;
   height: 32px;

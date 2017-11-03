@@ -1,33 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
 import {Coin} from '../models/coin.model';
 import {SwapProcess} from '../models/swap-process.model';
+import {flyInOutAnimation} from '../animations/animations';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'swap',
-  providers: [],
   styleUrls: ['./swap.component.css'],
   templateUrl: './swap.component.html',
-
   preserveWhitespaces: false,
   animations: [
-    trigger('flyInOut', [
-      state('in', style({transform: 'translateY(0)'})),
-      transition('void => in', [
-        animate(500, keyframes([
-          style({opacity: 0, transform: 'translateY(100%)'}),
-          style({opacity: 0.5, transform: 'translateY(50%)'}),
-          style({opacity: 1, transform: 'translateY(0)'}),
-        ])),
-      ]),
-      transition('in => void', [
-        animate(500, keyframes([
-          style({opacity: 1, transform: 'translateY(0)'}),
-          style({opacity: 0.5, transform: 'translateY(-50%)'}),
-          style({opacity: 0, transform: 'translateY(-100%)'}),
-        ])),
-      ]),
-    ]),
+    flyInOutAnimation,
   ],
 })
 
@@ -64,11 +47,10 @@ export class SwapComponent implements OnInit {
     showLink: false,
   };
 
-  qrCode = 'assets/img/qr-code.png';
   firstSpinner = true;
   secondSpinner = true;
 
-  constructor() {
+  constructor(private router: Router) {
 
   }
 
@@ -79,6 +61,7 @@ export class SwapComponent implements OnInit {
   firstAnimationDone(event) {
     if (event.toState === 'void') {
       this.swapProcess.showQRCode = true;
+      this.router.navigate(['/insufficient-amount'])
       setTimeout(() => {
         this.firstSpinner = false;
         setTimeout(() => {
