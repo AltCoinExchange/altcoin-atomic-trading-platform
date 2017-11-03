@@ -1,27 +1,23 @@
-<mat-sidenav-container fullscreen>
-  <mat-toolbar>
-    <a class="logo">
-      <img [src]="altcoinLogo">
-    </a>
-    <span class="fill-remaining-space"></span>
+<nav>
+  <a class="logo">
+    <img [src]="altcoinLogo">
+  </a> 
+</nav>
+<main>
+  <router-outlet></router-outlet>
+</main>
+<footer>
+  <ul>
+    <li>
+      <a href="">
+        <i class="fa fa-telegram fa-2x" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li>
+      <a href="">
+        <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+      </a>
+    </li>
+  </ul>
+</footer>
 
-    <span>Right Aligned Text</span>
-  </mat-toolbar>
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-  <div class="footer">
-    <ul>
-      <li>
-        <a href="">
-          <i class="fa fa-telegram fa-2x" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="">
-          <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-</mat-sidenav-container>
