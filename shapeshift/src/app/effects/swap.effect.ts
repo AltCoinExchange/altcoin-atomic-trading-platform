@@ -4,6 +4,7 @@ import {Action} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import * as swapAction from '../actions/swap.action';
+import {Go} from '../actions/router.action';
 
 
 @Injectable()
@@ -16,11 +17,12 @@ export class SwapEffect {
         console.log(action);
         //TODO generate address here
         return Observable.from([
-
+          new Go({
+            path: ['/transfer'],
+          }),
         ]);
       },
-    )
-    .do(() => this.router.navigate(['app/jobs/declaration_274']));
+    );
 
 
   constructor(private actions$: Actions, private router: Router) {

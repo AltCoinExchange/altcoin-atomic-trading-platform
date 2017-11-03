@@ -15,6 +15,7 @@ import {reducers} from './reducers/reducers';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {SwapEffect} from './effects/swap.effect';
+import {RouterEffects} from './effects/router.effect';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {SwapEffect} from './effects/swap.effect';
     }),
     EffectsModule.forRoot([
       SwapEffect,
+      RouterEffects,
     ]),
   ],
   providers: [
