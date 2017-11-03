@@ -5,22 +5,12 @@ import {MatCheckboxModule, MatSidenavModule, MatStepperModule, MatToolbarModule}
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
-import {
-  RouterModule,
-  PreloadAllModules
-} from '@angular/router';
-
-import { ROUTES } from './app.routes';
-import '../styles/styles.scss';
-
-import { SwapComponent } from './swap';
 import {HttpModule} from '@angular/http';
+import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SwapComponent
   ],
   imports: [
     BrowserModule,
@@ -31,10 +21,7 @@ import {HttpModule} from '@angular/http';
     MatToolbarModule,
     MatStepperModule,
     MatCheckboxModule,
-    RouterModule.forRoot(ROUTES, {
-      useHash: Boolean(history.pushState) === false,
-      preloadingStrategy: PreloadAllModules
-    }),
+    AppRoutingModule,
     HttpModule,
   ],
   providers: [],
