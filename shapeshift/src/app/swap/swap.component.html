@@ -21,9 +21,7 @@
       <app-shapeshift-input [coin]="swapProcess.receiveCoin" [disabled]="true">
         <p class="label">you are geting</p>
       </app-shapeshift-input>
-      <div class="swap-submit">
-        <button (click)="doSubmit()">Submit</button>
-      </div>
+      <app-shapeshift-button (click)="doSubmit()"></app-shapeshift-button>
     </div>
   </div>
   <div *ngIf="swapProcess.showQRCode" class="swap" [@flyInOut]="'in'" (@flyInOut.done)="secondAnimationDone($event)">

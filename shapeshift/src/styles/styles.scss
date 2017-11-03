@@ -1,4 +1,6 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'variables';
+
 $fa-font-path: "../../node_modules/font-awesome/fonts";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
@@ -20,7 +22,7 @@ body {
 }
 
 input[type='number'] {
-  -moz-appearance:textfield;
+  -moz-appearance: textfield;
 }
 
 input::-webkit-outer-spin-button,
@@ -28,20 +30,20 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
-.fa{
+.fa {
   color: $text-color;
 }
 
-.input-box{
+.input-box {
   background-color: $main-gray;
   border: 1px solid $border-color;
   margin-bottom: 15px;
 
-  input{
+  input {
     width: 60%;
     font-size: 16px;
     margin: 0px 15px;
@@ -53,12 +55,12 @@ a{
     border-style: none;
     font-weight: 600;
   }
-  input:focus{
+  input:focus {
     outline: none;
   }
 }
 
-.label{
+.label {
   text-align: center;
   text-transform: uppercase;
   margin: 6px 0px;
@@ -66,9 +68,9 @@ a{
   font-weight: 600;
 }
 
-button{
+button {
   width: 100%;
-  background-color: $main-blue;
+  background-color: $main-blue !important;
   border: none;
   height: 50px;
   cursor: pointer;
