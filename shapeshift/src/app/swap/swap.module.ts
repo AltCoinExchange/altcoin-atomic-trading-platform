@@ -6,6 +6,7 @@ import {SwapIconComponent} from './swap-icon/swap-icon.component';
 import {QrCodeComponent} from './qr-code/qr-code.component';
 import {SwapContainerComponent} from './swap-container/swap-container.component';
 import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
       },
     ]),
     ShapeShiftCommonModule,
+    FlexLayoutModule,
   ],
   declarations: [
     SwapIconComponent,
