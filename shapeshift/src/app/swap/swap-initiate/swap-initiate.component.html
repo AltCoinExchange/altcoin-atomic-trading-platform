@@ -1,2 +1,6 @@
-<app-swap-icon [fromCoin]="$depositCoin | async" [toCoin]="$receiveCoin | async" (swapped)="swapDepositRecieveCoins()"></app-swap-icon>
-<app-swap-inputs [swapProcess]="$swapProcess | async"></app-swap-inputs>
+<app-swap-icon [fromCoin]="$depositCoin | async" [toCoin]="$receiveCoin | async"
+               (swapped)="swapDepositRecieveCoins()"></app-swap-icon>
+<app-swap-inputs (swap)="onSwap($event)"
+                 [depositCoin]="$depositCoin | async"
+                 [receiveCoin]="$receiveCoin | async">
+</app-swap-inputs>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-shapeshift-button',
@@ -6,7 +6,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
   styleUrls: ['./shapeshift-button.component.scss'],
 })
 export class ShapeshiftButtonComponent implements OnInit {
-  @Output() click: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {
   }

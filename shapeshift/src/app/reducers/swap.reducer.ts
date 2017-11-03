@@ -10,13 +10,13 @@ export const initialState: State = {
   swapProcess: {
     depositCoin: {
       name: 'ETH',
-      amount: 0,
+      amount: undefined,
       icon: 'assets/icon/eth-icon.png',
       iconOutline: 'assets/icon/eth-icon-o.png',
     } as Coin,
     receiveCoin: {
       name: 'BTC',
-      amount: 0,
+      amount: undefined,
       icon: 'assets/icon/btc-icon.png',
       iconOutline: 'assets/icon/btc-icon-o.png',
     } as Coin,
@@ -34,8 +34,10 @@ export function reducer(state = initialState, action: swap.Actions): State {
         ...state,
         swapProcess: {
           ...state.swapProcess,
-          depositCoin: state.swapProcess.receiveCoin,
-          receiveCoin: temp,
+          depositCoin: {
+            ...state.swapProcess.receiveCoin,
+          },
+          receiveCoin: {...temp},
         },
       };
     }

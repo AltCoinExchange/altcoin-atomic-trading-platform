@@ -48,4 +48,7 @@ export class SwapInitiateComponent implements OnInit {
     this.store.dispatch(new swapAction.SwapDepositReceiveCoinsAction());
   }
 
+  onSwap(depositCoin: Coin) {
+    console.log('swapProcess', depositCoin);
+  }
 }

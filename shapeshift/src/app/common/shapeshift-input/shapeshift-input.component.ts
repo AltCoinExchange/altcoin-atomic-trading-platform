@@ -1,15 +1,28 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Coin} from '../../models/coin.model';
+import {NG_VALUE_ACCESSOR,} from '@angular/forms';
+import {ValueAccessorBase} from '../value-accessor-base';
+
 
 @Component({
   selector: 'app-shapeshift-input',
   templateUrl: './shapeshift-input.component.html',
-  styleUrls: ['./shapeshift-input.component.scss']
+  styleUrls: ['./shapeshift-input.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: ShapeshiftInputComponent,
+      multi: true,
+    },
+  ],
 })
-export class ShapeshiftInputComponent implements OnInit {
+export class ShapeshiftInputComponent extends ValueAccessorBase<Number> implements OnInit {
   @Input() coin: Coin;
   @Input() disabled: boolean = false;
-  constructor() { }
+
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
   }
