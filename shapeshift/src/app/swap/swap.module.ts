@@ -7,6 +7,7 @@ import {QrCodeComponent} from './qr-code/qr-code.component';
 import {SwapContainerComponent} from './swap-container/swap-container.component';
 import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { TransferLinkComponent } from './transfer-link/transfer-link.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
         {path: '', redirectTo: 'swap', pathMatch: 'full'},
         {path: 'swap', component: SwapInitiateComponent},
         {path: 'insufficient-amount', component: QrCodeComponent},
+        {path: 'transfer', component: TransferLinkComponent},
       ],
       },
     ]),
@@ -28,6 +30,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     QrCodeComponent,
     SwapContainerComponent,
     SwapInitiateComponent,
+    TransferLinkComponent,
   ],
 })
 export class SwapModule {

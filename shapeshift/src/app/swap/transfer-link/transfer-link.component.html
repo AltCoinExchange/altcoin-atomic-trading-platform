@@ -1,0 +1,17 @@
+<!--*ngIf="swapProcess.showLink" class="swap" [@flyInOut]="'in'"-->
+<div>
+  <p class="label">Copy this URL and send to second party for deposit</p>
+  <div class="input-box">
+    <p class="url-copy">http://altcoin.io/hfdMnj7hFtjjhg85hGhguyr4ghgf</p>
+    <p class="input-value">
+      <a href="">
+        <i class="fa fa-clone" aria-hidden="true"></i>
+      </a>
+    </p>
+  </div>
+  <div class="spinner">
+    <div class="circle-loader" [ngClass]="{'load-complete' : !secondSpinner}">
+      <div [hidden]="secondSpinner" class="checkmark draw"></div>
+    </div>
+  </div>
+</div>
