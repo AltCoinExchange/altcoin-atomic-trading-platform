@@ -1,44 +1,37 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {flyInOutAnimation} from '../../animations/animations';
+import {Store} from '@ngrx/store';
+import * as fromSwap from '../../reducers/swap.reducer';
+import * as swapSelector from '../../selectors/swap.selector';
+import * as swapAction from '../../actions/swap.action';
+import {Observable} from 'rxjs/Observable';
 import {SwapProcess} from '../../models/swap-process.model';
 import {Coin} from '../../models/coin.model';
-import {flyInOutAnimation} from '../../animations/animations';
 
 @Component({
   selector: 'app-swap-initiate',
   templateUrl: './swap-initiate.component.html',
   styleUrls: ['./swap-initiate.component.scss'],
   animations: [flyInOutAnimation],
+  preserveWhitespaces: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SwapInitiateComponent implements OnInit {
   @HostBinding('@flyInOut') state = 'in';
   @HostBinding('style.display') display = 'block';
   @HostBinding('class') classes = 'swap';
 
-  eth: Coin = {
-    name: 'ETH',
-    amount: 0,
-    animationSwapState: 'slideBack',
-    icon: 'assets/icon/eth-icon.png',
-    iconOutline: 'assets/icon/eth-icon-o.png',
-  };
-  btc: Coin = {
-    name: 'BTC',
-    amount: 0,
-    animationSwapState: 'slideBack',
-    icon: 'assets/icon/btc-icon.png',
-    iconOutline: 'assets/icon/btc-icon-o.png',
-  };
-  swapProcess: SwapProcess = {
-    depositCoin: this.eth,
-    receiveCoin: this.btc,
-    submitAmount: false,
-    showQRCode: false,
-    showLink: false,
-  };
   firstSpinner = true;
 
-  constructor(private router: Router) {
+  $swapProcess: Observable<SwapProcess>;
+  $depositCoin: Observable<Coin>;
+  $receiveCoin: Observable<Coin>;
+
+  constructor(private router: Router, private store: Store<fromSwap.State>) {
+    this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
+    this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
+    this.$receiveCoin = this.store.select(swapSelector.getReceiveCoin);
   }
 
   ngOnInit() {
@@ -52,9 +45,7 @@ export class SwapInitiateComponent implements OnInit {
   }
 
   swapDepositRecieveCoins() {
-    const temp = this.swapProcess.depositCoin;
-    this.swapProcess.depositCoin = this.swapProcess.receiveCoin;
-    this.swapProcess.receiveCoin = temp;
+    this.store.dispatch(new swapAction.SwapDepositReceiveCoinsAction());
   }
 
 }
