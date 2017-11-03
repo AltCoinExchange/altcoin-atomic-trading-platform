@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   public url = 'https://twitter.com/AngularClass';
 
   constructor() {
-    btcswap.initiate('n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG', '0.01');
+    // btcswap.initiate('n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG', '0.01');
   }
 
   public ngOnInit() {

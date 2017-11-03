@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {SwapComponent} from './swap.component';
 import {ShapeShiftCommonModule} from '../common/common.module';
+import { SwapIconComponent } from './swap-icon/swap-icon.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import {ShapeShiftCommonModule} from '../common/common.module';
   ],
   declarations: [
     SwapComponent,
+    SwapIconComponent,
   ],
 })
 export class SwapModule {

@@ -1,0 +1,14 @@
+<div class="swap-icons">
+  <div class="swap-icon" [@coinSwaps]="toCoin.animationSwapState">
+    <img [src]="fromCoin.iconOutline" alt="">
+  </div>
+  <div class="swap-icon">
+    <a href="" (click)="animateCoinSwap($event)">
+      <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
+      <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
+    </a>
+  </div>
+  <div class="swap-icon" [@coinSwaps]="fromCoin.animationSwapState">
+    <img [src]="toCoin.iconOutline" alt="">
+  </div>
+</div>

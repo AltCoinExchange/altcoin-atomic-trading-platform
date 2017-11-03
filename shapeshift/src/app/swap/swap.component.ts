@@ -11,12 +11,6 @@ import {SwapProcess} from '../models/swap-process.model';
 
   preserveWhitespaces: false,
   animations: [
-    trigger('coinSwaps', [
-      state('slideRight', style({transform: 'translateX(200%)'})),
-      state('slideLeft', style({transform: 'translateX(-200%)'})),
-      state('slideBack', style({transform: 'translateX(0%)'})),
-      transition('* <=> *', animate('500ms ease-in-out')),
-    ]),
     trigger('flyInOut', [
       state('in', style({transform: 'translateY(0)'})),
       transition('void => in', [
@@ -78,29 +72,6 @@ export class SwapComponent implements OnInit {
 
   }
 
-
-  animateCoinSwap(event) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    if (this.eth.animationSwapState === 'slideBack') {
-      this.eth.animationSwapState = 'slideRight';
-      this.btc.animationSwapState = 'slideLeft';
-    }
-    else {
-      this.eth.animationSwapState = 'slideBack';
-      this.btc.animationSwapState = 'slideBack';
-    }
-    this.swapDepositRecieveCoins();
-    return false;
-  }
-
-  swapDepositRecieveCoins() {
-    let temp = this.swapProcess.depositCoin;
-    this.swapProcess.depositCoin = this.swapProcess.receiveCoin;
-    this.swapProcess.receiveCoin = temp;
-  }
-
   doSubmit() {
     this.swapProcess.submitAmount = true;
   }
@@ -115,7 +86,6 @@ export class SwapComponent implements OnInit {
         }, 500);
       }, 2000);
     }
-
   }
 
   secondAnimationDone(event) {

@@ -1,19 +1,6 @@
 <div class="container">
   <div *ngIf="!swapProcess.submitAmount" class="swap" [@flyInOut]="'in'" (@flyInOut.done)="firstAnimationDone($event)">
-    <div class="swap-icons">
-      <div class="swap-icon" [@coinSwaps]="eth.animationSwapState">
-        <img [src]="eth.iconOutline" alt="">
-      </div>
-      <div class="swap-icon">
-        <a href="" (click)="animateCoinSwap($event)">
-          <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
-          <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
-        </a>
-      </div>
-      <div class="swap-icon" [@coinSwaps]="btc.animationSwapState">
-        <img [src]="btc.iconOutline" alt="">
-      </div>
-    </div>
+    <app-swap-icon [fromCoin]="eth" [toCoin]="btc"></app-swap-icon>
     <div class="swap-inputs">
       <app-shapeshift-input [coin]="swapProcess.depositCoin">
         <p class="label">for the amount of</p>
