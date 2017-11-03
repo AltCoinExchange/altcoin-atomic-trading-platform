@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation,} from '@angular/core';
 
-import * as btcswap from 'btc-atomic-swap';
+//import * as btcswap from 'btc-atomic-swap';
 
 @Component({
   selector: 'app',

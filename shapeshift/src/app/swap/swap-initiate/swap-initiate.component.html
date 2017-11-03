@@ -1,4 +1,4 @@
-<app-swap-icon [fromCoin]="eth" [toCoin]="btc"></app-swap-icon>
+<app-swap-icon [fromCoin]="eth" [toCoin]="btc" (swapped)="swapDepositRecieveCoins()"></app-swap-icon>
 <div class="swap-inputs">
   <app-shapeshift-input [coin]="swapProcess.depositCoin">
     <p class="label">for the amount of</p>

@@ -51,4 +51,10 @@ export class SwapInitiateComponent implements OnInit {
     }, 500);
   }
 
+  swapDepositRecieveCoins() {
+    const temp = this.swapProcess.depositCoin;
+    this.swapProcess.depositCoin = this.swapProcess.receiveCoin;
+    this.swapProcess.receiveCoin = temp;
+  }
+
 }

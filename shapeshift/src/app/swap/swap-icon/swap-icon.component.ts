@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core';
 import {Coin} from '../../models/coin.model';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -18,6 +18,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class SwapIconComponent implements OnInit {
   @Input() fromCoin: Coin;
   @Input() toCoin: Coin;
+  @Output() swapped: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {
   }
@@ -31,21 +32,15 @@ export class SwapIconComponent implements OnInit {
     event.preventDefault();
 
     if (this.fromCoin.animationSwapState === 'slideBack') {
-      this.fromCoin.animationSwapState = 'slideRight';
-      this.toCoin.animationSwapState = 'slideLeft';
+      this.fromCoin.animationSwapState = 'slideLeft';
+      this.toCoin.animationSwapState = 'slideRight';
     }
     else {
       this.fromCoin.animationSwapState = 'slideBack';
       this.toCoin.animationSwapState = 'slideBack';
     }
-    this.swapDepositRecieveCoins();
+    this.swapped.emit();
     return false;
-  }
-
-  swapDepositRecieveCoins() {
-    const temp = this.fromCoin;
-    this.fromCoin = this.toCoin;
-    this.toCoin = temp;
   }
 
 }
