@@ -15,6 +15,8 @@ export class SwapEffect {
     .ofType(swapAction.START_SWAP)
     .mergeMap((action: swapAction.StartSwapAction) => {
         //TODO generate address here
+
+      //TODO use array instead of object
         const data = {
           t: new Date(),
           a: action.payload.amount,
