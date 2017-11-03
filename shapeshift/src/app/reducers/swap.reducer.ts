@@ -41,6 +41,15 @@ export function reducer(state = initialState, action: swap.Actions): State {
         },
       };
     }
+    case swap.START_SWAP: {
+      return {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          depositCoin: action.payload,
+        },
+      };
+    }
     default: {
       return state;
     }

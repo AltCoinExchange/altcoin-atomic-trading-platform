@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation,} from '@angular/core';
 
-//import * as btcswap from 'btc-atomic-swap';
+// import * as btcswap from 'btc-atomic-swap';
 
 @Component({
   selector: 'app',
@@ -15,7 +15,15 @@ export class AppComponent implements OnInit {
   public name = 'Angular 2 Webpack Starter';
 
   constructor() {
-    // btcswap.initiate('n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG', '0.01');
+    const data = {
+      t: new Date(),
+      a: '0.1323',
+      b: 'n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG',
+    };
+    console.log(data);
+    const strinfigied = JSON.stringify(data);
+    console.log(btoa(strinfigied));
+
   }
 
   public ngOnInit() {

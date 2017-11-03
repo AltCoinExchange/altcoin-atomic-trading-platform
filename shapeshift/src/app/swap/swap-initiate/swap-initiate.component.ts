@@ -9,6 +9,9 @@ import {Observable} from 'rxjs/Observable';
 import {SwapProcess} from '../../models/swap-process.model';
 import {Coin} from '../../models/coin.model';
 
+// TODO
+// this is not swap-initiate :( more likely this is swap-start
+
 @Component({
   selector: 'app-swap-initiate',
   templateUrl: './swap-initiate.component.html',
@@ -49,6 +52,6 @@ export class SwapInitiateComponent implements OnInit {
   }
 
   onSwap(depositCoin: Coin) {
-    console.log('swapProcess', depositCoin);
+    this.store.dispatch(new swapAction.StartSwapAction(depositCoin));
   }
 }

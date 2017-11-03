@@ -13,6 +13,8 @@ import {CustomRouterStateSerializer} from './common/util';
 import {metaReducers} from './reducers/index';
 import {reducers} from './reducers/reducers';
 import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {SwapEffect} from './effects/swap.effect';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,9 @@ import {StoreModule} from '@ngrx/store';
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),
+    EffectsModule.forRoot([
+      SwapEffect,
+    ]),
   ],
   providers: [
     {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
