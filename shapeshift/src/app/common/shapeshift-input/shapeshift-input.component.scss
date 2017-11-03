@@ -1,12 +1,14 @@
 .input-icon{
-  display: inline;
+  flex: 0 0 auto;
+  align-self: center;
   height: 34px;
   float: left;
   margin: 6px;
 }
 
 .input-value{
-  display: inline;
+  flex: 0 0 auto;
+  align-self: center;
   margin-right: 2%;
   font-size: 16px;
   float: right;

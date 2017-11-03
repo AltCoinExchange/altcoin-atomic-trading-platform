@@ -1,10 +1,10 @@
 <div class="swap-icons" fxLayout="row">
-  <div fxLayout="column" fxFlex="33" fxFlex="33" fxFlex.sm="45">
+  <div fxLayout="column" fxFlex="33" fxFlex.sm="45">
     <div class="swap-icon" [@coinSwaps]="toCoinAnimationSwapState">
-      <img [src]="fromCoin.iconOutline" alt="">
+      <img [src]="firstCoin.iconOutline" alt="">
     </div>
   </div>
-  <div fxLayout="column" fxFlex="33" fxFlex.sm="10" style="display: inline-block;" class="swap-icon">
+  <div fxLayout="column" fxFlex="33" fxFlex.sm="10" class="swap-icon">
     <a href="" style="margin-top: 40px;" (click)="animateCoinSwap($event)">
       <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
       <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
@@ -12,7 +12,7 @@
   </div>
   <div fxLayout="column" fxFlex="33" fxFlex.sm="45">
     <div class="swap-icon" [@coinSwaps]="fromCoinAnimationSwapState">
-      <img [src]="toCoin.iconOutline" alt="">
+      <img [src]="secondCoin.iconOutline" alt="">
     </div>
   </div>
 </div>
