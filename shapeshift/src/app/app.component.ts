@@ -13,7 +13,6 @@ import * as btcswap from 'btc-atomic-swap';
 export class AppComponent implements OnInit {
   public altcoinLogo = 'assets/icon/altcoin-icon.png';
   public name = 'Angular 2 Webpack Starter';
-  public url = 'https://twitter.com/AngularClass';
 
   constructor() {
     // btcswap.initiate('n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG', '0.01');

@@ -1,24 +1,29 @@
-<nav>
+<mat-sidenav-container fullscreen>
+  <mat-toolbar style="background-color: #283142;">
     <a class="logo">
-        <img [src]="altcoinLogo">
+      <img [src]="altcoinLogo">
     </a>
-</nav>
+    <!-- This fills the remaining space of the current row -->
+    <span class="fill-remaining-space"></span>
 
-<main>
+    <span>Right Aligned Text</span>
+  </mat-toolbar>
+  <main>
     <router-outlet></router-outlet>
-</main>
-
-<footer>
+  </main>
+  <div class="footer">
     <ul>
-        <li>
-            <a href="">
-                <i class="fa fa-telegram fa-2x" aria-hidden="true"></i>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
-            </a>
-        </li>
+      <li>
+        <a href="">
+          <i class="fa fa-telegram fa-2x" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a href="">
+          <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+        </a>
+      </li>
     </ul>
-</footer>
+  </div>
+</mat-sidenav-container>
+
