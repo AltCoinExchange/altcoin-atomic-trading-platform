@@ -1,0 +1,6 @@
+<ng-content></ng-content>
+<div class="input-box">
+  <img class="input-icon" [src]="coin.icon"/>
+  <input [readonly]="disabled" [disabled]="disabled" type="number" step="any">
+  <p class="input-value">{{coin.name}}</p>
+</div>

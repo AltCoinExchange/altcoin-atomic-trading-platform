@@ -1,65 +1,59 @@
 <div class="container">
-    <div *ngIf="!swapProcess.submitAmount" class="swap" [@flyInOut]="'in'"  (@flyInOut.done)="firstAnimationDone($event)">
-        <div class="swap-icons">
-            <div class="swap-icon" [@coinSwaps]="eth.animationSwapState">
-                <img [src]="eth.iconOutline" alt="">
-            </div>
-            <div class="swap-icon">
-                <a href="" (click)="animateCoinSwap($event)">
-                    <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
-                    <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
-                </a>
-            </div>
-            <div class="swap-icon" [@coinSwaps]="btc.animationSwapState">
-                <img [src]="btc.iconOutline" alt="">
-            </div>
-        </div>
-        <div class="swap-inputs">
-            <p class="label">for the amount of</p>
-            <div class="input-box">
-                <img class="input-icon" [src]="swapProcess.depositCoin.icon"/>
-                <input type="number" step="any">
-                <p class="input-value">{{swapProcess.depositCoin.name}}</p>
-            </div>
-            <p class="label">you are geting</p>
-            <div class="input-box">
-                <img class="input-icon" [src]="swapProcess.receiveCoin.icon"/>
-                <input readonly disabled type="number" step="any"/>
-                <p class="input-value">{{swapProcess.receiveCoin.name}}</p>
-            </div>
-            <div class="swap-submit">
-                <button (click)="doSubmit()">Submit</button>
-            </div>
-        </div>  
+  <div *ngIf="!swapProcess.submitAmount" class="swap" [@flyInOut]="'in'" (@flyInOut.done)="firstAnimationDone($event)">
+    <div class="swap-icons">
+      <div class="swap-icon" [@coinSwaps]="eth.animationSwapState">
+        <img [src]="eth.iconOutline" alt="">
+      </div>
+      <div class="swap-icon">
+        <a href="" (click)="animateCoinSwap($event)">
+          <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
+          <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="swap-icon" [@coinSwaps]="btc.animationSwapState">
+        <img [src]="btc.iconOutline" alt="">
+      </div>
     </div>
-    <div *ngIf="swapProcess.showQRCode" class="swap" [@flyInOut]="'in'" (@flyInOut.done)="secondAnimationDone($event)">
-        <p class="label">You don't have enough bitcoin in wallet</p>
-        <p class="label">Deposit to this address</p>
-        <div class="qr-code-image">
-            <img [src]="qrCode"/>
-        </div>
-        <p class="deposit-address">185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe</p>
-        <p class="label">BTC miner fee: 0.001 BTC</p>
-        <div class="spinner">
-            <div class="circle-loader" [ngClass]="{'load-complete' : !firstSpinner}">
-                <div [hidden]="firstSpinner" class="checkmark draw"></div>
-            </div>
-        </div>
+    <div class="swap-inputs">
+      <app-shapeshift-input [coin]="swapProcess.depositCoin">
+        <p class="label">for the amount of</p>
+      </app-shapeshift-input>
+      <app-shapeshift-input [coin]="swapProcess.receiveCoin" [disabled]="true">
+        <p class="label">you are geting</p>
+      </app-shapeshift-input>
+      <div class="swap-submit">
+        <button (click)="doSubmit()">Submit</button>
+      </div>
     </div>
-    <div *ngIf="swapProcess.showLink" class="swap" [@flyInOut]="'in'">
-        <p class="label">Copy this URL and send to second party for deposit</p>
-        <div class="input-box">
-            <p class="url-copy">http://altcoin.io/hfdMnj7hFtjjhg85hGhguyr4ghgf</p>
-            <p class="input-value">
-                <a href="">
-                    <i class="fa fa-clone" aria-hidden="true"></i>
-                </a>
-            </p>
-        </div>
-        <div class="spinner">
-            <div class="circle-loader" [ngClass]="{'load-complete' : !secondSpinner}">
-                <div [hidden]="secondSpinner" class="checkmark draw"></div>
-            </div>
-        </div>
+  </div>
+  <div *ngIf="swapProcess.showQRCode" class="swap" [@flyInOut]="'in'" (@flyInOut.done)="secondAnimationDone($event)">
+    <p class="label">You don't have enough bitcoin in wallet</p>
+    <p class="label">Deposit to this address</p>
+    <div class="qr-code-image">
+      <img [src]="qrCode"/>
     </div>
+    <p class="deposit-address">185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe</p>
+    <p class="label">BTC miner fee: 0.001 BTC</p>
+    <div class="spinner">
+      <div class="circle-loader" [ngClass]="{'load-complete' : !firstSpinner}">
+        <div [hidden]="firstSpinner" class="checkmark draw"></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="swapProcess.showLink" class="swap" [@flyInOut]="'in'">
+    <p class="label">Copy this URL and send to second party for deposit</p>
+    <div class="input-box">
+      <p class="url-copy">http://altcoin.io/hfdMnj7hFtjjhg85hGhguyr4ghgf</p>
+      <p class="input-value">
+        <a href="">
+          <i class="fa fa-clone" aria-hidden="true"></i>
+        </a>
+      </p>
+    </div>
+    <div class="spinner">
+      <div class="circle-loader" [ngClass]="{'load-complete' : !secondSpinner}">
+        <div [hidden]="secondSpinner" class="checkmark draw"></div>
+      </div>
+    </div>
+  </div>
 </div>
