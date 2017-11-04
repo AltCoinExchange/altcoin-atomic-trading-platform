@@ -15,6 +15,7 @@ import * as fromSwap from '../../selectors/swap.selector';
 })
 export class SwapInitiateComponent implements OnInit {
   $errorInitiate: Observable<string>;
+  $loading: Observable<boolean>;
   private routeSub: Subscription;
   private offerTime: Date;
   private amount: number;
@@ -26,6 +27,7 @@ export class SwapInitiateComponent implements OnInit {
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {
     this.parseLink();
     this.$errorInitiate = this.store.select(fromSwap.getInitiateError);
+    this.$loading = this.store.select(fromSwap.getInitiateLoading);
   }
 
   ngOnDestroy() {

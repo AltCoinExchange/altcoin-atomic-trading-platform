@@ -11,6 +11,7 @@ import {TransferLinkComponent} from './transfer-link/transfer-link.component';
 import {SwapInputsModule} from '../components/swap-inputs/swap-inputs.module';
 import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
 import {SwapInitiatePreviewModule} from '../components/swap-initiate-preview/swap-initiate-preview.module';
+import {MatProgressSpinnerModule} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import {SwapInitiatePreviewModule} from '../components/swap-initiate-preview/swa
     FlexLayoutModule,
     SwapInputsModule,
     SwapInitiatePreviewModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     SwapIconComponent,
