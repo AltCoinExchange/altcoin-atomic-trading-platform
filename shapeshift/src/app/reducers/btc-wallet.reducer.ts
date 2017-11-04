@@ -24,7 +24,6 @@ export function reducer(state = initialState, action: btcWallet.Actions) {
   switch (action.type) {
     case btcWallet.SET_BTC_WALLET: {
       if (state.btcWallet.xprivkey) {
-        console.log('I have it already');
         return state;
       }
       localStorage.setItem('xprivkey', action.payload.xprivkey);

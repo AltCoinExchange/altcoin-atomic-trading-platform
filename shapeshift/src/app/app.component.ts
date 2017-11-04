@@ -30,13 +30,16 @@ export class AppComponent implements OnInit {
   }
 
   private generateBtcWallet(codes: any) {
-    const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
-    btc.generateHDPrivateKey();
+    const xprivKey = localStorage.getItem('xprivkey');
+    if (!xprivKey) {
+      const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
+      btc.generateHDPrivateKey();
 
-    const btcWallet = {
-      xprivkey: btc.hdPrivateKey.xprivkey,
-    } as BtcWalletModel;
+      const btcWallet = {
+        xprivkey: btc.hdPrivateKey.xprivkey,
+      } as BtcWalletModel;
 
-    this.store.dispatch(new btcWalletAction.SetBtcWalletAction(btcWallet));
+      this.store.dispatch(new btcWalletAction.SetBtcWalletAction(btcWallet));
+    }
   }
 }
