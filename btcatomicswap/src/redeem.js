@@ -20,10 +20,6 @@ const util = require('util');
 
 export async function redeem(strCt, strCtTx, secret) {
 
-
-
-
-
   // TODO: change strCt, strCtTx to ct, ctTx
   const contract = new Script(strCt);
   const pushes = extractAtomicSwapContract(strCt)
@@ -83,7 +79,9 @@ export async function redeem(strCt, strCtTx, secret) {
 
   reedemTx.uncheckedAddInput(input)
 
-  const {sig, pubKey} = await createSig(reedemTx, 0, contract, recipientAddress )
+
+  const inputIndex = 0
+  const {sig, pubKey} = await createSig(reedemTx, inputIndex, contract, recipientAddress )
 
 
   const script = redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
