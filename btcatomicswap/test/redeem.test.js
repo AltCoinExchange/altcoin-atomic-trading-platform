@@ -1,5 +1,5 @@
 import {redeem} from '../src/redeem';
-import {testData3} from "./test-transactions.js"
+import {testData4} from "./test-transactions.js"
 
 const strSig = "3045022100f43430384ca5ecfc9ca31dd074d223836cef4801b3644c651c3a30d80fbf63b8022017dae9e7ec6f3f5ee0e0b60d146963ba85d9b31003d7f60852126f2a35492759"
 const strPubKey = "03b10e3690bcaf0eae7098ec794666963803bcec5acfbe6a112bc8cdc93797f002"
@@ -12,9 +12,8 @@ const assert = require('assert');
 
 describe('#reedem()', function () {
   it.only('should create reedemTx', async () => {
-    testData3
     // redeem(strContract, strContractTx, strSecret)
-    redeem(testData3.contract, testData3.contractTx, testData3.secret)
+    redeem(testData4.contract, testData4.contractTx, testData4.secret)
 
   });
 });

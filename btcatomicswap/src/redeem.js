@@ -20,17 +20,18 @@ const util = require('util');
 
 export async function redeem(strCt, strCtTx, secret) {
 
-  // "contract is not an atomic swap script recognized by this tool"
-  // "transaction does not contain a contract output"
-  // "getrawchangeaddres" + erroe
-  // "redeem output value of %v is dust"
-  // "Redeem fee: %v (%0.8f BTC/kB)\n\n"
-  // "Redeem transaction (%v):\n"
 
-  // TODO: clean the tempInput, reedemTxTemp
+
+
+
   // TODO: change strCt, strCtTx to ct, ctTx
   const contract = new Script(strCt);
   const pushes = extractAtomicSwapContract(strCt)
+
+  if(!pushes){
+    console.log("contract is not an atomic swap script recognized by this tool");
+    return
+  }
 
   const ctTx = new Transaction(strCtTx)
 
@@ -53,61 +54,46 @@ export async function redeem(strCt, strCtTx, secret) {
   }
 
   if (ctTxOutIdx == -1) {
-    return "transaction does not contain a contract output"
+    console.log("transaction does not contain a contract output");
+    return
   }
 
-
+  // TODO:  "getrawchangeaddres" + erroe
   const addr = new Address(await getChangeAddress())
+
   const outScript = Script.buildPublicKeyHashOut(addr)
   const amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005*100000000
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   const reedemTx = new Transaction()
-  const reedemTxTemp = new Transaction()
 
+  // TODO: "redeem output value of %v is dust"
   let output = Transaction.Output({
     script: outScript,
     satoshis: amount
   })
-  reedemTxTemp.addOutput(output)
-  // createSig(recipientAddress)
-  console.log("---------");
-  // console.log(Transaction.Sighash);
-  console.log("**addr", addr);
-
-  const tAddr = "mhv5J1ymh9Hd5tk1YuKvmXCbV63whjyxmT";
-
-  const tempInput = Transaction.Input({
-    prevTxId: ctTx.id,
-    outputIndex: ctTxOutIdx,
-    script: new Script(ctTx.outputs[ctTxOutIdx].script)
-  })
-
-  console.log(reedemTxTemp.uncheckedAddInput(tempInput));
-  const {sig, pubKey} = await createSig(reedemTxTemp, 0, contract, recipientAddress )
-
-
-
-  // const script = redeemP2SHContract(strCt, sig.toString(), pubKey.toString(), secret);
-  const script = redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
-  console.log(script);
+  reedemTx.addOutput(output)
 
 
   const input = Transaction.Input({
     prevTxId: ctTx.id,
     outputIndex: ctTxOutIdx,
-    script: script
+    script: new Script(ctTx.outputs[ctTxOutIdx].script)
   })
-  // reedemTx.addInput(input, outScript, amount)
+
   reedemTx.uncheckedAddInput(input)
-  reedemTx.addOutput(output)
-  // console.log(reedemTxTemp.inputs[0].setScript(script));
-  console.log(reedemTxTemp);
-  console.log("**reedemTx  ", reedemTx.toString());
-  console.log("**reedemTx  ", reedemTx);
-  console.log(reedemTx.verify());
+
+  const {sig, pubKey} = await createSig(reedemTx, 0, contract, recipientAddress )
+
+
+  const script = redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
+
+  reedemTx.inputs[0].setScript(script)
+
+  console.log("**redeem transaction  ", redeemTx);
+  console.log("**redeem fee");
+  // console.log(reedemTx.verify());
   const res = await publishTx(reedemTx.toString())
-  // const res = await publishTx(reedemTx)
   console.log(res);
 
 

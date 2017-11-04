@@ -5,7 +5,12 @@
  * @company Altcoin Exchange, Inc.
  */
 
-var _Engine = require("./engine");
-var _Db = require("./db");
-var _Common = require("./common");
-var _AtomicSwap = require("./atomicswap");
+var Engine = require("./engine");
+var Db = require("./db");
+var Common = require("./common");
+var AtomicSwap = require("./atomicswap");
+
+module.exports.Engine = Engine;
+module.exports.Db = Db;
+module.exports.Common = Common;
+module.exports.AtomicSwap = AtomicSwap;
