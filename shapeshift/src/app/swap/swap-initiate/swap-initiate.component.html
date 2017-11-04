@@ -1,4 +1,7 @@
 <p style="color: red;">{{$errorInitiate | async}}</p>
+
+<mat-spinner *ngIf="($loading | async)" style="left: 38%;"></mat-spinner>
+
 <div *ngIf="!($loading | async)">
   <app-swap-initiate-fields [offerTime]="offerTime | date:'h:mm'"
                             [amount]="amount"
@@ -9,5 +12,3 @@
   </app-swap-initiate-fields>
   <button (click)="startInitiate()">initiate</button>
 </div>
-<mat-spinner *ngIf="($loading | async)" style="left: 38%;"></mat-spinner>
-
