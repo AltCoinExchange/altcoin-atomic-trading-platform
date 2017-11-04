@@ -12,6 +12,7 @@ var secret = (new Common()).GenerateSecret();
 var engine = new Engine(AbiConfig, AppConfig.hosts[0]);
 try {
 
+    var t = new Date();
     var account = null;
 
     // Create account and save keystore file
