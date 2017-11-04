@@ -1,15 +1,19 @@
-var Mnemonic = require('bitcore-mnemonic');
+import {BtcWallet} from './btc-wallet';
 
 export class Wallet {
 
-  static Ethereum() {
+  static get Ethereum() {
     return {
-      'login': () => {},
-      'create': () => {}
+      'login': () => {
+      },
+      'create': () => {
+      },
     }
   }
 
-  static Bitcoin() {
-
+  static get Bitcoin() {
+    return {
+      BtcWallet,
+    }
   }
 }

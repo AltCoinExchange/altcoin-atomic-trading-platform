@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel --presets es2015 src -d dist",
     "start": "yarn build && node dist/wallet.js",
-    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register"
+    "test": "./node_modules/mocha/bin/mocha --require babel-register"
   },
   "dependencies": {
     "bitcore": "^4.1.1",
