@@ -1,5 +1,5 @@
 export function getUnixTimeFor2Days() {
-  return getCurrentUnixTime(2);
+  return getCurrentUnixTime();
 }
 
 export function getCurrentUnixTime(appendDays = 0) {
