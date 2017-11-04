@@ -7,14 +7,14 @@ export interface State {
 }
 
 const xprivKey = localStorage.getItem('xprivkey');
-let btc = {} as BtcWalletModel;
+let btc = {} as any;
 if (xprivKey) {
   btc = new wallet.Wallet.Bitcoin.BtcWallet(xprivKey, true);
-  console.log(btc);
 }
+
 export const initialState: State = {
   btcWallet: {
-    xprivkey: btc.xprivkey,
+    xprivkey: btc.hdPrivateKey ? btc.hdPrivateKey.xprivkey : '',
     addresses: {},
     derived: {},
   },
@@ -24,6 +24,7 @@ export function reducer(state = initialState, action: btcWallet.Actions) {
   switch (action.type) {
     case btcWallet.SET_BTC_WALLET: {
       if (state.btcWallet.xprivkey) {
+        console.log('I have it already');
         return state;
       }
       localStorage.setItem('xprivkey', action.payload.xprivkey);
