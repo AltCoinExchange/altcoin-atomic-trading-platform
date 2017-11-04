@@ -8,9 +8,9 @@
 export class EthWallet {
 
     constructor() {
-        this.AppConfig = require("../../ethatomicswap/config");
-        this.AtomicSwap = require("../../ethatomicswap/modules/atomicswap");
-        this.AbiConfig = require("../../ethatomicswap/abi/atomicswap");
+        this.AppConfig = require("ethatomicswap/config.json");
+        this.AtomicSwap = require("ethatomicswap/modules/atomicswap");
+        this.AbiConfig = require("ethatomicswap/abi/atomicswap.json");
 
         this.atomicSwap = new this.AtomicSwap(this.AbiConfig, this.AppConfig.hosts[0]);
     }
@@ -23,7 +23,7 @@ export class EthWallet {
     login(keystore, password) {
 
         if (keystore === null)
-            this.keystore = require("../../ethatomicswap/testAccount.json").keystore;
+            this.keystore = require("ethatomicswap/testAccount.json").keystore;
 
         return this.atomicSwap.engine.Login(keystore, password);
     }

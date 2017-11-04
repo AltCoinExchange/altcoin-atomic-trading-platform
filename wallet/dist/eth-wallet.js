@@ -19,9 +19,9 @@ var EthWallet = exports.EthWallet = function () {
     function EthWallet() {
         _classCallCheck(this, EthWallet);
 
-        this.AppConfig = require("../../ethatomicswap/config");
-        this.AtomicSwap = require("../../ethatomicswap/modules/atomicswap");
-        this.AbiConfig = require("../../ethatomicswap/abi/atomicswap");
+        this.AppConfig = require("ethatomicswap/config.json");
+        this.AtomicSwap = require("ethatomicswap/modules/atomicswap");
+        this.AbiConfig = require("ethatomicswap/abi/atomicswap.json");
 
         this.atomicSwap = new this.AtomicSwap(this.AbiConfig, this.AppConfig.hosts[0]);
     }
@@ -37,7 +37,7 @@ var EthWallet = exports.EthWallet = function () {
         key: "login",
         value: function login(keystore, password) {
 
-            if (keystore === null) this.keystore = require("../../ethatomicswap/testAccount.json").keystore;
+            if (keystore === null) this.keystore = require("ethatomicswap/testAccount.json").keystore;
 
             return this.atomicSwap.engine.Login(keystore, password);
         }
