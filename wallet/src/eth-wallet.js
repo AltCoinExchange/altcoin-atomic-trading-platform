@@ -7,14 +7,11 @@
 
 export class EthWallet {
 
-    AbiConfig = require("../../ethatomicswap/abi/atomicswap");
-    AppConfig = require("../../ethatomicswap/config");
-    AtomicSwap = require("../../ethatomicswap/modules/atomicswap");
-
-    keystore = {};
-    atomicSwap = {};
-
     constructor() {
+        this.AppConfig = require("../../ethatomicswap/config");
+        this.AtomicSwap = require("../../ethatomicswap/modules/atomicswap");
+        this.AbiConfig = require("../../ethatomicswap/abi/atomicswap");
+
         this.atomicSwap = new this.AtomicSwap(this.AbiConfig, this.AppConfig.hosts[0]);
     }
 

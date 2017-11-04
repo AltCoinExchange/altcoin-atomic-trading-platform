@@ -9,6 +9,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _btcWallet = require('./btc-wallet');
 
+var _ethWallet = require('./eth-wallet');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Mnemonic = require('bitcore-mnemonic');
@@ -21,9 +23,18 @@ var Wallet = exports.Wallet = function () {
   _createClass(Wallet, null, [{
     key: 'Ethereum',
     get: function get() {
+      var _this = this;
+
       return {
-        'login': function login() {},
-        'create': function create() {}
+        EthWallet: _ethWallet.EthWallet,
+        'login': function login(keystore, password) {
+          _this.EthWallet = new _ethWallet.EthWallet();
+          _this.EthWallet.login(keystore, password);
+        },
+        'create': function create(password) {
+          _this.EthWallet = new _ethWallet.EthWallet();
+          _this.EthWallet.create(password);
+        }
       };
     }
   }, {
