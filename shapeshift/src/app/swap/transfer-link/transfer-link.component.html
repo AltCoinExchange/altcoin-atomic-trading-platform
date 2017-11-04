@@ -1,10 +1,10 @@
 <!--*ngIf="swapProcess.showLink" class="swap" [@flyInOut]="'in'"-->
 <div>
   <p class="label">Copy this URL and send to second party for deposit</p>
-  <div class="input-box">
-    <p class="url-copy">http://localhost:4200/initiate/{{$link | async}}</p>
+  <div class="input-box" style="overflow: hidden">
+    <p class="url-copy" style="overflow: hidden">http://localhost:4200/initiate/{{$link | async}}</p>
     <p class="input-value">
-      <a href="/initiate/{{$link | async}}">
+      <a routerLink="/initiate/{{$link | async}}">
         <i class="fa fa-clone" aria-hidden="true"></i>
       </a>
     </p>

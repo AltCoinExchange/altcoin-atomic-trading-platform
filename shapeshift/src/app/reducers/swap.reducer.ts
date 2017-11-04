@@ -1,61 +1,19 @@
-import {SwapProcess} from '../models/swap-process.model';
 import * as swap from '../actions/swap.action';
-import {Coin} from '../models/coin.model';
 
 export interface State {
-  swapProcess: SwapProcess;
-  link: string;
+  error: string;
 }
 
 export const initialState: State = {
-  swapProcess: {
-    depositCoin: {
-      name: 'ETH',
-      amount: undefined,
-      icon: 'assets/icon/eth-icon.png',
-      iconOutline: 'assets/icon/eth-icon-o.png',
-    } as Coin,
-    receiveCoin: {
-      name: 'BTC',
-      amount: undefined,
-      icon: 'assets/icon/btc-icon.png',
-      iconOutline: 'assets/icon/btc-icon-o.png',
-    } as Coin,
-    submitAmount: false,
-    showQRCode: false,
-    showLink: false,
-  } as SwapProcess,
-  link: undefined,
+  error: undefined,
 };
 
 export function reducer(state = initialState, action: swap.Actions): State {
   switch (action.type) {
-    case swap.SWAP_DEPOSIT_RECEIVE_COINS: {
-      const temp = state.swapProcess.depositCoin;
+    case swap.INITIATE_FAIL: {
       return {
         ...state,
-        swapProcess: {
-          ...state.swapProcess,
-          depositCoin: {
-            ...state.swapProcess.receiveCoin,
-          },
-          receiveCoin: {...temp},
-        },
-      };
-    }
-    case swap.START_SWAP: {
-      return {
-        ...state,
-        swapProcess: {
-          ...state.swapProcess,
-          depositCoin: action.payload,
-        },
-      };
-    }
-    case swap.SET_LINK: {
-      return {
-        ...state,
-        link: action.payload,
+        error: action.payload.message,
       };
     }
     default: {
@@ -64,7 +22,4 @@ export function reducer(state = initialState, action: swap.Actions): State {
   }
 }
 
-export const getSwapProcess = (state: State) => state.swapProcess;
-export const getDepositCoin = (state: State) => state.swapProcess.depositCoin;
-export const getReceiveCoin = (state: State) => state.swapProcess.receiveCoin;
-export const getLink = (state: State) => state.link;
+export const getInititeError = (state: State) => state.error;

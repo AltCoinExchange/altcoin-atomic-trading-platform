@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import * as fromSwap from '../../reducers/swap.reducer';
-import * as swapSelector from '../../selectors/swap.selector';
-import * as swapAction from '../../actions/swap.action';
+import * as fromSwap from '../../reducers/start.reducer';
+import * as swapSelector from '../../selectors/start.selector';
+import * as swapAction from '../../actions/start.action';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 

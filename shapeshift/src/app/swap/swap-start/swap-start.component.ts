@@ -2,9 +2,9 @@ import {ChangeDetectionStrategy, Component, HostBinding, OnInit} from '@angular/
 import {Router} from '@angular/router';
 import {flyInOutAnimation} from '../../animations/animations';
 import {Store} from '@ngrx/store';
-import * as fromSwap from '../../reducers/swap.reducer';
-import * as swapSelector from '../../selectors/swap.selector';
-import * as swapAction from '../../actions/swap.action';
+import * as fromSwap from '../../reducers/start.reducer';
+import * as swapSelector from '../../selectors/start.selector';
+import * as swapAction from '../../actions/start.action';
 import {Observable} from 'rxjs/Observable';
 import {SwapProcess} from '../../models/swap-process.model';
 import {Coin} from '../../models/coin.model';

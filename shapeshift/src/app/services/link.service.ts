@@ -13,8 +13,6 @@ export class LinkService {
     //TODO if btc
     const btc = new wallet.Wallet.Bitcoin.BtcWallet(btcWallet.xprivkey, true);
 
-    console.log(btc);
-
     const derivedPrivKey = btc.deriveHdPrivateKey(1); //TODO this also needs to be autoincremental
     const hdPublicKey = derivedPrivKey.hdPublicKey;
     const address = btc.generateAddress(hdPublicKey);

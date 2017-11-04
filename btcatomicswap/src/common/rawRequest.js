@@ -39,24 +39,28 @@ export const getRawChangeAddress = async () => {
  * @returns fundedTransaction, fee
  */
 export const fundRawTransaction = async (tx, feePerKb,) => {
-  return await axios.post(
-    url,
-    {
-      "rpcuser": configuration.user,
-      "rpcpassword": configuration.pass,
-      "method": "fundrawtransaction",
-      "params": [
-        tx,
-        {"feeRate": feePerKb},
-      ],
-    },
-    {
-      auth: {
-        username: configuration.user,
-        password: configuration.pass,
+  try {
+    return await axios.post(
+      url,
+      {
+        "rpcuser": configuration.user,
+        "rpcpassword": configuration.pass,
+        "method": "fundrawtransaction",
+        "params": [
+          tx,
+          {"feeRate": feePerKb},
+        ],
       },
-    },
-  );
+      {
+        auth: {
+          username: configuration.user,
+          password: configuration.pass,
+        },
+      },
+    );
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 

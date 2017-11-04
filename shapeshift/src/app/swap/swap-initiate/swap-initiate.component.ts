@@ -1,8 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import * as btcswap from 'btc-atomic-swap';
 import {Coin} from '../../models/coin.model';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../reducers/app.state';
+import {InitiateAction} from '../../actions/swap.action';
+import {Observable} from 'rxjs/Observable';
+import * as fromSwap from '../../selectors/swap.selector';
 
 @Component({
   selector: 'app-swap-initiate',
@@ -10,8 +14,8 @@ import {Coin} from '../../models/coin.model';
   styleUrls: ['./swap-initiate.component.scss'],
 })
 export class SwapInitiateComponent implements OnInit {
+  $errorInitiate: Observable<string>;
   private routeSub: Subscription;
-
   private offerTime: Date;
   private amount: number;
   private address: string;
@@ -19,7 +23,23 @@ export class SwapInitiateComponent implements OnInit {
   private toReceiveCoin: Coin;
   private toReceiveAmount;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+    this.parseLink();
+    this.$errorInitiate = this.store.select(fromSwap.getInitiateError);
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
+  }
+
+  ngOnInit() {
+  }
+
+  startInitiate() {
+    this.store.dispatch(new InitiateAction({address: this.address, amount: this.amount}));
+  }
+
+  private parseLink() {
     this.routeSub = this.route.params.subscribe(params => {
       const link = params['link'];
       const stringified = atob(link);
@@ -53,16 +73,5 @@ export class SwapInitiateComponent implements OnInit {
         } as Coin;
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
-  }
-
-  ngOnInit() {
-  }
-
-  startInitiate() {
-    btcswap.initiate(this.address, this.amount);
   }
 }
