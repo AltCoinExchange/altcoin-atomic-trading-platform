@@ -7,7 +7,7 @@ export interface State {
 }
 
 const xprivKey = localStorage.getItem('xprivkey');
-let btc;
+let btc = {} as BtcWalletModel;
 if (xprivKey) {
   btc = new wallet.Wallet.Bitcoin.BtcWallet(xprivKey, true);
   console.log(btc);

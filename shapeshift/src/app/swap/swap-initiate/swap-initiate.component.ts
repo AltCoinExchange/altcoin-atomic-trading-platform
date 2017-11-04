@@ -24,7 +24,11 @@ export class SwapInitiateComponent implements OnInit {
       const link = params['link'];
       const stringified = atob(link);
       const data = JSON.parse(stringified);
-      this.offerTime = data[0];
+      const offerTime = new Date(data[0]);
+      const offerTimein2hrs = offerTime.setHours(offerTime.getHours() + 2);
+      const now = new Date().getTime();
+      this.offerTime = new Date(offerTimein2hrs - now);
+
       this.amount = data[1];
       this.address = data[2];
       const coin = data[3];
