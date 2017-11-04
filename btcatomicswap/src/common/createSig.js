@@ -7,11 +7,11 @@ const PrivateKey = require('bitcore').PrivateKey;
 const RpcClient = require('bitcoind-rpc');
 const rpc = new RpcClient(configuration);
 
-// export async function createSig(addr){
-export async function createSig(tx, idx, pkScript, addr){
-  const wif = await getPrivKey(addr)
+export async function createSig(reedemTx, inputIndex, contract, recipientAddress){
+  const wif = await getPrivKey(recipientAddress)
   const WIF = new PrivateKey(wif)
-  const sig = Transaction.Sighash.sign(tx, WIF, 1, idx, pkScript)
+  const sighashType = 1
+  const sig = Transaction.Sighash.sign(reedemTx, WIF, sighashType, inputIndex, contract)
   const pubKey = WIF.toPublicKey()
   return {sig, pubKey}
 }
