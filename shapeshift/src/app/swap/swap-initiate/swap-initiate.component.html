@@ -1,4 +1,8 @@
-<p>
-  {{data | json}}
-</p>
+<app-swap-initiate-fields [offerTime]="offerTime | date:'medium'"
+                          [amount]="amount"
+                          [address]="address"
+                          [coin]="coin"
+                          [toReceiveAmount]="toReceiveAmount"
+                          [toReceiveCoin]="toReceiveCoin">
+</app-swap-initiate-fields>
 <button (click)="startInitiate()">initiate</button>

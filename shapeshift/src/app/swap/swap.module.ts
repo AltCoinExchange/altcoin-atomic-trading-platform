@@ -10,6 +10,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferLinkComponent} from './transfer-link/transfer-link.component';
 import {SwapInputsModule} from '../components/swap-inputs/swap-inputs.module';
 import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
+import {SwapInitiatePreviewModule} from '../components/swap-initiate-preview/swap-initiate-preview.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
     ShapeShiftCommonModule,
     FlexLayoutModule,
     SwapInputsModule,
+    SwapInitiatePreviewModule,
   ],
   declarations: [
     SwapIconComponent,

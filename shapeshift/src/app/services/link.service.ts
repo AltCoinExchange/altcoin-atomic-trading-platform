@@ -23,6 +23,9 @@ export class LinkService {
       new Date(),
       depositCoin.amount,
       address.toString(),
+      'btc', // TODO ........
+      'eth', // TODO in exchange for currency
+      '1' // TODO in exchange for amount
     ];
 
     const stringified = JSON.stringify(data);

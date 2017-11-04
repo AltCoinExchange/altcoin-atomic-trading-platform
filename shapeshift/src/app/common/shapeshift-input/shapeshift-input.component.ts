@@ -19,6 +19,7 @@ import {ValueAccessorBase} from '../value-accessor-base';
 export class ShapeshiftInputComponent extends ValueAccessorBase<Number> implements OnInit {
   @Input() coin: Coin;
   @Input() disabled: boolean = false;
+  @Input() type = 'number';
 
   constructor() {
     super();
