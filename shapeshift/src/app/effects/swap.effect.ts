@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect} from '@ngrx/effects';
-import {Action} from '@ngrx/store';
+import {Actions, Effect, toPayload} from '@ngrx/effects';
+import {Action, Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {Router} from '@angular/router';
 import * as swapAction from '../actions/swap.action';
+import * as btcSelector from '../selectors/btc-wallet.selector';
 import {Go} from '../actions/router.action';
+import {AppState} from '../reducers/app.state';
+import {LinkService} from '../services/link.service';
 
 
 @Injectable()
@@ -13,27 +15,21 @@ export class SwapEffect {
   @Effect()
   generateLink$: Observable<Action> = this.actions$
     .ofType(swapAction.START_SWAP)
-    .mergeMap((action: swapAction.StartSwapAction) => {
-        //TODO generate address here
-
-      //TODO use array instead of object
-        const data = {
-          t: new Date(),
-          a: action.payload.amount,
-          b: 'n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG', //fake address
-        };
-        const stringified = JSON.stringify(data);
-        const link = btoa(stringified);
-        return Observable.from([
-          new swapAction.SetLinkAction(link),
-          new Go({
-            path: ['/transfer'],
-          }),
-        ]);
+    .map(toPayload)
+    .withLatestFrom(this.store.select(btcSelector.getBtcWallet))
+    .mergeMap(([depositCoin, btcWallet]) => {
+        return this.linkService.generateLink(depositCoin, btcWallet).mergeMap(link => {
+          return Observable.from([
+            new swapAction.SetLinkAction(link),
+            new Go({
+              path: ['/transfer'],
+            }),
+          ]);
+        });
       },
     );
 
 
-  constructor(private actions$: Actions, private router: Router) {
+  constructor(private linkService: LinkService, private actions$: Actions, private store: Store<AppState>) {
   }
 }

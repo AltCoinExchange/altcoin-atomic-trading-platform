@@ -11,7 +11,7 @@ import * as btcswap from 'btc-atomic-swap';
 export class SwapInitiateComponent implements OnInit {
   private routeSub: Subscription;
 
-  private data: any;//todo create interface
+  private data: any;
 
   constructor(private route: ActivatedRoute) {
     this.routeSub = this.route.params.subscribe(params => {

@@ -8,6 +8,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toArray';
+import 'rxjs/add/operator/withLatestFrom';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

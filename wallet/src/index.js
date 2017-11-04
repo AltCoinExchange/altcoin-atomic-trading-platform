@@ -1,4 +1,5 @@
 import {BtcWallet} from './btc-wallet';
+const Mnemonic = require('bitcore-mnemonic');
 
 export class Wallet {
 
@@ -15,5 +16,10 @@ export class Wallet {
     return {
       BtcWallet,
     }
+  }
+
+  static get code() {
+    const code = new Mnemonic();
+    return code;
   }
 }

@@ -11,21 +11,27 @@ var _config = require('./config/config');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Address = require('bitcore').Address;
 var Mnemonic = require('bitcore-mnemonic');
+var bitcore = require('bitcore');
+var HDPrivateKey = bitcore.HDPrivateKey;
 
 var BtcWallet = exports.BtcWallet = function () {
   function BtcWallet(code) {
+    var regenerate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
     _classCallCheck(this, BtcWallet);
 
-    var valid = Mnemonic.isValid(code);
-    if (!valid) {
-      throw Error('Not valid mnemomic');
+    if (regenerate === true) {
+      this.hdPrivateKey = new HDPrivateKey(code);
+    } else {
+      var valid = Mnemonic.isValid(code);
+      if (!valid) {
+        throw Error('Not valid mnemonic code');
+      }
+      this.code = new Mnemonic(code);
     }
-    this.code = new Mnemonic(code);
-    this.hdPrivateKeys = [];
-    this.derived = [];
-    this.addressess = [];
+    this.derived = {};
+    this.addressess = {};
   }
 
   _createClass(BtcWallet, [{
@@ -37,24 +43,26 @@ var BtcWallet = exports.BtcWallet = function () {
   }, {
     key: 'deriveHdPrivateKey',
     value: function deriveHdPrivateKey(deriveArg) {
-      this.derived.push(deriveArg);
+      if (!this.hdPrivateKey) {
+        throw new Error('No HdPrivateKey found to derive from, did you mean to use generateHDPrivateKey() ?');
+      }
       var derived = this.hdPrivateKey.derive(deriveArg);
-      this.hdPrivateKeys.push(derived);
+      this.derived[deriveArg] = derived;
       return derived;
     }
   }, {
     key: 'generateAddress',
     value: function generateAddress(hdPublicKey) {
-      return hdPublicKey.publicKey.toAddress();
+      if (!hdPublicKey) {
+        throw new Error('hdPublicKey required to generate address');
+      }
+      var address = hdPublicKey.publicKey.toAddress();
+      this.addressess[hdPublicKey] = address;
+      return address;
     }
   }, {
-    key: 'getHdPkeys',
-    value: function getHdPkeys() {
-      return this.hdPrivateKeys;
-    }
-  }, {
-    key: 'getDeriveArgs',
-    value: function getDeriveArgs() {
+    key: 'getDerived',
+    value: function getDerived() {
       return this.derived;
     }
   }]);
