@@ -1,3 +1,5 @@
+var Mnemonic = require('bitcore-mnemonic');
+
 export class Wallet {
 
   static Ethereum() {

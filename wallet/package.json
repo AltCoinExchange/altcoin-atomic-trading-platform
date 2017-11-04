@@ -2,5 +2,20 @@
   "name": "wallet",
   "version": "1.0.0",
   "main": "wallet.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "babel --presets es2015 src -d dist",
+    "start": "yarn build && node dist/wallet.js",
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register"
+  },
+  "dependencies": {
+    "bitcore": "^4.1.1",
+    "bitcore-mnemonic": "^1.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "mocha": "^4.0.1"
+  }
 }
