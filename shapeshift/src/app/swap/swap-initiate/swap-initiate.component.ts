@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {Coin} from '../../models/coin.model';
@@ -7,15 +7,19 @@ import {AppState} from '../../reducers/app.state';
 import {InitiateAction} from '../../actions/swap.action';
 import {Observable} from 'rxjs/Observable';
 import * as fromSwap from '../../selectors/swap.selector';
+import {flyInOutAnimation} from '../../animations/animations';
+import {AnimationEnabledComponent} from '../../common/animation.component';
 
 @Component({
   selector: 'app-swap-initiate',
   templateUrl: './swap-initiate.component.html',
   styleUrls: ['./swap-initiate.component.scss'],
+  animations: [flyInOutAnimation],
 })
-export class SwapInitiateComponent implements OnInit {
+export class SwapInitiateComponent extends AnimationEnabledComponent implements OnInit {
   $errorInitiate: Observable<string>;
   $loading: Observable<boolean>;
+
   private routeSub: Subscription;
   private offerTime: Date;
   private amount: number;
@@ -25,6 +29,7 @@ export class SwapInitiateComponent implements OnInit {
   private toReceiveAmount;
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+    super();
     this.parseLink();
     this.$errorInitiate = this.store.select(fromSwap.getInitiateError);
     this.$loading = this.store.select(fromSwap.getInitiateLoading);
