@@ -1,0 +1,121 @@
+@import '../../../styles/variables';
+
+.bs-wizard {
+    margin-top: 20px;
+    border-bottom: solid 1px #e0e0e0;
+    padding: 0 0 10px 0;
+
+    .bs-wizard-step {
+        padding: 0;
+        position: relative;
+        float: left;
+        width: 33%;
+        min-height: 1px;
+
+        .bs-wizard-stepnum {
+            color: $text-color;
+            font-size: 16px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .bs-wizard-info {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .bs-wizard-dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            display: block;
+            background: $main-gray;
+            top: 45px;
+            left: 50%;
+            margin-top: -15px;
+            margin-left: -15px;
+            border-radius: 50%;
+        }
+
+        .bs-wizard-dot:after {
+            content: ' ';
+            width: 14px;
+            height: 14px;
+            background: $main-blue;
+            border-radius: 50px;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+        }
+
+        .progress {
+            position: relative;
+            border-radius: 0px;
+            height: 8px;
+            box-shadow: none;
+            margin: 20px 0;
+            overflow: hidden;
+            background-color: $main-gray;
+
+            .progress-bar {
+                box-shadow: none;
+                // background: $progress-bar;
+                width: 100%;
+                height: 100%;
+                display: block;
+                float: left;
+                font-size: 12px;
+                line-height: 20px;
+                color: #fff;
+                text-align: center;
+                -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+                box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+                -webkit-transition: width .6s ease;
+                -o-transition: width .6s ease;
+                transition: width .6s ease;
+            }
+        }
+
+      }
+  }
+  
+  .bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {
+    width: 100%;
+  }
+  
+  .bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {
+    width: 50%;
+  }
+  
+  .bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {
+    width: 0%;
+  }
+  
+  .bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {
+    width: 100%;
+  }
+  
+  .bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {
+    background-color: $main-gray;
+  }
+  
+  .bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {
+    opacity: 0;
+  }
+
+  .bs-wizard > .bs-wizard-step.disabled > .progress > .progress-bar {
+    background-color: $main-gray;
+  }
+  
+  .bs-wizard > .bs-wizard-step:first-child > .progress {
+    left: 50%;
+    width: 50%;
+  }
+  
+  .bs-wizard > .bs-wizard-step:last-child > .progress {
+    width: 50%;
+  }
+  
+  .bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot {
+    pointer-events: none;
+  }

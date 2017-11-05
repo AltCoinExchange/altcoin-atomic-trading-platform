@@ -10,6 +10,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferLinkComponent} from './transfer-link/transfer-link.component';
 import {SwapInputsModule} from '../components/swap-inputs/swap-inputs.module';
 import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
+import {ProgressBarComponent} from '../components/progress-bar/progress-bar.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
     SwapStartComponent,
     TransferLinkComponent,
     SwapInitiateComponent,
+    ProgressBarComponent
   ],
 })
 export class SwapModule {

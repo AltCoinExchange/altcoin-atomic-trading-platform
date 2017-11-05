@@ -49,6 +49,9 @@ export class SwapStartComponent implements OnInit {
   }
 
   onSwap(depositCoin: Coin) {
-    this.store.dispatch(new swapAction.StartSwapAction(depositCoin));
+    this.state = 'void';
+    setTimeout(() => {
+      this.store.dispatch(new swapAction.StartSwapAction(depositCoin));
+    }, 500);
   }
 }

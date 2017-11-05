@@ -1,19 +1,12 @@
 import {Component, ChangeDetectionStrategy, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Coin} from '../../models/coin.model';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { coinSwapsAnimation } from '../../animations/animations';
 
 @Component({
   selector: 'app-swap-icon',
   templateUrl: './swap-icon.component.html',
   styleUrls: ['./swap-icon.component.scss'],
-  animations: [
-    trigger('coinSwaps', [
-      state('slideRight', style({transform: 'translateX(200%)'})),
-      state('slideLeft', style({transform: 'translateX(-200%)'})),
-      state('slideBack', style({transform: 'translateX(0%)'})),
-      transition('* <=> *', animate('500ms ease-in-out')),
-    ]),
-  ],
+  animations: [ coinSwapsAnimation ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SwapIconComponent implements OnInit {

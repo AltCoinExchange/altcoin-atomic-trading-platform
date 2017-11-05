@@ -1,5 +1,14 @@
-<div fxLayout="row" class="container">
-  <div fxLayout="column" fxFlex="80" fxFlex.gt-sm="30">
-    <router-outlet></router-outlet>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div fxHide.sm="true">
+  </div>
+  <div class="content" fxFlex="50%" fxFlex.sm="90%">
+      <div class="content-block">
+        <app-progress-bar></app-progress-bar>    
+      </div>
+      <div class="content-block">
+          <router-outlet></router-outlet>
+      </div>
+  </div>
+  <div fxHide.sm="true">
   </div>
 </div>

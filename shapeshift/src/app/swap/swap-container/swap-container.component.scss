@@ -5,3 +5,22 @@
   align-content: center;
   align-items: center;
 }
+
+.row{
+  flex: 1 1 auto;
+  min-width: 50%;
+}
+
+.content{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  
+  .content-block{
+    flex: 1 1 auto;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

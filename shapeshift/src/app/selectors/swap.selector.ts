@@ -14,3 +14,6 @@ export const getReceiveCoin = createSelector(getSwapState,
 
 export const getLink = createSelector(getSwapState,
   fromSwap.getLink);
+
+export const getActiveStep = createSelector(getSwapState,
+  fromSwap.getActiveStep);

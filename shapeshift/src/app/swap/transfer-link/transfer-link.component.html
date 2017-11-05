@@ -1,8 +1,8 @@
 <!--*ngIf="swapProcess.showLink" class="swap" [@flyInOut]="'in'"-->
-<div>
+<div [@flyInOut]="state">
   <p class="label">Copy this URL and send to second party for deposit</p>
   <div class="input-box">
-    <p class="url-copy">http://altcoin.io/initiate/{{$link | async}}</p>
+    <input class="url-copy" value="http://altcoin.io/initiate/{{$link | async}}"/>
     <p class="input-value">
       <a href="/initiate/{{$link | async}}">
         <i class="fa fa-clone" aria-hidden="true"></i>

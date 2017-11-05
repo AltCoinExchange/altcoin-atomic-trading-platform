@@ -6,4 +6,5 @@ export interface SwapProcess {
   submitAmount: boolean;
   showQRCode: boolean;
   showLink: boolean;
+  activeStep: number;
 }

@@ -7,12 +7,16 @@
 .url-copy{
     display: inline-block;
     padding: 0px 10px;
+    flex: 1 1 auto;
+    text-align: left;
+    font-weight: 500;
+    margin: 0px;
 }
 .input-value{
+  flex: 0 1 auto;
   display: inline;
-  margin-right: 2%;
+  margin-right: 10px;
   font-size: 16px;
-  float: right;
   font-weight: 600;
 }
 

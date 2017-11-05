@@ -24,6 +24,7 @@ export const initialState: State = {
     submitAmount: false,
     showQRCode: false,
     showLink: false,
+    activeStep: 1
   } as SwapProcess,
   link: undefined,
 };
@@ -40,6 +41,7 @@ export function reducer(state = initialState, action: swap.Actions): State {
             ...state.swapProcess.receiveCoin,
           },
           receiveCoin: {...temp},
+          activeStep: 1
         },
       };
     }
@@ -49,6 +51,7 @@ export function reducer(state = initialState, action: swap.Actions): State {
         swapProcess: {
           ...state.swapProcess,
           depositCoin: action.payload,
+          activeStep: 2
         },
       };
     }
@@ -67,4 +70,5 @@ export function reducer(state = initialState, action: swap.Actions): State {
 export const getSwapProcess = (state: State) => state.swapProcess;
 export const getDepositCoin = (state: State) => state.swapProcess.depositCoin;
 export const getReceiveCoin = (state: State) => state.swapProcess.receiveCoin;
+export const getActiveStep = (state: State) => state.swapProcess.activeStep;
 export const getLink = (state: State) => state.link;
