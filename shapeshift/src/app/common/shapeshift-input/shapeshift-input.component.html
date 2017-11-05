@@ -1,7 +1,7 @@
 <ng-content></ng-content>
 <div class="input-box">
-  <img class="input-icon" [src]="coin.icon"/>
-  <input [readonly]="disabled" [(ngModel)]="value" [disabled]="disabled"
+  <img *ngIf="coin" class="input-icon" [src]="coin.icon"/>
+  <input [type]="type" [readonly]="disabled" [(ngModel)]="value" [disabled]="disabled"
          type="number" step="any">
-  <p class="input-value">{{coin.name}}</p>
+  <p *ngIf="coin" class="input-value">{{coin.name}}</p>
 </div>

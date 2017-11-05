@@ -2,8 +2,8 @@ import {Component, ChangeDetectionStrategy, EventEmitter, Input, OnInit, Output}
 import {NgFor} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
-import * as swapSelector from '../../selectors/swap.selector';
-import * as fromSwap from '../../reducers/swap.reducer';
+import * as fromSwap from '../../reducers/start.reducer';
+import * as swapSelector from '../../selectors/start.selector';
 
 @Component({
   selector: 'app-progress-bar',

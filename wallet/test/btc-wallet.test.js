@@ -1,4 +1,4 @@
-import {Wallet} from '../src/wallet';
+import {Wallet} from '../src/index';
 
 const assert = require('assert');
 

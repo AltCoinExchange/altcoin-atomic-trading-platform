@@ -1,4 +1,9 @@
 import {Component, OnInit, ViewEncapsulation,} from '@angular/core';
+import * as wallet from 'wallet';
+import {Store} from '@ngrx/store';
+import {AppState} from './reducers/app.state';
+import * as btcWalletAction from './actions/btc-wallet.action';
+import {BtcWalletModel} from './models/btc-wallet.model';
 
 // import * as btcswap from 'btc-atomic-swap';
 
@@ -14,19 +19,27 @@ export class AppComponent implements OnInit {
   public altcoinLogo = 'assets/icon/altcoin-icon.png';
   public name = 'Angular 2 Webpack Starter';
 
-  constructor() {
-    const data = {
-      t: new Date(),
-      a: '0.1323',
-      b: 'n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG',
-    };
-    console.log(data);
-    const strinfigied = JSON.stringify(data);
-    console.log(btoa(strinfigied));
+  constructor(private store: Store<AppState>) {
+    const codes = wallet.Wallet.code;
 
+    this.generateBtcWallet(codes);
   }
 
   public ngOnInit() {
 
+  }
+
+  private generateBtcWallet(codes: any) {
+    const xprivKey = localStorage.getItem('xprivkey');
+    if (!xprivKey) {
+      const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
+      btc.generateHDPrivateKey();
+
+      const btcWallet = {
+        xprivkey: btc.hdPrivateKey.xprivkey,
+      } as BtcWalletModel;
+
+      this.store.dispatch(new btcWalletAction.SetBtcWalletAction(btcWallet));
+    }
   }
 }

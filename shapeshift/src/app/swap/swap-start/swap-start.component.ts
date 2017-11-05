@@ -2,12 +2,13 @@ import {ChangeDetectionStrategy, Component, HostBinding, OnInit} from '@angular/
 import {Router} from '@angular/router';
 import {flyInOutAnimation} from '../../animations/animations';
 import {Store} from '@ngrx/store';
-import * as fromSwap from '../../reducers/swap.reducer';
-import * as swapSelector from '../../selectors/swap.selector';
-import * as swapAction from '../../actions/swap.action';
+import * as fromSwap from '../../reducers/start.reducer';
+import * as swapSelector from '../../selectors/start.selector';
+import * as swapAction from '../../actions/start.action';
 import {Observable} from 'rxjs/Observable';
 import {SwapProcess} from '../../models/swap-process.model';
 import {Coin} from '../../models/coin.model';
+import {AnimationEnabledComponent} from '../../common/animation.component';
 
 @Component({
   selector: 'app-swap-start',
@@ -17,9 +18,7 @@ import {Coin} from '../../models/coin.model';
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SwapStartComponent implements OnInit {
-  @HostBinding('@flyInOut') state = 'in';
-  @HostBinding('style.display') display = 'block';
+export class SwapStartComponent extends AnimationEnabledComponent implements OnInit {
   @HostBinding('class') classes = 'swap';
 
   firstSpinner = true;
@@ -29,6 +28,7 @@ export class SwapStartComponent implements OnInit {
   $receiveCoin: Observable<Coin>;
 
   constructor(private router: Router, private store: Store<fromSwap.State>) {
+    super();
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
     this.$receiveCoin = this.store.select(swapSelector.getReceiveCoin);

@@ -11,6 +11,8 @@ var _btcWallet = require('./btc-wallet');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var Mnemonic = require('bitcore-mnemonic');
+
 var Wallet = exports.Wallet = function () {
   function Wallet() {
     _classCallCheck(this, Wallet);
@@ -18,7 +20,7 @@ var Wallet = exports.Wallet = function () {
 
   _createClass(Wallet, null, [{
     key: 'Ethereum',
-    value: function Ethereum() {
+    get: function get() {
       return {
         'login': function login() {},
         'create': function create() {}
@@ -29,29 +31,15 @@ var Wallet = exports.Wallet = function () {
     get: function get() {
       return {
         BtcWallet: _btcWallet.BtcWallet
-        // return new BtcWallet(code);
       };
+    }
+  }, {
+    key: 'code',
+    get: function get() {
+      var code = new Mnemonic();
+      return code;
     }
   }]);
 
   return Wallet;
 }();
-
-// const btcWallet = new Wallet.Bitcoin.BtcWallet('select scout crash enforce riot rival spring whale hollow radar rule sentence');
-// console.log(btcWallet);
-
-
-var btc = new Wallet.Bitcoin.BtcWallet('select scout crash enforce riot rival spring whale hollow radar rule sentence');
-console.log(btc);
-// console.log(new btc.Wallet('select scout crash enforce riot rival spring whale hollow radar rule sentence'));
-// const btcWallet = Wallet
-//   .Bitcoin('select scout crash enforce riot rival spring whale hollow radar rule sentence');
-//
-//
-// btcWallet.generateHDPrivateKey('sifra');
-//
-// const hdPrivateKey = btcWallet.deriveHdPrivateKey(1);
-//
-// const hdPublicKey = hdPrivateKey.hdPublicKey;
-//
-// console.log(btcWallet.generateAddress(hdPublicKey));

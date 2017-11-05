@@ -39,7 +39,3 @@ Object.keys(_extractSecret).forEach(function (key) {
     }
   });
 });
-var Script = require('bitcore').Script;
-var a = exports.a = {
-  b: Script
-};

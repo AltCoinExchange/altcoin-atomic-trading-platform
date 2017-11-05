@@ -7,7 +7,6 @@
 
 var Common = require("./common");
 var Web3 = require("web3");
-var EthereumWallet = require('ethereumjs-wallet');
 var Accounts = require("web3-eth-accounts");
 
 var Engine = function (configuration, appConfiguration) {

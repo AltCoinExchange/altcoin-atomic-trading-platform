@@ -16,6 +16,8 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {SwapEffect} from './effects/swap.effect';
 import {RouterEffects} from './effects/router.effect';
+import {LinkService} from './services/link.service';
+import {SwapService} from './services/swap.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import {RouterEffects} from './effects/router.effect';
   ],
   providers: [
     {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
+    LinkService,
+    SwapService,
   ],
   bootstrap: [AppComponent],
 })

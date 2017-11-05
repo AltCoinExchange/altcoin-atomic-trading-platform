@@ -1,11 +1,11 @@
 {
   "name": "wallet",
   "version": "1.0.0",
-  "main": "wallet.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "build": "babel --presets es2015 src -d dist",
-    "start": "yarn build && node dist/wallet.js",
+    "start": "yarn build && node dist/index.js",
     "test": "./node_modules/mocha/bin/mocha --require babel-register"
   },
   "dependencies": {

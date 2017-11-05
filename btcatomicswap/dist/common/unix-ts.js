@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getUnixTimeFor2Days = getUnixTimeFor2Days;
 exports.getCurrentUnixTime = getCurrentUnixTime;
 function getUnixTimeFor2Days() {
-  return getCurrentUnixTime(2);
+  return getCurrentUnixTime();
 }
 
 function getCurrentUnixTime() {

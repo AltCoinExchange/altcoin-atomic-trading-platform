@@ -36,4 +36,14 @@ async function initiate(cp2Addr, amount) {
   console.log('\n');
   console.log('Refund transaction:  ', '(', '-- TODO --', ')');
   console.log('Published contract transaction: ', rawTx);
+  return {
+    secret: secret,
+    secretHash: secretHash,
+    fee: b.contractFee,
+    contract: b.contractP2SH.toString(),
+    contractHex: b.contract.toHex(),
+    contractTx: b.contractTx,
+    contractTxHex: b.contractTx.hex,
+    rawTx: rawTx
+  };
 }

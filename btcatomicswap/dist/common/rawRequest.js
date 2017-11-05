@@ -39,17 +39,21 @@ var getRawChangeAddress = exports.getRawChangeAddress = async function getRawCha
  * @returns fundedTransaction, fee
  */
 var fundRawTransaction = exports.fundRawTransaction = async function fundRawTransaction(tx, feePerKb) {
-  return await axios.post(url, {
-    "rpcuser": _config.configuration.user,
-    "rpcpassword": _config.configuration.pass,
-    "method": "fundrawtransaction",
-    "params": [tx, { "feeRate": feePerKb }]
-  }, {
-    auth: {
-      username: _config.configuration.user,
-      password: _config.configuration.pass
-    }
-  });
+  try {
+    return await axios.post(url, {
+      "rpcuser": _config.configuration.user,
+      "rpcpassword": _config.configuration.pass,
+      "method": "fundrawtransaction",
+      "params": [tx, { "feeRate": feePerKb }]
+    }, {
+      auth: {
+        username: _config.configuration.user,
+        password: _config.configuration.pass
+      }
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 var estimateFee = exports.estimateFee = async function estimateFee() {
