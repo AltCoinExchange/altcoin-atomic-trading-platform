@@ -52,6 +52,6 @@ export const auditContract = (ct, tx) => {
     recipientAddress: recipientAddress.toString(),
     refundAddress: refundAddress.toString(),
     secretHash: pushes.secretHash.replace('0x', ''),
-    lockTime: new Date(pushes.lockTime * 1000),
+    lockTime: new Date(pushes.lockTime * 1000), // TODO reverse the staff from buildCOntract ^^
   }
 };

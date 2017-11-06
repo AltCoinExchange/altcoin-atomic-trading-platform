@@ -14,6 +14,7 @@ import {ProgressBarComponent} from '../components/progress-bar/progress-bar.comp
 import {SwapInitiatePreviewModule} from '../components/swap-initiate-preview/swap-initiate-preview.module';
 import {MatProgressSpinnerModule} from '@angular/material';
 import {SwapInitiatedModule} from '../components/swap-initiated/swap-initiated.module';
+import {SwapParticipateComponent} from './swap-participate/swap-participate.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import {SwapInitiatedModule} from '../components/swap-initiated/swap-initiated.m
         {path: 'insufficient-amount', component: QrCodeComponent},
         {path: 'transfer', component: TransferLinkComponent},
         {path: 'initiate/:link', component: SwapInitiateComponent},
+        {path: 'participate/:link', component: SwapParticipateComponent},
       ],
       },
     ]),
@@ -43,7 +45,8 @@ import {SwapInitiatedModule} from '../components/swap-initiated/swap-initiated.m
     SwapStartComponent,
     TransferLinkComponent,
     SwapInitiateComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    SwapParticipateComponent,
   ],
 })
 export class SwapModule {

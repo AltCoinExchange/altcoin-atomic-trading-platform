@@ -10,4 +10,9 @@ export class SwapService {
     return Observable.fromPromise(initiateResult);
   }
 
+  public auditContract({contractHex, contractTxHex}): Observable<any> {
+    const auditContractResults = btcswap.auditContract(contractHex, contractTxHex);
+    return Observable.of(auditContractResults);
+  }
+
 }

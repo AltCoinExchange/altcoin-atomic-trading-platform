@@ -7,16 +7,13 @@
   <p class="label">Secret</p>
 </app-shapeshift-input>
 
-<h1>Give to participating party</h1>
-<app-shapeshift-input
-  [disabled]="true"
-  [type]="text"
-  [ngModel]="initiateData.secretHash">
-  <p class="label">Secret hash</p>
-</app-shapeshift-input>
-<app-shapeshift-input
-  [disabled]="true"
-  [type]="text"
-  [ngModel]="initiateData.contractHex">
-  <p class="label">Contract transaction</p>
-</app-shapeshift-input>
+<h1>To participator</h1>
+<p class="label">Copy this URL and send to second party to participate</p>
+<div class="input-box">
+  <input class="url-copy" value="http://altcoin.io/participate/{{participateLink}}"/>
+  <p class="input-value">
+    <a routerLink="/participate/{{participateLink}}">
+      <i class="fa fa-clone" aria-hidden="true"></i>
+    </a>
+  </p>
+</div>
