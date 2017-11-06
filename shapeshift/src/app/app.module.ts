@@ -18,6 +18,7 @@ import {SwapEffect} from './effects/swap.effect';
 import {RouterEffects} from './effects/router.effect';
 import {LinkService} from './services/link.service';
 import {SwapService} from './services/swap.service';
+import {QuoteService} from './services/quote.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {SwapService} from './services/swap.service';
     {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
     LinkService,
     SwapService,
+    QuoteService
   ],
   bootstrap: [AppComponent],
 })

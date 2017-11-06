@@ -10,6 +10,7 @@ import {Go} from '../actions/router.action';
 import {AppState} from '../reducers/app.state';
 import {LinkService} from '../services/link.service';
 import {SwapService} from '../services/swap.service';
+import {QuoteService} from '../services/quote.service';
 
 
 @Injectable()
@@ -54,6 +55,7 @@ export class SwapEffect {
 
 
   constructor(private linkService: LinkService,
+              private quoteService: QuoteService,
               private actions$: Actions,
               private store: Store<AppState>,
               private swapService: SwapService) {
