@@ -25,4 +25,13 @@ export interface Quote {
   market_cap: number;
   type: string;
   price: number;
+  long: string;
+  mktcap: number;
+  perc: number;
+  shapeshift: boolean;
+  short: string;
+  usdVolume: number;
+  vwapData: number;
+  vwapDataBTC: number;
 }
+

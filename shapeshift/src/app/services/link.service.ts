@@ -10,12 +10,12 @@ import {QuoteService} from './quote.service';
 @Injectable()
 export class LinkService implements OnInit {
 
-  private quotes: Quote[];
+  private quotes: Map<string, Quote>;
 
   constructor(private service: QuoteService) {
-    this.quotes = [];
+    this.quotes = new Map<string, Quote>();
     this.service.SharedList.subscribe(lst => this.quotes = lst);
-    this.service.getQuote('ETH');
+    this.service.getQuotes();
   }
 
   ngOnInit() {
