@@ -4,11 +4,17 @@ export const INITIATE = 'INITIATE';
 export const INITIATE_SUCCESS = 'INITIATE_SUCCESS';
 export const INITIATE_FAIL = 'INITIATE_FAIL';
 
+export const LOAD_LOCAL_INITIATE_DATA = 'LOAD_LOCAL_INITIATE_DATA';
+
 
 export class InitiateAction implements Action {
   readonly type = INITIATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    address,
+    amount,
+    link
+  }) {
 
   }
 }
@@ -29,8 +35,17 @@ export class InitiateFailAction implements Action {
   }
 }
 
+export class LoadInitiateDataAction implements Action {
+  readonly type = LOAD_LOCAL_INITIATE_DATA;
+
+  constructor(public payload: string) {
+
+  }
+}
+
 export type Actions =
   InitiateAction
   | InitiateSuccessAction
   | InitiateFailAction
+  | LoadInitiateDataAction
   ;

@@ -1,14 +1,18 @@
 <p style="color: red;">{{$errorInitiate | async}}</p>
 
-<mat-spinner *ngIf="($loading | async)" style="left: 38%;"></mat-spinner>
+<app-swap-initiated *ngIf="$initiateData | async"
+[initiateData]="$initiateData | async"></app-swap-initiated>
 
-<div *ngIf="!($loading | async)">
-  <app-swap-initiate-fields [offerTime]="offerTime | date:'h:mm'"
-                            [amount]="amount"
-                            [address]="address"
-                            [coin]="coin"
-                            [toReceiveAmount]="toReceiveAmount"
-                            [toReceiveCoin]="toReceiveCoin">
-  </app-swap-initiate-fields>
-  <button (click)="startInitiate()">initiate</button>
+<div *ngIf="!($initiateData | async)">
+  <mat-spinner *ngIf="($loading | async)" style="left: 38%;"></mat-spinner>
+  <div *ngIf="!($loading | async)">
+    <app-swap-initiate-fields [offerTime]="offerTime | date:'h:mm'"
+                              [amount]="amount"
+                              [address]="address"
+                              [coin]="coin"
+                              [toReceiveAmount]="toReceiveAmount"
+                              [toReceiveCoin]="toReceiveCoin">
+    </app-swap-initiate-fields>
+    <button (click)="startInitiate()">initiate</button>
+  </div>
 </div>

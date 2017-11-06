@@ -13,6 +13,7 @@ import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar.component';
 import {SwapInitiatePreviewModule} from '../components/swap-initiate-preview/swap-initiate-preview.module';
 import {MatProgressSpinnerModule} from '@angular/material';
+import {SwapInitiatedModule} from '../components/swap-initiated/swap-initiated.module';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import {MatProgressSpinnerModule} from '@angular/material';
     ShapeShiftCommonModule,
     FlexLayoutModule,
     SwapInputsModule,
+    SwapInitiatedModule,
     SwapInitiatePreviewModule,
     MatProgressSpinnerModule,
   ],

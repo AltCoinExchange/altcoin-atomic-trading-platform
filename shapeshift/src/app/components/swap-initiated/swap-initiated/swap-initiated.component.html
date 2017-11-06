@@ -1,0 +1,22 @@
+<!--{{initiateData | json}}-->
+<h1>Keep for yourself</h1>
+<app-shapeshift-input
+  [disabled]="true"
+  [type]="text"
+  [ngModel]="initiateData.secret">
+  <p class="label">Secret</p>
+</app-shapeshift-input>
+
+<h1>Give to participating party</h1>
+<app-shapeshift-input
+  [disabled]="true"
+  [type]="text"
+  [ngModel]="initiateData.secretHash">
+  <p class="label">Secret hash</p>
+</app-shapeshift-input>
+<app-shapeshift-input
+  [disabled]="true"
+  [type]="text"
+  [ngModel]="initiateData.contractHex">
+  <p class="label">Contract transaction</p>
+</app-shapeshift-input>

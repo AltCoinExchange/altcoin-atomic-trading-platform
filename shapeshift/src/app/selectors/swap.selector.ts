@@ -8,3 +8,6 @@ export const getInitiateError = createSelector(getSwapState,
 
 export const getInitiateLoading = createSelector(getSwapState,
   fromSwap.getInitiateLoading);
+
+export const getInitiateData = createSelector(getSwapState,
+  fromSwap.getInitiateData);
