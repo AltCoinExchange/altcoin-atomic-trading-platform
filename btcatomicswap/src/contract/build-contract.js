@@ -49,12 +49,12 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
   } catch (signErr) {
     throw new Error(signErr);
   }
-  
+
   const t = new Transaction(contractTx.hex);
   const contractTxHash = t.hash;
 
   // TODO build REFUND !
-  await buildRefund(contract, contractTx);
+  // await buildRefund(contract, contractTx);
 
   return {
     contract,
