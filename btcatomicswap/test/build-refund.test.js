@@ -1,5 +1,5 @@
-import {redeem} from '../src/redeem';
-import {testData4} from "./test-transactions.js"
+import {refund} from '../src/common/build-refund';
+import {testData5} from "./test-transactions.js"
 
 const strSig = "3045022100f43430384ca5ecfc9ca31dd074d223836cef4801b3644c651c3a30d80fbf63b8022017dae9e7ec6f3f5ee0e0b60d146963ba85d9b31003d7f60852126f2a35492759"
 const strPubKey = "03b10e3690bcaf0eae7098ec794666963803bcec5acfbe6a112bc8cdc93797f002"
@@ -10,10 +10,10 @@ const strContractTx = "010000000267864c7145e43c84d13b514518cfdc7ca5cf2b04764ed26
 
 const assert = require('assert');
 
-describe('#reedem()', function () {
-  it('should create redeemTx', async () => {
-    // redeem(strContract, strContractTx, strSecret)
-    redeem(testData4.contract, testData4.contractTx, testData4.secret)
+describe('#refund()', function () {
+  it.only('should create refundTx', async () => {
+    // refund(strContract, strContractTx, strSecret)
+    refund(testData5.contract, testData5.contractTx, testData5.secret)
 
   });
 });
