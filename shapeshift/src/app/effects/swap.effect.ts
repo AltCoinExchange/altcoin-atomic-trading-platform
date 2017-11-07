@@ -22,7 +22,7 @@ export class SwapEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(walletSelector.getWalletState))
     .mergeMap(([data, wallets]) => {
-      console.log(wallets);
+      console.log(data);
       return this.linkService.generateLink(data, wallets).mergeMap(link => {
           return Observable.from([
             new startAction.SetLinkAction(link),

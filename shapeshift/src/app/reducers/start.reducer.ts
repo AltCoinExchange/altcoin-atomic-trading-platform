@@ -26,10 +26,8 @@ export function reducer(state = initialState, action: swap.Actions): State {
         ...state,
         swapProcess: {
           ...state.swapProcess,
-          depositCoin: {
-            ...state.swapProcess.receiveCoin,
-          },
-          receiveCoin: {...temp},
+          depositCoin: state.swapProcess.receiveCoin,
+          receiveCoin: temp,
         },
       };
     }

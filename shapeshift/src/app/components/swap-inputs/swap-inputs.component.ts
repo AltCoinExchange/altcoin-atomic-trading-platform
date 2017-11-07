@@ -8,8 +8,8 @@ import {Coin} from '../../models/coins/coin.model';
   styleUrls: ['./swap-inputs.component.scss'],
 })
 export class SwapInputsComponent implements OnInit {
-  @Input() depositCoin: Coin;
-  @Input() receiveCoin: Coin;
+  @Input() depositCoin;
+  @Input() receiveCoin;
   @Output() swap: EventEmitter<{depositCoin: Coin, receiveCoin: Coin}> = new EventEmitter();
 
   constructor() {

@@ -1,9 +1,7 @@
 import {Injectable, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Quote} from '../models/quote.model';
-import * as wallet from 'wallet';
 import {QuoteService} from './quote.service';
-import {BtcWalletModel} from '../models/wallets/btc-wallet.model';
 
 
 @Injectable()
@@ -26,14 +24,13 @@ export class LinkService implements OnInit {
   // TODO this is obviously wrong, wallet needs to be more generic
   // TODO generate address for different wallets
 
-  public generateLink({depositCoin, receiveCoin}, wallets): Observable<string> {
-    // if(depositCoin === 'btc')
-    console.log(depositCoin);
-    const wallet = wallets[receiveCoin.name];
-    const address = receiveCoin.generateNewAddress(wallet);
+  public generateLink(coins, wallets): Observable<string> {
+
+    const wallet = wallets[coins.receiveCoin.name];
+    const address = coins.receiveCoin.generateNewAddress(wallet);
     const data = [
       new Date(),
-      depositCoin.amount,
+      coins.depositCoin.amount,
       address.toString(),
       'btc', // TODO ........
       'eth', // TODO in exchange for currency

@@ -1,10 +1,10 @@
 import {WalletModel} from '../wallets/wallet.model';
 
-export interface Coin {
+export abstract class Coin {
   readonly name: string;
   readonly icon: string;
   readonly iconOutline: string;
   amount: number;
 
-  generateNewAddress(wallet: WalletModel);
+  abstract generateNewAddress(wallet: WalletModel);
 }
