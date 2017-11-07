@@ -2,6 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Quote} from '../models/quote.model';
 import {QuoteService} from './quote.service';
+import {assembleLink} from '../common/link-util';
 
 
 @Injectable()
@@ -20,26 +21,17 @@ export class LinkService implements OnInit {
     this.service.getQuote('ETH');
   }
 
-
-  // TODO this is obviously wrong, wallet needs to be more generic
-  // TODO generate address for different wallets
-
   public generateLink(coins, wallets): Observable<string> {
-
     const wallet = wallets[coins.receiveCoin.name];
     const address = coins.receiveCoin.generateNewAddress(wallet);
-    const data = [
-      new Date(),
+    const link = assembleLink(
+      coins.depositCoin.name,
       coins.depositCoin.amount,
+      coins.receiveCoin.name,
+      coins.receiveCoin.amount,
       address,
-      'btc', // TODO ........
-      'eth', // TODO in exchange for currency
-      '1' // TODO in exchange for amount
-    ];
-
-    const stringified = JSON.stringify(data);
-    const link = btoa(stringified);
-
+      new Date(),
+    );
     return Observable.of(link);
   }
 }

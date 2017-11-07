@@ -7,11 +7,10 @@
   <mat-spinner *ngIf="($loading | async)" style="left: 38%;"></mat-spinner>
   <div *ngIf="!($loading | async)">
     <app-swap-initiate-fields [offerTime]="offerTime | date:'h:mm'"
-                              [amount]="amount"
                               [address]="address"
-                              [coin]="coin"
-                              [toReceiveAmount]="toReceiveAmount"
-                              [toReceiveCoin]="toReceiveCoin">
+                              [receiveCoin]="receiveCoin"
+                              [depositCoin]="depositCoin"
+                              >
     </app-swap-initiate-fields>
     <button (click)="startInitiate()">initiate</button>
   </div>
