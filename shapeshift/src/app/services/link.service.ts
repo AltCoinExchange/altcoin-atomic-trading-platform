@@ -28,10 +28,11 @@ export class LinkService implements OnInit {
 
     const wallet = wallets[coins.receiveCoin.name];
     const address = coins.receiveCoin.generateNewAddress(wallet);
+    console.log(address);
     const data = [
       new Date(),
       coins.depositCoin.amount,
-      address.toString(),
+      address,
       'btc', // TODO ........
       'eth', // TODO in exchange for currency
       '1' // TODO in exchange for amount

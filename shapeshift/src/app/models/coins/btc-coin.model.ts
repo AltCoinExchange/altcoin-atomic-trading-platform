@@ -16,6 +16,6 @@ export class BtcCoinModel implements Coin {
     const derivedPrivKey = btc.deriveHdPrivateKey(1); //TODO this also needs to be autoincremental
     const hdPublicKey = derivedPrivKey.hdPublicKey;
     const address = btc.generateAddress(hdPublicKey);
-    return address.toString;
+    return address.toString();
   }
 }
