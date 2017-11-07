@@ -7,7 +7,7 @@ import * as swapSelector from '../../selectors/start.selector';
 import * as swapAction from '../../actions/start.action';
 import {Observable} from 'rxjs/Observable';
 import {SwapProcess} from '../../models/swap-process.model';
-import {Coin} from '../../models/coin.model';
+import {Coin} from '../../models/coins/coin.model';
 import {AnimationEnabledComponent} from '../../common/animation.component';
 
 @Component({
@@ -48,10 +48,11 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     this.store.dispatch(new swapAction.SwapDepositReceiveCoinsAction());
   }
 
-  onSwap(depositCoin: Coin) {
+  onSwap(data) {
     this.state = 'void';
     setTimeout(() => {
-      this.store.dispatch(new swapAction.StartSwapAction(depositCoin));
+      console.log(data);
+      this.store.dispatch(new swapAction.StartSwapAction(data));
     }, 500);
   }
 }

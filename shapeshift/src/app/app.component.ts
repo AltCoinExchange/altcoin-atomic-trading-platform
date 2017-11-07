@@ -2,8 +2,8 @@ import {Component, OnInit, ViewEncapsulation,} from '@angular/core';
 import * as wallet from 'wallet';
 import {Store} from '@ngrx/store';
 import {AppState} from './reducers/app.state';
-import * as btcWalletAction from './actions/btc-wallet.action';
-import {BtcWalletModel} from './models/btc-wallet.model';
+import * as btcWalletAction from './actions/wallet.action';
+import {BtcWalletModel} from './models/wallets/btc-wallet.model';
 
 // import * as btcswap from 'btc-atomic-swap';
 

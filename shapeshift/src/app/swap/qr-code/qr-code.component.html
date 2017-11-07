@@ -5,7 +5,12 @@
   </div>
   <div class="form-content">
     <div class="qr-code-image">
-      <img [src]="qrCode"/>
+        <div #qrPlaceholder></div>
+        <ngx-qrcode
+        [qrc-value] = "'asdasdasd'"
+        qrc-class = "qr-code"
+        qrc-errorCorrectionLevel = "L">
+      </ngx-qrcode>
     </div>
     <div class="deposit-address">
       <p class="deposit-address">185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe</p>

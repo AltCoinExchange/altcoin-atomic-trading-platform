@@ -1,6 +1,8 @@
 import {SwapProcess} from '../models/swap-process.model';
 import * as swap from '../actions/start.action';
-import {Coin} from '../models/coin.model';
+import {Coin} from '../models/coins/coin.model';
+import {EthCoinModel} from '../models/coins/eth-coin.model';
+import {BtcCoinModel} from '../models/coins/btc-coin.model';
 
 export interface State {
   swapProcess: SwapProcess;
@@ -9,21 +11,8 @@ export interface State {
 
 export const initialState: State = {
   swapProcess: {
-    depositCoin: {
-      name: 'ETH',
-      amount: undefined,
-      icon: 'assets/icon/eth-icon.png',
-      iconOutline: 'assets/icon/eth-icon-o.png',
-    } as Coin,
-    receiveCoin: {
-      name: 'BTC',
-      amount: undefined,
-      icon: 'assets/icon/btc-icon.png',
-      iconOutline: 'assets/icon/btc-icon-o.png',
-    } as Coin,
-    submitAmount: false,
-    showQRCode: false,
-    showLink: false,
+    depositCoin: new EthCoinModel(),
+    receiveCoin: new BtcCoinModel(),
     activeStep: 1,
   } as SwapProcess,
   link: undefined,
@@ -37,10 +26,8 @@ export function reducer(state = initialState, action: swap.Actions): State {
         ...state,
         swapProcess: {
           ...state.swapProcess,
-          depositCoin: {
-            ...state.swapProcess.receiveCoin,
-          },
-          receiveCoin: {...temp},
+          depositCoin: state.swapProcess.receiveCoin,
+          receiveCoin: temp,
         },
       };
     }
@@ -49,7 +36,8 @@ export function reducer(state = initialState, action: swap.Actions): State {
         ...state,
         swapProcess: {
           ...state.swapProcess,
-          depositCoin: action.payload,
+          depositCoin: action.payload.depositCoin,
+          receiveCoin: action.payload.receiveCoin,
           activeStep: 2,
         },
       };

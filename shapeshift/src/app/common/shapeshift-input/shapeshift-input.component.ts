@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Coin} from '../../models/coin.model';
+import {Coin} from '../../models/coins/coin.model';
 import {NG_VALUE_ACCESSOR,} from '@angular/forms';
 import {ValueAccessorBase} from '../value-accessor-base';
 

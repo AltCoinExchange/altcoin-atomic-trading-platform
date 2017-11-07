@@ -9,11 +9,9 @@ export class SwapInitiateFieldsComponent implements OnInit {
   @Input() offerTime;
   @Input() address;
 
-  @Input() amount;
-  @Input() coin;
+  @Input() depositCoin;
 
-  @Input() toReceiveCoin;
-  @Input() toReceiveAmount;
+  @Input() receiveCoin;
   constructor() {
   }
 

@@ -19,6 +19,7 @@ import {RouterEffects} from './effects/router.effect';
 import {LinkService} from './services/link.service';
 import {SwapService} from './services/swap.service';
 import {QuoteService} from './services/quote.service';
+import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import {QuoteService} from './services/quote.service';
     {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
     LinkService,
     SwapService,
-    QuoteService
+    QuoteService,
   ],
   bootstrap: [AppComponent],
 })
