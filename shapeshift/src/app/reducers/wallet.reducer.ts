@@ -1,9 +1,9 @@
-import * as btcWallet from '../actions/btc-wallet.action';
-import {BtcWalletModel} from '../models/btc-wallet.model';
+import * as btcWallet from '../actions/wallet.action';
+import {BtcWalletModel} from '../models/wallets/btc-wallet.model';
 import * as wallet from 'wallet';
 
 export interface State {
-  btcWallet: BtcWalletModel;
+  BTC: BtcWalletModel;
 }
 
 const xprivKey = localStorage.getItem('xprivkey');
@@ -13,7 +13,7 @@ if (xprivKey) {
 }
 
 export const initialState: State = {
-  btcWallet: {
+  BTC: {
     xprivkey: btc.hdPrivateKey ? btc.hdPrivateKey.xprivkey : '',
     addresses: {},
     derived: {},
@@ -23,12 +23,14 @@ export const initialState: State = {
 export function reducer(state = initialState, action: btcWallet.Actions) {
   switch (action.type) {
     case btcWallet.SET_BTC_WALLET: {
-      if (state.btcWallet.xprivkey) {
+      if (state.BTC.xprivkey) {
+
+        console.log(state);
         return state;
       }
       localStorage.setItem('xprivkey', action.payload.xprivkey);
       return {
-        btcWallet: action.payload,
+        BTC: action.payload,
       };
     }
     default: {
@@ -37,4 +39,4 @@ export function reducer(state = initialState, action: btcWallet.Actions) {
   }
 }
 
-export const getBtcWallet = (state: State) => state.btcWallet;
+export const getWallets = (state: State) => state;

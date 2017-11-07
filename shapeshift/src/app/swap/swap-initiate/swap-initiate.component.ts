@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {Coin} from '../../models/coin.model';
+import {Coin} from '../../models/coins/coin.model';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../reducers/app.state';
 import {InitiateAction} from '../../actions/swap.action';

@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import * as startAction from '../actions/start.action';
 import * as swapAction from '../actions/swap.action';
 import * as auditContractAction from '../actions/swap-audit.action';
-import * as btcSelector from '../selectors/btc-wallet.selector';
+import * as walletSelector from '../selectors/wallets.selector';
 import {Go} from '../actions/router.action';
 import {AppState} from '../reducers/app.state';
 import {LinkService} from '../services/link.service';
@@ -20,9 +20,10 @@ export class SwapEffect {
   generateLink$: Observable<Action> = this.actions$
     .ofType(startAction.START_SWAP)
     .map(toPayload)
-    .withLatestFrom(this.store.select(btcSelector.getBtcWallet))
-    .mergeMap(([depositCoin, btcWallet]) => {
-        return this.linkService.generateLink(depositCoin, btcWallet).mergeMap(link => {
+    .withLatestFrom(this.store.select(walletSelector.getWalletState))
+    .mergeMap(([data, wallets]) => {
+      console.log(wallets);
+      return this.linkService.generateLink(data, wallets).mergeMap(link => {
           return Observable.from([
             new startAction.SetLinkAction(link),
             new Go({

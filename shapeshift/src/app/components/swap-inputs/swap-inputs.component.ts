@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SwapProcess} from '../../models/swap-process.model';
-import {Coin} from '../../models/coin.model';
+import {Coin} from '../../models/coins/coin.model';
 
 @Component({
   selector: 'app-swap-inputs',
@@ -10,7 +10,7 @@ import {Coin} from '../../models/coin.model';
 export class SwapInputsComponent implements OnInit {
   @Input() depositCoin: Coin;
   @Input() receiveCoin: Coin;
-  @Output() swap: EventEmitter<Coin> = new EventEmitter();
+  @Output() swap: EventEmitter<{depositCoin: Coin, receiveCoin: Coin}> = new EventEmitter();
 
   constructor() {
   }
@@ -20,7 +20,8 @@ export class SwapInputsComponent implements OnInit {
 
   submitSwap() {
     const model = {
-      ...this.depositCoin,
+      depositCoin: this.depositCoin,
+      receiveCoin: this.receiveCoin,
     };
     this.swap.emit(model);
   }

@@ -48,7 +48,7 @@ import {QuoteService} from './services/quote.service';
     {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
     LinkService,
     SwapService,
-    QuoteService
+    QuoteService,
   ],
   bootstrap: [AppComponent],
 })

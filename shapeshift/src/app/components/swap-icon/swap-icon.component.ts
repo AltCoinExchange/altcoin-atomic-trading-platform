@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Coin} from '../../models/coin.model';
+import {Coin} from '../../models/coins/coin.model';
 import { coinSwapsAnimation } from '../../animations/animations';
 
 @Component({
@@ -20,7 +20,7 @@ export class SwapIconComponent implements OnInit {
   secondCoin = undefined;
 
   constructor() {
-    
+
   }
 
   ngOnInit() {
