@@ -1,12 +1,22 @@
-<p class="label">You don't have enough bitcoin in wallet</p>
-<p class="label">Deposit to this address</p>
-<div class="qr-code-image">
-  <img [src]="qrCode"/>
-</div>
-<p class="deposit-address">185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe</p>
-<p class="label">BTC miner fee: 0.001 BTC</p>
-<div class="spinner">
-  <div class="circle-loader" [ngClass]="{'load-complete' : !firstSpinner}">
-    <div [hidden]="firstSpinner" class="checkmark draw"></div>
+<div class="form">
+  <div class="swap-start form-header">
+    <p>You don't have enough bitcoin in wallet</p>
+    <p>Deposit to this address</p>
+  </div>
+  <div class="form-content">
+    <div class="qr-code-image">
+      <img [src]="qrCode"/>
+    </div>
+    <div class="deposit-address">
+      <p class="deposit-address">185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe</p>
+    </div>
+    <div class="spinner">
+      <div class="circle-loader" [ngClass]="{'load-complete' : !firstSpinner}">
+        <div [hidden]="firstSpinner" class="checkmark draw"></div>
+      </div>
+    </div>
+  </div>
+  <div class="form-footer">
+    <p>BTC miner fee: 0.001 BTC</p>
   </div>
 </div>

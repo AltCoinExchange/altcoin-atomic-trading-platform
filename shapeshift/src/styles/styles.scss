@@ -30,6 +30,24 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
+::-webkit-input-placeholder { 
+  color: $text-color;
+}
+:-moz-placeholder { 
+ color:  $text-color;
+ opacity:  1;
+}
+::-moz-placeholder {
+ color:  $text-color;
+ opacity:  1;
+}
+:-ms-input-placeholder { 
+ color:  $text-color;
+}
+::-ms-input-placeholder { 
+ color:  $text-color;
+}
+
 a{
   text-decoration: none;
 }
@@ -39,22 +57,22 @@ a{
 }
 
 .input-box{
-  background-color: $main-gray;
+  background-color: $second-gray;
   border: 1px solid $border-color;
   margin-bottom: 15px;
   display: flex;
 
   input{
     flex: 1 1 auto;
-    font-size: 16px;
-    margin: 0px 15px;
-    padding: 15px;
-    background-color: $main-gray;
+    font-size: 14px;
+    margin: 0px;
+    padding: 10px;
+    background-color: $second-gray;
     color: $text-color;
     text-align: center;
     border: none;
     border-style: none;
-    font-weight: 600;
+    font-weight: 400;
   }
   input:focus{
     outline: none;
@@ -67,17 +85,50 @@ a{
   margin: 6px 0px;
   font-size: 12px;
   font-weight: 600;
+
+  &.active{
+    color: $main-blue;
+  }
+
 }
 
-button{
-  width: 100%;
-  background-color: $main-blue !important;
-  border: none;
-  height: 50px;
-  cursor: pointer;
-  color: $main-gray !important;
-  text-transform: uppercase;
+.green{
+  color: $main-green;
+}
+
+.big-font{
   font-size: 16px;
-  font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+}
+
+.form{
+  background-color: $main-gray;
+  border: 1px solid $border-color;  
+
+  .form-header{
+    background-color: $second-gray;
+    border-bottom: 1px solid $border-color;  
+    padding: 20px 0px;
+    p{
+        font-size: 16px;
+        font-weight: 500;
+        margin: 0px;
+        text-align: center;
+    }
+  }
+
+  .form-content{
+    padding: 40px 60px 20px 60px;
+  }
+
+  .form-footer{
+    border-top: 1px solid $border-color;  
+    background-color: $second-gray;
+    padding: 10px 0px;
+    p{
+        margin: 0px;
+        text-align: center;
+        font-size: 12px;
+    }
+  }
+
 }

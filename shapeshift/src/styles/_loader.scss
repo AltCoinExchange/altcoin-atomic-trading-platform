@@ -23,7 +23,7 @@
 .load-complete {
   -webkit-animation: none;
   animation: none;
-  border-color: $check-color;
+  border-color: $main-green;
   transition: border 500ms ease-out;
 }
 
@@ -41,8 +41,8 @@
     height: $check-height;
     width: $check-width;
     transform-origin: left top;
-    border-right: $check-thickness solid $check-color;
-    border-top: $check-thickness solid $check-color;
+    border-right: $check-thickness solid $main-green;
+    border-top: $check-thickness solid $main-green;
     content: '';
     left: $check-left;
     top: $check-height + 2*$check-offset;

@@ -2,6 +2,6 @@
 <div class="input-box">
   <img *ngIf="coin" class="input-icon" [src]="coin.icon"/>
   <input [type]="type" [readonly]="disabled" [(ngModel)]="value" [disabled]="disabled"
-         type="number" step="any">
-  <p *ngIf="coin" class="input-value">{{coin.name}}</p>
+         type="number" step="any" placeholder="How much coins you want to exchange?">
+  <div *ngIf="coin" class="input-value"><p>{{coin.name}}</p></div>
 </div>
