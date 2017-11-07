@@ -1,8 +1,14 @@
 <p class="label">You don't have enough bitcoin in wallet</p>
 <p class="label">Deposit to this address</p>
+<div #qrPlaceholder></div>
 <div class="qr-code-image">
-  <img [src]="qrCode"/>
+  <ngx-qrcode
+    [qrc-value] = "'asdasdasd'"
+    qrc-class = "qr-code"
+    qrc-errorCorrectionLevel = "L">
+  </ngx-qrcode>
 </div>
+
 <p class="deposit-address">185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe</p>
 <p class="label">BTC miner fee: 0.001 BTC</p>
 <div class="spinner">

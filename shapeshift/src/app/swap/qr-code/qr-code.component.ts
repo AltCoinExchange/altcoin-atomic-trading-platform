@@ -12,8 +12,6 @@ export class QrCodeComponent implements OnInit {
   @HostBinding('style.display') display = 'block';
   @HostBinding('class') classes = 'swap';
 
-  qrCode = 'assets/img/qr-code.png';
-
   constructor() {
   }
 

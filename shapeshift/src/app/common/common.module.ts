@@ -4,6 +4,7 @@ import {ShapeshiftInputComponent} from './shapeshift-input/shapeshift-input.comp
 import {ShapeshiftButtonComponent} from './shapeshift-button/shapeshift-button.component';
 import {MatButtonModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 
 @NgModule({
   imports: [

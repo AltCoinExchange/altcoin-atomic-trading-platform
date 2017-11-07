@@ -28,7 +28,6 @@ export class LinkService implements OnInit {
 
     const wallet = wallets[coins.receiveCoin.name];
     const address = coins.receiveCoin.generateNewAddress(wallet);
-    console.log(address);
     const data = [
       new Date(),
       coins.depositCoin.amount,

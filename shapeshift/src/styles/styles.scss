@@ -81,3 +81,11 @@ button{
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
 }
+
+.qr-code {
+  text-align: center;
+}
+
+.qr-code > img {
+  height:23vh;
+}
