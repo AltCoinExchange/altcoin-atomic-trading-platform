@@ -4,7 +4,7 @@
                         [(ngModel)]="depositCoin.amount">
     <p class="label">for the amount of</p>
   </app-shapeshift-input>
-  <app-shapeshift-input [coin]="receiveCoin" [disabled]="true">
+  <app-shapeshift-input [value]="receiveQuote" [coin]="receiveCoin" [disabled]="true">
     <p class="label">you are getting</p>
   </app-shapeshift-input>
   <app-shapeshift-button (click)="submitSwap()"></app-shapeshift-button>

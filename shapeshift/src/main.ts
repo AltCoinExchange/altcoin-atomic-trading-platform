@@ -11,6 +11,7 @@ import 'rxjs/add/operator/toArray';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/empty';
+import 'rxjs/add/observable/combineLatest';
 
 
 import { enableProdMode } from '@angular/core';

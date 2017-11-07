@@ -1,8 +1,8 @@
 import {SwapProcess} from '../models/swap-process.model';
 import * as swap from '../actions/start.action';
-import {Coin} from '../models/coins/coin.model';
 import {EthCoinModel} from '../models/coins/eth-coin.model';
 import {BtcCoinModel} from '../models/coins/btc-coin.model';
+import {Coin} from '../models/coins/coin.model';
 
 export interface State {
   swapProcess: SwapProcess;
@@ -56,6 +56,28 @@ export function reducer(state = initialState, action: swap.Actions): State {
         ...state,
         link: action.payload,
       };
+    }
+    case swap.SET_DEPOSIT_AMOUNT: {
+      const newState: any = {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          depositCoin: state.swapProcess.depositCoin
+            .update({amount: action.payload} as Coin),
+        },
+      };
+      return newState;
+    }
+    case swap.SET_RECEIVE_AMOUNT: {
+      const newState: any = {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          receiveCoin: state.swapProcess.receiveCoin
+            .update({amount: action.payload} as Coin),
+        },
+      };
+      return newState;
     }
     default: {
       return state;

@@ -20,6 +20,7 @@ import {LinkService} from './services/link.service';
 import {SwapService} from './services/swap.service';
 import {QuoteService} from './services/quote.service';
 import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
+import {QuoteEffect} from './effects/quote.effect';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
     EffectsModule.forRoot([
       SwapEffect,
       RouterEffects,
+      QuoteEffect,
     ]),
   ],
   providers: [

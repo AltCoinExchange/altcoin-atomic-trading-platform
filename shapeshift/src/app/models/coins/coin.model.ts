@@ -10,6 +10,7 @@ export abstract class Coin {
   amount: number;
 
   abstract generateNewAddress(wallet: WalletModel);
+  abstract update(coin: Coin): Coin;
 }
 
 export class CoinFactory {

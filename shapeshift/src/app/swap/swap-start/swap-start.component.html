@@ -1,6 +1,9 @@
 <app-swap-icon [fromCoin]="$depositCoin | async" [toCoin]="$receiveCoin | async"
-(swapped)="swapDepositRecieveCoins()"></app-swap-icon>
+               (swapped)="swapDepositRecieveCoins()"></app-swap-icon>
 <app-swap-inputs (swap)="onSwap($event)"
-        [depositCoin]="$depositCoin | async"
-        [receiveCoin]="$receiveCoin | async">
+                 [depositCoin]="$depositCoin | async"
+                 [receiveCoin]="$receiveCoin | async"
+                 [receiveQuote]="$quote | async"
+                 (depositChange)="onDepositChange($event)">
 </app-swap-inputs>
+

@@ -10,4 +10,10 @@ export class EthCoinModel implements Coin {
   generateNewAddress(wallet) {
     throw new Error('Method not implemented.');
   }
+
+  update(coin: Coin): Coin {
+    const model = new EthCoinModel();
+    model.amount = coin.amount;
+    return model;
+  }
 }

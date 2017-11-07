@@ -20,6 +20,7 @@ export class ShapeshiftInputComponent extends ValueAccessorBase<Number> implemen
   @Input() coin: Coin;
   @Input() disabled: boolean = false;
   @Input() type = 'number';
+  @Input() value;
 
   constructor() {
     super();

@@ -18,4 +18,10 @@ export class BtcCoinModel implements Coin {
     const address = btc.generateAddress(hdPublicKey);
     return address.toString();
   }
+
+  update(coin: Coin): Coin {
+    const model = new BtcCoinModel();
+    model.amount = coin.amount;
+    return model;
+  }
 }
