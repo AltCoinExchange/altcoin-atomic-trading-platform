@@ -1,9 +1,19 @@
+@import '../../../styles/variables';
+
 .swap-icons{
   text-align: center;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .swap-icon{
   vertical-align: middle;
   display: inline-block;
+
+  &.arrows{
+
+    .fa{
+      color: $main-blue;
+    }
+  }
 }

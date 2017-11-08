@@ -5,7 +5,7 @@
         [class.complete]="step.value < ($activeStep | async)"
         [class.disabled]="step.value > ($activeStep | async)">
         <div class="text-center bs-wizard-stepnum">
-           <p class="label">{{step.title}}</p> 
+           <p class="label" [class.active]="step.value == ($activeStep | async)">{{step.title}}</p> 
         </div>
         <div class="progress">
         <div class="progress-bar"></div>

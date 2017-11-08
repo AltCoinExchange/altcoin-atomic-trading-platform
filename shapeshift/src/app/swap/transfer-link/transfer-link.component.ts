@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-
+import { Router } from '@angular/router';
 import * as fromSwap from '../../reducers/start.reducer';
 import * as swapSelector from '../../selectors/start.selector';
 import * as swapAction from '../../actions/start.action';
@@ -17,8 +17,20 @@ export class TransferLinkComponent implements OnInit {
   @HostBinding('@flyInOut') state = 'in';
   $link: Observable<string>;
 
-  constructor(private store: Store<fromSwap.State>) {
+  linkCopied: boolean;
+
+  constructor(private store: Store<fromSwap.State>, private router: Router,) {
+    this.linkCopied = false;
+    setTimeout(() =>{
+      this.linkCopied = true;
+    },300);
+
     this.$link = this.store.select(swapSelector.getLink);
+  }
+
+  copyLink(){
+    //to-do: copy link to clipboard
+    this.linkCopied = true;
   }
 
   ngOnInit() {

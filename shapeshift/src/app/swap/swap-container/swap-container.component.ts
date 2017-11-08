@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-swap-container',
@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./swap-container.component.scss']
 })
 export class SwapContainerComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {

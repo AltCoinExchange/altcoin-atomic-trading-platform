@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <app-swap-icon [fromCoin]="$depositCoin | async" [toCoin]="$receiveCoin | async"
                (swapped)="swapDepositRecieveCoins()"></app-swap-icon>
 <app-swap-inputs (swap)="onSwap($event)"
@@ -6,4 +7,22 @@
                  [receiveQuote]="$quote | async"
                  (depositChange)="onDepositChange($event)">
 </app-swap-inputs>
+=======
+<div class="swap-start form">
+        <div class="swap-start form-header">
+                <p>Choose which currency you want to exchange</p>
+        </div>
+        <div class="swap-start form-content">
+                <app-swap-icon [fromCoin]="$depositCoin | async" [toCoin]="$receiveCoin | async"
+                (swapped)="swapDepositRecieveCoins()"></app-swap-icon>
+                <app-swap-inputs (swap)="onSwap($event)"
+                        [depositCoin]="$depositCoin | async"
+                        [receiveCoin]="$receiveCoin | async">
+                </app-swap-inputs>
+        </div>
+        <div class="swap-start form-footer">
+                <p>BTC miner fee: 0.0001 BTC</p>
+        </div>
+</div>
+>>>>>>> 475ad4b993b501c760f86a626bdcbeb87d1e2c6e
 
