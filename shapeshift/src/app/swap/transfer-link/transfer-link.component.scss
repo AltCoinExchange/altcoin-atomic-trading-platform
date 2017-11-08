@@ -1,9 +1,12 @@
+@import '../../../styles/variables';
+
 .spinner{
   width: 100%;
   margin: auto;
-  padding-top: 20px;
   text-align: center;
+ 
 }
+
 .url-copy{
     display: inline-block;
     padding: 0px 10px;
@@ -11,12 +14,19 @@
     text-align: left;
     font-weight: 500;
     margin: 0px;
+    color: $link-blue;
 }
-.input-value{
+.copy-icon{
   flex: 0 1 auto;
   display: inline;
   margin-right: 10px;
   font-size: 16px;
   font-weight: 600;
+  a{
+    cursor: pointer;
+  }
+  .fa{
+    color: $link-blue;
+  }
 }
 

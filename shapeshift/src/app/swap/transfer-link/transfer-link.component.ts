@@ -21,15 +21,13 @@ export class TransferLinkComponent implements OnInit {
 
   constructor(private store: Store<fromSwap.State>, private router: Router,) {
     this.linkCopied = false;
-    setTimeout(() =>{
-      this.linkCopied = true;
-    },300);
-
     this.$link = this.store.select(swapSelector.getLink);
   }
 
-  copyLink(){
-    //to-do: copy link to clipboard
+  copyLink(event){
+    var copyText = <HTMLInputElement>document.getElementById("inputLink");
+    copyText.select();
+    document.execCommand("Copy");
     this.linkCopied = true;
   }
 

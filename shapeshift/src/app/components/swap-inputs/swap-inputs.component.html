@@ -2,10 +2,6 @@
   <app-shapeshift-input [coin]="depositCoin"
                         (ngModelChange)="updateDepositCoinAmount($event)"
                         [(ngModel)]="depositCoin.amount">
-    <p class="label">for the amount of</p>
-  </app-shapeshift-input>
-  <app-shapeshift-input [value]="receiveQuote" [coin]="receiveCoin" [disabled]="true">
-    <p class="label">you are getting</p>
   </app-shapeshift-input>
   <app-shapeshift-button (click)="submitSwap()">Start</app-shapeshift-button>
   <div class="swap-receive">
