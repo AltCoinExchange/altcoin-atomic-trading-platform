@@ -7,6 +7,8 @@
 
 export class EthWallet {
 
+    this.atomicSwap = null;
+
     constructor() {
         this.AppConfig = require("ethatomicswap/config.json");
         this.AtomicSwap = require("ethatomicswap/modules/atomicswap");

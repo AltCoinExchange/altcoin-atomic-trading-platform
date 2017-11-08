@@ -12,10 +12,7 @@ export class EthCoinModel implements Coin {
   generateNewAddress(ethWallet: EthWalletModel) {
     const eth = new wallet.Wallet.Ethereum.EthWallet();
     const acc = eth.create(ethWallet.privateKey);
-
-    // const derivedPrivKey = btc.deriveHdPrivateKey(1); //TODO this also needs to be autoincremental
-    // const hdPublicKey = derivedPrivKey.hdPublicKey;
-    // const address = btc.generateAddress(hdPublicKey);
+    localStorage.setItem('ethkeystore', JSON.stringify(acc.keystore));
     return acc.wallet.address.toString();
   }
 
