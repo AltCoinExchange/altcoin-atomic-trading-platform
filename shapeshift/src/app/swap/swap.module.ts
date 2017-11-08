@@ -12,7 +12,7 @@ import {SwapInputsModule} from '../components/swap-inputs/swap-inputs.module';
 import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar.component';
 import {SwapInitiatePreviewModule} from '../components/swap-initiate-preview/swap-initiate-preview.module';
-import {MatProgressSpinnerModule} from '@angular/material';
+import {MatButtonModule, MatProgressSpinnerModule} from '@angular/material';
 import {SwapInitiatedModule} from '../components/swap-initiated/swap-initiated.module';
 import {SwapParticipateComponent} from './swap-participate/swap-participate.component';
 import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
@@ -39,7 +39,7 @@ import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
     SwapInitiatePreviewModule,
     MatProgressSpinnerModule,
     NgxQRCodeModule,
-
+    MatButtonModule,
   ],
   declarations: [
     SwapIconComponent,
