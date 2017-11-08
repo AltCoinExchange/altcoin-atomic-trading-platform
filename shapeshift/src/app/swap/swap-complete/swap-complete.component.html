@@ -2,8 +2,8 @@
     <div class="swap-start form-header">
       <p>Please wait until the swap is complete</p>
     </div>
-    <div class="form-content" fxLayout="column" fxLayoutAlign="center center">
-      <div fxLayout="column" fxLayoutAlign="center start" class="swap-steps" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%"> 
+    <div class="form-content">
+      <div fxLayout="column" fxLayoutAlign="center start" class="swap-steps" fxFlex.gt-xs="50%" fxFlex.xs="100%"> 
           <div class="spinner swap-step">
               <div class="circle-loader" [ngClass]="{'load-complete' : initiated}">
                 <div [hidden]="!initiated" class="checkmark draw"></div>
