@@ -60,7 +60,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   }
 
   doSubmit() {
-    this.state = 'void';
+    this.formFlyOut();
     setTimeout(() => {
       this.router.navigate(['/insufficient-amount']);
     }, 500);
@@ -71,7 +71,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   }
 
   onSwap(data) {
-    this.state = 'void';
+    this.formFlyOut();
     setTimeout(() => {
       console.log(data);
       this.store.dispatch(new swapAction.StartSwapAction(data));

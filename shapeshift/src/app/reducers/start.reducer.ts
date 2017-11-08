@@ -79,6 +79,15 @@ export function reducer(state = initialState, action: swap.Actions): State {
       };
       return newState;
     }
+    case swap.COMPLETE_SWAP: {
+      return {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          activeStep: 3,
+        },
+      };
+    }
     default: {
       return state;
     }

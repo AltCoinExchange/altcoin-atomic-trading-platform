@@ -10,6 +10,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferLinkComponent} from './transfer-link/transfer-link.component';
 import {SwapInputsModule} from '../components/swap-inputs/swap-inputs.module';
 import {SwapInitiateComponent} from './swap-initiate/swap-initiate.component';
+import {SwapCompleteComponent} from './swap-complete/swap-complete.component';
 import {ProgressBarComponent} from '../components/progress-bar/progress-bar.component';
 import {SwapInitiatePreviewModule} from '../components/swap-initiate-preview/swap-initiate-preview.module';
 import {MatButtonModule, MatProgressSpinnerModule} from '@angular/material';
@@ -27,6 +28,7 @@ import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
         {path: 'swap', component: SwapStartComponent},
         {path: 'insufficient-amount', component: QrCodeComponent},
         {path: 'transfer', component: TransferLinkComponent},
+        {path: 'complete', component: SwapCompleteComponent},
         {path: 'initiate/:link', component: SwapInitiateComponent},
         {path: 'participate/:link', component: SwapParticipateComponent},
       ],
@@ -50,6 +52,7 @@ import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
     SwapInitiateComponent,
     ProgressBarComponent,
     SwapParticipateComponent,
+    SwapCompleteComponent
   ],
 })
 export class SwapModule {

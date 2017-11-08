@@ -1,7 +1,7 @@
 @import 'variables';
 
 .circle-loader {
-  margin: 0 10px 30px 10px;
+  margin: 10px;
   border: $check-thickness solid rgba(0, 0, 0, 0.2);
   border-left-color: $check-color;
   animation-name: loader-spin;

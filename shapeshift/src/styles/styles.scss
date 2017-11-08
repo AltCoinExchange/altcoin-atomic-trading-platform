@@ -73,6 +73,7 @@ a{
     border: none;
     border-style: none;
     font-weight: 400;
+    width: 70px;
   }
   input:focus{
     outline: none;
@@ -117,7 +118,7 @@ a{
   }
 
   .form-content{
-    padding: 40px 60px 20px 60px;
+    padding: 8% 12% 4% 12%;
   }
 
   .form-footer{
@@ -135,8 +136,9 @@ a{
 
 .qr-code {
   text-align: center;
+  img{
+    width: 100%;
+    height: auto;
+  }
 }
 
-.qr-code > img {
-  height:23vh;
-}

@@ -13,11 +13,18 @@
       </ngx-qrcode>
     </div>
     <div class="deposit-address">
-      <p class="deposit-address">185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe</p>
+      <!-- for large devices -->
+      <p fxShow.gt-xs="true" fxShow.xs="false">
+        185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe
+      </p>
+      <!-- for small devices -->
+      <p fxShow.gt-xs="false" fxShow.xs="true" class="small">
+        185a5KBxKfv7rmNsEhbwv6Ah4j8j7uZmhe
+      </p>
     </div>
     <div class="spinner">
-      <div class="circle-loader" [ngClass]="{'load-complete' : !firstSpinner}">
-        <div [hidden]="firstSpinner" class="checkmark draw"></div>
+      <div class="circle-loader" [ngClass]="{'load-complete' : !waitingDepositSpinner}">
+        <div [hidden]="waitingDepositSpinner" class="checkmark draw"></div>
       </div>
     </div>
   </div>

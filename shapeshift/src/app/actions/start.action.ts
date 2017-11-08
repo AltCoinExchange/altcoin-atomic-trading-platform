@@ -9,7 +9,7 @@ export const SET_DEPOSIT_AMOUNT = 'SET_DEPOSIT_AMOUNT';
 export const SET_RECEIVE_AMOUNT = 'SET_RECEIVE_AMOUNT';
 
 export const SET_ACTIVE_STEP = 'SET_ACTIVE_STEP';
-
+export const COMPLETE_SWAP = 'COMPLETE_SWAP';
 
 export class SwapDepositReceiveCoinsAction implements Action {
   readonly type = SWAP_DEPOSIT_RECEIVE_COINS;
@@ -56,6 +56,14 @@ export class SetReceiveAmountAction implements Action {
   }
 }
 
+export class CompleteSwapAction implements Action {
+  readonly type = COMPLETE_SWAP;
+
+  constructor() {
+
+  }
+}
+
 export type Actions =
   SwapDepositReceiveCoinsAction
   | StartSwapAction
@@ -63,4 +71,5 @@ export type Actions =
   | SetActiveStepAction
   | SetDepositAmountAction
   | SetReceiveAmountAction
+  | CompleteSwapAction
   ;
