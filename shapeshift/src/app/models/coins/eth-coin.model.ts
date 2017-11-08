@@ -1,5 +1,7 @@
 import {Coin} from './coin.model';
 import {Coins} from './coins.enum';
+import * as wallet from 'wallet';
+import {EthWalletModel} from '../wallets/eth-wallet.model';
 
 export class EthCoinModel implements Coin {
   readonly name: string = Coins[Coins.ETH].toString();
@@ -7,8 +9,11 @@ export class EthCoinModel implements Coin {
   readonly iconOutline: string = 'assets/icon/eth-icon-o.png';
   amount: number;
 
-  generateNewAddress(wallet) {
-    throw new Error('Method not implemented.');
+  generateNewAddress(ethWallet: EthWalletModel) {
+    const eth = new wallet.Wallet.Ethereum.EthWallet();
+    const acc = eth.create(ethWallet.privateKey);
+    localStorage.setItem('ethkeystore', JSON.stringify(acc.keystore));
+    return acc.wallet.address.toString();
   }
 
   update(coin: Coin): Coin {

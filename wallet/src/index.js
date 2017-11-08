@@ -6,21 +6,13 @@ export class Wallet {
 
   static get Ethereum() {
     return {
-      EthWallet,
-      'login': (keystore, password) => {
-        this.EthWallet = new EthWallet();
-        this.EthWallet.login(keystore, password);
-      },
-      'create': (password) => {
-          this.EthWallet = new EthWallet();
-          this.EthWallet.create(password);
-      },
+      EthWallet
     }
   }
 
   static get Bitcoin() {
     return {
-      BtcWallet,
+      BtcWallet
     }
   }
 
