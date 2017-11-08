@@ -92,7 +92,7 @@ var Engine = function (configuration, appConfiguration) {
      * @constructor
      */
     this.CreateAccount = function(password) {
-        var accounts = new Accounts();
+        var accounts = this.web3.eth.accounts;
 
         var acc = accounts.create();
         var keystore = acc.encrypt(password, {n: this.walletN});
@@ -101,7 +101,7 @@ var Engine = function (configuration, appConfiguration) {
     };
 
     this.Login = function(keystore, password) {
-        var accounts = new Accounts();
+        var accounts = this.web3.eth.accounts;
 
         var wallet = accounts.decrypt(keystore, password);
 

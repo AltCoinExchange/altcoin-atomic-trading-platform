@@ -1,7 +1,7 @@
-
+/* jshint node: true */
 var AbiConfig = require("../abi/atomicswap");
 var AppConfig = require("../config");
-var Engine = require("../modules/engine");
+var AtomicSwap = require("../modules/atomicswap");
 var Common = require("../modules/common");
 
 var fs = require('fs');
@@ -9,7 +9,7 @@ var fs = require('fs');
 var secret = (new Common()).GenerateSecret();
 
 // Init
-var engine = new Engine(AbiConfig, AppConfig.hosts[0]);
+var engine = new AtomicSwap(AbiConfig, AppConfig.hosts[0]);
 try {
 
     var t = new Date();
