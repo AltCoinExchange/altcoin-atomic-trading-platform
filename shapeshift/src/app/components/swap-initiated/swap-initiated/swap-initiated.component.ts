@@ -20,6 +20,7 @@ export class SwapInitiatedComponent implements OnInit {
     ];
     const dataStringified = JSON.stringify(data);
     this.participateLink = btoa(dataStringified);
+    // TODO generate other sides address
   }
 
 }

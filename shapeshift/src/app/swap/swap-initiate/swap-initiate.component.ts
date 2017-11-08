@@ -55,7 +55,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     this.store.dispatch(new InitiateAction(
       {
         address: this.address,
-        amount: this.depositCoin.amount,
+        amount: this.receiveCoin.amount,
         link: this.link,
       },
     ));
