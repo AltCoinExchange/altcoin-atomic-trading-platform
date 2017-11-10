@@ -13,8 +13,6 @@ var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contrac
 
 var _createSig = require('./common/createSig');
 
-var _secretHash = require('./common/secret-hash');
-
 var _addressUtil = require('./common/address-util');
 
 var _config = require('./config/config');
@@ -27,10 +25,6 @@ var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
 
 var Transaction = require('bitcore').Transaction;
-var Base58 = require('bitcore').encoding.Base58;
-var Base58Check = require('bitcore').encoding.Base58Check;
-
-var strPubKey = "03b10e3690bcaf0eae7098ec794666963803bcec5acfbe6a112bc8cdc93797f002";
 
 
 var util = require('util');
@@ -77,14 +71,14 @@ async function redeem(strCt, strCtTx, secret) {
   var amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005 * 100000000;
 
   // https://bitcoin.org/en/developer-examples#offline-signing
-  var reedemTx = new Transaction();
+  var redeemx = new Transaction();
 
   // TODO: "redeem output value of %v is dust"
   var output = Transaction.Output({
     script: outScript,
     satoshis: amount
   });
-  reedemTx.addOutput(output);
+  redeemx.addOutput(output);
 
   var input = Transaction.Input({
     prevTxId: ctTx.id,
@@ -92,25 +86,25 @@ async function redeem(strCt, strCtTx, secret) {
     script: new Script(ctTx.outputs[ctTxOutIdx].script)
   });
 
-  reedemTx.uncheckedAddInput(input);
+  redeemx.uncheckedAddInput(input);
 
   var inputIndex = 0;
 
-  var _ref = await (0, _createSig.createSig)(reedemTx, inputIndex, contract, recipientAddress),
+  var _ref = await (0, _createSig.createSig)(redeemx, inputIndex, contract, recipientAddress),
       sig = _ref.sig,
       pubKey = _ref.pubKey;
 
   var script = (0, _redeemP2SHContract.redeemP2SHContract)(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
 
-  reedemTx.inputs[0].setScript(script);
+  redeemx.inputs[0].setScript(script);
 
   console.log("**redeem transaction  ", redeemTx);
   console.log("**redeem fee");
-  // console.log(reedemTx.verify());
-  var res = await (0, _publicTx.publishTx)(reedemTx.toString());
+  // console.log(redeemx.verify());
+  var res = await (0, _publicTx.publishTx)(redeemx.toString());
   console.log(res);
 
-  // return reedemTx
+  // return redeemx
 }
 
 var getChangeAddress = async function getChangeAddress() {

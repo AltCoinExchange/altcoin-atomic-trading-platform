@@ -61,7 +61,7 @@ var buildContract = exports.buildContract = async function buildContract(them, a
   var contractTxHash = t.hash;
 
   // TODO build REFUND !
-  await (0, _buildRefund.buildRefund)(contract, contractTx);
+  // await buildRefund(contract, contractTx);
 
   return {
     contract: contract,
