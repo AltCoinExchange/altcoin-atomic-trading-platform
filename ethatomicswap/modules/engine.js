@@ -9,9 +9,10 @@ var Common = require("./common");
 var Web3 = require("web3");
 var Accounts = require("web3-eth-accounts");
 
-var Engine = function (configuration, appConfiguration) {
+var Engine = function (configuration, appConfiguration, bin) {
     this.config = configuration;
     this.appConfig = appConfiguration;
+    this.bin = bin;
     this.web3 = null;
     this.contract = null;
     this.clone = require("clone");
@@ -40,7 +41,7 @@ var Engine = function (configuration, appConfiguration) {
      * @param params
      * @param generalParams
      */
-    this.callFunction = function(name, params, generalParams) {
+    this.callFunction = async function(name, params, generalParams) {
 
         var functionAbi = this.clone(this.getFunctionAbi(this.config, name));
         var contract = new this.web3.eth.Contract(this.config, this.appConfig.contractAddress);
@@ -53,6 +54,15 @@ var Engine = function (configuration, appConfiguration) {
         funcObj.arguments = params;
         that = this;
 
+        if (generalParams.gas === undefined) {
+            let price = await this.web3.eth.getGasPrice();
+
+            let ets = await this.web3.eth.estimateGas({ data: this.bin.code, to: this.appConfig.defaultWallet });
+            //params.gas = price;
+            generalParams.gas = price;
+            generalParams.gasLimit = ets * 2;
+        }
+
         return new Promise(function (resolve, reject) {
             try {
 
@@ -62,6 +72,9 @@ var Engine = function (configuration, appConfiguration) {
                     sub.unsubscribe();
                 });
 
+                contract.methods[name](...params).send(generalParams).on('receipt', function(e) {
+                    console.log(e);
+                });
                 // TODO Catch filters
                 // var filter = that.web3.eth.filter('pending');
                 //
@@ -69,17 +82,17 @@ var Engine = function (configuration, appConfiguration) {
                 //     console.log(log);
                 // });
 
-                contract._executeMethod.call(funcObj, 'send', generalParams, function (err, result) {
-                    if (err)
-                        reject(err);
-                    else
-                        resolve(result);
-                }).then(function(r) {
-                    console.log(r);
-                }).catch(function (err) {
-                    console.log(err);
-                    reject(err);
-                });
+                // contract._executeMethod.call(funcObj, 'send', generalParams, function (err, result) {
+                //     if (err)
+                //         reject(err);
+                //     else
+                //         resolve(result);
+                // }).then(function(r) {
+                //     console.log(r);
+                // }).catch(function (err) {
+                //     console.log(err);
+                //     reject(err);
+                // });
             } catch (e) {
                 reject(e);
             }
@@ -104,6 +117,10 @@ var Engine = function (configuration, appConfiguration) {
         var accounts = this.web3.eth.accounts;
 
         var wallet = accounts.decrypt(keystore, password);
+        this.appConfig.defaultWallet = wallet.address;
+
+        this.web3.eth.accounts.wallet.add(wallet);
+        this.web3.eth.defaultAccount = wallet.address;
 
         return wallet;
     };

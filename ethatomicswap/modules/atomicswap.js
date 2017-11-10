@@ -5,20 +5,20 @@
  * @company Altcoin Exchange, Inc.
  */
 var AtomicSwap;
-AtomicSwap = function (configuration, appConfiguration) {
+AtomicSwap = function (configuration, appConfiguration, bin) {
     this.engine = null;
 
     /**
      * @param configuration
      * @param appConfiguration
      */
-    this.construct = function (configuration, appConfiguration) {
+    this.construct = function (configuration, appConfiguration, bin) {
         var Engine = require("./engine");
-        this.engine = new Engine(configuration, appConfiguration);
+        this.engine = new Engine(configuration, appConfiguration, bin);
         this.engine.common.Extend(this, this.engine);
     };
 
-    this.construct(configuration, appConfiguration);
+    this.construct(configuration, appConfiguration, bin);
 
     /**
      * Initiate atomic swap transfer

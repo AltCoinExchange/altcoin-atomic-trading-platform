@@ -1,5 +1,6 @@
 /* jshint node: true */
 var AbiConfig = require("../abi/atomicswap");
+var BinConfig = require("../abi/bin");
 var AppConfig = require("../config");
 var AtomicSwap = require("../modules/atomicswap");
 var Common = require("../modules/common");
@@ -9,7 +10,7 @@ var fs = require('fs');
 var secret = (new Common()).GenerateSecret();
 
 // Init
-var engine = new AtomicSwap(AbiConfig, AppConfig.hosts[0]);
+var engine = new AtomicSwap(AbiConfig, AppConfig.hosts[0], BinConfig);
 try {
 
     var t = new Date();
@@ -30,6 +31,10 @@ try {
         // Load account
         var keystore = require("../testAccount.json");
         account = engine.Login(keystore.keystore, 'testwallt12#!');
+
+        engine.Initiate(7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 0.1).then(function (result) {
+            console.log("Generated initial transaction: " + result);
+        });
     }
 
 } catch (e) {
