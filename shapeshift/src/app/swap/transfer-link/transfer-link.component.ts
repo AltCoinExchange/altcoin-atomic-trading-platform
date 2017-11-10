@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {AnimationEnabledComponent} from '../../common/animation.component';
 import {flyInOutAnimation, fadeInAnimation } from '../../animations/animations';
 import { MessageTypes } from '../../models/message-types.enum';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-transfer-link',
@@ -22,6 +23,8 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
   infoMsg : string;
   messageTypes: typeof MessageTypes = MessageTypes;
 
+  url = environment.url;
+
   constructor(private store: Store<fromSwap.State>, private router: Router) {
     super();
     this.linkCopied = false;
@@ -30,7 +33,7 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
   }
 
   copyLink(event){
-    var copyText = <HTMLInputElement>document.getElementById("inputLink");
+    const copyText = <HTMLInputElement>document.getElementById("inputLink");
     copyText.select();
     document.execCommand("Copy");
     this.linkCopied = true;

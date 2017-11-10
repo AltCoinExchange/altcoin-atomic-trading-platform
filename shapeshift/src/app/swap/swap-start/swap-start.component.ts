@@ -47,8 +47,9 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
         const depositQuotes = quotes.get(coin.name);
         const receiveQuotes = quotes.get(receive.name);
 
-        const price = (depositAmount * depositQuotes.price) / receiveQuotes.price;
-        if (isNaN(price)) {
+        let number = ((depositAmount * depositQuotes.price) / receiveQuotes.price);
+        const price = +number.toFixed(8);
+        if (isNaN(number)) {
           return 0;
         }
         return price;

@@ -6,4 +6,5 @@
 export const environment = {
   production: false,
   reducerLogger: false,
+  url: 'localhost:4200',
 };
