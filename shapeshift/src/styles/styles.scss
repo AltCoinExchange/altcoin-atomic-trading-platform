@@ -1,5 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'variables';
+@import 'helpers';
 @import 'loader';
 
 $fa-font-path: "../../node_modules/font-awesome/fonts";
@@ -91,14 +92,6 @@ a{
     color: $main-blue;
   }
 
-}
-
-.green{
-  color: $main-green;
-}
-
-.big-font{
-  font-size: 16px;
 }
 
 .form{

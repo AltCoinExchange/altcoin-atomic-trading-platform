@@ -26,3 +26,15 @@ export const coinSwapsAnimation =
     state('slideBack', style({transform: 'translateX(0%)'})),
     transition('* <=> *', animate('500ms ease-in-out')),
   ]);
+
+  export const fadeInAnimation =
+  trigger('fadeIn', [
+    state('hidden', style({opacity: 0})),
+    transition('* => zoomMessage', [
+      animate(1000, keyframes([
+        style({opacity: 0.5, transform: 'scale(0.8)'}),
+        style({opacity: 0.7, transform: 'scale(1.2)'}),
+        style({opacity: 1, transform: 'scale(1)'}),
+      ])),
+    ]),
+  ]);

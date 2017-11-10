@@ -12,6 +12,7 @@ import { coinSwapsAnimation } from '../../animations/animations';
 export class SwapIconComponent implements OnInit {
   @Input() fromCoin: Coin;
   @Input() toCoin: Coin;
+  @Input() swapEnabled: boolean;
   @Output() swapped: EventEmitter<void> = new EventEmitter<void>();
 
   fromCoinAnimationSwapState = 'slideBack';

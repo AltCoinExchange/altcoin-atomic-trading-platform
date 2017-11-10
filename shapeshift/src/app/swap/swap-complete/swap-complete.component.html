@@ -5,28 +5,28 @@
     <div class="form-content">
       <div fxLayout="column" fxLayoutAlign="center start" class="swap-steps" fxFlex.gt-xs="50%" fxFlex.xs="100%"> 
           <div class="spinner swap-step">
-              <div class="circle-loader" [ngClass]="{'load-complete' : initiated}">
-                <div [hidden]="!initiated" class="checkmark draw"></div>
+              <div class="circle-loader" [ngClass]="{'load-complete' : initiated === swapSpinners.Completed }">
+                <div [hidden]="initiated !== swapSpinners.Completed" class="checkmark draw"></div>
               </div>
-              <p class="completed">INITIATED</p>
+              <p [class.active]="initiated === swapSpinners.Active" [class.completed]="initiated === swapSpinners.Completed">INITIATED</p>
           </div>
           <div class="spinner swap-step">
-              <div class="circle-loader" [ngClass]="{'load-complete' : participated}">
-                <div [hidden]="!participated" class="checkmark draw"></div>
+              <div class="circle-loader" [ngClass]="{'load-complete' : participated === swapSpinners.Completed }">
+                <div [hidden]="participated !== swapSpinners.Completed" class="checkmark draw"></div>
               </div>
-              <p class="active">PARTICIPATED</p>
+              <p [class.active]="participated === swapSpinners.Active" [class.completed]="participated === swapSpinners.Completed">PARTICIPATED</p>
           </div>
           <div class="spinner swap-step">
-              <div class="circle-loader" [ngClass]="{'load-complete' : redeeming}">
-                <div [hidden]="!redeeming" class="checkmark draw"></div>
+              <div class="circle-loader" [ngClass]="{'load-complete' : redeeming === swapSpinners.Completed }">
+                <div [hidden]="redeeming !== swapSpinners.Completed" class="checkmark draw"></div>
               </div> 
-              <p>REDEEMING</p>
+              <p [class.active]="redeeming === swapSpinners.Active" [class.completed]="redeeming === swapSpinners.Completed">REDEEMING</p>
           </div>
           <div class="spinner swap-step">
-              <div class="circle-loader" [ngClass]="{'load-complete' : done}">
-                <div [hidden]="!done" class="checkmark draw"></div>
+              <div class="circle-loader" [ngClass]="{'load-complete' : done === swapSpinners.Completed }">
+                <div [hidden]="done !== swapSpinners.Completed" class="checkmark draw"></div>
               </div>
-              <p>DONE</p>
+              <p [class.active]="done === swapSpinners.Active" [class.completed]="done === swapSpinners.Completed">DONE</p>
           </div>
       </div>
     </div>

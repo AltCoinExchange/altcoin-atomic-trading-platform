@@ -1,6 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import {AnimationEnabledComponent} from '../../common/animation.component';
 import {flyInOutAnimation} from '../../animations/animations';
+import { SwapSpinners } from '../../models/swap-spinners.enum';
 
 @Component({
   selector: 'app-swap-complete',
@@ -10,20 +11,22 @@ import {flyInOutAnimation} from '../../animations/animations';
 })
 export class SwapCompleteComponent extends AnimationEnabledComponent implements OnInit {
 
-  initiated: boolean;
-  participated: boolean;
-  redeeming: boolean;
-  done: boolean;
+  initiated: SwapSpinners;
+  participated: SwapSpinners;
+  redeeming: SwapSpinners;
+  done: SwapSpinners;
+
+  swapSpinners: typeof SwapSpinners = SwapSpinners;
 
   constructor() { 
     super();
-    this.initiated = true;
-    this.participated = false;
-    this.redeeming = false;
-    this.done = false;
   }
 
   ngOnInit() {
+    this.initiated = this.swapSpinners.Completed;
+    this.participated = this.swapSpinners.Active;
+    this.redeeming = this.swapSpinners.Waiting;
+    this.done = this.swapSpinners.Waiting;
   }
 
 }

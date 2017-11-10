@@ -3,8 +3,12 @@
                 <p>Choose which currency you want to exchange</p>
         </div>
         <div class="swap-start form-content">
-                <app-swap-icon [fromCoin]="$depositCoin | async" [toCoin]="$receiveCoin | async"
-                (swapped)="swapDepositRecieveCoins()"></app-swap-icon>
+                <app-swap-icon 
+                [fromCoin]="$depositCoin | async" 
+                [toCoin]="$receiveCoin | async"
+                [swapEnabled]="true"
+                (swapped)="swapDepositRecieveCoins()">
+                </app-swap-icon>
                 <app-swap-inputs (swap)="onSwap($event)"
                         [depositCoin]="$depositCoin | async"
                         [receiveCoin]="$receiveCoin | async"

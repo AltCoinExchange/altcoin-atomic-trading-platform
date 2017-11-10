@@ -1,0 +1,7 @@
+<div class="info-message" 
+[@fadeIn]="animateMsg"
+[class.info]="type == messageTypes.Info"
+[class.error]="type == messageTypes.Error"
+[class.warning]="type == messageTypes.Warning">
+    <p>{{message}}</p>
+</div>

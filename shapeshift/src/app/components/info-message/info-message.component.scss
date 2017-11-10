@@ -1,0 +1,22 @@
+@import '../../../styles/variables';
+
+.info-message{
+    color: white;
+    border-radius: 2px;
+    text-align: center;
+    font-weight: 400;
+    padding: 2px 15px;
+    font-size: 12px;
+}
+
+.info{
+    background-color: $main-green;
+}
+
+.error{
+    background-color: $main-red;
+}
+
+.warning{
+    background-color: $warning;
+}

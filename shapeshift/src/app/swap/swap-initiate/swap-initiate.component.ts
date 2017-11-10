@@ -13,6 +13,7 @@ import {flyInOutAnimation} from '../../animations/animations';
 import {AnimationEnabledComponent} from '../../common/animation.component';
 import {disAssembleLink} from '../../common/link-util';
 import {Coins} from '../../models/coins/coins.enum';
+import { MessageTypes } from '../../models/message-types.enum';
 
 @Component({
   selector: 'app-swap-initiate',
@@ -41,7 +42,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     this.$loading = this.store.select(fromSwap.getInitiateLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);
 
-    this.store.dispatch(new startAction.SetActiveStepAction(3));
+    this.store.dispatch(new startAction.SetActiveStepAction(3)); //step 1?
   }
 
   ngOnDestroy() {
