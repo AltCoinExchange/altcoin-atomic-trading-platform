@@ -38,4 +38,6 @@ export class EthWallet {
     create(password) {
         return this.atomicSwap.engine.CreateAccount(password);
     }
+
+
 }
