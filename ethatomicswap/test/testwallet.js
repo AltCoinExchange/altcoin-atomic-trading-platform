@@ -33,7 +33,8 @@ try {
         account = engine.Login(keystore.keystore, 'testwallt12#!');
 
         engine.Initiate(7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 0.1).then(function (result) {
-            console.log("Generated initial transaction: " + result);
+            console.log(result);
+            //console.log("Generated initial transaction: " + result);
         });
     }
 

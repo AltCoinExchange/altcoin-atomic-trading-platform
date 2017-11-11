@@ -59,7 +59,7 @@ var Engine = function (configuration, appConfiguration, bin) {
 
             let ets = await this.web3.eth.estimateGas({ data: this.bin.code, to: this.appConfig.defaultWallet });
             //params.gas = price;
-            generalParams.gas = price;
+            generalParams.gas = ets;
             generalParams.gasLimit = ets * 2;
         }
 
@@ -67,13 +67,15 @@ var Engine = function (configuration, appConfiguration, bin) {
             try {
 
                 // TODO: Catch events
-                var event = contract.events.Initiated({}/*{filter: {from: "0x6D5ae9dd8F1a2582Deb1b096915313459f11ba70"}}*/, function (err, result, sub) {
-                    console.log(result);
-                    sub.unsubscribe();
-                });
+                // var event = contract.events.Initiated({}/*{filter: {from: "0x6D5ae9dd8F1a2582Deb1b096915313459f11ba70"}}*/, function (err, result, sub) {
+                //     console.log(result);
+                //     sub.unsubscribe();
+                // });
 
-                contract.methods[name](...params).send(generalParams).on('receipt', function(e) {
-                    console.log(e);
+                contract.methods[name](...params).send(generalParams).on('receipt', function(rec) {
+                    resolve(rec);
+                }).catch(function(err) {
+                    reject(err);
                 });
                 // TODO Catch filters
                 // var filter = that.web3.eth.filter('pending');
