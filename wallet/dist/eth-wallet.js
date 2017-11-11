@@ -25,8 +25,8 @@ var EthWallet = exports.EthWallet = function () {
         this.AppConfig = require("ethatomicswap/config.json");
         this.AtomicSwap = require("ethatomicswap/modules/atomicswap");
         this.AbiConfig = require("ethatomicswap/abi/atomicswap.json");
-
-        this.atomicSwap = new this.AtomicSwap(this.AbiConfig, this.AppConfig.hosts[0]);
+        this.BinConfig = require("ethatomicswap/abi/bin.json");
+        this.atomicSwap = new this.AtomicSwap(this.AbiConfig, this.AppConfig.hosts[0], this.BinConfig);
     }
 
     /**
