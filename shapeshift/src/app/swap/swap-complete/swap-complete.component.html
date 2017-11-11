@@ -1,36 +1,19 @@
 <div class="form">
-    <div class="swap-start form-header">
-      <p>Please wait until the swap is complete</p>
-    </div>
-    <div class="form-content">
-      <div fxLayout="column" fxLayoutAlign="center start" class="swap-steps" fxFlex.gt-xs="50%" fxFlex.xs="100%"> 
-          <div class="spinner swap-step">
-              <div class="circle-loader" [ngClass]="{'load-complete' : initiated === swapSpinners.Completed }">
-                <div [hidden]="initiated !== swapSpinners.Completed" class="checkmark draw"></div>
-              </div>
-              <p [class.active]="initiated === swapSpinners.Active" [class.completed]="initiated === swapSpinners.Completed">INITIATED</p>
-          </div>
-          <div class="spinner swap-step">
-              <div class="circle-loader" [ngClass]="{'load-complete' : participated === swapSpinners.Completed }">
-                <div [hidden]="participated !== swapSpinners.Completed" class="checkmark draw"></div>
-              </div>
-              <p [class.active]="participated === swapSpinners.Active" [class.completed]="participated === swapSpinners.Completed">PARTICIPATED</p>
-          </div>
-          <div class="spinner swap-step">
-              <div class="circle-loader" [ngClass]="{'load-complete' : redeeming === swapSpinners.Completed }">
-                <div [hidden]="redeeming !== swapSpinners.Completed" class="checkmark draw"></div>
-              </div> 
-              <p [class.active]="redeeming === swapSpinners.Active" [class.completed]="redeeming === swapSpinners.Completed">REDEEMING</p>
-          </div>
-          <div class="spinner swap-step">
-              <div class="circle-loader" [ngClass]="{'load-complete' : done === swapSpinners.Completed }">
-                <div [hidden]="done !== swapSpinners.Completed" class="checkmark draw"></div>
-              </div>
-              <p [class.active]="done === swapSpinners.Active" [class.completed]="done === swapSpinners.Completed">DONE</p>
-          </div>
-      </div>
-    </div>
-    <div class="form-footer">
-      <p>BTC miner fee: 0.001 BTC</p>
+  <div class="swap-start form-header">
+    <p>Please wait until the swap is complete</p>
+  </div>
+  <div class="form-content">
+    <div fxLayout="column" fxLayoutAlign="center start" class="swap-steps" fxFlex.gt-xs="50%" fxFlex.xs="100%">
+      <app-shapeshift-status-spinner [status]="($status | async)?.initiated"
+                                     text="INITIATED"></app-shapeshift-status-spinner>
+      <app-shapeshift-status-spinner [status]="($status | async)?.participated"
+                                     text="PARTICIPATED"></app-shapeshift-status-spinner>
+      <app-shapeshift-status-spinner [status]="($status | async)?.redeeming"
+                                     text="REDEEMING"></app-shapeshift-status-spinner>
+      <app-shapeshift-status-spinner [status]="($status | async)?.done" text="DONE"></app-shapeshift-status-spinner>
     </div>
   </div>
+  <div class="form-footer">
+    <p>BTC miner fee: 0.001 BTC</p>
+  </div>
+</div>

@@ -33,10 +33,7 @@ export class SwapEffect {
         });
       },
     );
-  // this.bigChainDb.send({
-  //                        id: link,
-  //                        data: initiateResult
-  //                      });
+
   @Effect()
   initiate$: Observable<Action> = this.actions$
     .ofType(swapAction.INITIATE)
@@ -46,8 +43,9 @@ export class SwapEffect {
         .mergeMap(res => {
           return Observable.from([
             new swapAction.InitiateSuccessAction(res),
-            new startAction.InitiatedAction({
-              link: payload.link
+            new startAction.InformInitiatedAction({
+              link: payload.link,
+              data: res,
             }),
           ]);
         })
@@ -68,10 +66,23 @@ export class SwapEffect {
   waitForInitiate$: Observable<Action> = this.actions$
     .ofType(startAction.WAIT_FOR_INITIATE)
     .map(toPayload)
-    .mergeMap(payload => {
+    .switchMap(payload => {
+      console.log('start');
+
       this.swapService.waitForInitiate(payload).subscribe(a => {
-        console.log('initiated jbt!!! ', a);
+        console.log('waitForInitiate', a);
+        this.store.dispatch(new startAction.WaitForInitiateSuccessAction(a));
+        // return new startAction.WaitForInitiateSuccessAction(a);
       });
+      return Observable.empty();
+    });
+
+  @Effect()
+  informInitiated: Observable<Action> = this.actions$
+    .ofType(startAction.INFORM_INITIATED)
+    .map(toPayload)
+    .mergeMap(payload => {
+      this.swapService.informInitiated(payload);
       return Observable.empty();
     });
 

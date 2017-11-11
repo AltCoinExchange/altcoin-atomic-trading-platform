@@ -4,7 +4,8 @@ export const SWAP_DEPOSIT_RECEIVE_COINS = 'SWAP_DEPOSIT_RECEIVE_COINS';
 export const START_SWAP = 'START_SWAP';
 export const SET_LINK = 'SET_LINK';
 export const WAIT_FOR_INITIATE = 'WAIT_FOR_INITIATE';
-export const INITIATED = 'INITIATED';
+export const WAIT_FOR_INITIATE_SUCCESS = 'WAIT_FOR_INITIATE_SUCCESS';
+export const INFORM_INITIATED = 'INFORM_INITIATED';
 
 
 export const SET_DEPOSIT_AMOUNT = 'SET_DEPOSIT_AMOUNT';
@@ -74,8 +75,16 @@ export class WaitForInitiateAction implements Action {
   }
 }
 
-export class InitiatedAction implements Action {
-  readonly type = INITIATED;
+export class WaitForInitiateSuccessAction implements Action {
+  readonly type = WAIT_FOR_INITIATE_SUCCESS;
+
+  constructor(public payload: any) {
+    console.log(payload);
+  }
+}
+
+export class InformInitiatedAction implements Action {
+  readonly type = INFORM_INITIATED;
 
   constructor(public payload?: any) {
 
@@ -91,5 +100,6 @@ export type Actions =
   | SetReceiveAmountAction
   | CompleteSwapAction
   | WaitForInitiateAction
-  | InitiatedAction
+  | InformInitiatedAction
+  | WaitForInitiateSuccessAction
   ;

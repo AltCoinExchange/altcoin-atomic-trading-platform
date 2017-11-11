@@ -4,7 +4,7 @@ import {ShapeshiftInputComponent} from './shapeshift-input/shapeshift-input.comp
 import {ShapeshiftButtonComponent} from './shapeshift-button/shapeshift-button.component';
 import {MatButtonModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
+import {ShapeshiftStatusSpinnerComponent} from './shapeshift-status-spinner/shapeshift-status-spinner.component';
 
 @NgModule({
   imports: [
@@ -16,10 +16,12 @@ import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
   declarations: [
     ShapeshiftInputComponent,
     ShapeshiftButtonComponent,
+    ShapeshiftStatusSpinnerComponent,
   ],
   exports: [
     ShapeshiftInputComponent,
     ShapeshiftButtonComponent,
+    ShapeshiftStatusSpinnerComponent,
   ],
 })
 export class ShapeShiftCommonModule {

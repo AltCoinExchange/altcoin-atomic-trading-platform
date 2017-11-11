@@ -1,0 +1,6 @@
+<div class="spinner swap-step">
+  <div class="circle-loader" [ngClass]="{'load-complete' : status === SwapSpinners.Completed }">
+    <div [hidden]="status !== SwapSpinners.Completed" class="checkmark draw"></div>
+  </div>
+  <p [class.active]="status === SwapSpinners.Active" [class.completed]="status === SwapSpinners.Completed">{{text}}</p>
+</div>
