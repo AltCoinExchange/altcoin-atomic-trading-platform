@@ -46,13 +46,13 @@ var Engine = function (configuration, appConfiguration, bin) {
         var functionAbi = this.clone(this.getFunctionAbi(this.config, name));
         var contract = new this.web3.eth.Contract(this.config, this.appConfig.contractAddress);
 
-        var funcObj = {};
-
-        funcObj._method = functionAbi;
-        funcObj._parent = contract;
-        funcObj.encodeABI = contract._encodeMethodABI.bind(funcObj);
-        funcObj.arguments = params;
-        that = this;
+        // var funcObj = {};
+        //
+        // funcObj._method = functionAbi;
+        // funcObj._parent = contract;
+        // funcObj.encodeABI = contract._encodeMethodABI.bind(funcObj);
+        // funcObj.arguments = params;
+        //that = this;
 
         if (generalParams.gas === undefined) {
             let price = await this.web3.eth.getGasPrice();

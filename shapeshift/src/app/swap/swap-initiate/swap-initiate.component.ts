@@ -58,6 +58,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
         address: this.address,
         amount: this.receiveCoin.amount,
         link: this.link,
+        coin: this.receiveCoin
       },
     ));
   }

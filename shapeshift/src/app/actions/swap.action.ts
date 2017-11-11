@@ -13,7 +13,8 @@ export class InitiateAction implements Action {
   constructor(public payload: {
     address,
     amount,
-    link
+    link,
+    coin
   }) {
 
   }
