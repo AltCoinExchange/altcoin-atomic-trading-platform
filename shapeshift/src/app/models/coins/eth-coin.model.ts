@@ -3,6 +3,7 @@ import {Coins} from './coins.enum';
 import * as wallet from 'wallet';
 import {EthWalletModel} from '../wallets/eth-wallet.model';
 import {ContractResponseModel} from '../responses/contract-response.model';
+import {Observable} from "rxjs/Observable";
 
 export class EthCoinModel implements Coin {
 
@@ -24,15 +25,18 @@ export class EthCoinModel implements Coin {
     return model;
   }
 
-  async initiate(address: string) {
+  initiate(address: string): Observable<ContractResponseModel> {
     const eth = this.getSwapInstance();
-    const result = await eth.initiate(7200, '', address, this.amount);
-    const model = new ContractResponseModel();
-    model.secret = result.secret.secret;
-    model.secretHash = result.secret.hashedSecret;
-    model.fee = 100;
-    // TODO: Find fee
-    return model;
+    const result = eth.initiate(7200, '', address, this.amount);
+    const resultObservable = Observable.fromPromise(result);
+    return resultObservable.map((result: any) => {
+      const model = new ContractResponseModel();
+      model.secret = result.secret.secret;
+      model.secretHash = result.secret.hashedSecret;
+      model.fee = 100;
+      // TODO: Find fee
+      return model;
+    });
   }
 
   participate(address: string, secretHash: string): any {

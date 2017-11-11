@@ -48,7 +48,7 @@ export class SwapEffect {
               data: res,
             }),
             new Go({
-              path: ['/completed'],
+              path: ['/complete'],
             }),
           ]);
         })

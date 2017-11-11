@@ -2,6 +2,8 @@ import {Coin} from './coin.model';
 import {Coins} from './coins.enum';
 import * as wallet from 'wallet';
 import {BtcWalletModel} from '../wallets/btc-wallet.model';
+import * as btcswap from 'btc-atomic-swap';
+import {Observable} from "rxjs/Observable";
 
 export class BtcCoinModel implements Coin {
   readonly name: string = Coins[Coins.BTC].toString();
@@ -25,7 +27,8 @@ export class BtcCoinModel implements Coin {
   }
 
   initiate(address: string): any {
-    return undefined;
+    const initiateResult = btcswap.initiate(address, this.amount);
+    return Observable.fromPromise(initiateResult);
   }
 
   participate(address: string, secretHash: string): any {
