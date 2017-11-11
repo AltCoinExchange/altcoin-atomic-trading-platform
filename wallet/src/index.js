@@ -20,4 +20,6 @@ export class Wallet {
     const code = new Mnemonic();
     return code;
   }
+
+
 }

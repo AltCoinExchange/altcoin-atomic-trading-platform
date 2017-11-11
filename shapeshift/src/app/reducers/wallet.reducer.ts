@@ -1,4 +1,4 @@
-import * as btcWallet from '../actions/wallet.action';
+import * as walletAction from '../actions/wallet.action';
 import {BtcWalletModel} from '../models/wallets/btc-wallet.model';
 import {EthWalletModel} from '../models/wallets/eth-wallet.model';
 import * as wallet from 'wallet';
@@ -30,15 +30,15 @@ export const initialState: State = {
     derived: {},
   },
   ETH: {
-    address: ethLogin.wallet ? ethLogin.wallet.address : '',
+    //address: ethLogin.wallet ? ethLogin.wallet.address : '',
     privateKey: ethPrivKey,
     keystore: ethKeyStore
   }
 };
 
-export function reducer(state = initialState, action: btcWallet.Actions) {
+export function reducer(state = initialState, action: walletAction.Actions) {
   switch (action.type) {
-    case btcWallet.SET_BTC_WALLET: {
+    case walletAction.SET_BTC_WALLET: {
       if (state.BTC.xprivkey) {
 
         console.log(state);
@@ -50,8 +50,8 @@ export function reducer(state = initialState, action: btcWallet.Actions) {
         BTC: action.payload,
       };
     }
-    case btcWallet.SET_ETH_WALLET: {
-      if (state.BTC.xprivkey) {
+    case walletAction.SET_ETH_WALLET: {
+      if (state.ETH.privateKey) {
         console.log(state);
         return state;
       }

@@ -1,4 +1,3 @@
-
 var AbiConfig = require("../abi/atomicswap");
 var AppConfig = require("../config");
 var AtomicSwap = require("../modules/atomicswap");
