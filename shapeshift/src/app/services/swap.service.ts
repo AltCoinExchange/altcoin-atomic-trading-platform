@@ -27,7 +27,7 @@ export class SwapService {
     return Observable.fromPromise(initiateResult);
   }
 
-  public initiated({link, data}) {
+  public informInitiated({link, data}) {
     this.bigChainDb.send({
       id: link,
       data: data,
