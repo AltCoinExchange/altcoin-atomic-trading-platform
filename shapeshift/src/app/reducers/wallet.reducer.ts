@@ -20,9 +20,7 @@ let eth = {} as any;
 let ethLogin = {} as any;
 if (ethPrivKey && ethKeyStore) {
   eth = new wallet.Wallet.Ethereum.EthWallet();
-<<<<<<< HEAD
   ethLogin = eth.atomicSwap.Login(JSON.parse(ethKeyStore).keystore, ethPrivKey);
-=======
   const keystore = JSON.parse(ethKeyStore);
   console.log(keystore);
   try{
@@ -30,7 +28,6 @@ if (ethPrivKey && ethKeyStore) {
   }catch (e) {
     console.log(e);
   }
->>>>>>> 3b84cf78691da773ed409f5d7ce00f69fa91410d
 }
 
 export const initialState: State = {
