@@ -23,18 +23,8 @@ var Wallet = exports.Wallet = function () {
   _createClass(Wallet, null, [{
     key: 'Ethereum',
     get: function get() {
-      var _this = this;
-
       return {
-        EthWallet: _ethWallet.EthWallet,
-        'login': function login(keystore, password) {
-          _this.EthWallet = new _ethWallet.EthWallet();
-          _this.EthWallet.login(keystore, password);
-        },
-        'create': function create(password) {
-          _this.EthWallet = new _ethWallet.EthWallet();
-          _this.EthWallet.create(password);
-        }
+        EthWallet: _ethWallet.EthWallet
       };
     }
   }, {
