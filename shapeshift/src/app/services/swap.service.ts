@@ -2,11 +2,15 @@ import * as btcswap from 'btc-atomic-swap';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import * as wallet from 'wallet';
+import {BigchainDbService} from "./bigchain-db.service";
 
 @Injectable()
 export class SwapService {
+  constructor(private bigChainDb: BigchainDbService) {
 
-  public initiate({address, amount, coin}): Observable<any> {
+  }
+
+  public initiate({address, amount, coin, link}): Observable<any> {
     let initiateResult = null;
     switch (coin.name) {
       case 'BTC':
@@ -26,6 +30,20 @@ export class SwapService {
   public auditContract({contractHex, contractTxHex}): Observable<any> {
     const auditContractResults = btcswap.auditContract(contractHex, contractTxHex);
     return Observable.of(auditContractResults);
+  }
+
+
+  public waitForInitiate(link: string) {
+    const due = 600000; // 20 minutes
+    return Observable
+      .interval(2000)
+      .flatMap(() => {
+        return this.bigChainDb.find(link);
+      })
+      .first((x: any[]) => {
+        return !!x.length;
+      })
+      .timeout(due);
   }
 
 }

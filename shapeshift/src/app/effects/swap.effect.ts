@@ -22,25 +22,35 @@ export class SwapEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(walletSelector.getWalletState))
     .mergeMap(([data, wallets]) => {
-      console.log(data);
-      return this.linkService.generateLink(data, wallets).mergeMap(link => {
+        return this.linkService.generateLink(data, wallets).mergeMap(link => {
           return Observable.from([
             new startAction.SetLinkAction(link),
             new Go({
               path: ['/transfer'],
             }),
+            new startAction.WaitForInitiateAction(link),
           ]);
         });
       },
     );
-
+  // this.bigChainDb.send({
+  //                        id: link,
+  //                        data: initiateResult
+  //                      });
   @Effect()
   initiate$: Observable<Action> = this.actions$
     .ofType(swapAction.INITIATE)
     .map(toPayload)
     .mergeMap(payload => {
       return this.swapService.initiate(payload)
-        .map(res => new swapAction.InitiateSuccessAction(res))
+        .mergeMap(res => {
+          return Observable.from([
+            new swapAction.InitiateSuccessAction(res),
+            new startAction.InitiatedAction({
+              link: payload.link
+            }),
+          ]);
+        })
         .catch(err => Observable.of(new swapAction.InitiateFailAction(err)));
     });
 
@@ -52,6 +62,17 @@ export class SwapEffect {
       return this.swapService.auditContract(payload).map(r => {
         return new auditContractAction.SwapAuditSuccessAction(r);
       });
+    });
+
+  @Effect()
+  waitForInitiate$: Observable<Action> = this.actions$
+    .ofType(startAction.WAIT_FOR_INITIATE)
+    .map(toPayload)
+    .mergeMap(payload => {
+      this.swapService.waitForInitiate(payload).subscribe(a => {
+        console.log('initiated jbt!!! ', a);
+      });
+      return Observable.empty();
     });
 
 

@@ -3,6 +3,8 @@ import {Action} from '@ngrx/store';
 export const SWAP_DEPOSIT_RECEIVE_COINS = 'SWAP_DEPOSIT_RECEIVE_COINS';
 export const START_SWAP = 'START_SWAP';
 export const SET_LINK = 'SET_LINK';
+export const WAIT_FOR_INITIATE = 'WAIT_FOR_INITIATE';
+export const INITIATED = 'INITIATED';
 
 
 export const SET_DEPOSIT_AMOUNT = 'SET_DEPOSIT_AMOUNT';
@@ -64,6 +66,22 @@ export class CompleteSwapAction implements Action {
   }
 }
 
+export class WaitForInitiateAction implements Action {
+  readonly type = WAIT_FOR_INITIATE;
+
+  constructor(public payload: string) {
+
+  }
+}
+
+export class InitiatedAction implements Action {
+  readonly type = INITIATED;
+
+  constructor(public payload?: any) {
+
+  }
+}
+
 export type Actions =
   SwapDepositReceiveCoinsAction
   | StartSwapAction
@@ -72,4 +90,6 @@ export type Actions =
   | SetDepositAmountAction
   | SetReceiveAmountAction
   | CompleteSwapAction
+  | WaitForInitiateAction
+  | InitiatedAction
   ;

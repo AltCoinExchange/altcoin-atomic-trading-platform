@@ -21,6 +21,7 @@ import {SwapService} from './services/swap.service';
 import {QuoteService} from './services/quote.service';
 import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 import {QuoteEffect} from './effects/quote.effect';
+import {BigchainDbService} from "./services/bigchain-db.service";
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {QuoteEffect} from './effects/quote.effect';
     LinkService,
     SwapService,
     QuoteService,
+    BigchainDbService,
   ],
   bootstrap: [AppComponent],
 })

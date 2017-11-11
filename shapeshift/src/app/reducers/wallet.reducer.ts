@@ -46,8 +46,8 @@ export function reducer(state = initialState, action: btcWallet.Actions) {
       }
       localStorage.setItem('xprivkey', action.payload.xprivkey);
       return {
+        ...state,
         BTC: action.payload,
-        ETH: state.ETH
       };
     }
     case btcWallet.SET_ETH_WALLET: {
@@ -58,8 +58,8 @@ export function reducer(state = initialState, action: btcWallet.Actions) {
       localStorage.setItem('ethprivkey', action.payload.privateKey);
       localStorage.setItem('ethkeystore', JSON.stringify(action.payload.keystore));
       return {
+        ...state,
         ETH: action.payload,
-        BTC: state.BTC
       };
     }
     default: {
