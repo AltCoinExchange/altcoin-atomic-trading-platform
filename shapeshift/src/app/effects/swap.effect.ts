@@ -47,6 +47,9 @@ export class SwapEffect {
               link: payload.link,
               data: res,
             }),
+            new Go({
+              path: ['/complete'],
+            }),
           ]);
         })
         .catch(err => Observable.of(new swapAction.InitiateFailAction(err)));
@@ -67,14 +70,9 @@ export class SwapEffect {
     .ofType(startAction.WAIT_FOR_INITIATE)
     .map(toPayload)
     .switchMap(payload => {
-      console.log('start');
-
-      this.swapService.waitForInitiate(payload).subscribe(a => {
-        console.log('waitForInitiate', a);
-        this.store.dispatch(new startAction.WaitForInitiateSuccessAction(a));
-        // return new startAction.WaitForInitiateSuccessAction(a);
+      return this.swapService.waitForInitiate(payload).map(a => {
+        return new startAction.WaitForInitiateSuccessAction(a);
       });
-      return Observable.empty();
     });
 
   @Effect()

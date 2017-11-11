@@ -1,8 +1,7 @@
 import * as btcswap from 'btc-atomic-swap';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import * as wallet from 'wallet';
-import {BigchainDbService} from "./bigchain-db.service";
+import {BigchainDbService} from './bigchain-db.service';
 
 @Injectable()
 export class SwapService {
@@ -10,21 +9,9 @@ export class SwapService {
 
   }
 
-  public initiate({address, amount, coin, link}): Observable<any> {
-    let initiateResult = null;
-    switch (coin.name) {
-      case 'BTC':
-        initiateResult = btcswap.initiate(address, amount);
-        break;
-      case 'ETH':
-        const eth = new wallet.Wallet.Ethereum.EthWallet();
-        const acc = eth.login(localStorage.getItem('ethkeystore'), localStorage.getItem('ethprivkey'));
-        initiateResult = eth.atomicSwap.Initiate(7200, '', address, amount);
-        break;
-      default:
-        break;
-    }
-    return Observable.fromPromise(initiateResult);
+  public initiate({address, amount, coin,}): Observable<any> {
+    const initiateResult = coin.initiate(address, amount);
+    return initiateResult;
   }
 
   public informInitiated({link, data}) {
