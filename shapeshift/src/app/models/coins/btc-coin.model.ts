@@ -9,7 +9,6 @@ export class BtcCoinModel implements Coin {
   readonly iconOutline: string = 'assets/icon/btc-icon-o.png';
   amount: number;
 
-
   generateNewAddress(btcWallet: BtcWalletModel) {
     const btc = new wallet.Wallet.Bitcoin.BtcWallet(btcWallet.xprivkey, true);
 
@@ -23,5 +22,23 @@ export class BtcCoinModel implements Coin {
     const model = new BtcCoinModel();
     model.amount = coin.amount;
     return model;
+  }
+
+  initiate(address: string): any {
+    return undefined;
+  }
+
+  participate(address: string, secretHash: string): any {
+    return undefined;
+  }
+
+  redeem(secret: string, secretHash: string);
+  redeem(secret: string, contract: string, contractTx: string): any;
+  redeem(secret: string, secretHash: string, contractTx?: string) {
+  }
+
+  refund(hashedSecret: string);
+  refund(contract: string, contractTx: string): any;
+  refund(address: string, contractTx?: string) {
   }
 }

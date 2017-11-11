@@ -11,6 +11,12 @@ export abstract class Coin {
 
   abstract generateNewAddress(wallet: WalletModel);
   abstract update(coin: Coin): Coin;
+  abstract initiate(address: string): any;
+  abstract participate(address: string, secretHash: string): any;
+  abstract redeem(secret: string, secretHash: string);
+  abstract redeem(secret: string, contract: string, contractTx: string): any;
+  abstract refund(hashedSecret: string);
+  abstract refund(contract: string, contractTx: string): any;
 }
 
 export class CoinFactory {
