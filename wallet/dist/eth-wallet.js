@@ -64,7 +64,7 @@ var EthWallet = exports.EthWallet = function () {
 
             if (secret === '') {
                 secretObj = this.atomicSwap.common.GenerateSecret();
-                secret = secretObj.hashedSecret;
+                secret = '0x' + secretObj.hashedSecret;
             }
 
             var result = await this.atomicSwap.Initiate(refundTime, secret, address, amount);
