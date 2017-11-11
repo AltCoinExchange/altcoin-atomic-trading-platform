@@ -32,6 +32,7 @@ export const initialState: State = {
     derived: {},
   },
   ETH: {
+    address: JSON.parse(ethKeyStore).wallet.address,
     privateKey: ethPrivKey,
     keystore: ethKeyStore
   }
