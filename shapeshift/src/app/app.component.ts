@@ -6,6 +6,7 @@ import * as walletAction from './actions/wallet.action';
 import * as quoteAction from './actions/quote.action';
 import {BtcWalletModel} from './models/wallets/btc-wallet.model';
 import {EthWalletModel} from "./models/wallets/eth-wallet.model";
+import {environment} from "../environments/environment";
 
 
 @Component({
@@ -21,7 +22,14 @@ export class AppComponent implements OnInit {
   public name = 'Angular 2 Webpack Starter';
 
   constructor(private store: Store<AppState>) {
-    const codes = wallet.Wallet.code;
+    let codes;
+    if (environment.production) {
+      codes = wallet.Wallet.code;
+    } else {
+      codes = {
+        phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin"
+      };
+    }
 
     this.generateBtcWallet(codes);
     this.generateEthWallet(codes);

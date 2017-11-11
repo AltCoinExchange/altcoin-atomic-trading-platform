@@ -16,7 +16,8 @@ export class EthCoinModel implements Coin {
     const eth = new wallet.Wallet.Ethereum.EthWallet();
     const acc = eth.create(ethWallet.privateKey);
     localStorage.setItem('ethkeystore', JSON.stringify(acc.keystore));
-    return acc.wallet.address.toString();
+    let address = acc.wallet.address.toString();
+    return address;
   }
 
   update(coin: Coin): Coin {
