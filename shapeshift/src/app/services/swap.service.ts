@@ -27,6 +27,13 @@ export class SwapService {
     return Observable.fromPromise(initiateResult);
   }
 
+  public initiated({link, data}) {
+    this.bigChainDb.send({
+      id: link,
+      data: data,
+    });
+  }
+
   public auditContract({contractHex, contractTxHex}): Observable<any> {
     const auditContractResults = btcswap.auditContract(contractHex, contractTxHex);
     return Observable.of(auditContractResults);

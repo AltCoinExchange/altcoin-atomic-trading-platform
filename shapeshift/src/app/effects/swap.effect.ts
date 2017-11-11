@@ -33,10 +33,7 @@ export class SwapEffect {
         });
       },
     );
-  // this.bigChainDb.send({
-  //                        id: link,
-  //                        data: initiateResult
-  //                      });
+
   @Effect()
   initiate$: Observable<Action> = this.actions$
     .ofType(swapAction.INITIATE)
@@ -47,7 +44,8 @@ export class SwapEffect {
           return Observable.from([
             new swapAction.InitiateSuccessAction(res),
             new startAction.InitiatedAction({
-              link: payload.link
+              link: payload.link,
+              data: res,
             }),
           ]);
         })
@@ -72,6 +70,16 @@ export class SwapEffect {
       this.swapService.waitForInitiate(payload).subscribe(a => {
         console.log('initiated jbt!!! ', a);
       });
+      return Observable.empty();
+    });
+
+  @Effect()
+  initiated$: Observable<Action> = this.actions$
+    .ofType(startAction.INITIATED)
+    .map(toPayload)
+    .mergeMap(payload => {
+      console.log('payload', payload);
+      this.swapService.initiated(payload);
       return Observable.empty();
     });
 
