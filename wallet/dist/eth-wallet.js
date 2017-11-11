@@ -16,6 +16,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var EthWallet = exports.EthWallet = function () {
+
+    //atomicSwap;
+
     function EthWallet() {
         _classCallCheck(this, EthWallet);
 
@@ -52,6 +55,21 @@ var EthWallet = exports.EthWallet = function () {
         key: "create",
         value: function create(password) {
             return this.atomicSwap.engine.CreateAccount(password);
+        }
+    }, {
+        key: "initiate",
+        value: async function initiate(refundTime, secret, address, amount) {
+
+            var secretObj = null;
+
+            if (secret === '') {
+                secretObj = this.atomicSwap.common.GenerateSecret();
+                secret = secretObj.hashedSecret;
+            }
+
+            var result = await this.atomicSwap.Initiate(refundTime, secret, address, amount);
+            result.secret = secretObj;
+            return result;
         }
     }]);
 

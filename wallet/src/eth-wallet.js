@@ -7,7 +7,7 @@
 
 export class EthWallet {
 
-    this.atomicSwap = null;
+    //atomicSwap;
 
     constructor() {
         this.AppConfig = require("ethatomicswap/config.json");
@@ -37,5 +37,20 @@ export class EthWallet {
      */
     create(password) {
         return this.atomicSwap.engine.CreateAccount(password);
+    }
+
+
+    async initiate(refundTime, secret, address, amount) {
+
+        let secretObj = null;
+
+        if (secret === '') {
+            secretObj = this.atomicSwap.common.GenerateSecret();
+            secret = secretObj.hashedSecret;
+        }
+
+        const result = await this.atomicSwap.Initiate(refundTime, secret, address, amount);
+        result.secret = secretObj;
+        return result;
     }
 }

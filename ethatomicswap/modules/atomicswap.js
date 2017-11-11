@@ -30,10 +30,6 @@ AtomicSwap = function (configuration, appConfiguration, bin) {
      * @constructor
      */
     this.Initiate = function (refundTime, secret, address, amount, extendedParams) {
-        if (secret === '') {
-            secret = this.common.GenerateSecret().hashedSecret;
-        }
-
         var conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : 'milliether';
 
         var params = {
