@@ -8,7 +8,7 @@ module.exports = {
         'main': './modules/bundle.js'
     },
     output: {
-        path: '/Users/djenadrazic/MachinezDesign/AltCoin/ethatomicswap/ethatomicswap/dist',
+        path: __dirname + "/dist",
         filename: 'dist.js'
     },
     node: {
