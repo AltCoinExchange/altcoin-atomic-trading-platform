@@ -39,3 +39,27 @@ Object.keys(_extractSecret).forEach(function (key) {
     }
   });
 });
+
+var _participate = require('./participate');
+
+Object.keys(_participate).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _participate[key];
+    }
+  });
+});
+
+var _redeem = require('./redeem');
+
+Object.keys(_redeem).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _redeem[key];
+    }
+  });
+});

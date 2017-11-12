@@ -24,4 +24,12 @@ export const participate = async (them, amount, secretHash) => {
   console.log('Refund transaction:  ', '(', b.refundTx.hash, ')');
   console.log(b.refundTx.toString());
   console.log('Published contract transaction: ', rawTx);
+  return {
+    fee: b.contractFee,
+    contract: b.contractP2SH.toString(),
+    contractHex: b.contract.toHex(),
+    contractTx: b.contractTx,
+    contractTxHex: b.contractTx.hex,
+    rawTx,
+  }
 };

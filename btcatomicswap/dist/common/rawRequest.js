@@ -27,7 +27,7 @@ var getRawChangeAddress = exports.getRawChangeAddress = async function getRawCha
     });
     return response.data.result;
   } catch (err) {
-    console.log(err);
+    console.log('err', err);
     return null;
   }
 };

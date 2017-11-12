@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.refund = refund;
+exports.buildRefund = buildRefund;
 
 var _refundP2SHContract = require('../contract/refund-P2SH-contract');
 
@@ -28,7 +28,7 @@ var Transaction = require('bitcore').Transaction;
 
 var BufferReader = require('bitcore').encoding.BufferReader;
 
-async function refund(strCt, strCtTx, secret) {
+async function buildRefund(strCt, strCtTx) {
 
   // TODO: change strCt, strCtTx to ct, ctTx
   var contract = new Script(strCt);
@@ -41,7 +41,7 @@ async function refund(strCt, strCtTx, secret) {
 
   var ctTx = new Transaction(strCtTx);
 
-  var refundAddrString = pushes.refundHash.replace('0x', '');
+  var refundAddrString = pushes.refundHash160.replace('0x', '');
   var refundAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(refundAddrString, 'testnet');
 
   var contractP2SH = _addressUtil.AddressUtil.NewAddressScriptHash(strCt, _config.configuration.network);
@@ -68,13 +68,12 @@ async function refund(strCt, strCtTx, secret) {
   var addr = new Address((await getChangeAddress()));
 
   var outScript = Script.buildPublicKeyHashOut(addr);
-  var amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005 * 100000000;
+  var refundFee = 0.0005 * 100000000;
+  var amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee;
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   var refundTx = new Transaction();
   var lockTime = new BufferReader(pushes.lockTime).readUInt32LE();
-  // const lockTime = new BufferReader(pushes.lockTime)
-  console.log(lockTime);
   refundTx.lockUntilDate(lockTime);
 
   // TODO: "refund output value of %v is dust"
@@ -103,14 +102,10 @@ async function refund(strCt, strCtTx, secret) {
 
   refundTx.inputs[0].setScript(script);
 
-  console.log("**refund transaction  ", refundTx);
-  console.log("**refund fee");
-  // console.log(refundTx.verify());
-  var res = await (0, _publicTx.publishTx)(refundTx.toString());
-  // console.log(res);
-
-
-  return refundTx;
+  return {
+    refundFee: refundFee,
+    refundTx: refundTx
+  };
 }
 
 var getChangeAddress = async function getChangeAddress() {

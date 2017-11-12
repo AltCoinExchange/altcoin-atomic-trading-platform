@@ -13,7 +13,6 @@ var rpc = new RpcClient(_config.configuration);
 var signTransaction = exports.signTransaction = async function signTransaction(tx) {
   return new Promise(function (resolve, reject) {
     rpc.signRawTransaction(tx, function (c, e) {
-      console.log(e);
       resolve(e.result);
     });
   });

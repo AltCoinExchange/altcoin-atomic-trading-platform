@@ -36,12 +36,15 @@ export class BtcCoinModel implements Coin {
   }
 
   participate(address: string, secretHash: string): any {
-    return undefined;
+    const participateResult = btcswap.participate(address, this.amount.toString(), secretHash.replace('0x', ''));
+    return Observable.fromPromise(participateResult);
   }
 
   redeem(secret: string, secretHash: string);
   redeem(secret: string, contract: string, contractTx: string): any;
   redeem(secret: string, secretHash: string, contractTx?: string) {
+    const redeemResult = btcswap.redeem(/**contract*/ secret, /**contractTx*/secretHash, /**secret*/contractTx);
+    return Observable.fromPromise(redeemResult);
   }
 
   refund(hashedSecret: string);

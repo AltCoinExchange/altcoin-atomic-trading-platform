@@ -5,7 +5,8 @@ import {Observable} from 'rxjs/Observable';
 import * as startAction from '../actions/start.action';
 import {
   InformParticipatedAction,
-  ParticipateSuccessAction, RedeemSuccessAction,
+  ParticipateSuccessAction,
+  RedeemSuccessAction,
   WaitForParticipateSuccessAction
 } from '../actions/start.action';
 import * as swapAction from '../actions/swap.action';
@@ -96,6 +97,7 @@ export class SwapEffect {
     .mergeMap(payload => {
       this.swapService.informInitiated(payload);
       return this.swapService.waitForParticipate(payload.data.secretHash + payload.data.address).map(participateData => {
+        console.log('waitForParticipate', participateData);
         return new WaitForParticipateSuccessAction(participateData);
       })
     });
@@ -126,9 +128,14 @@ export class SwapEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getSwapProcess))
     .mergeMap(([payload, swapProcess]) => {
-      console.log('payload', payload.to + payload.blockHash);
-      console.log(swapProcess);
-      this.swapService.waitForRedeem(payload.to + payload.blockHash).subscribe(r => {
+      let redeemId;
+      if (payload.to) { //ETH TODO - return class that knows how to generate itself
+        redeemId = payload.to + payload.blockHash;
+      } else {
+        redeemId = payload.rawTx;
+      }
+      console.log('redeemId', redeemId);
+      this.swapService.waitForRedeem(redeemId).subscribe(r => {
         console.log(r[0].data.data);
         swapProcess.depositCoin.extractSecret('0x' + r[0].data.data).subscribe(secret => {
           console.log(secret);
@@ -143,6 +150,7 @@ export class SwapEffect {
     .ofType(startAction.INFORM_PARTICIPATED)
     .map(toPayload)
     .mergeMap((data) => {
+      console.log('informParticipated', data);
       this.swapService.informParticipated(data);
       return Observable.empty();
     });
@@ -157,11 +165,29 @@ export class SwapEffect {
       }
     })
     .mergeMap((a) => {
-      return a.coins.depositCoin.redeem('0x' + a.initData.secret, '0x' + a.initData.secretHash).map(r => {
-        this.swapService.informParticipated({
-          id: a.payload[0].data.data.to + a.payload[0].data.data.blockHash,
+      console.log('WAIT_FOR_PARTICIPATE_SUCCESS', a);
+      let redeem;
+      if (a.payload[0].data.data.contract) {
+        console.log('redeeming params', a.payload[0].data.data.contract, a.payload[0].data.data.contractTx.hex, a.initData.secret);
+        redeem = a.coins.depositCoin.redeem(a.payload[0].data.data.contractHex, a.payload[0].data.data.contractTxHex, a.initData.secret);
+      } else {
+        redeem = a.coins.depositCoin.redeem('0x' + a.initData.secret, '0x' + a.initData.secretHash);
+      }
+      return redeem.map(r => {
+        console.log('r', r);
+
+        let id;
+        if (a.payload[0].data.data.to) {
+          id = a.payload[0].data.data.to + a.payload[0].data.data.blockHash
+        } else {
+          id = a.payload[0].data.data.rawTx;
+        }
+        console.log('id', id);
+        let informParticipate = {
+          id: id,
           data: a.initData.secretHash
-        });
+        };
+        this.swapService.informParticipated(informParticipate);
         return new RedeemSuccessAction();
       });
     });

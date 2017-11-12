@@ -60,8 +60,9 @@ var buildContract = exports.buildContract = async function buildContract(them, a
   var t = new Transaction(contractTx.hex);
   var contractTxHash = t.hash;
 
-  // TODO build REFUND !
-  // await buildRefund(contract, contractTx);
+  var _ref = await (0, _buildRefund.buildRefund)(contract.toHex(), contractTx.hex),
+      refundFee = _ref.refundFee,
+      refundTx = _ref.refundTx;
 
   return {
     contract: contract,
@@ -69,6 +70,8 @@ var buildContract = exports.buildContract = async function buildContract(them, a
     contractP2SHPkScript: contractP2SHPkScript,
     contractTxHash: contractTxHash,
     contractTx: contractTx,
-    contractFee: contractFee
+    contractFee: contractFee,
+    refundTx: refundTx,
+    refundFee: refundFee
   };
 };

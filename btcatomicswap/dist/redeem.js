@@ -5,27 +5,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.redeem = redeem;
 
-var _redeemP2SHContract = require('./contract/redeem-P2SH-contract');
-
-var _rawRequest = require('./common/rawRequest');
-
-var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contract');
+var _addressUtil = require('./common/address-util');
 
 var _createSig = require('./common/createSig');
 
-var _addressUtil = require('./common/address-util');
+var _rawRequest = require('./common/rawRequest');
 
 var _config = require('./config/config');
 
-var _publicTx = require('./common/public-tx.js');
+var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contract');
 
-var _feePerKb = require('./common/fee-per-kb');
+var _redeemP2SHContract = require('./contract/redeem-P2SH-contract');
 
 var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
-
 var Transaction = require('bitcore').Transaction;
-
 
 var util = require('util');
 
@@ -71,14 +65,14 @@ async function redeem(strCt, strCtTx, secret) {
   var amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005 * 100000000;
 
   // https://bitcoin.org/en/developer-examples#offline-signing
-  var redeemx = new Transaction();
+  var redeemTx = new Transaction();
 
   // TODO: "redeem output value of %v is dust"
   var output = Transaction.Output({
     script: outScript,
     satoshis: amount
   });
-  redeemx.addOutput(output);
+  redeemTx.addOutput(output);
 
   var input = Transaction.Input({
     prevTxId: ctTx.id,
@@ -86,29 +80,28 @@ async function redeem(strCt, strCtTx, secret) {
     script: new Script(ctTx.outputs[ctTxOutIdx].script)
   });
 
-  redeemx.uncheckedAddInput(input);
+  redeemTx.uncheckedAddInput(input);
 
   var inputIndex = 0;
 
-  var _ref = await (0, _createSig.createSig)(redeemx, inputIndex, contract, recipientAddress),
+  var _ref = await (0, _createSig.createSig)(redeemTx, inputIndex, contract, recipientAddress),
       sig = _ref.sig,
       pubKey = _ref.pubKey;
 
   var script = (0, _redeemP2SHContract.redeemP2SHContract)(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
 
-  redeemx.inputs[0].setScript(script);
+  redeemTx.inputs[0].setScript(script);
 
   console.log("**redeem transaction  ", redeemTx);
-  console.log("**redeem fee");
-  // console.log(redeemx.verify());
-  var res = await (0, _publicTx.publishTx)(redeemx.toString());
-  console.log(res);
+  var res = await publishTx(redeemTx.toString());
 
-  // return redeemx
+  return {
+    redeemTx: redeemTx,
+    rawTx: res
+  };
 }
 
 var getChangeAddress = async function getChangeAddress() {
   var refundAddr = await (0, _rawRequest.getRawChangeAddress)();
-  // const addressHex = new Buffer(refundAddr, 'hex');
   return refundAddr;
 };
