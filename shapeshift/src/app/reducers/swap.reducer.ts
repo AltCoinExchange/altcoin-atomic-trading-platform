@@ -1,4 +1,5 @@
 import * as swap from '../actions/swap.action';
+import {ShapeshiftStorage} from "../common/shapeshift-storage";
 
 export interface State {
   error: string;
@@ -25,7 +26,7 @@ export function reducer(state = initialState, action: swap.Actions): State {
       };
     }
     case swap.INITIATE_SUCCESS: {
-      localStorage.setItem(state.link, JSON.stringify(action.payload));
+      ShapeshiftStorage.set(state.link, JSON.stringify(action.payload));
       return {
         ...state,
         error: null,
@@ -42,10 +43,11 @@ export function reducer(state = initialState, action: swap.Actions): State {
     }
     case swap.LOAD_LOCAL_INITIATE_DATA: {
       const link = action.payload;
-      const data: string = localStorage.getItem(link);
+      const data: string = ShapeshiftStorage.get(link);
+      console.log('data', data);
       return {
         ...state,
-        initiateData: JSON.parse(data),
+        initiateData: data.length > 0 ? JSON.parse(data) : null,
       };
     }
     default: {

@@ -2,20 +2,21 @@ import * as walletAction from '../actions/wallet.action';
 import {BtcWalletModel} from '../models/wallets/btc-wallet.model';
 import {EthWalletModel} from '../models/wallets/eth-wallet.model';
 import * as wallet from 'wallet';
+import {ShapeshiftStorage} from "../common/shapeshift-storage";
 
 export interface State {
   BTC: BtcWalletModel;
   ETH: EthWalletModel;
 }
 
-const xprivKey = localStorage.getItem('xprivkey');
+const xprivKey = ShapeshiftStorage.get('xprivkey');
 let btc = {} as any;
 if (xprivKey) {
   btc = new wallet.Wallet.Bitcoin.BtcWallet(xprivKey, true);
 }
 
-const ethPrivKey = localStorage.getItem('ethprivkey');
-const ethKeyStore = localStorage.getItem('ethkeystore');
+const ethPrivKey = ShapeshiftStorage.get('ethprivkey');
+const ethKeyStore = ShapeshiftStorage.get('ethkeystore');
 let eth = {} as any;
 let ethLogin = {} as any;
 if (ethPrivKey && ethKeyStore) {
@@ -43,7 +44,7 @@ export function reducer(state = initialState, action: walletAction.Actions) {
         console.log(state);
         return state;
       }
-      localStorage.setItem('xprivkey', action.payload.xprivkey);
+      ShapeshiftStorage.set('xprivkey', action.payload.xprivkey);
       return {
         ...state,
         BTC: action.payload,
@@ -54,8 +55,8 @@ export function reducer(state = initialState, action: walletAction.Actions) {
         console.log(state);
         return state;
       }
-      localStorage.setItem('ethprivkey', action.payload.privateKey);
-      localStorage.setItem('ethkeystore', JSON.stringify(action.payload.keystore));
+      ShapeshiftStorage.set('ethprivkey', action.payload.privateKey);
+      ShapeshiftStorage.set('ethkeystore', JSON.stringify(action.payload.keystore));
       return {
         ...state,
         ETH: action.payload,

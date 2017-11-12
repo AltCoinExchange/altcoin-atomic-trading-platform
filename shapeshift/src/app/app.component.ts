@@ -7,6 +7,7 @@ import * as quoteAction from './actions/quote.action';
 import {BtcWalletModel} from './models/wallets/btc-wallet.model';
 import {EthWalletModel} from "./models/wallets/eth-wallet.model";
 import {environment} from "../environments/environment";
+import {ShapeshiftStorage} from "./common/shapeshift-storage";
 
 
 @Component({
@@ -42,7 +43,7 @@ export class AppComponent implements OnInit {
   }
 
   private generateBtcWallet(codes: any) {
-    const xprivKey = localStorage.getItem('xprivkey');
+    const xprivKey = ShapeshiftStorage.get('xprivkey');
     if (!xprivKey) {
       const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
       btc.generateHDPrivateKey();
@@ -56,7 +57,7 @@ export class AppComponent implements OnInit {
   }
 
   private generateEthWallet(codes: any) {
-    const ethprivkey = localStorage.getItem('ethprivkey');
+    const ethprivkey = ShapeshiftStorage.get('ethprivkey');
     if (!ethprivkey) {
       const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
       btc.generateHDPrivateKey();

@@ -4,6 +4,7 @@ import * as wallet from 'wallet';
 import {EthWalletModel} from '../wallets/eth-wallet.model';
 import {ContractResponseModel} from '../responses/contract-response.model';
 import {Observable} from "rxjs/Observable";
+import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 
 export class EthCoinModel implements Coin {
 
@@ -16,7 +17,7 @@ export class EthCoinModel implements Coin {
   generateNewAddress(ethWallet: EthWalletModel) {
     const eth = new wallet.Wallet.Ethereum.EthWallet();
     const acc = eth.create(ethWallet.privateKey);
-    localStorage.setItem('ethkeystore', JSON.stringify(acc.keystore));
+    ShapeshiftStorage.set('ethkeystore', JSON.stringify(acc.keystore));
     let address = acc.wallet.address.toString();
     return address;
   }
@@ -82,8 +83,8 @@ export class EthCoinModel implements Coin {
 
   private getSwapInstance(): any {
     const eth = new wallet.Wallet.Ethereum.EthWallet();
-    const ethPrivKey = localStorage.getItem('ethprivkey');
-    const ethKeyStore = JSON.parse(localStorage.getItem('ethkeystore'));
+    const ethPrivKey = ShapeshiftStorage.get('ethprivkey');
+    const ethKeyStore = JSON.parse(ShapeshiftStorage.get('ethkeystore'));
     eth.login(ethKeyStore, ethPrivKey);
     return eth;
   }
