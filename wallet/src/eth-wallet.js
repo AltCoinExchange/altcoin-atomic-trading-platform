@@ -40,6 +40,15 @@ export class EthWallet {
     }
 
     /**
+     * Recover account with password
+     * @param password
+     * @param privateKey
+     * @returns {{wallet, keystore}}
+     */
+    recover(privateKey, password) {
+        return this.atomicSwap.engine.RecoverAccount(privateKey, password);
+    }
+    /**
      * Initiate atomic swap
      * @param refundTime
      * @param secret

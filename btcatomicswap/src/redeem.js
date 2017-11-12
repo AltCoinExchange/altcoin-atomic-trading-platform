@@ -57,14 +57,14 @@ export async function redeem(strCt, strCtTx, secret) {
   const amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005*100000000
 
   // https://bitcoin.org/en/developer-examples#offline-signing
-  const redeemx = new Transaction()
+  const redeemTx = new Transaction()
 
   // TODO: "redeem output value of %v is dust"
   let output = Transaction.Output({
     script: outScript,
     satoshis: amount
   })
-  redeemx.addOutput(output)
+  redeemTx.addOutput(output)
 
 
   const input = Transaction.Input({
@@ -73,30 +73,26 @@ export async function redeem(strCt, strCtTx, secret) {
     script: new Script(ctTx.outputs[ctTxOutIdx].script)
   })
 
-  redeemx.uncheckedAddInput(input)
+  redeemTx.uncheckedAddInput(input)
 
 
   const inputIndex = 0
-  const {sig, pubKey} = await createSig(redeemx, inputIndex, contract, recipientAddress )
+  const {sig, pubKey} = await createSig(redeemTx, inputIndex, contract, recipientAddress )
 
 
   const script = redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
 
-  redeemx.inputs[0].setScript(script)
+  redeemTx.inputs[0].setScript(script)
 
   console.log("**redeem transaction  ", redeemTx);
-  console.log("**redeem fee");
-  // console.log(redeemx.verify());
-  const res = await publishTx(redeemx.toString())
-  console.log(res);
+  // const res = await publishTx(redeemTx.toString())
 
 
-  // return redeemx
+  // return redeemTx
 
 }
 
 const getChangeAddress = async function () {
   const refundAddr = await getRawChangeAddress();
-  // const addressHex = new Buffer(refundAddr, 'hex');
   return refundAddr;
 };

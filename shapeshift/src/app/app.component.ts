@@ -63,9 +63,10 @@ export class AppComponent implements OnInit {
       btc.generateHDPrivateKey();
       const eth = new wallet.Wallet.Ethereum.EthWallet;
       const privateKey = btc.hdPrivateKey.xprivkey.toString();
+      console.log(privateKey);
       const ethWallet = {
         privateKey: privateKey,
-        keystore: eth.create(privateKey).keystore,
+        keystore: eth.recover(privateKey, "")
       } as EthWalletModel;
 
       this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));

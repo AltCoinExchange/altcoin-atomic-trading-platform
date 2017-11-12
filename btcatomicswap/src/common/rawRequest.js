@@ -27,7 +27,7 @@ export const getRawChangeAddress = async () => {
     );
     return response.data.result;
   } catch (err) {
-    console.log(err);
+    console.log('err', err);
     return null;
   }
 };

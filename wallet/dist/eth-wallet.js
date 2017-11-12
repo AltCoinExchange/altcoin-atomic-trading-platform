@@ -56,6 +56,28 @@ var EthWallet = exports.EthWallet = function () {
         value: function create(password) {
             return this.atomicSwap.engine.CreateAccount(password);
         }
+
+        /**
+         * Recover account with password
+         * @param password
+         * @param privateKey
+         * @returns {{wallet, keystore}}
+         */
+
+    }, {
+        key: "recover",
+        value: function recover(privateKey, password) {
+            return this.atomicSwap.engine.RecoverAccount(privateKey, password);
+        }
+        /**
+         * Initiate atomic swap
+         * @param refundTime
+         * @param secret
+         * @param address
+         * @param amount
+         * @returns {Promise.<*>}
+         */
+
     }, {
         key: "initiate",
         value: async function initiate(refundTime, secret, address, amount) {
@@ -69,6 +91,49 @@ var EthWallet = exports.EthWallet = function () {
 
             var result = await this.atomicSwap.Initiate(refundTime, secret, address, amount);
             result.secret = secretObj;
+            return result;
+        }
+
+        /**
+         * Participate in atomic swap
+         * @param refundTime
+         * @param secret
+         * @param address
+         * @param amount
+         * @returns {Promise.<*>}
+         */
+
+    }, {
+        key: "participate",
+        value: async function participate(refundTime, secret, address, amount) {
+            var result = await this.atomicSwap.Participate(refundTime, secret, address, amount);
+            return result;
+        }
+
+        /**
+         * Redeem atomic swap
+         * @param secret
+         * @param hashedSecret
+         * @returns {Promise.<*>}
+         */
+
+    }, {
+        key: "redeem",
+        value: async function redeem(secret, hashedSecret) {
+            var result = await this.atomicSwap.Redeem(secret, hashedSecret);
+            return result;
+        }
+
+        /**
+         * Refund atomic swap
+         * @param hashedSecret
+         * @returns {Promise.<*>}
+         */
+
+    }, {
+        key: "refund",
+        value: async function refund(hashedSecret) {
+            var result = await this.atomicSwap.Refund(hashedSecret);
             return result;
         }
     }]);
