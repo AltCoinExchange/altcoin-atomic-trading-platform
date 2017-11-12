@@ -109,10 +109,23 @@ var Engine = function (configuration, appConfiguration, bin) {
     this.CreateAccount = function(password) {
         var accounts = this.web3.eth.accounts;
 
+        console.log(password);
         var acc = accounts.create();
         var keystore = acc.encrypt(password, {n: this.walletN});
 
         return {wallet: acc, keystore: keystore};
+    };
+
+    /**
+     * Recover account from password
+     * @param password
+     * @returns {*}
+     * @constructor
+     */
+    this.RecoverAccount = function(privateKey, password) {
+        var accounts = this.web3.eth.accounts;
+        var acc = accounts.privateKeyToAccount(this.web3.utils.asciiToHex(privateKey));
+        return acc.encrypt(privateKey, password);
     };
 
     this.Login = function(keystore, password) {
