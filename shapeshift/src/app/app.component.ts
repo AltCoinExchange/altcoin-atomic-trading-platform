@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
       console.log(privateKey);
       const ethWallet = {
         privateKey: privateKey,
-        keystore: eth.recover(privateKey, "").keystore,
+        keystore: eth.recover(privateKey, "")
       } as EthWalletModel;
 
       this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
