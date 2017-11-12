@@ -30,7 +30,7 @@ AtomicSwap = function (configuration, appConfiguration, bin) {
      * @constructor
      */
     this.Initiate = function (refundTime, secret, address, amount, extendedParams) {
-        var conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : 'milliether';
+        var conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : 'ether';
 
         var params = {
             from: this.appConfig.defaultWallet,
@@ -50,7 +50,7 @@ AtomicSwap = function (configuration, appConfiguration, bin) {
      * @param extendedParams
      */
     this.Participate = function (refundTime, secret, address, amount, extendedParams) {
-        var conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : 'milliether';
+        var conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : 'ether';
 
         var params = {
             from: this.appConfig.defaultWallet,

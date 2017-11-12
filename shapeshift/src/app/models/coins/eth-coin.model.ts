@@ -17,7 +17,7 @@ export class EthCoinModel implements Coin {
   generateNewAddress(ethWallet: EthWalletModel) {
     const eth = new wallet.Wallet.Ethereum.EthWallet();
     const xprivKey = ShapeshiftStorage.get('xprivkey');
-    const keystore = eth.recover(xprivKey, "")
+    const keystore = eth.recover(xprivKey, '');
     return keystore.address.toString();
   }
 
@@ -66,13 +66,14 @@ export class EthCoinModel implements Coin {
     const eth = this.getSwapInstance();
     const result = eth.participate(this.timeout, secretHash, address, this.amount);
     const resultObservable = Observable.fromPromise(result);
-    return resultObservable.map((result: any) => {
-      console.log('participate', result);
+    return resultObservable.map((res: any) => {
+      console.log('participate');
+      //let res = result[0].data.data;
       const model = new ContractResponseModel();
-      // model.secretHash = result.secret.hashedSecret;
       model.fee = 100;
+      model.secretHash = secretHash;
       // TODO: Find gas
-      return result;
+      return res;
     });
   }
 
@@ -82,11 +83,13 @@ export class EthCoinModel implements Coin {
     const eth = this.getSwapInstance();
     const result = eth.redeem(secret, secretHash);
     const resultObservable = Observable.fromPromise(result);
-    return resultObservable.map((result: any) => {
+    return resultObservable.map((res: any) => {
+      console.log('REDEEM');
+      console.log(res);
       const model = new ContractResponseModel();
       model.fee = 100;
       // TODO: Find gas
-      return result;
+      return model;
     });
   }
 
