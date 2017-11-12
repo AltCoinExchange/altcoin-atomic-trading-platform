@@ -84,6 +84,16 @@ export class EthWallet {
     }
 
     /**
+     * Extract swap info
+     * @param hashedSecret
+     * @returns {Promise.<*>}
+     */
+    async extractsecret(hashedSecret) {
+        const result = await this.atomicSwap.ExtractSecret(hashedSecret);
+        return result;
+    }
+
+    /**
      * Redeem atomic swap
      * @param secret
      * @param hashedSecret

@@ -78,6 +78,22 @@ AtomicSwap = function (configuration, appConfiguration, bin) {
     };
 
     /**
+     * Extract swaps info
+     * @param hashedSecret
+     * @returns {Promise}
+     * @constructor
+     */
+    this.ExtractSecret = function (hashedSecret, extendedParams) {
+
+        var params = {
+            from: this.appConfig.defaultWallet
+        };
+
+        this.engine.common.Extend(params, extendedParams);
+        return this.callFunction("swaps", [hashedSecret], params);
+    };
+
+    /**
      * Refund contract transaction
      * @param hashedSecret
      * @param extendedParams

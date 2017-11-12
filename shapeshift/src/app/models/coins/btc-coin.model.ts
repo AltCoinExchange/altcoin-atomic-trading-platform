@@ -26,6 +26,10 @@ export class BtcCoinModel implements Coin {
     return model;
   }
 
+  extractSecret(hashedSecret: string) {
+    throw new Error('Method not implemented.');
+  }
+
   initiate(address: string): any {
     const initiateResult = btcswap.initiate(address, this.amount);
     return Observable.fromPromise(initiateResult);

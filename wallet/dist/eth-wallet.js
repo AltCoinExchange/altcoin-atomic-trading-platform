@@ -111,6 +111,19 @@ var EthWallet = exports.EthWallet = function () {
         }
 
         /**
+         * Extract swap info
+         * @param hashedSecret
+         * @returns {Promise.<*>}
+         */
+
+    }, {
+        key: "extractsecret",
+        value: async function extractsecret(hashedSecret) {
+            var result = await this.atomicSwap.ExtractSecret(hashedSecret);
+            return result;
+        }
+
+        /**
          * Redeem atomic swap
          * @param secret
          * @param hashedSecret

@@ -5,9 +5,9 @@ import {EthWalletModel} from '../wallets/eth-wallet.model';
 import {ContractResponseModel} from '../responses/contract-response.model';
 import {Observable} from "rxjs/Observable";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
+import {SwapsResponseModel} from "../responses/swaps-response.model";
 
 export class EthCoinModel implements Coin {
-
   readonly timeout: number = 7200;
   readonly name: string = Coins[Coins.ETH].toString();
   readonly icon: string = 'assets/icon/eth-icon.png';
@@ -25,6 +25,27 @@ export class EthCoinModel implements Coin {
     const model = new EthCoinModel();
     model.amount = coin.amount;
     return model;
+  }
+
+  extractSecret(hashedSecret: string) {
+    const eth = this.getSwapInstance();
+    const result = eth.extractsecret(hashedSecret);
+    const resultObservable = Observable.fromPromise(result);
+    return resultObservable.map((result: any) => {
+      console.log(result);
+      const model = new SwapsResponseModel();
+      model.initTimestamp = result.initTimestamp;
+      model.refundTime = result.refundTime;
+      model.hashedSecret = result.hashedSecret;
+      model.secret = result.secret;
+      model.initiator = result.initiator;
+      model.participant = result.participant;
+      model.value = result.value;
+      model.emptied = result.emptied;
+      model.state = result.state;
+      // TODO: Find fee
+      return model;
+    });
   }
 
   initiate(address: string): Observable<ContractResponseModel> {

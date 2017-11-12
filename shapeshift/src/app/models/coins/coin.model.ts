@@ -1,3 +1,4 @@
+///<reference path="btc-coin.model.ts"/>
 import {WalletModel} from '../wallets/wallet.model';
 import {Coins} from './coins.enum';
 import {BtcCoinModel} from './btc-coin.model';
@@ -17,6 +18,7 @@ export abstract class Coin {
   abstract redeem(secret: string, contract: string, contractTx: string): any;
   abstract refund(hashedSecret: string);
   abstract refund(contract: string, contractTx: string): any;
+  abstract extractSecret(hashedSecret: string): any;
 }
 
 export class CoinFactory {
