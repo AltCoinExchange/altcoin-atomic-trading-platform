@@ -41,8 +41,8 @@ var Engine = function (configuration, appConfiguration, bin) {
      * @param params
      * @param generalParams
      */
-    this.callFunction = async function(name, params, generalParams) {
-
+    this.callFunction = async function(name, params, generalParams, confirmation) {
+        confirmation = confirmation === undefined ? false : confirmation;
         var functionAbi = this.clone(this.getFunctionAbi(this.config, name));
         var contract = new this.web3.eth.Contract(this.config, this.appConfig.contractAddress);
 
@@ -72,11 +72,20 @@ var Engine = function (configuration, appConfiguration, bin) {
                 //     sub.unsubscribe();
                 // });
 
-                contract.methods[name](...params).send(generalParams).on('receipt', function(rec) {
-                    resolve(rec);
-                }).catch(function(err) {
-                    reject(err);
-                });
+                if (!confirmation) {
+                    contract.methods[name](...params).send(generalParams).on('receipt', function (rec) {
+                        resolve(rec);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                } else {
+                    contract.methods[name](...params).send(generalParams).on('confirmation', function (confNumber, receipt) {
+                        receipt.confNumber = confNumber;
+                        resolve(receipt);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                }
                 // TODO Catch filters
                 // var filter = that.web3.eth.filter('pending');
                 //
