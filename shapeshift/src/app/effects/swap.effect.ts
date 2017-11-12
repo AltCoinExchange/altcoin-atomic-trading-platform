@@ -93,8 +93,9 @@ export class SwapEffect {
     .map(toPayload)
     .mergeMap(payload => {
       this.swapService.informInitiated(payload);
-      console.log('payload.data.secretHash', payload.data.secretHash);
-      return this.swapService.waitForParticipate(payload.data.secretHash).map(participateData => {
+      console.log('payload', payload);
+      console.log('waiting for participate', payload.data.secretHash + payload.data.address);
+      return this.swapService.waitForParticipate(payload.data.secretHash + payload.data.address).map(participateData => {
         return new WaitForParticipateSuccessAction(participateData);
       })
     });
@@ -111,7 +112,7 @@ export class SwapEffect {
           [
             new ParticipateSuccessAction(partData),
             new InformParticipatedAction({
-              id: data.secretHash,
+              id: data.secretHash + data.address,
               data: partData,
             }),
           ]
