@@ -53,8 +53,8 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
   const t = new Transaction(contractTx.hex);
   const contractTxHash = t.hash;
 
-  // TODO build REFUND !
-  // await buildRefund(contract, contractTx);
+  const {refundFee, refundTx} = await buildRefund(contract.toHex(), contractTx.hex);
+
 
   return {
     contract,
@@ -63,7 +63,7 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
     contractTxHash,
     contractTx,
     contractFee,
+    refundTx,
+    refundFee
   }
-
-
 };

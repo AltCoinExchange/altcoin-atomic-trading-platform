@@ -4,7 +4,7 @@ const Buffer = require('buffer/').Buffer;
 
 export const redeemP2SHContract = (contract, sig, pubkey, secret) => {
   const script = new Script();
-  script.add(new Buffer(sig));
+  script.add(sig);
   script.add(new Buffer(pubkey, 'hex'));
   script.add(new Buffer(secret, 'hex'));
   script.add(Opcode.OP_1);
