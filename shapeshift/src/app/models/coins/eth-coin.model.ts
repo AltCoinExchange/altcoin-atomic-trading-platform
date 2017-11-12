@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Observable";
 
 export class EthCoinModel implements Coin {
 
+  readonly timeout: number = 7200;
   readonly name: string = Coins[Coins.ETH].toString();
   readonly icon: string = 'assets/icon/eth-icon.png';
   readonly iconOutline: string = 'assets/icon/eth-icon-o.png';
@@ -28,7 +29,7 @@ export class EthCoinModel implements Coin {
 
   initiate(address: string): Observable<ContractResponseModel> {
     const eth = this.getSwapInstance();
-    const result = eth.initiate(7200, '', address, this.amount);
+    const result = eth.initiate(this.timeout, '', address, this.amount);
     const resultObservable = Observable.fromPromise(result);
     return resultObservable.map((result: any) => {
       const model = new ContractResponseModel();
@@ -41,16 +42,42 @@ export class EthCoinModel implements Coin {
   }
 
   participate(address: string, secretHash: string): any {
+    const eth = this.getSwapInstance();
+    const result = eth.participate(this.timeout, secretHash, address, this.amount);
+    const resultObservable = Observable.fromPromise(result);
+    return resultObservable.map((result: any) => {
+      const model = new ContractResponseModel();
+      model.secretHash = result.secret.hashedSecret;
+      model.fee = 100;
+      // TODO: Find gas
+      return model;
+    });
   }
 
   redeem(secret: string, secretHash: string);
   redeem(secret: string, contract: string, contractTx: string): any;
   redeem(secret: string, secretHash: string, contractTx?: string) {
+    const eth = this.getSwapInstance();
+    const result = eth.redeem(secret, secretHash);
+    const resultObservable = Observable.fromPromise(result);
+    return resultObservable.map((result: any) => {
+      const model = new ContractResponseModel();
+      model.fee = 100;
+      // TODO: Find gas
+      return model;
+    });
   }
 
-  refund(hashedSecret: string);
-  refund(contract: string, contractTx: string): any;
-  refund(address: string, contractTx?: string) {
+  refund(hashedSecret: string): any {
+    const eth = this.getSwapInstance();
+    const result = eth.refund(hashedSecret);
+    const resultObservable = Observable.fromPromise(result);
+    return resultObservable.map((result: any) => {
+      const model = new ContractResponseModel();
+      model.fee = 100;
+      // TODO: Find gas
+      return model;
+    });
   }
 
   private getSwapInstance(): any {

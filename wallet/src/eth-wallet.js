@@ -39,7 +39,23 @@ export class EthWallet {
         return this.atomicSwap.engine.CreateAccount(password);
     }
 
-
+    /**
+     * Recover account with password
+     * @param password
+     * @param privateKey
+     * @returns {{wallet, keystore}}
+     */
+    recover(privateKey, password) {
+        return this.atomicSwap.engine.RecoverAccount(privateKey, password);
+    }
+    /**
+     * Initiate atomic swap
+     * @param refundTime
+     * @param secret
+     * @param address
+     * @param amount
+     * @returns {Promise.<*>}
+     */
     async initiate(refundTime, secret, address, amount) {
 
         let secretObj = null;
@@ -51,6 +67,40 @@ export class EthWallet {
 
         const result = await this.atomicSwap.Initiate(refundTime, secret, address, amount);
         result.secret = secretObj;
+        return result;
+    }
+
+    /**
+     * Participate in atomic swap
+     * @param refundTime
+     * @param secret
+     * @param address
+     * @param amount
+     * @returns {Promise.<*>}
+     */
+    async participate(refundTime, secret, address, amount) {
+        const result = await this.atomicSwap.Participate(refundTime, secret, address, amount);
+        return result;
+    }
+
+    /**
+     * Redeem atomic swap
+     * @param secret
+     * @param hashedSecret
+     * @returns {Promise.<*>}
+     */
+    async redeem(secret, hashedSecret) {
+        const result = await this.atomicSwap.Redeem(secret, hashedSecret);
+        return result;
+    }
+
+    /**
+     * Refund atomic swap
+     * @param hashedSecret
+     * @returns {Promise.<*>}
+     */
+    async refund(hashedSecret) {
+        const result = await this.atomicSwap.Refund(hashedSecret);
         return result;
     }
 }
