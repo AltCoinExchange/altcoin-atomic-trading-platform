@@ -14,7 +14,8 @@ export class InitiateAction implements Action {
     address,
     amount,
     link,
-    coin
+    coin,
+    depositCoin
   }) {
 
   }

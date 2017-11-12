@@ -44,10 +44,9 @@ export function reducer(state = initialState, action: swap.Actions): State {
     case swap.LOAD_LOCAL_INITIATE_DATA: {
       const link = action.payload;
       const data: string = ShapeshiftStorage.get(link);
-      console.log('data', data);
       return {
         ...state,
-        initiateData: data.length > 0 ? JSON.parse(data) : null,
+        initiateData: data && data.length > 0 ? JSON.parse(data) : null,
       };
     }
     default: {

@@ -13,7 +13,6 @@ import {flyInOutAnimation} from '../../animations/animations';
 import {AnimationEnabledComponent} from '../../common/animation.component';
 import {disAssembleLink} from '../../common/link-util';
 import {Coins} from '../../models/coins/coins.enum';
-import { MessageTypes } from '../../models/message-types.enum';
 
 @Component({
   selector: 'app-swap-initiate',
@@ -58,7 +57,8 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
         address: this.address,
         amount: this.receiveCoin.amount,
         link: this.link,
-        coin: this.receiveCoin
+        coin: this.receiveCoin,
+        depositCoin: this.depositCoin,
       },
     ));
   }

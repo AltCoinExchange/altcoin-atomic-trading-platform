@@ -38,14 +38,22 @@ export class SwapEffect {
   initiate$: Observable<Action> = this.actions$
     .ofType(swapAction.INITIATE)
     .map(toPayload)
-    .mergeMap(payload => {
+    .withLatestFrom(this.store.select(walletSelector.getWalletState))
+    .mergeMap(([payload, wallets]) => {
+      const wallet = wallets[payload.depositCoin.name];
+      const newAddress = payload.depositCoin.generateNewAddress(wallet);
+
       return this.swapService.initiate(payload)
         .mergeMap(res => {
           return Observable.from([
             new swapAction.InitiateSuccessAction(res),
             new startAction.InformInitiatedAction({
               link: payload.link,
-              data: res,
+              data: {
+                secretHash: res.secretHash,
+                address: newAddress,
+                value: payload.depositCoin.amount,
+              },
             }),
             new Go({
               path: ['/complete'],
@@ -84,6 +92,15 @@ export class SwapEffect {
       return Observable.empty();
     });
 
+  @Effect()
+  participate: Observable<Action> = this.actions$
+    .ofType(startAction.WAIT_FOR_INITIATE_SUCCESS)
+    .map(toPayload)
+    .mergeMap(payload => {
+      const data = payload[0].data.data;
+      console.log('participateData', data);
+      return Observable.empty();
+    });
 
   constructor(private linkService: LinkService,
               private quoteService: QuoteService,

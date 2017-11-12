@@ -8,6 +8,7 @@ import {BtcWalletModel} from './models/wallets/btc-wallet.model';
 import {EthWalletModel} from "./models/wallets/eth-wallet.model";
 import {environment} from "../environments/environment";
 import {ShapeshiftStorage} from "./common/shapeshift-storage";
+import {EthCoinModel} from "./models/coins/eth-coin.model";
 
 
 @Component({
@@ -36,6 +37,12 @@ export class AppComponent implements OnInit {
     this.generateEthWallet(codes);
 
     this.store.dispatch(new quoteAction.LoadQuoteAction());
+
+    const ethTest = new EthCoinModel();
+    ethTest.amount = 1;
+    ethTest.participate("0x094ecCA39F315a90B3dCf3dcAEb96d538906A5A6", "0x604873302736b12943ff7dcd53658f0f29ff6dfd").subscribe(r => {
+      console.log(r);
+    });
   }
 
   public ngOnInit() {
