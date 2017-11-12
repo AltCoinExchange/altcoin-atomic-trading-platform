@@ -4,6 +4,7 @@ import {getRawChangeAddress} from './common/rawRequest';
 import {configuration} from "./config/config"
 import {extractAtomicSwapContract} from './contract/extract-atomic-swap-contract';
 import {redeemP2SHContract} from './contract/redeem-P2SH-contract';
+import {publishTx} from './common/public-tx';
 
 const Script = require('bitcore').Script;
 const Address = require('bitcore').Address;
@@ -13,7 +14,7 @@ const Transaction = require('bitcore').Transaction;
 const util = require('util');
 
 
-export async function redeem(strCt, strCtTx, secret) {
+export async function redeem(strCt, strCtTx, secret, privateKey) {
 
   // TODO: change strCt, strCtTx to ct, ctTx
   const contract = new Script(strCt);
@@ -76,7 +77,7 @@ export async function redeem(strCt, strCtTx, secret) {
 
 
   const inputIndex = 0
-  const {sig, pubKey} = await createSig(redeemTx, inputIndex, contract, recipientAddress)
+  const {sig, pubKey} = await createSig(redeemTx, inputIndex, contract, recipientAddress, privateKey);
 
 
   const script = redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);

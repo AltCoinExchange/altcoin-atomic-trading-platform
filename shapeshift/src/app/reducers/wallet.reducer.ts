@@ -29,6 +29,7 @@ export const initialState: State = {
     xprivkey: btc.hdPrivateKey ? btc.hdPrivateKey.xprivkey : '',
     addresses: {},
     derived: {},
+    wif: ShapeshiftStorage.get('btc-wif')
   },
   ETH: {
     privateKey: ethPrivKey,
@@ -45,6 +46,7 @@ export function reducer(state = initialState, action: walletAction.Actions) {
         return state;
       }
       ShapeshiftStorage.set('xprivkey', action.payload.xprivkey);
+      ShapeshiftStorage.set('btc-wif', action.payload.wif);
       return {
         ...state,
         BTC: action.payload,

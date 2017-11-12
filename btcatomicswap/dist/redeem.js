@@ -17,13 +17,15 @@ var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contrac
 
 var _redeemP2SHContract = require('./contract/redeem-P2SH-contract');
 
+var _publicTx = require('./common/public-tx');
+
 var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
 var Transaction = require('bitcore').Transaction;
 
 var util = require('util');
 
-async function redeem(strCt, strCtTx, secret) {
+async function redeem(strCt, strCtTx, secret, privateKey) {
 
   // TODO: change strCt, strCtTx to ct, ctTx
   var contract = new Script(strCt);
@@ -84,7 +86,7 @@ async function redeem(strCt, strCtTx, secret) {
 
   var inputIndex = 0;
 
-  var _ref = await (0, _createSig.createSig)(redeemTx, inputIndex, contract, recipientAddress),
+  var _ref = await (0, _createSig.createSig)(redeemTx, inputIndex, contract, recipientAddress, privateKey),
       sig = _ref.sig,
       pubKey = _ref.pubKey;
 
@@ -93,7 +95,7 @@ async function redeem(strCt, strCtTx, secret) {
   redeemTx.inputs[0].setScript(script);
 
   console.log("**redeem transaction  ", redeemTx);
-  var res = await publishTx(redeemTx.toString());
+  var res = await (0, _publicTx.publishTx)(redeemTx.toString());
 
   return {
     redeemTx: redeemTx,

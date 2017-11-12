@@ -4,6 +4,7 @@ import * as wallet from 'wallet';
 import {BtcWalletModel} from '../wallets/btc-wallet.model';
 import * as btcswap from 'btc-atomic-swap';
 import {Observable} from "rxjs/Observable";
+import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 
 export class BtcCoinModel implements Coin {
   readonly name: string = Coins[Coins.BTC].toString();
@@ -43,7 +44,8 @@ export class BtcCoinModel implements Coin {
   redeem(secret: string, secretHash: string);
   redeem(secret: string, contract: string, contractTx: string): any;
   redeem(secret: string, secretHash: string, contractTx?: string) {
-    const redeemResult = btcswap.redeem(/**contract*/ secret, /**contractTx*/secretHash, /**secret*/contractTx);
+    const wif = ShapeshiftStorage.get('btc-wif');
+    const redeemResult = btcswap.redeem(/**contract*/ secret, /**contractTx*/secretHash, /**secret*/contractTx, wif);
     return Observable.fromPromise(redeemResult);
   }
 

@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
 
       const btcWallet = {
         xprivkey: btc.hdPrivateKey.xprivkey,
+        wif: btc.hdPrivateKey.privateKey.toWIF(),
       } as BtcWalletModel;
 
       this.store.dispatch(new walletAction.SetBtcWalletAction(btcWallet));
