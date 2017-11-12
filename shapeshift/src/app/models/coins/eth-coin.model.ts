@@ -65,7 +65,7 @@ export class EthCoinModel implements Coin {
       const model = new ContractResponseModel();
       model.fee = 100;
       // TODO: Find gas
-      return model;
+      return result;
     });
   }
 

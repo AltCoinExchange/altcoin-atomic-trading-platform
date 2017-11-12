@@ -1,11 +1,16 @@
 import * as swap from '../actions/swap.action';
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
+import {Coin} from "../models/coins/coin.model";
 
 export interface State {
   error: string;
   loading: boolean;
   initiateData: any;
   link: string;
+  coins: {
+    receiveCoin: Coin,
+    depositCoin: Coin,
+  }
 }
 
 export const initialState: State = {
@@ -13,6 +18,10 @@ export const initialState: State = {
   loading: false,
   initiateData: undefined,
   link: undefined,
+  coins: {
+    receiveCoin: undefined,
+    depositCoin: undefined,
+  }
 };
 
 export function reducer(state = initialState, action: swap.Actions): State {
@@ -23,6 +32,10 @@ export function reducer(state = initialState, action: swap.Actions): State {
         error: null,
         loading: true,
         link: action.payload.link,
+        coins: {
+          receiveCoin: action.payload.coin,
+          depositCoin: action.payload.depositCoin,
+        }
       };
     }
     case swap.INITIATE_SUCCESS: {
@@ -58,3 +71,4 @@ export function reducer(state = initialState, action: swap.Actions): State {
 export const getInititeError = (state: State) => state.error;
 export const getInitiateLoading = (state: State) => state.loading;
 export const getInitiateData = (state: State) => state.initiateData;
+export const getSwapCoins = (state: State) => state.coins;

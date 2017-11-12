@@ -4,7 +4,8 @@ import {Action, Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import * as startAction from '../actions/start.action';
 import {
-  InformParticipatedAction, ParticipateSuccessAction,
+  InformParticipatedAction,
+  ParticipateSuccessAction,
   WaitForParticipateSuccessAction
 } from '../actions/start.action';
 import * as swapAction from '../actions/swap.action';
@@ -15,6 +16,7 @@ import {AppState} from '../reducers/app.state';
 import {LinkService} from '../services/link.service';
 import {SwapService} from '../services/swap.service';
 import {getSwapProcess} from "../selectors/start.selector";
+import {getInitiateData, getSwapCoins} from "../selectors/swap.selector";
 
 
 @Injectable()
@@ -93,8 +95,6 @@ export class SwapEffect {
     .map(toPayload)
     .mergeMap(payload => {
       this.swapService.informInitiated(payload);
-      console.log('payload', payload);
-      console.log('waiting for participate', payload.data.secretHash + payload.data.address);
       return this.swapService.waitForParticipate(payload.data.secretHash + payload.data.address).map(participateData => {
         return new WaitForParticipateSuccessAction(participateData);
       })
@@ -126,10 +126,26 @@ export class SwapEffect {
     .ofType(startAction.INFORM_PARTICIPATED)
     .map(toPayload)
     .mergeMap((data) => {
-      console.log('data.id', data.id);
       this.swapService.informParticipated(data);
       return Observable.empty();
     });
+
+  @Effect()
+  redeem: Observable<Action> = this.actions$
+    .ofType(startAction.WAIT_FOR_PARTICIPATE_SUCCESS)
+    .withLatestFrom(this.store.select(getInitiateData), this.store.select(getSwapCoins), (bla, initData, coins) => {
+      return {
+        initData, coins
+      }
+    })
+    .mergeMap((a) => {
+      console.log('initData', a);
+      a.coins.depositCoin.redeem('0x'+a.initData.secret, '0x'+a.initData.secretHash).subscribe(r => {
+        console.log(r);
+      });
+      return Observable.empty();
+    });
+
 
   constructor(private linkService: LinkService,
               private actions$: Actions,

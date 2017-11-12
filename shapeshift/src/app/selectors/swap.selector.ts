@@ -13,6 +13,9 @@ export const getInitiateLoading = createSelector(getSwapState,
 export const getInitiateData = createSelector(getSwapState,
   fromSwap.getInitiateData);
 
+export const getSwapCoins = createSelector(getSwapState,
+  fromSwap.getSwapCoins);
+
 
 export const getAuditState = createFeatureSelector<fromAudit.State>('audit');
 

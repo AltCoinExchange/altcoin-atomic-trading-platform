@@ -113,7 +113,6 @@ export class WaitForParticipateSuccessAction implements Action {
   readonly type = WAIT_FOR_PARTICIPATE_SUCCESS;
 
   constructor(public payload: any) {
-    console.log(WAIT_FOR_PARTICIPATE_SUCCESS, payload);
 
   }
 }
