@@ -38,6 +38,19 @@ export class SwapService {
     return coin.participate(address, '0x' + secretHash);
   }
 
+  public waitForRedeem(block) {
+    const due = 600000; // 20 minutes
+    return Observable
+      .interval(2000)
+      .flatMap(() => {
+        return this.bigChainDb.find(block);
+      })
+      .first((x: any[]) => {
+        return !!x.length;
+      })
+      .timeout(due);
+  }
+
 
   public waitForInitiate(link: string) {
     const due = 600000; // 20 minutes

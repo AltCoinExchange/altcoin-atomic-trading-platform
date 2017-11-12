@@ -125,6 +125,21 @@ export function reducer(state = initialState, action: swap.Actions): State {
         }
       }
     }
+    case swap.REDEEM_SUCCESS: {
+      return {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          status: {
+            ...state.swapProcess.status,
+            initiated: SwapSpinners.Completed,
+            participated: SwapSpinners.Completed,
+            redeeming: SwapSpinners.Completed,
+            done: SwapSpinners.Completed,
+          }
+        }
+      }
+    }
     default: {
       return state;
     }

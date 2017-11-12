@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import * as startAction from '../actions/start.action';
 import {
   InformParticipatedAction,
-  ParticipateSuccessAction,
+  ParticipateSuccessAction, RedeemSuccessAction,
   WaitForParticipateSuccessAction
 } from '../actions/start.action';
 import * as swapAction from '../actions/swap.action';
@@ -120,6 +120,23 @@ export class SwapEffect {
       });
     });
 
+  @Effect()
+  waitForRedeem: Observable<Action> = this.actions$
+    .ofType(startAction.PARTICIPATE_SUCCESS)
+    .map(toPayload)
+    .withLatestFrom(this.store.select(getSwapProcess))
+    .mergeMap(([payload, swapProcess]) => {
+      console.log('payload', payload.to + payload.blockHash);
+      console.log(swapProcess);
+      this.swapService.waitForRedeem(payload.to + payload.blockHash).subscribe(r => {
+        console.log(r[0].data.data);
+        swapProcess.depositCoin.extractSecret('0x' + r[0].data.data).subscribe(secret => {
+          console.log(secret);
+        });
+      });
+      return Observable.empty();
+    });
+
 
   @Effect()
   informParticipated: Observable<Action> = this.actions$
@@ -133,17 +150,20 @@ export class SwapEffect {
   @Effect()
   redeem: Observable<Action> = this.actions$
     .ofType(startAction.WAIT_FOR_PARTICIPATE_SUCCESS)
-    .withLatestFrom(this.store.select(getInitiateData), this.store.select(getSwapCoins), (bla, initData, coins) => {
+    .map(toPayload)
+    .withLatestFrom(this.store.select(getInitiateData), this.store.select(getSwapCoins), (payload, initData, coins) => {
       return {
-        initData, coins
+        payload, initData, coins
       }
     })
     .mergeMap((a) => {
-      console.log('initData', a);
-      a.coins.depositCoin.redeem('0x'+a.initData.secret, '0x'+a.initData.secretHash).subscribe(r => {
-        console.log(r);
+      return a.coins.depositCoin.redeem('0x' + a.initData.secret, '0x' + a.initData.secretHash).map(r => {
+        this.swapService.informParticipated({
+          id: a.payload[0].data.data.to + a.payload[0].data.data.blockHash,
+          data: a.initData.secretHash
+        });
+        return new RedeemSuccessAction();
       });
-      return Observable.empty();
     });
 
 

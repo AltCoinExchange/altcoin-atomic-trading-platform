@@ -44,7 +44,7 @@ export class EthCoinModel implements Coin {
       model.emptied = result.emptied;
       model.state = result.state;
       // TODO: Find fee
-      return model;
+      return result.secret;
     });
   }
 
@@ -72,7 +72,7 @@ export class EthCoinModel implements Coin {
       // model.secretHash = result.secret.hashedSecret;
       model.fee = 100;
       // TODO: Find gas
-      return model;
+      return result;
     });
   }
 

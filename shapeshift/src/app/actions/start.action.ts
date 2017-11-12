@@ -17,6 +17,8 @@ export const SET_RECEIVE_AMOUNT = 'SET_RECEIVE_AMOUNT';
 export const SET_ACTIVE_STEP = 'SET_ACTIVE_STEP';
 export const COMPLETE_SWAP = 'COMPLETE_SWAP';
 
+export const REDEEM_SUCCESS = 'REDEEM_SUCCESS';
+
 export class SwapDepositReceiveCoinsAction implements Action {
   readonly type = SWAP_DEPOSIT_RECEIVE_COINS;
 }
@@ -117,6 +119,15 @@ export class WaitForParticipateSuccessAction implements Action {
   }
 }
 
+export class RedeemSuccessAction implements Action {
+  readonly type = REDEEM_SUCCESS;
+
+  constructor(public payload?: any) {
+
+  }
+}
+
+
 export type Actions =
   SwapDepositReceiveCoinsAction
   | StartSwapAction
@@ -131,4 +142,5 @@ export type Actions =
   | ParticipateSuccessAction
   | InformParticipatedAction
   | WaitForParticipateSuccessAction
+  | RedeemSuccessAction
   ;
