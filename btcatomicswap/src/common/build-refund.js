@@ -11,7 +11,7 @@ import {publishTx} from "./public-tx.js"
 import {getFeePerKb} from './fee-per-kb';
 const BufferReader  = require('bitcore').encoding.BufferReader;
 
-export async function refund(strCt, strCtTx, secret) {
+export async function buildRefund(strCt, strCtTx) {
 
 
   // TODO: change strCt, strCtTx to ct, ctTx
@@ -25,7 +25,7 @@ export async function refund(strCt, strCtTx, secret) {
 
   const ctTx = new Transaction(strCtTx)
 
-  const refundAddrString = pushes.refundHash.replace('0x', '');
+  const refundAddrString = pushes.refundHash160.replace('0x', '');
   const refundAddress = AddressUtil.NewAddressPubKeyHash(refundAddrString, 'testnet');
 
   const contractP2SH = AddressUtil.NewAddressScriptHash(strCt, configuration.network);
@@ -53,13 +53,12 @@ export async function refund(strCt, strCtTx, secret) {
   const addr = new Address(await getChangeAddress())
 
   const outScript = Script.buildPublicKeyHashOut(addr)
-  const amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005*100000000
+  const refundFee = 0.0005*100000000
+  const amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   const refundTx = new Transaction()
   const lockTime = new BufferReader(pushes.lockTime).readUInt32LE()
-  // const lockTime = new BufferReader(pushes.lockTime)
-  console.log(lockTime);
   refundTx.lockUntilDate(lockTime)
 
   // TODO: "refund output value of %v is dust"
@@ -88,14 +87,11 @@ export async function refund(strCt, strCtTx, secret) {
 
   refundTx.inputs[0].setScript(script)
 
-  console.log("**refund transaction  ", refundTx);
-  console.log("**refund fee");
-  // console.log(refundTx.verify());
-  const res = await publishTx(refundTx.toString())
-  // console.log(res);
 
-
-  return refundTx
+  return {
+    refundFee,
+    refundTx
+  }
 
 }
 

@@ -14,7 +14,7 @@ export async function initiate(cp2Addr, amount) {
   console.log('Secret:              ', secret);
   console.log('Secret hash:         ', secretHash);
   console.log('Contract fee:        ', b.contractFee);
-  console.log('Refund fee:          ', '-- TODO --');
+  console.log('Refund fee:          ', b.refundFee);
   console.log('\n');
   console.log(
     'Contract:            ',
@@ -25,7 +25,8 @@ export async function initiate(cp2Addr, amount) {
   console.log('Contract transaction:', '(' + b.contractTxHash + ')');
   console.log(b.contractTx.hex);
   console.log('\n');
-  console.log('Refund transaction:  ', '(', '-- TODO --', ')');
+  console.log('Refund transaction:  ', '(', b.refundTx.hash, ')');
+  console.log(b.refundTx.toString());
   console.log('Published contract transaction: ', rawTx);
   return {
     secret,
