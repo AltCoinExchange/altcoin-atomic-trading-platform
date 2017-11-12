@@ -95,6 +95,7 @@ export function reducer(state = initialState, action: swap.Actions): State {
         },
       };
     }
+    case swap.INFORM_INITIATED:
     case swap.WAIT_FOR_INITIATE_SUCCESS: {
       return {
         ...state,
@@ -104,6 +105,22 @@ export function reducer(state = initialState, action: swap.Actions): State {
             ...state.swapProcess.status,
             initiated: SwapSpinners.Completed,
             participated: SwapSpinners.Active,
+          }
+        }
+      }
+    }
+
+    case swap.WAIT_FOR_PARTICIPATE_SUCCESS:
+    case swap.INFORM_PARTICIPATED: {
+      return {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          status: {
+            ...state.swapProcess.status,
+            initiated: SwapSpinners.Completed,
+            participated: SwapSpinners.Completed,
+            redeeming: SwapSpinners.Active,
           }
         }
       }

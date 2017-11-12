@@ -37,12 +37,6 @@ export class AppComponent implements OnInit {
     this.generateEthWallet(codes);
 
     this.store.dispatch(new quoteAction.LoadQuoteAction());
-
-    const ethTest = new EthCoinModel();
-    ethTest.amount = 1;
-    ethTest.participate("0x094ecCA39F315a90B3dCf3dcAEb96d538906A5A6", "0x604873302736b12943ff7dcd53658f0f29ff6dfd").subscribe(r => {
-      console.log(r);
-    });
   }
 
   public ngOnInit() {
@@ -70,7 +64,6 @@ export class AppComponent implements OnInit {
       btc.generateHDPrivateKey();
       const eth = new wallet.Wallet.Ethereum.EthWallet;
       const privateKey = btc.hdPrivateKey.xprivkey.toString();
-      console.log(privateKey);
       const ethWallet = {
         privateKey: privateKey,
         keystore: eth.recover(privateKey, "")

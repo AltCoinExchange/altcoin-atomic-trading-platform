@@ -16,10 +16,9 @@ export class EthCoinModel implements Coin {
 
   generateNewAddress(ethWallet: EthWalletModel) {
     const eth = new wallet.Wallet.Ethereum.EthWallet();
-    const acc = eth.create(ethWallet.privateKey);
-    ShapeshiftStorage.set('ethkeystore', JSON.stringify(acc.keystore));
-    let address = acc.wallet.address.toString();
-    return address;
+    const xprivKey = ShapeshiftStorage.get('xprivkey');
+    const keystore = eth.recover(xprivKey, "")
+    return keystore.address.toString();
   }
 
   update(coin: Coin): Coin {
@@ -47,8 +46,9 @@ export class EthCoinModel implements Coin {
     const result = eth.participate(this.timeout, secretHash, address, this.amount);
     const resultObservable = Observable.fromPromise(result);
     return resultObservable.map((result: any) => {
+      console.log('participate', result);
       const model = new ContractResponseModel();
-      model.secretHash = result.secret.hashedSecret;
+      // model.secretHash = result.secret.hashedSecret;
       model.fee = 100;
       // TODO: Find gas
       return model;

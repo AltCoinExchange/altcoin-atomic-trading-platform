@@ -3,6 +3,10 @@ import {Actions, Effect, toPayload} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import * as startAction from '../actions/start.action';
+import {
+  InformParticipatedAction, ParticipateSuccessAction,
+  WaitForParticipateSuccessAction
+} from '../actions/start.action';
 import * as swapAction from '../actions/swap.action';
 import * as auditContractAction from '../actions/swap-audit.action';
 import * as walletSelector from '../selectors/wallets.selector';
@@ -10,7 +14,7 @@ import {Go} from '../actions/router.action';
 import {AppState} from '../reducers/app.state';
 import {LinkService} from '../services/link.service';
 import {SwapService} from '../services/swap.service';
-import {QuoteService} from '../services/quote.service';
+import {getSwapProcess} from "../selectors/start.selector";
 
 
 @Injectable()
@@ -33,6 +37,16 @@ export class SwapEffect {
         });
       },
     );
+
+  @Effect()
+  auditContract$: Observable<Action> = this.actions$
+    .ofType(auditContractAction.SWAP_AUDIT)
+    .map(toPayload)
+    .mergeMap(payload => {
+      return this.swapService.auditContract(payload).map(r => {
+        return new auditContractAction.SwapAuditSuccessAction(r);
+      });
+    });
 
   @Effect()
   initiate$: Observable<Action> = this.actions$
@@ -64,16 +78,6 @@ export class SwapEffect {
     });
 
   @Effect()
-  auditContract$: Observable<Action> = this.actions$
-    .ofType(auditContractAction.SWAP_AUDIT)
-    .map(toPayload)
-    .mergeMap(payload => {
-      return this.swapService.auditContract(payload).map(r => {
-        return new auditContractAction.SwapAuditSuccessAction(r);
-      });
-    });
-
-  @Effect()
   waitForInitiate$: Observable<Action> = this.actions$
     .ofType(startAction.WAIT_FOR_INITIATE)
     .map(toPayload)
@@ -89,21 +93,44 @@ export class SwapEffect {
     .map(toPayload)
     .mergeMap(payload => {
       this.swapService.informInitiated(payload);
-      return Observable.empty();
+      console.log('payload.data.secretHash', payload.data.secretHash);
+      return this.swapService.waitForParticipate(payload.data.secretHash).map(participateData => {
+        return new WaitForParticipateSuccessAction(participateData);
+      })
     });
 
   @Effect()
   participate: Observable<Action> = this.actions$
     .ofType(startAction.WAIT_FOR_INITIATE_SUCCESS)
     .map(toPayload)
-    .mergeMap(payload => {
+    .withLatestFrom(this.store.select(getSwapProcess))
+    .mergeMap(([payload, swapProcess]) => {
       const data = payload[0].data.data;
-      console.log('participateData', data);
+      return this.swapService.participate(swapProcess.depositCoin, data.address, data.secretHash).mergeMap(partData => {
+        return Observable.from(
+          [
+            new ParticipateSuccessAction(partData),
+            new InformParticipatedAction({
+              id: data.secretHash,
+              data: partData,
+            }),
+          ]
+        );
+      });
+    });
+
+
+  @Effect()
+  informParticipated: Observable<Action> = this.actions$
+    .ofType(startAction.INFORM_PARTICIPATED)
+    .map(toPayload)
+    .mergeMap((data) => {
+      console.log('data.id', data.id);
+      this.swapService.informParticipated(data);
       return Observable.empty();
     });
 
   constructor(private linkService: LinkService,
-              private quoteService: QuoteService,
               private actions$: Actions,
               private store: Store<AppState>,
               private swapService: SwapService) {

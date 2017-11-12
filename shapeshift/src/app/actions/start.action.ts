@@ -7,6 +7,9 @@ export const WAIT_FOR_INITIATE = 'WAIT_FOR_INITIATE';
 export const WAIT_FOR_INITIATE_SUCCESS = 'WAIT_FOR_INITIATE_SUCCESS';
 export const INFORM_INITIATED = 'INFORM_INITIATED';
 
+export const PARTICIPATE_SUCCESS = 'PARTICIPATE_SUCCESS';
+export const INFORM_PARTICIPATED = 'INFORM_PARTICIPATED';
+export const WAIT_FOR_PARTICIPATE_SUCCESS = 'WAIT_FOR_PARTICIPATE_SUCCESS';
 
 export const SET_DEPOSIT_AMOUNT = 'SET_DEPOSIT_AMOUNT';
 export const SET_RECEIVE_AMOUNT = 'SET_RECEIVE_AMOUNT';
@@ -91,6 +94,30 @@ export class InformInitiatedAction implements Action {
   }
 }
 
+export class ParticipateSuccessAction implements Action {
+  readonly type = PARTICIPATE_SUCCESS;
+
+  constructor(public payload: any) {
+    console.log(PARTICIPATE_SUCCESS, payload);
+  }
+}
+
+export class InformParticipatedAction implements Action {
+  readonly type = INFORM_PARTICIPATED;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class WaitForParticipateSuccessAction implements Action {
+  readonly type = WAIT_FOR_PARTICIPATE_SUCCESS;
+
+  constructor(public payload: any) {
+    console.log(WAIT_FOR_PARTICIPATE_SUCCESS, payload);
+
+  }
+}
+
 export type Actions =
   SwapDepositReceiveCoinsAction
   | StartSwapAction
@@ -102,4 +129,7 @@ export type Actions =
   | WaitForInitiateAction
   | InformInitiatedAction
   | WaitForInitiateSuccessAction
+  | ParticipateSuccessAction
+  | InformParticipatedAction
+  | WaitForParticipateSuccessAction
   ;
