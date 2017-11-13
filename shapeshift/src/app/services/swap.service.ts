@@ -35,8 +35,8 @@ export class SwapService {
     return Observable.of(auditContractResults);
   }
 
-  public participate(coin: Coin, address, secretHash): Observable<any> {
-    return coin.participate(address, '0x' + secretHash);
+  public participate(coin: Coin, initiateData: InformInitiatedDataModel): Observable<any> {
+    return coin.participate(initiateData.data.address, '0x' + initiateData.data.secretHash);
   }
 
   public waitForRedeem(block) {
@@ -63,6 +63,7 @@ export class SwapService {
       .first((x: any[]) => {
         return !!x.length;
       })
+      .map(res => res[0].data)
       .timeout(due);
   }
 
@@ -77,6 +78,7 @@ export class SwapService {
       .first((x: any[]) => {
         return !!x.length;
       })
+      .map(res => res[0].data)
       .timeout(due);
   }
 
