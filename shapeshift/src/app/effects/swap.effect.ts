@@ -109,7 +109,7 @@ export class SwapEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getSwapProcess))
     .mergeMap(([payload, swapProcess]) => {
-      const data = payload.data;
+      const data = payload[0].data.data;
       return this.swapService.participate(swapProcess.depositCoin, data.address, data.secretHash).mergeMap(partData => {
         return Observable.from(
           [

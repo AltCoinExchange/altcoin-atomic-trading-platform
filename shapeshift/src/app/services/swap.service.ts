@@ -58,7 +58,7 @@ export class SwapService {
     return Observable
       .interval(2000)
       .flatMap(() => {
-        return this.bigChainDb.find(link)[0].data;
+        return this.bigChainDb.find(link);
       })
       .first((x: any[]) => {
         return !!x.length;
