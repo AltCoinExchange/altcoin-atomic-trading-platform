@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BigchainDbService} from './bigchain-db.service';
 import {Coin} from "../models/coins/coin.model";
+import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
 
 @Injectable()
 export class SwapService {
@@ -10,15 +11,15 @@ export class SwapService {
 
   }
 
-  public initiate({address, amount, coin,}): Observable<any> {
-    const initiateResult = coin.initiate(address, amount);
+  public initiate(address: string, coin: Coin): Observable<any> {
+    const initiateResult = coin.initiate(address);
     return initiateResult;
   }
 
-  public informInitiated({link, data}) {
+  public informInitiated(data: InformInitiatedDataModel) {
     this.bigChainDb.send({
-      id: link,
-      data: data,
+      id: data.link,
+      data: data.data,
     });
   }
 
@@ -57,7 +58,7 @@ export class SwapService {
     return Observable
       .interval(2000)
       .flatMap(() => {
-        return this.bigChainDb.find(link);
+        return this.bigChainDb.find(link)[0].data;
       })
       .first((x: any[]) => {
         return !!x.length;

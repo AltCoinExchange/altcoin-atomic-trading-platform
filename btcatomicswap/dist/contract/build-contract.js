@@ -33,11 +33,12 @@ var buildContract = exports.buildContract = async function buildContract(them, a
   var contractP2SH = _addressUtil.AddressUtil.NewAddressScriptHash(contract.toHex(), _config.configuration.network);
   var contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
   var feePerKb = await (0, _feePerKb.getFeePerKb)();
-
-  var transaction = new Transaction().fee(+amount * 100000000);
+  var value = +(+amount * 100000000).toFixed(8);
+  console.log('satoshi', value);
+  var transaction = new Transaction().fee(value);
   var output = Transaction.Output({
     script: contractP2SHPkScript,
-    satoshis: amount * 100000000
+    satoshis: value
   });
   transaction.addOutput(output);
   var contractFee = void 0;

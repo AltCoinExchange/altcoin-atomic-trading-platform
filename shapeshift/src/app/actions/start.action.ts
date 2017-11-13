@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
 
 export const SWAP_DEPOSIT_RECEIVE_COINS = 'SWAP_DEPOSIT_RECEIVE_COINS';
 export const START_SWAP = 'START_SWAP';
@@ -84,14 +85,14 @@ export class WaitForInitiateSuccessAction implements Action {
   readonly type = WAIT_FOR_INITIATE_SUCCESS;
 
   constructor(public payload: any) {
-    console.log(payload);
+    console.log('!!!!! ', WAIT_FOR_INITIATE_SUCCESS, payload);
   }
 }
 
 export class InformInitiatedAction implements Action {
   readonly type = INFORM_INITIATED;
 
-  constructor(public payload?: any) {
+  constructor(public payload: InformInitiatedDataModel) {
 
   }
 }

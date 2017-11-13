@@ -61,7 +61,7 @@ export class SwapEffect {
       const newAddress = payload.depositCoin.generateNewAddress(wallet);
       console.log('newAddress', newAddress);
 
-      return this.swapService.initiate(payload)
+      return this.swapService.initiate(payload.address, payload.coin)
         .mergeMap(res => {
           return Observable.from([
             new swapAction.InitiateSuccessAction(res),
@@ -109,7 +109,7 @@ export class SwapEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getSwapProcess))
     .mergeMap(([payload, swapProcess]) => {
-      const data = payload[0].data.data;
+      const data = payload.data;
       return this.swapService.participate(swapProcess.depositCoin, data.address, data.secretHash).mergeMap(partData => {
         return Observable.from(
           [

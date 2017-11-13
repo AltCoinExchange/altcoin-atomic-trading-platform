@@ -26,11 +26,12 @@ export const buildContract = async (them, amount, lockTime, secretHash) => {
   const contractP2SH = AddressUtil.NewAddressScriptHash(contract.toHex(), configuration.network);
   const contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
   const feePerKb = await getFeePerKb();
-
-  const transaction = new Transaction().fee(+amount * 100000000);
+  let value = +(+amount * 100000000).toFixed(8); //todo use bignumber
+  console.log('satoshi', value);
+  const transaction = new Transaction().fee(value);
   const output = Transaction.Output({
     script: contractP2SHPkScript,
-    satoshis: amount * 100000000,
+    satoshis: value,
   });
   transaction.addOutput(output);
   let contractFee;

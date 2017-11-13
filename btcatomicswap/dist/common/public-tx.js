@@ -15,6 +15,7 @@ var rpc = new RpcClient(_config.configuration);
 var publishTx = exports.publishTx = function publishTx(tx) {
   return new Promise(function (resolve, reject) {
     rpc.sendRawTransaction(tx, function (a, b) {
+      console.log(b);
       resolve(b.result);
     });
   });

@@ -21,6 +21,8 @@ var _publicTx = require('./public-tx.js');
 
 var _feePerKb = require('./fee-per-kb');
 
+var _sizeest = require('./sizeest');
+
 var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
 
@@ -68,8 +70,6 @@ async function buildRefund(strCt, strCtTx) {
   var addr = new Address((await getChangeAddress()));
 
   var outScript = Script.buildPublicKeyHashOut(addr);
-  var refundFee = 0.0005 * 100000000;
-  var amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee;
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   var refundTx = new Transaction();
@@ -79,8 +79,24 @@ async function buildRefund(strCt, strCtTx) {
   // TODO: "refund output value of %v is dust"
   var output = Transaction.Output({
     script: outScript,
+    satoshis: 0
+  });
+
+  refundTx.addOutput(output);
+
+  var feePerKb = await (0, _feePerKb.getFeePerKb)();
+  var redeemSerializeSize = (0, _sizeest.estimateRefundSerializeSize)(contract, refundTx.outputs);
+
+  var fee = (0, _sizeest.feeForSerializeSize)(feePerKb, redeemSerializeSize) * 100000000;
+
+  var amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
+
+  output = Transaction.Output({
+    script: outScript,
     satoshis: amount
   });
+
+  refundTx.removeOutput(0);
   refundTx.addOutput(output);
 
   var input = Transaction.Input({
@@ -103,7 +119,7 @@ async function buildRefund(strCt, strCtTx) {
   refundTx.inputs[0].setScript(script);
 
   return {
-    refundFee: refundFee,
+    fee: fee,
     refundTx: refundTx
   };
 }
