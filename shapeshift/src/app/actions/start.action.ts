@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
 import {InformParticipatedDataModel} from "../models/inform-participated-data.model";
+import {ParticipateData} from "../models/factory-participated-data";
 
 export const SWAP_DEPOSIT_RECEIVE_COINS = 'SWAP_DEPOSIT_RECEIVE_COINS';
 export const START_SWAP = 'START_SWAP';
@@ -116,7 +117,7 @@ export class InformParticipatedAction implements Action {
 export class WaitForParticipateSuccessAction implements Action {
   readonly type = WAIT_FOR_PARTICIPATE_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: ParticipateData) {
 
   }
 }

@@ -30,6 +30,13 @@ export class SwapService {
     });
   }
 
+  public informRedeemed({id, data}) {
+    this.bigChainDb.send({
+      id,
+      data,
+    });
+  }
+
   public auditContract({contractHex, contractTxHex}): Observable<any> {
     const auditContractResults = btcswap.auditContract(contractHex, contractTxHex);
     return Observable.of(auditContractResults);

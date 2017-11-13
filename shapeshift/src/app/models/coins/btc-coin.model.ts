@@ -45,11 +45,9 @@ export class BtcCoinModel implements Coin {
     return Observable.fromPromise(participateResult);
   }
 
-  redeem(secret: string, secretHash: string);
-  redeem(secret: string, contract: string, contractTx: string): any;
-  redeem(secret: string, secretHash: string, contractTx?: string) {
+  redeem(data) {
     const wif = ShapeshiftStorage.get('btc-wif');
-    const redeemResult = btcswap.redeem(/**contract*/ secret, /**contractTx*/secretHash, /**secret*/contractTx, wif);
+    const redeemResult = btcswap.redeem(/**contract*/ data.contractHex, /**contractTx*/data.contractTxHex, /**secret*/data.secret, wif);
     return Observable.fromPromise(redeemResult);
   }
 

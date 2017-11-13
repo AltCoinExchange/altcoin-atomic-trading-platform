@@ -20,6 +20,7 @@ import {getSwapProcess} from "../selectors/start.selector";
 import {getInitiateData, getSwapCoins} from "../selectors/swap.selector";
 import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
 import {InformParticipatedDataModel} from "../models/inform-participated-data.model";
+import {ParticipateDataFactory} from "../models/factory-participated-data";
 
 
 @Injectable()
@@ -99,7 +100,7 @@ export class SwapEffect {
     .mergeMap((payload: InformInitiatedDataModel) => {
       this.swapService.informInitiated(payload);
       return this.swapService.waitForParticipate(payload.participateId).map(participateData => {
-        return new WaitForParticipateSuccessAction(participateData);
+        return new WaitForParticipateSuccessAction(ParticipateDataFactory.createData(participateData.data.coin, participateData.data));
       })
     });
 
@@ -115,7 +116,7 @@ export class SwapEffect {
         return Observable.from(
           [
             new ParticipateSuccessAction(partData),
-            new InformParticipatedAction(new InformParticipatedDataModel(initiateData.participateId, partData)),
+            new InformParticipatedAction(new InformParticipatedDataModel(initiateData.participateId, partData, swapProcess.depositCoin.name)),
           ]
         );
       });
@@ -164,15 +165,12 @@ export class SwapEffect {
     })
     .mergeMap((a) => {
       console.log('WAIT_FOR_PARTICIPATE_SUCCESS', a);
-      let redeem;
-      if (a.payload.data.contract) {
-        console.log('redeeming params', a.payload.data.contractHex, a.payload.data.contractTxHex, a.initData.secret);
-        redeem = a.coins.depositCoin.redeem(a.payload.data.contractHex, a.payload.data.contractTxHex, a.initData.secret);
-      } else {
-        redeem = a.coins.depositCoin.redeem('0x' + a.initData.secret, '0x' + a.initData.secretHash);
-      }
+      let redeemParams = a.payload.redeemParams(a.initData);
+      console.log('!!! redeemParams !!!', redeemParams);
+      let redeem = a.coins.depositCoin.redeem(redeemParams);
+
       return redeem.map(r => {
-        console.log('r', r);
+        console.log('redeem data: ', r);
 
         let id;
         if (a.payload.data.to) {
@@ -181,11 +179,11 @@ export class SwapEffect {
           id = a.payload.data.rawTx;
         }
         console.log('id', id);
-        let informParticipate = {
+        let informRedeem = {
           id: id,
           data: a.initData.secretHash
         };
-        this.swapService.informParticipated(informParticipate);
+        this.swapService.informRedeemed(informRedeem);
         return new RedeemSuccessAction();
       });
     });
