@@ -40,16 +40,17 @@ export class EthCoinModel implements Coin {
     const resultObservable = Observable.fromPromise(result);
     return resultObservable.map((result: any) => {
       console.log(result);
+      const res = result[0].data.data;
       const model = new SwapsResponseModel();
-      model.initTimestamp = result.initTimestamp;
-      model.refundTime = result.refundTime;
-      model.hashedSecret = result.hashedSecret;
-      model.secret = result.secret;
-      model.initiator = result.initiator;
-      model.participant = result.participant;
-      model.value = result.value;
-      model.emptied = result.emptied;
-      model.state = result.state;
+      model.initTimestamp = res.initTimestamp;
+      model.refundTime = res.refundTime;
+      model.hashedSecret = res.hashedSecret;
+      model.secret = res.secret;
+      model.initiator = res.initiator;
+      model.participant = res.participant;
+      model.value = res.value;
+      model.emptied = res.emptied;
+      model.state = res.state;
       // TODO: Find fee
       return result.secret;
     });
