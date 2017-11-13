@@ -9,6 +9,7 @@ import {AddressUtil} from './address-util';
 import {configuration} from "../config/config"
 import {publishTx} from "./public-tx.js"
 import {getFeePerKb} from './fee-per-kb';
+import {feeForSerializeSize, estimateRefundSerializeSize} from './sizeest';
 const BufferReader  = require('bitcore').encoding.BufferReader;
 
 export async function buildRefund(strCt, strCtTx) {
@@ -53,8 +54,7 @@ export async function buildRefund(strCt, strCtTx) {
   const addr = new Address(await getChangeAddress())
 
   const outScript = Script.buildPublicKeyHashOut(addr)
-  const refundFee = 0.0005*100000000
-  const amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee
+
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   const refundTx = new Transaction()
@@ -64,8 +64,24 @@ export async function buildRefund(strCt, strCtTx) {
   // TODO: "refund output value of %v is dust"
   let output = Transaction.Output({
     script: outScript,
+    satoshis: 0
+  })
+
+  refundTx.addOutput(output)
+
+  const feePerKb = await getFeePerKb()
+  const redeemSerializeSize = estimateRefundSerializeSize(contract, refundTx.outputs)
+
+  const fee = feeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000
+
+  const amount = ctTx.outputs[ctTxOutIdx].satoshis - fee
+
+  output = Transaction.Output({
+    script: outScript,
     satoshis: amount
   })
+
+  refundTx.removeOutput(0)
   refundTx.addOutput(output)
 
 
@@ -89,7 +105,7 @@ export async function buildRefund(strCt, strCtTx) {
 
 
   return {
-    refundFee,
+    fee,
     refundTx
   }
 

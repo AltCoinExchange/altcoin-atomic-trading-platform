@@ -5,6 +5,10 @@ import {getRawChangeAddress} from './common/rawRequest';
 import {configuration} from "./config/config"
 import {extractAtomicSwapContract} from './contract/extract-atomic-swap-contract';
 import {redeemP2SHContract} from './contract/redeem-P2SH-contract';
+import {getFeePerKb} from './common/fee-per-kb';
+import {feeForSerializeSize, estimateRedeemSerializeSize} from './common/sizeest';
+
+
 
 const Script = require('bitcore').Script;
 const Address = require('bitcore').Address;
@@ -12,7 +16,7 @@ const Transaction = require('bitcore').Transaction;
 const PrivateKey = require('bitcore').PrivateKey;
 
 
-export async function redeem(strCt, strCtTx, secret, privateKey) {
+export async function redeem(strCt, strCtTx, secret) {
   console.log('REDEEMING');
 
   // TODO: change strCt, strCtTx to ct, ctTx
@@ -48,14 +52,14 @@ export async function redeem(strCt, strCtTx, secret, privateKey) {
     console.log("transaction does not contain a contract output");
     return
   }
-  const PK = PrivateKey.fromWIF(privateKey);
-  const newRawAddr = PK.toPublicKey().toAddress(configuration.network);
-  console.log('newRawAddr', newRawAddr);
+  // const PK = PrivateKey.fromWIF(privateKey);
+  // const newRawAddr = PK.toPublicKey().toAddress(configuration.network);
+  // console.log('newRawAddr', newRawAddr);
   // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
-  const addr = new Address(newRawAddr);
+  // const addr = new Address(newRawAddr);
+  const addr = new Address(await getRawChangeAddress());
 
   const outScript = Script.buildPublicKeyHashOut(addr);
-  const amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005 * 100000000;
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   const redeemTx = new Transaction()
@@ -63,8 +67,24 @@ export async function redeem(strCt, strCtTx, secret, privateKey) {
   // TODO: "redeem output value of %v is dust"
   let output = Transaction.Output({
     script: outScript,
-    satoshis: amount,
+    satoshis: 0,
   })
+
+  redeemTx.addOutput(output)
+
+  const feePerKb = await getFeePerKb()
+  const redeemSerializeSize = estimateRedeemSerializeSize(contract, redeemTx.outputs)
+
+  const fee = feeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000
+
+  const amount = ctTx.outputs[ctTxOutIdx].satoshis - fee
+
+  output = Transaction.Output({
+    script: outScript,
+    satoshis: amount
+  })
+
+  redeemTx.removeOutput(0)
   redeemTx.addOutput(output)
 
 
@@ -78,7 +98,7 @@ export async function redeem(strCt, strCtTx, secret, privateKey) {
 
 
   const inputIndex = 0
-  const {sig, pubKey} = await createSig(redeemTx, inputIndex, contract, recipientAddress, privateKey);
+  const {sig, pubKey} = await createSig(redeemTx, inputIndex, contract, recipientAddress);
 
 
   const script = redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
@@ -103,6 +123,6 @@ export async function redeem(strCt, strCtTx, secret, privateKey) {
 }
 
 const getChangeAddress = async function () {
-  const refundAddr = await getRawChangeAddress();
-  return refundAddr;
+  const redeemdAddr = await getRawChangeAddress();
+  return redeemdAddr;
 };
