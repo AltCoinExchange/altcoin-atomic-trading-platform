@@ -42,7 +42,7 @@ var Engine = function (configuration, appConfiguration, bin) {
      * @param generalParams
      */
     this.callFunction = async function(name, params, generalParams, confirmation) {
-        confirmation = confirmation === undefined ? false : confirmation;
+        confirmation = confirmation === undefined ? 0 : confirmation;
         var functionAbi = this.clone(this.getFunctionAbi(this.config, name));
         var contract = new this.web3.eth.Contract(this.config, this.appConfig.contractAddress);
 
@@ -72,38 +72,28 @@ var Engine = function (configuration, appConfiguration, bin) {
                 //     sub.unsubscribe();
                 // });
 
-                if (!confirmation) {
-                    contract.methods[name](...params).send(generalParams).on('receipt', function (rec) {
+                let method = contract.methods[name](...params);
+
+                if (confirmation === 0) {
+                    method.send(generalParams).on('receipt', function (rec) {
                         resolve(rec);
                     }).catch(function (err) {
                         reject(err);
                     });
-                } else {
-                    contract.methods[name](...params).send(generalParams).on('confirmation', function (confNumber, receipt) {
+                } else if (confirmation === 1) {
+                    method.send(generalParams).on('confirmation', function (confNumber, receipt) {
                         receipt.confNumber = confNumber;
                         resolve(receipt);
                     }).catch(function (err) {
                         reject(err);
                     });
+                } else if (confirmation === 2) {
+                    method.call(generalParams, function (err, result) {
+                        resolve(result);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
                 }
-                // TODO Catch filters
-                // var filter = that.web3.eth.filter('pending');
-                //
-                // filter.watch(function (error, log) {
-                //     console.log(log);
-                // });
-
-                // contract._executeMethod.call(funcObj, 'send', generalParams, function (err, result) {
-                //     if (err)
-                //         reject(err);
-                //     else
-                //         resolve(result);
-                // }).then(function(r) {
-                //     console.log(r);
-                // }).catch(function (err) {
-                //     console.log(err);
-                //     reject(err);
-                // });
             } catch (e) {
                 reject(e);
             }
