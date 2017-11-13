@@ -9,6 +9,8 @@ var _addressUtil = require('./common/address-util');
 
 var _createSig = require('./common/createSig');
 
+var _publicTx = require('./common/public-tx');
+
 var _rawRequest = require('./common/rawRequest');
 
 var _config = require('./config/config');
@@ -17,13 +19,10 @@ var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contrac
 
 var _redeemP2SHContract = require('./contract/redeem-P2SH-contract');
 
-var _publicTx = require('./common/public-tx');
-
 var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
 var Transaction = require('bitcore').Transaction;
-
-var util = require('util');
+var PrivateKey = require('bitcore').PrivateKey;
 
 async function redeem(strCt, strCtTx, secret, privateKey) {
 
@@ -59,9 +58,11 @@ async function redeem(strCt, strCtTx, secret, privateKey) {
     console.log("transaction does not contain a contract output");
     return;
   }
-
-  // TODO:  "getrawchangeaddres" + erroe
-  var addr = new Address((await getChangeAddress()));
+  var PK = PrivateKey.fromWIF(privateKey);
+  var newRawAddr = PK.toPublicKey().toAddress(_config.configuration.network);
+  console.log('newRawAddr', newRawAddr);
+  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+  var addr = new Address(newRawAddr);
 
   var outScript = Script.buildPublicKeyHashOut(addr);
   var amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005 * 100000000;
@@ -95,6 +96,7 @@ async function redeem(strCt, strCtTx, secret, privateKey) {
   redeemTx.inputs[0].setScript(script);
 
   console.log("**redeem transaction  ", redeemTx);
+  console.log("**redeem transaction  ", redeemTx.toString());
   var res = await (0, _publicTx.publishTx)(redeemTx.toString());
 
   return {

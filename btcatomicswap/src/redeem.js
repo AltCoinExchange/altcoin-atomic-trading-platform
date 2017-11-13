@@ -1,20 +1,19 @@
 import {AddressUtil} from './common/address-util';
 import {createSig} from './common/createSig';
+import {publishTx} from './common/public-tx';
 import {getRawChangeAddress} from './common/rawRequest';
 import {configuration} from "./config/config"
 import {extractAtomicSwapContract} from './contract/extract-atomic-swap-contract';
 import {redeemP2SHContract} from './contract/redeem-P2SH-contract';
-import {publishTx} from './common/public-tx';
 
 const Script = require('bitcore').Script;
 const Address = require('bitcore').Address;
 const Transaction = require('bitcore').Transaction;
-
-
-const util = require('util');
+const PrivateKey = require('bitcore').PrivateKey;
 
 
 export async function redeem(strCt, strCtTx, secret, privateKey) {
+  console.log('REDEEMING');
 
   // TODO: change strCt, strCtTx to ct, ctTx
   const contract = new Script(strCt);
@@ -49,12 +48,14 @@ export async function redeem(strCt, strCtTx, secret, privateKey) {
     console.log("transaction does not contain a contract output");
     return
   }
+  const PK = PrivateKey.fromWIF(privateKey);
+  const newRawAddr = PK.toPublicKey().toAddress(configuration.network);
+  console.log('newRawAddr', newRawAddr);
+  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+  const addr = new Address(newRawAddr);
 
-  // TODO:  "getrawchangeaddres" + erroe
-  const addr = new Address(await getChangeAddress())
-
-  const outScript = Script.buildPublicKeyHashOut(addr)
-  const amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005 * 100000000
+  const outScript = Script.buildPublicKeyHashOut(addr);
+  const amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005 * 100000000;
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   const redeemTx = new Transaction()
@@ -85,12 +86,19 @@ export async function redeem(strCt, strCtTx, secret, privateKey) {
   redeemTx.inputs[0].setScript(script)
 
   console.log("**redeem transaction  ", redeemTx);
-  const res = await publishTx(redeemTx.toString())
+  console.log("**redeem transaction  ", redeemTx.toString());
+  let res;
+  try {
+    res = await publishTx(redeemTx.toString())
 
+  } catch (e) {
+    console.log(e);
+  }
+  console.log('RESPONSE!!! ', res);
 
   return {
     redeemTx,
-    rawTx: res
+    rawTx: res,
   }
 }
 

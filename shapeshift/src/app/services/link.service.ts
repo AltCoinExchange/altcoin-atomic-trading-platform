@@ -10,6 +10,7 @@ export class LinkService {
   public generateLink(coins, wallets): Observable<string> {
     const wallet = wallets[coins.receiveCoin.name];
     const address = coins.receiveCoin.generateNewAddress(wallet);
+    console.log(coins.receiveCoin.name, address);
     const link = assembleLink(
       coins.depositCoin.name,
       coins.depositCoin.amount,

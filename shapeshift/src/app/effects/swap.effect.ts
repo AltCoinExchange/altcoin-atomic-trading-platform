@@ -59,6 +59,7 @@ export class SwapEffect {
     .mergeMap(([payload, wallets]) => {
       const wallet = wallets[payload.depositCoin.name];
       const newAddress = payload.depositCoin.generateNewAddress(wallet);
+      console.log('newAddress', newAddress);
 
       return this.swapService.initiate(payload)
         .mergeMap(res => {
@@ -168,7 +169,7 @@ export class SwapEffect {
       console.log('WAIT_FOR_PARTICIPATE_SUCCESS', a);
       let redeem;
       if (a.payload[0].data.data.contract) {
-        console.log('redeeming params', a.payload[0].data.data.contract, a.payload[0].data.data.contractTx.hex, a.initData.secret);
+        console.log('redeeming params', a.payload[0].data.data.contractHex, a.payload[0].data.data.contractTxHex, a.initData.secret);
         redeem = a.coins.depositCoin.redeem(a.payload[0].data.data.contractHex, a.payload[0].data.data.contractTxHex, a.initData.secret);
       } else {
         redeem = a.coins.depositCoin.redeem('0x' + a.initData.secret, '0x' + a.initData.secretHash);
