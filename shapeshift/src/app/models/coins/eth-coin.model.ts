@@ -21,6 +21,13 @@ export class EthCoinModel implements Coin {
     return keystore.address.toString();
   }
 
+  getBalance(address: string) {
+    const eth = this.getSwapInstance();
+    const result = eth.getbalance(address);
+    const resultObservable = Observable.fromPromise(result);
+    return resultObservable;
+  }
+
   update(coin: Coin): Coin {
     const model = new EthCoinModel();
     model.amount = coin.amount;

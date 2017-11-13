@@ -19,6 +19,7 @@ export abstract class Coin {
   abstract refund(hashedSecret: string);
   abstract refund(contract: string, contractTx: string): any;
   abstract extractSecret(hashedSecret: string): any;
+  abstract getBalance(address: string): any;
 }
 
 export class CoinFactory {

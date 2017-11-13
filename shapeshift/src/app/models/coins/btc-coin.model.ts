@@ -27,6 +27,10 @@ export class BtcCoinModel implements Coin {
     return model;
   }
 
+  getBalance(address: string) {
+    throw new Error("Method not implemented.");
+  }
+
   extractSecret(hashedSecret: string) {
     throw new Error('Method not implemented.');
   }
