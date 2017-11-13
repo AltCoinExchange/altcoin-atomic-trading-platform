@@ -69,6 +69,18 @@ var EthWallet = exports.EthWallet = function () {
         value: function recover(privateKey, password) {
             return this.atomicSwap.engine.RecoverAccount(privateKey, password);
         }
+
+        /**
+         * Get wallet balance
+         * @param address
+         * @returns {*}
+         */
+
+    }, {
+        key: "getbalance",
+        value: function getbalance(address) {
+            return this.atomicSwap.engine.GetBalance(address);
+        }
         /**
          * Initiate atomic swap
          * @param refundTime
