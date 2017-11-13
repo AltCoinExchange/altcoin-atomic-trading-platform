@@ -157,6 +157,16 @@ var Engine = function (configuration, appConfiguration, bin) {
     };
 
     /**
+     * Get balance
+     * @param address
+     * @returns {Promise<number>}
+     * @constructor
+     */
+    this.GetBalance = function(address) {
+        return this.web3.eth.getBalance(address);
+    };
+
+    /**
      * Constructor
      */
     this.construct = function() {
