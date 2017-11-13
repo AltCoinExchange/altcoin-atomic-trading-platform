@@ -137,6 +137,13 @@ var Engine = function (configuration, appConfiguration, bin) {
         return acc.encrypt(privateKey, password);
     };
 
+    /**
+     * Login
+     * @param keystore
+     * @param password
+     * @returns {Account}
+     * @constructor
+     */
     this.Login = function(keystore, password) {
         var accounts = this.web3.eth.accounts;
 
