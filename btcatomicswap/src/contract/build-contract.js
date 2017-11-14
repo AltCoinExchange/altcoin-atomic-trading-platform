@@ -1,11 +1,8 @@
-import {fundRawTransaction, getRawChangeAddress} from '../common/rawRequest';
-import {atomicSwapContract} from './atomic-swap-contract';
-import {getFeePerKb} from '../common/fee-per-kb';
-import {signTransaction} from '../common/sign-transaction';
-import {fundTransaction} from '../common/fund-transaction';
 import {AddressUtil} from '../common/address-util';
 import {buildRefund} from '../common/build-refund';
+import {fundTransaction} from '../common/fund-transaction';
 import {configuration} from '../config/config';
+import {atomicSwapContract} from './atomic-swap-contract';
 
 const Transaction = require('bitcore').Transaction;
 const Address = require('bitcore').Address;
@@ -16,6 +13,7 @@ const PrivateKey = require('bitcore').PrivateKey;
 export const buildContract = async (them, amount, lockTime, secretHash, privateKey) => {
   const PK = PrivateKey.fromWIF(privateKey);
   const refundAddr = PK.toPublicKey().toAddress(configuration.network);
+
   const themAddr = new Address(them);
 
 
@@ -41,7 +39,7 @@ export const buildContract = async (them, amount, lockTime, secretHash, privateK
 
   //SIGN TRANSACTION
   const signitures = contractTx.getSignatures(privateKey);
-  for (let signiture of signitures){
+  for (let signiture of signitures) {
     contractTx.applySignature(signiture);
   }
 

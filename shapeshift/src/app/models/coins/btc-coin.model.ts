@@ -36,12 +36,12 @@ export class BtcCoinModel implements Coin {
   }
 
   initiate(address: string): any {
-    const initiateResult = btcswap.initiate(address, this.amount);
+    const initiateResult = btcswap.initiate(address, this.amount, ShapeshiftStorage.get('btc-wif'));
     return Observable.fromPromise(initiateResult);
   }
 
   participate(address: string, secretHash: string): any {
-    const participateResult = btcswap.participate(address, this.amount.toString(), secretHash.replace('0x', ''));
+    const participateResult = btcswap.participate(address, this.amount.toString(), secretHash.replace('0x', ''), ShapeshiftStorage.get('btc-wif'));
     return Observable.fromPromise(participateResult);
   }
 

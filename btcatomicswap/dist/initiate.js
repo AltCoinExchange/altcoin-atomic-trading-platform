@@ -46,8 +46,8 @@ async function initiate(them, amount, privateKey) {
     fee: b.contractFee,
     contract: b.contractP2SH.toString(),
     contractHex: b.contract.toHex(),
-    contractTx: b.contractTx,
-    contractTxHex: b.contractTx.hex,
+    contractTx: b.contractTx.hash,
+    contractTxHex: b.contractTx.toString(),
     rawTx: rawTx
   };
 }

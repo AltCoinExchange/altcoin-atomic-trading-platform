@@ -6,8 +6,9 @@ const assert = require('assert');
 
 const addr = "mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ"
 const pubKey = "0263a131db9f54c8bc19c5602cca56c0e156b17430b45a09081ec8405297060908"
+// const privateKey = "cQ63rjfvri2EHn6WvR5F9KGbgaGNRMvb7y9ra8ZuTyQVeteLZ66a"
 const privateKey = "cQ63rjfvri2EHn6WvR5F9KGbgaGNRMvb7y9ra8ZuTyQVeteLZ66a"
-
+// b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79
 const rpcAddr = "moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq"
 
 describe('#reedem()', function () {

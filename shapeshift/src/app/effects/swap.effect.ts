@@ -65,6 +65,7 @@ export class SwapEffect {
 
       return this.swapService.initiate(payload.address, payload.coin)
         .mergeMap(res => {
+          console.log('initData', res);
           return Observable.from([
             new swapAction.InitiateSuccessAction(res),
             new startAction.InformInitiatedAction(

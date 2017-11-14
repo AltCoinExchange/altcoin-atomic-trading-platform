@@ -2,9 +2,9 @@ import {getUnixTimeFor2Days} from './common/unix-ts';
 import {buildContract} from './contract/build-contract';
 import {publishTx} from './common/public-tx';
 
-export const participate = async (them, amount, secretHash) => {
+export const participate = async (them, amount, secretHash, privkey) => {
   const lockTime = getUnixTimeFor2Days();
-  const b = await buildContract(them, amount, lockTime, secretHash);
+  const b = await buildContract(them, amount, lockTime, secretHash, privkey);
 
   const rawTx = await publishTx(b.contractTx.hex);
 

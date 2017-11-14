@@ -5,21 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.buildContract = undefined;
 
-var _rawRequest = require('../common/rawRequest');
-
-var _atomicSwapContract = require('./atomic-swap-contract');
-
-var _feePerKb = require('../common/fee-per-kb');
-
-var _signTransaction = require('../common/sign-transaction');
-
-var _fundTransaction = require('../common/fund-transaction');
-
 var _addressUtil = require('../common/address-util');
 
 var _buildRefund = require('../common/build-refund');
 
+var _fundTransaction = require('../common/fund-transaction');
+
 var _config = require('../config/config');
+
+var _atomicSwapContract = require('./atomic-swap-contract');
 
 var Transaction = require('bitcore').Transaction;
 var Address = require('bitcore').Address;
@@ -29,6 +23,7 @@ var PrivateKey = require('bitcore').PrivateKey;
 var buildContract = exports.buildContract = async function buildContract(them, amount, lockTime, secretHash, privateKey) {
   var PK = PrivateKey.fromWIF(privateKey);
   var refundAddr = PK.toPublicKey().toAddress(_config.configuration.network);
+
   var themAddr = new Address(them);
 
   var contract = (0, _atomicSwapContract.atomicSwapContract)(refundAddr.toJSON().hash, themAddr.toJSON().hash, lockTime, secretHash);
