@@ -10,15 +10,15 @@ const privateKey = "cQ63rjfvri2EHn6WvR5F9KGbgaGNRMvb7y9ra8ZuTyQVeteLZ66a"
 
 const rpcAddr = "moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq"
 
-// describe('#reedem()', function () {
-//   this.timeout(15000);
-//   it.only('should create redeemTx', async () => {
-//     const testData = await initiate("mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ", 0.001, privateKey);
-//     // console.log(testData);
-//     // redeem(contract, contractTx, secret, privateKey)
-//
-//   });
-// });
+describe('#reedem()', function () {
+  this.timeout(15000);
+  it.only('should create redeemTx', async () => {
+    const testData = await initiate("mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ", 0.001, privateKey);
+    // console.log(testData);
+    // redeem(contract, contractTx, secret, privateKey)
+
+  });
+});
 
 
 // const contract = "63a6141027b20731c5ef3e84a650977e2b96697a2824d08876a9144ff94075bfd8e49cd5bad195371a3389be5f196867041b1d0b5ab17576a9144ff94075bfd8e49cd5bad195371a3389be5f19686888ac"
@@ -32,7 +32,7 @@ const secret = "7354c5eafa13ac614c70d31ac70465a77b52292df8ec2e579e7d710323221171
 
 describe('#reedem()', function () {
   this.timeout(15000);
-  it.only('should create redeemTx', async () => {
+  it('should create redeemTx', async () => {
     // const testData = await initiate("mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ", 0.001, privateKey);
     // console.log(testData);
     redeem(contract, contractTx, secret, privateKey)

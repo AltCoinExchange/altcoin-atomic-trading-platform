@@ -31,15 +31,10 @@ var buildContract = exports.buildContract = async function buildContract(them, a
   var refundAddr = PK.toPublicKey().toAddress(_config.configuration.network);
   var themAddr = new Address(them);
 
-  console.log(1);
   var contract = (0, _atomicSwapContract.atomicSwapContract)(refundAddr.toJSON().hash, themAddr.toJSON().hash, lockTime, secretHash);
-  console.log(2);
-  console.log(contract.toHex());
+
   var contractP2SH = _addressUtil.AddressUtil.NewAddressScriptHash(contract.toHex(), _config.configuration.network);
-  console.log(3);
   var contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
-  console.log(4);
-  var feePerKb = await (0, _feePerKb.getFeePerKb)();
 
   var contractTx = new Transaction();
   var value = +(+amount * 100000000).toFixed(8); //todo use bignumber
@@ -49,9 +44,9 @@ var buildContract = exports.buildContract = async function buildContract(them, a
   });
   contractTx.addOutput(output);
 
-  console.log(5);
   await (0, _fundTransaction.fundTransaction)(refundAddr, contractTx);
-  console.log(7);
+
+  //SIGN TRANSACTION
   var signitures = contractTx.getSignatures(privateKey);
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
@@ -80,8 +75,6 @@ var buildContract = exports.buildContract = async function buildContract(them, a
 
   var contractTxHash = contractTx.hash;
   var contractFee = contractTx._getInputAmount() - contractTx._getOutputAmount();
-  console.log(contract.toString());
-  console.log(contract.toHex());
 
   var _ref = await (0, _buildRefund.buildRefund)(contract.toHex(), contractTx.toString(), privateKey),
       refundFee = _ref.refundFee,

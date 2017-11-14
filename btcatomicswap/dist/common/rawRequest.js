@@ -78,12 +78,6 @@ var getUnspentOutputs = exports.getUnspentOutputs = async function getUnspentOut
   var numOfConfirmations = 1;
   var urlQuery = "https://chain.so/api/v2/get_tx_unspent/BTCTEST/" + addr + "/" + numOfConfirmations;
   var res = await axios.get(urlQuery);
-  console.log(6);
-  console.log(res);
-  console.log("----------------------------");
-  console.log(res.data);
-  console.log("----------------------------");
-  console.log(res.data.data.txs);
 
   var unspentOutputs = res.data.data.txs;
   // console.log(urlQuery);

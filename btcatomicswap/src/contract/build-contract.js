@@ -16,7 +16,7 @@ const PrivateKey = require('bitcore').PrivateKey;
 export const buildContract = async (them, amount, lockTime, secretHash, privateKey) => {
   const PK = PrivateKey.fromWIF(privateKey);
   const refundAddr = PK.toPublicKey().toAddress(configuration.network);
-  const themAddr = new Address(them)
+  const themAddr = new Address(them);
 
 
   const contract = atomicSwapContract(
@@ -28,9 +28,8 @@ export const buildContract = async (them, amount, lockTime, secretHash, privateK
 
   const contractP2SH = AddressUtil.NewAddressScriptHash(contract.toHex(), configuration.network);
   const contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
-  const feePerKb = await getFeePerKb();
 
-  const contractTx = new Transaction()
+  const contractTx = new Transaction();
   let value = +(+amount * 100000000).toFixed(8); //todo use bignumber
   const output = Transaction.Output({
     script: contractP2SHPkScript,
@@ -38,19 +37,17 @@ export const buildContract = async (them, amount, lockTime, secretHash, privateK
   });
   contractTx.addOutput(output);
 
+  await fundTransaction(refundAddr, contractTx);
 
-  await fundTransaction(refundAddr, contractTx)
-
-  const signitures = contractTx.getSignatures(privateKey)
+  //SIGN TRANSACTION
+  const signitures = contractTx.getSignatures(privateKey);
   for (let signiture of signitures){
-    contractTx.applySignature(signiture)
+    contractTx.applySignature(signiture);
   }
-
 
   const contractTxHash = contractTx.hash;
   const contractFee = contractTx._getInputAmount() - contractTx._getOutputAmount()
-  console.log(contract.toString());
-  console.log(contract.toHex());
+
   const {refundFee, refundTx} = await buildRefund(contract.toHex(), contractTx.toString(), privateKey);
 
   return {

@@ -5,21 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.fundTransaction = undefined;
 
-var _config = require('../config/config');
-
 var _rawRequest = require('./rawRequest');
 
-var RpcClient = require('bitcoind-rpc');
-
-
 var UnspentOutput = require('bitcore').Transaction.UnspentOutput;
-var Transaction = require('bitcore').Transaction;
-
-var rpc = new RpcClient(_config.configuration);
 
 var fundTransaction = exports.fundTransaction = async function fundTransaction(addr, tx) {
-  var txT = new Transaction(tx.toString());
-  console.log(8);
   var unspentOutputs = await (0, _rawRequest.getUnspentOutputs)(addr.toString());
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
@@ -41,16 +31,15 @@ var fundTransaction = exports.fundTransaction = async function fundTransaction(a
 
       //CHAIN.SO
       var utxo = new UnspentOutput({
-        "txId": output.txid,
-        "outputIndex": output.output_no,
-        "address": addr,
-        "script": output.script_hex,
-        "satoshis": output.value * 100000000
+        'txId': output.txid,
+        'outputIndex': output.output_no,
+        'address': addr,
+        'script': output.script_hex,
+        'satoshis': output.value * 100000000
       });
 
       //HINT: utxo can be a instance of UnspentOutput or a object with the necessery parametars
       tx.from(utxo);
-      // console.log(utxo);
       if (tx._getOutputAmount() < tx._getInputAmount()) {
         break;
       }
@@ -71,13 +60,12 @@ var fundTransaction = exports.fundTransaction = async function fundTransaction(a
   }
 
   if (tx._getOutputAmount() > tx._getInputAmount()) {
-    return "insufficent funds";
+    throw new Error('insufficent funds');
   }
 
   // TODO: feejevi
   // console.log("**tx.getFee() ", tx.getFee());
 
-  console.log(tx);
   tx.change(addr);
 
   return tx;
