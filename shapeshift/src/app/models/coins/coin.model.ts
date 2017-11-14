@@ -7,6 +7,7 @@ export abstract class Coin {
   readonly name: string;
   readonly icon: string;
   readonly iconOutline: string;
+  readonly fullName: string;
   amount: number;
 
   abstract generateNewAddress(wallet: WalletModel);

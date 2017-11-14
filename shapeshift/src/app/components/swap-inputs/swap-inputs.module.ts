@@ -7,7 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
   imports: [
     ShapeShiftCommonModule,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule
   ],
   declarations: [
     SwapInputsComponent,

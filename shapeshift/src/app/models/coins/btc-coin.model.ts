@@ -10,6 +10,7 @@ export class BtcCoinModel implements Coin {
   readonly name: string = Coins[Coins.BTC].toString();
   readonly icon: string = 'assets/icon/btc-icon.png';
   readonly iconOutline: string = 'assets/icon/btc-icon-o.png';
+  readonly fullName: string = 'Bitcoin';
   amount: number;
 
   generateNewAddress(btcWallet: BtcWalletModel) {
