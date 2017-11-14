@@ -57,6 +57,17 @@ export class EthWallet {
     getbalance(address) {
         return this.atomicSwap.engine.GetBalance(address);
     }
+
+    /**
+    * Send All Ether
+    * @param privateKey
+    * @param toAddress
+    * @returns {Promise<number>}
+    */
+    async sendAllEther(privateKey, toAddress) {
+        return this.atomicSwap.engine.sendAllEther(privateKey, toAddress);
+    }
+
     /**
      * Initiate atomic swap
      * @param refundTime
