@@ -81,3 +81,17 @@ export const estimateFee = async () => {
     },
   );
 };
+
+export const getUnspentOutputs = async (addr) => {
+  // const urlQuery = "https://api.blockcypher.com/v1/btc/test3/addrs/" + addr + "?unspentOnly=true&includeScript=true"
+  // const txrefs = res.data.txrefs
+  // const unconfirmed_txrefs = res.data.unconfirmed_txrefs
+
+  const numOfConfirmations = 1
+  const urlQuery = "https://chain.so/api/v2/get_tx_unspent/BTCTEST/" + addr + "/" + numOfConfirmations
+  const res = await axios.get(urlQuery)
+
+  const unspentOutputs = res.data.data.txs
+  // console.log(urlQuery);
+  return unspentOutputs
+};

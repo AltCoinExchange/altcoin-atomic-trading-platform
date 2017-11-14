@@ -12,7 +12,7 @@ import {getFeePerKb} from './fee-per-kb';
 import {feeForSerializeSize, estimateRefundSerializeSize} from './sizeest';
 const BufferReader  = require('bitcore').encoding.BufferReader;
 
-export async function buildRefund(strCt, strCtTx) {
+export async function buildRefund(strCt, strCtTx, privateKey) {
 
 
   // TODO: change strCt, strCtTx to ct, ctTx
@@ -51,7 +51,8 @@ export async function buildRefund(strCt, strCtTx) {
   }
 
   // TODO:  "getrawchangeaddres" + erroe
-  const addr = new Address(await getChangeAddress())
+  // const addr = new Address(await getChangeAddress())
+  const addr = "mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ"
 
   const outScript = Script.buildPublicKeyHashOut(addr)
 
@@ -72,9 +73,9 @@ export async function buildRefund(strCt, strCtTx) {
   const feePerKb = await getFeePerKb()
   const redeemSerializeSize = estimateRefundSerializeSize(contract, refundTx.outputs)
 
-  const fee = feeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000
+  const refundFee = feeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000
 
-  const amount = ctTx.outputs[ctTxOutIdx].satoshis - fee
+  const amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee
 
   output = Transaction.Output({
     script: outScript,
@@ -96,8 +97,7 @@ export async function buildRefund(strCt, strCtTx) {
 
 
   const inputIndex = 0
-  const {sig, pubKey} = await createSig(refundTx, inputIndex, contract, refundAddress )
-
+  const {sig, pubKey} = await createSig(refundTx, inputIndex, contract, refundAddress, privateKey)
 
   const script = refundP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString());
 
@@ -105,7 +105,7 @@ export async function buildRefund(strCt, strCtTx) {
 
 
   return {
-    fee,
+    refundFee,
     refundTx
   }
 

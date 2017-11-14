@@ -28,8 +28,7 @@ var Address = require('bitcore').Address;
 var Transaction = require('bitcore').Transaction;
 var PrivateKey = require('bitcore').PrivateKey;
 
-async function redeem(strCt, strCtTx, secret) {
-  console.log('REDEEMING');
+async function redeem(strCt, strCtTx, secret, privateKey) {
 
   // TODO: change strCt, strCtTx to ct, ctTx
   var contract = new Script(strCt);
@@ -63,14 +62,16 @@ async function redeem(strCt, strCtTx, secret) {
     console.log("transaction does not contain a contract output");
     return;
   }
-  // const PK = PrivateKey.fromWIF(privateKey);
-  // const newRawAddr = PK.toPublicKey().toAddress(configuration.network);
-  // console.log('newRawAddr', newRawAddr);
-  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+  var PK = PrivateKey.fromWIF(privateKey);
+  var newRawAddr = PK.toPublicKey().toAddress(_config.configuration.network);
   // const addr = new Address(newRawAddr);
-  var addr = new Address((await (0, _rawRequest.getRawChangeAddress)()));
 
-  var outScript = Script.buildPublicKeyHashOut(addr);
+
+  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+  // TODO: pass redeemToAddr as parametar
+  var redeemToAddr = new Address("moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq");
+
+  var outScript = Script.buildPublicKeyHashOut(redeemToAddr);
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   var redeemTx = new Transaction();
@@ -108,7 +109,7 @@ async function redeem(strCt, strCtTx, secret) {
 
   var inputIndex = 0;
 
-  var _ref = await (0, _createSig.createSig)(redeemTx, inputIndex, contract, recipientAddress),
+  var _ref = await (0, _createSig.createSig)(redeemTx, inputIndex, contract, recipientAddress, privateKey),
       sig = _ref.sig,
       pubKey = _ref.pubKey;
 
@@ -116,23 +117,15 @@ async function redeem(strCt, strCtTx, secret) {
 
   redeemTx.inputs[0].setScript(script);
 
-  console.log("**redeem transaction  ", redeemTx);
-  console.log("**redeem transaction  ", redeemTx.toString());
   var res = void 0;
   try {
     res = await (0, _publicTx.publishTx)(redeemTx.toString());
   } catch (e) {
     console.log(e);
   }
-  console.log('RESPONSE!!! ', res);
 
   return {
     redeemTx: redeemTx,
     rawTx: res
   };
 }
-
-var getChangeAddress = async function getChangeAddress() {
-  var redeemdAddr = await (0, _rawRequest.getRawChangeAddress)();
-  return redeemdAddr;
-};

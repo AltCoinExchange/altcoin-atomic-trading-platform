@@ -30,7 +30,7 @@ var Transaction = require('bitcore').Transaction;
 
 var BufferReader = require('bitcore').encoding.BufferReader;
 
-async function buildRefund(strCt, strCtTx) {
+async function buildRefund(strCt, strCtTx, privateKey) {
 
   // TODO: change strCt, strCtTx to ct, ctTx
   var contract = new Script(strCt);
@@ -67,7 +67,8 @@ async function buildRefund(strCt, strCtTx) {
   }
 
   // TODO:  "getrawchangeaddres" + erroe
-  var addr = new Address((await getChangeAddress()));
+  // const addr = new Address(await getChangeAddress())
+  var addr = "mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ";
 
   var outScript = Script.buildPublicKeyHashOut(addr);
 
@@ -87,9 +88,9 @@ async function buildRefund(strCt, strCtTx) {
   var feePerKb = await (0, _feePerKb.getFeePerKb)();
   var redeemSerializeSize = (0, _sizeest.estimateRefundSerializeSize)(contract, refundTx.outputs);
 
-  var fee = (0, _sizeest.feeForSerializeSize)(feePerKb, redeemSerializeSize) * 100000000;
+  var refundFee = (0, _sizeest.feeForSerializeSize)(feePerKb, redeemSerializeSize) * 100000000;
 
-  var amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
+  var amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee;
 
   output = Transaction.Output({
     script: outScript,
@@ -110,7 +111,7 @@ async function buildRefund(strCt, strCtTx) {
 
   var inputIndex = 0;
 
-  var _ref = await (0, _createSig.createSig)(refundTx, inputIndex, contract, refundAddress),
+  var _ref = await (0, _createSig.createSig)(refundTx, inputIndex, contract, refundAddress, privateKey),
       sig = _ref.sig,
       pubKey = _ref.pubKey;
 
@@ -119,7 +120,7 @@ async function buildRefund(strCt, strCtTx) {
   refundTx.inputs[0].setScript(script);
 
   return {
-    fee: fee,
+    refundFee: refundFee,
     refundTx: refundTx
   };
 }

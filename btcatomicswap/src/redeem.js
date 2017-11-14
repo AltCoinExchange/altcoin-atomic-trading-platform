@@ -9,15 +9,13 @@ import {getFeePerKb} from './common/fee-per-kb';
 import {feeForSerializeSize, estimateRedeemSerializeSize} from './common/sizeest';
 
 
-
 const Script = require('bitcore').Script;
 const Address = require('bitcore').Address;
 const Transaction = require('bitcore').Transaction;
 const PrivateKey = require('bitcore').PrivateKey;
 
 
-export async function redeem(strCt, strCtTx, secret) {
-  console.log('REDEEMING');
+export async function redeem(strCt, strCtTx, secret, privateKey) {
 
   // TODO: change strCt, strCtTx to ct, ctTx
   const contract = new Script(strCt);
@@ -52,14 +50,16 @@ export async function redeem(strCt, strCtTx, secret) {
     console.log("transaction does not contain a contract output");
     return
   }
-  // const PK = PrivateKey.fromWIF(privateKey);
-  // const newRawAddr = PK.toPublicKey().toAddress(configuration.network);
-  // console.log('newRawAddr', newRawAddr);
-  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+  const PK = PrivateKey.fromWIF(privateKey);
+  const newRawAddr = PK.toPublicKey().toAddress(configuration.network);
   // const addr = new Address(newRawAddr);
-  const addr = new Address(await getRawChangeAddress());
 
-  const outScript = Script.buildPublicKeyHashOut(addr);
+
+  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+  // TODO: pass redeemToAddr as parametar
+  const redeemToAddr = new Address("moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq")
+
+  const outScript = Script.buildPublicKeyHashOut(redeemToAddr);
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   const redeemTx = new Transaction()
@@ -98,15 +98,13 @@ export async function redeem(strCt, strCtTx, secret) {
 
 
   const inputIndex = 0
-  const {sig, pubKey} = await createSig(redeemTx, inputIndex, contract, recipientAddress);
+  const {sig, pubKey} = await createSig(redeemTx, inputIndex, contract, recipientAddress, privateKey);
 
 
   const script = redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
 
   redeemTx.inputs[0].setScript(script)
 
-  console.log("**redeem transaction  ", redeemTx);
-  console.log("**redeem transaction  ", redeemTx.toString());
   let res;
   try {
     res = await publishTx(redeemTx.toString())
@@ -114,15 +112,10 @@ export async function redeem(strCt, strCtTx, secret) {
   } catch (e) {
     console.log(e);
   }
-  console.log('RESPONSE!!! ', res);
+  
 
   return {
     redeemTx,
     rawTx: res,
   }
 }
-
-const getChangeAddress = async function () {
-  const redeemdAddr = await getRawChangeAddress();
-  return redeemdAddr;
-};

@@ -1,4 +1,3 @@
-///<reference path="btc-coin.model.ts"/>
 import {WalletModel} from '../wallets/wallet.model';
 import {Coins} from './coins.enum';
 import {BtcCoinModel} from './btc-coin.model';

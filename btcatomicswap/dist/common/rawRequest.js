@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.estimateFee = exports.fundRawTransaction = exports.getRawChangeAddress = undefined;
+exports.getUnspentOutputs = exports.estimateFee = exports.fundRawTransaction = exports.getRawChangeAddress = undefined;
 
 var _config = require('../config/config');
 
@@ -68,4 +68,18 @@ var estimateFee = exports.estimateFee = async function estimateFee() {
       password: _config.configuration.pass
     }
   });
+};
+
+var getUnspentOutputs = exports.getUnspentOutputs = async function getUnspentOutputs(addr) {
+  // const urlQuery = "https://api.blockcypher.com/v1/btc/test3/addrs/" + addr + "?unspentOnly=true&includeScript=true"
+  // const txrefs = res.data.txrefs
+  // const unconfirmed_txrefs = res.data.unconfirmed_txrefs
+
+  var numOfConfirmations = 1;
+  var urlQuery = "https://chain.so/api/v2/get_tx_unspent/BTCTEST/" + addr + "/" + numOfConfirmations;
+  var res = await axios.get(urlQuery);
+
+  var unspentOutputs = res.data.data.txs;
+  // console.log(urlQuery);
+  return unspentOutputs;
 };

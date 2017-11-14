@@ -1,61 +1,52 @@
-import {fundRawTransaction, getRawChangeAddress} from '../common/rawRequest';
-import {atomicSwapContract} from './atomic-swap-contract';
-import {getFeePerKb} from '../common/fee-per-kb';
-import {signTransaction} from '../common/sign-transaction';
 import {AddressUtil} from '../common/address-util';
 import {buildRefund} from '../common/build-refund';
+import {fundTransaction} from '../common/fund-transaction';
 import {configuration} from '../config/config';
+import {atomicSwapContract} from './atomic-swap-contract';
 
 const Transaction = require('bitcore').Transaction;
 const Address = require('bitcore').Address;
 const Script = require('bitcore').Script;
+const PrivateKey = require('bitcore').PrivateKey;
 
 
-export const buildContract = async (them, amount, lockTime, secretHash) => {
-  const refundAddr = new Address(await getRawChangeAddress());
-  const refundAddressHash = refundAddr.toJSON().hash;
-  const themHash = new Address(them).toJSON().hash;
+export const buildContract = async (them, amount, lockTime, secretHash, privateKey) => {
+  const PK = PrivateKey.fromWIF(privateKey);
+  const refundAddr = PK.toPublicKey().toAddress(configuration.network);
+
+  const themAddr = new Address(them);
+
 
   const contract = atomicSwapContract(
-    refundAddressHash,
-    themHash,
+    refundAddr.toJSON().hash,
+    themAddr.toJSON().hash,
     lockTime,
     secretHash,
   );
 
   const contractP2SH = AddressUtil.NewAddressScriptHash(contract.toHex(), configuration.network);
   const contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
-  const feePerKb = await getFeePerKb();
+
+  const contractTx = new Transaction();
   let value = +(+amount * 100000000).toFixed(8); //todo use bignumber
-  console.log('satoshi', value);
-  const transaction = new Transaction().fee(value);
   const output = Transaction.Output({
     script: contractP2SHPkScript,
     satoshis: value,
   });
-  transaction.addOutput(output);
-  let contractFee;
-  let contractTx;
-  let fundRawTx;
+  contractTx.addOutput(output);
 
-  try {
-    fundRawTx = await fundRawTransaction(transaction.toString(), feePerKb);
-  } catch (fundErr) {
-    throw new Error(fundErr);
+  await fundTransaction(refundAddr, contractTx);
+
+  //SIGN TRANSACTION
+  const signitures = contractTx.getSignatures(privateKey);
+  for (let signiture of signitures) {
+    contractTx.applySignature(signiture);
   }
 
-  try {
-    contractFee = fundRawTx.data.result.fee;
-    contractTx = await signTransaction(fundRawTx.data.result.hex);
-  } catch (signErr) {
-    throw new Error(signErr);
-  }
+  const contractTxHash = contractTx.hash;
+  const contractFee = contractTx._getInputAmount() - contractTx._getOutputAmount()
 
-  const t = new Transaction(contractTx.hex);
-  const contractTxHash = t.hash;
-
-  const {refundFee, refundTx} = await buildRefund(contract.toHex(), contractTx.hex);
-
+  const {refundFee, refundTx} = await buildRefund(contract.toHex(), contractTx.toString(), privateKey);
 
   return {
     contract,
