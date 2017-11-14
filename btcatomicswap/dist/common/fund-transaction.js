@@ -28,14 +28,17 @@ var fundTransaction = exports.fundTransaction = async function fundTransaction(a
       //   "script" : output.script,
       //   "satoshis" : output.value
       // });
+      var value = Math.round(output.value * 100000000);
 
+      // console.log(output.value * 100000000);
+      // console.log(value);
       //CHAIN.SO
       var utxo = new UnspentOutput({
         'txId': output.txid,
         'outputIndex': output.output_no,
         'address': addr,
         'script': output.script_hex,
-        'satoshis': output.value * 100000000
+        'satoshis': value
       });
 
       //HINT: utxo can be a instance of UnspentOutput or a object with the necessery parametars
