@@ -9,7 +9,6 @@ const rpc = new RpcClient(configuration);
 
 export const fundTransaction = async (addr, tx) => {
   const txT = new Transaction(tx.toString())
-  console.log(8);
   const unspentOutputs = await getUnspentOutputs(addr.toString())
   for (let output of unspentOutputs){
 
@@ -47,7 +46,6 @@ export const fundTransaction = async (addr, tx) => {
   // TODO: feejevi
   // console.log("**tx.getFee() ", tx.getFee());
 
-  console.log(tx);
   tx.change(addr)
 
   return tx

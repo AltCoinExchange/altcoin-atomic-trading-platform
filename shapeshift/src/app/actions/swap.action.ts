@@ -17,6 +17,7 @@ export class InitiateAction implements Action {
     coin,
     depositCoin
   }) {
+    console.log(payload);
 
   }
 }

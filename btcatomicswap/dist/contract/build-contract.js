@@ -42,9 +42,10 @@ var buildContract = exports.buildContract = async function buildContract(them, a
   var feePerKb = await (0, _feePerKb.getFeePerKb)();
 
   var contractTx = new Transaction();
+  var value = +(+amount * 100000000).toFixed(8); //todo use bignumber
   var output = Transaction.Output({
     script: contractP2SHPkScript,
-    satoshis: amount * 100000000
+    satoshis: value
   });
   contractTx.addOutput(output);
 

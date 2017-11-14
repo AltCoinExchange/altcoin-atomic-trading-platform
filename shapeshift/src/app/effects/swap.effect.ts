@@ -18,6 +18,9 @@ import {LinkService} from '../services/link.service';
 import {SwapService} from '../services/swap.service';
 import {getSwapProcess} from "../selectors/start.selector";
 import {getInitiateData, getSwapCoins} from "../selectors/swap.selector";
+import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
+import {InformParticipatedDataModel} from "../models/inform-participated-data.model";
+import {ParticipateDataFactory} from "../models/factory-participated-data";
 
 
 @Injectable()
@@ -59,20 +62,19 @@ export class SwapEffect {
     .mergeMap(([payload, wallets]) => {
       const wallet = wallets[payload.depositCoin.name];
       const newAddress = payload.depositCoin.generateNewAddress(wallet);
-      console.log('newAddress', newAddress);
 
-      return this.swapService.initiate(payload)
+      return this.swapService.initiate(payload.address, payload.coin)
         .mergeMap(res => {
           return Observable.from([
             new swapAction.InitiateSuccessAction(res),
-            new startAction.InformInitiatedAction({
-              link: payload.link,
-              data: {
-                secretHash: res.secretHash,
-                address: newAddress,
-                value: payload.depositCoin.amount,
-              },
-            }),
+            new startAction.InformInitiatedAction(
+              new InformInitiatedDataModel(
+                payload.link, {
+                  secretHash: res.secretHash,
+                  address: newAddress,
+                  value: payload.depositCoin.amount,
+                })
+            ),
             new Go({
               path: ['/complete'],
             }),
@@ -86,8 +88,8 @@ export class SwapEffect {
     .ofType(startAction.WAIT_FOR_INITIATE)
     .map(toPayload)
     .switchMap(payload => {
-      return this.swapService.waitForInitiate(payload).map(a => {
-        return new startAction.WaitForInitiateSuccessAction(a);
+      return this.swapService.waitForInitiate(payload).map(initiateBigChainDBResponse => {
+        return new startAction.WaitForInitiateSuccessAction(InformInitiatedDataModel.newFrom(initiateBigChainDBResponse));
       });
     });
 
@@ -95,11 +97,10 @@ export class SwapEffect {
   informInitiated: Observable<Action> = this.actions$
     .ofType(startAction.INFORM_INITIATED)
     .map(toPayload)
-    .mergeMap(payload => {
+    .mergeMap((payload: InformInitiatedDataModel) => {
       this.swapService.informInitiated(payload);
-      return this.swapService.waitForParticipate(payload.data.secretHash + payload.data.address).map(participateData => {
-        console.log('waitForParticipate', participateData);
-        return new WaitForParticipateSuccessAction(participateData);
+      return this.swapService.waitForParticipate(payload.participateId).map(participateData => {
+        return new WaitForParticipateSuccessAction(ParticipateDataFactory.createData(participateData.data.coin, participateData.data));
       })
     });
 
@@ -109,15 +110,13 @@ export class SwapEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getSwapProcess))
     .mergeMap(([payload, swapProcess]) => {
-      const data = payload[0].data.data;
-      return this.swapService.participate(swapProcess.depositCoin, data.address, data.secretHash).mergeMap(partData => {
+      const initiateData = (payload as InformInitiatedDataModel);
+
+      return this.swapService.participate(swapProcess.depositCoin, initiateData).mergeMap(partData => {
         return Observable.from(
           [
             new ParticipateSuccessAction(partData),
-            new InformParticipatedAction({
-              id: data.secretHash + data.address,
-              data: partData,
-            }),
+            new InformParticipatedAction(new InformParticipatedDataModel(initiateData.participateId, partData, swapProcess.depositCoin.name)),
           ]
         );
       });
@@ -151,7 +150,6 @@ export class SwapEffect {
     .ofType(startAction.INFORM_PARTICIPATED)
     .map(toPayload)
     .mergeMap((data) => {
-      console.log('informParticipated', data);
       this.swapService.informParticipated(data);
       return Observable.empty();
     });
@@ -167,28 +165,25 @@ export class SwapEffect {
     })
     .mergeMap((a) => {
       console.log('WAIT_FOR_PARTICIPATE_SUCCESS', a);
-      let redeem;
-      if (a.payload[0].data.data.contract) {
-        console.log('redeeming params', a.payload[0].data.data.contractHex, a.payload[0].data.data.contractTxHex, a.initData.secret);
-        redeem = a.coins.depositCoin.redeem(a.payload[0].data.data.contractHex, a.payload[0].data.data.contractTxHex, a.initData.secret);
-      } else {
-        redeem = a.coins.depositCoin.redeem('0x' + a.initData.secret, '0x' + a.initData.secretHash);
-      }
+      let redeemParams = a.payload.redeemParams(a.initData);
+      console.log('!!! redeemParams !!!', redeemParams);
+      let redeem = a.coins.depositCoin.redeem(redeemParams);
+
       return redeem.map(r => {
-        console.log('r', r);
+        console.log('redeem data: ', r);
 
         let id;
-        if (a.payload[0].data.data.to) {
-          id = a.payload[0].data.data.to + a.payload[0].data.data.blockHash
+        if (a.payload.data.to) {
+          id = a.payload.data.to + a.payload.data.blockHash
         } else {
-          id = a.payload[0].data.data.rawTx;
+          id = a.payload.data.rawTx;
         }
         console.log('id', id);
-        let informParticipate = {
+        let informRedeem = {
           id: id,
           data: a.initData.secretHash
         };
-        this.swapService.informParticipated(informParticipate);
+        this.swapService.informRedeemed(informRedeem);
         return new RedeemSuccessAction();
       });
     });

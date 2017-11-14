@@ -21,6 +21,13 @@ export class EthCoinModel implements Coin {
     return keystore.address.toString();
   }
 
+  getBalance(address: string) {
+    const eth = this.getSwapInstance();
+    const result = eth.getbalance(address);
+    const resultObservable = Observable.fromPromise(result);
+    return resultObservable;
+  }
+
   update(coin: Coin): Coin {
     const model = new EthCoinModel();
     model.amount = coin.amount;
@@ -77,11 +84,9 @@ export class EthCoinModel implements Coin {
     });
   }
 
-  redeem(secret: string, secretHash: string);
-  redeem(secret: string, contract: string, contractTx: string): any;
-  redeem(secret: string, secretHash: string, contractTx?: string) {
+  redeem(data){
     const eth = this.getSwapInstance();
-    const result = eth.redeem(secret, secretHash);
+    const result = eth.redeem(data.secret, data.secretHash);
     const resultObservable = Observable.fromPromise(result);
     return resultObservable.map((res: any) => {
       console.log('REDEEM');

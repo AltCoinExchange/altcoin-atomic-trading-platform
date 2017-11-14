@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BigchainDbService} from './bigchain-db.service';
 import {Coin} from "../models/coins/coin.model";
+import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
 
 @Injectable()
 export class SwapService {
@@ -10,19 +11,26 @@ export class SwapService {
 
   }
 
-  public initiate({address, amount, coin,}): Observable<any> {
-    const initiateResult = coin.initiate(address, amount);
+  public initiate(address: string, coin: Coin): Observable<any> {
+    const initiateResult = coin.initiate(address);
     return initiateResult;
   }
 
-  public informInitiated({link, data}) {
+  public informInitiated(data: InformInitiatedDataModel) {
     this.bigChainDb.send({
-      id: link,
-      data: data,
+      id: data.link,
+      data: data.data,
     });
   }
 
   public informParticipated({id, data}) {
+    this.bigChainDb.send({
+      id,
+      data,
+    });
+  }
+
+  public informRedeemed({id, data}) {
     this.bigChainDb.send({
       id,
       data,
@@ -34,8 +42,8 @@ export class SwapService {
     return Observable.of(auditContractResults);
   }
 
-  public participate(coin: Coin, address, secretHash): Observable<any> {
-    return coin.participate(address, '0x' + secretHash);
+  public participate(coin: Coin, initiateData: InformInitiatedDataModel): Observable<any> {
+    return coin.participate(initiateData.data.address, '0x' + initiateData.data.secretHash);
   }
 
   public waitForRedeem(block) {
@@ -62,6 +70,7 @@ export class SwapService {
       .first((x: any[]) => {
         return !!x.length;
       })
+      .map(res => res[0].data)
       .timeout(due);
   }
 
@@ -76,6 +85,7 @@ export class SwapService {
       .first((x: any[]) => {
         return !!x.length;
       })
+      .map(res => res[0].data)
       .timeout(due);
   }
 

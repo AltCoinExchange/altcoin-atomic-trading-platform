@@ -74,7 +74,7 @@ AtomicSwap = function (configuration, appConfiguration, bin) {
         };
 
         this.engine.common.Extend(params, extendedParams);
-        return this.callFunction("redeem", [secret, hashedSecret], params, true);
+        return this.callFunction("redeem", [secret, hashedSecret], params, 1);
     };
 
     /**
@@ -90,7 +90,7 @@ AtomicSwap = function (configuration, appConfiguration, bin) {
         };
 
         this.engine.common.Extend(params, extendedParams);
-        return this.callFunction("swaps", [hashedSecret], params);
+        return this.callFunction("swaps", [hashedSecret], params, 2);
     };
 
     /**

@@ -18,31 +18,29 @@ export const buildContract = async (them, amount, lockTime, secretHash, privateK
   const refundAddr = PK.toPublicKey().toAddress(configuration.network);
   const themAddr = new Address(them)
 
-  console.log(1);
+
   const contract = atomicSwapContract(
     refundAddr.toJSON().hash,
     themAddr.toJSON().hash,
     lockTime,
     secretHash,
   );
-  console.log(2);
-  console.log(contract.toHex());
+
   const contractP2SH = AddressUtil.NewAddressScriptHash(contract.toHex(), configuration.network);
-  console.log(3);
   const contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
-  console.log(4);
   const feePerKb = await getFeePerKb();
 
   const contractTx = new Transaction()
+  let value = +(+amount * 100000000).toFixed(8); //todo use bignumber
   const output = Transaction.Output({
     script: contractP2SHPkScript,
-    satoshis: amount * 100000000,
+    satoshis: value,
   });
   contractTx.addOutput(output);
 
-  console.log(5);
+
   await fundTransaction(refundAddr, contractTx)
-  console.log(7);
+
   const signitures = contractTx.getSignatures(privateKey)
   for (let signiture of signitures){
     contractTx.applySignature(signiture)
