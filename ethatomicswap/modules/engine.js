@@ -166,18 +166,28 @@ var Engine = function (configuration, appConfiguration, bin) {
    */
     this.SendAllEther = async function(privateKey, toAddress){
 
-      let currentBalance = await this.web3.eth.getBalance(this.web3.eth.defaultAccount);
+    let currentBalance = await this.web3.eth.getBalance(this.web3.eth.defaultAccount);
+    let currentGasPrice = await this.web3.eth.getGasPrice();
 
-      let signedTx = await this.web3.eth.signTransaction(
+    let estimateGas = await this.web3.eth.estimateGas(
         {
           from: this.web3.eth.defaultAccount,
-          gasPrice: '200000000',
-          gas: '21000',
           to: toAddress,
-          value: currentBalance - 200000000,
+          amount: currentBalance
+        }
+    )
+
+    let signedTx = await this.web3.eth.signTransaction(
+        {
+          from: this.web3.eth.defaultAccount,
+          gasPrice: currentGasPrice,
+          gas: estimateGas,
+          gasLimit: gasEstimate * 2,
+          to: toAddress,
+          value: currentBalance - estimateGas * currentGasPrice * 2,
           data: '',
         }, privateKey
-      );
+    );
 
       return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     }
