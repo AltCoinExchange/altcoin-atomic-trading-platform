@@ -28,7 +28,8 @@ export const buildContract = async (them, amount, lockTime, secretHash, privateK
   const contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
 
   const contractTx = new Transaction();
-  let value = +(+amount * 100000000).toFixed(8); //todo use bignumber
+  const value = Math.round(amount * 100000000)
+  // console.log(value);
   const output = Transaction.Output({
     script: contractP2SHPkScript,
     satoshis: value,

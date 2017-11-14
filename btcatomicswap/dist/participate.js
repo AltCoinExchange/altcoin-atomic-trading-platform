@@ -15,7 +15,7 @@ var participate = exports.participate = async function participate(them, amount,
   var lockTime = (0, _unixTs.getUnixTimeFor2Days)();
   var b = await (0, _buildContract.buildContract)(them, amount, lockTime, secretHash, privkey);
 
-  var rawTx = await (0, _publicTx.publishTx)(b.contractTx.hex);
+  var rawTx = await (0, _publicTx.publishTx)(b.contractTx.toString());
 
   console.log('Secret hash:         ', secretHash);
   console.log('Contract fee:        ', b.contractFee);
@@ -34,8 +34,8 @@ var participate = exports.participate = async function participate(them, amount,
     fee: b.contractFee,
     contract: b.contractP2SH.toString(),
     contractHex: b.contract.toHex(),
-    contractTx: b.contractTx,
-    contractTxHex: b.contractTx.hex,
+    contractTx: b.contractTx.hash,
+    contractTxHex: b.contractTx.toString(),
     rawTx: rawTx
   };
 };

@@ -32,7 +32,8 @@ var buildContract = exports.buildContract = async function buildContract(them, a
   var contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
 
   var contractTx = new Transaction();
-  var value = +(+amount * 100000000).toFixed(8); //todo use bignumber
+  var value = Math.round(amount * 100000000);
+  // console.log(value);
   var output = Transaction.Output({
     script: contractP2SHPkScript,
     satoshis: value

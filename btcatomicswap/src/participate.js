@@ -6,7 +6,7 @@ export const participate = async (them, amount, secretHash, privkey) => {
   const lockTime = getUnixTimeFor2Days();
   const b = await buildContract(them, amount, lockTime, secretHash, privkey);
 
-  const rawTx = await publishTx(b.contractTx.hex);
+  const rawTx = await publishTx(b.contractTx.toString());
 
   console.log('Secret hash:         ', secretHash);
   console.log('Contract fee:        ', b.contractFee);
@@ -28,8 +28,8 @@ export const participate = async (them, amount, secretHash, privkey) => {
     fee: b.contractFee,
     contract: b.contractP2SH.toString(),
     contractHex: b.contract.toHex(),
-    contractTx: b.contractTx,
-    contractTxHex: b.contractTx.hex,
+    contractTx: b.contractTx.hash,
+    contractTxHex: b.contractTx.toString(),
     rawTx,
   }
 };

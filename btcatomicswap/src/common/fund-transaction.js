@@ -14,14 +14,17 @@ export const fundTransaction = async (addr, tx) => {
     //   "script" : output.script,
     //   "satoshis" : output.value
     // });
+    const value = Math.round(output.value * 100000000)
 
+    // console.log(output.value * 100000000);
+    // console.log(value);
     //CHAIN.SO
     let utxo = new UnspentOutput({
       'txId': output.txid,
       'outputIndex': output.output_no,
       'address': addr,
       'script': output.script_hex,
-      'satoshis': output.value * 100000000,
+      'satoshis': value,
     });
 
 
