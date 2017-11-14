@@ -9,21 +9,25 @@ import {InitiateAction} from '../../actions/swap.action';
 import {Observable} from 'rxjs/Observable';
 import * as fromSwap from '../../selectors/swap.selector';
 import * as startAction from '../../actions/start.action';
-import {flyInOutAnimation} from '../../animations/animations';
+import {flyInOutAnimation, fadeInAnimation} from '../../animations/animations';
 import {AnimationEnabledComponent} from '../../common/animation.component';
 import {disAssembleLink} from '../../common/link-util';
 import {Coins} from '../../models/coins/coins.enum';
+import { MessageTypes } from '../../models/message-types.enum';
 
 @Component({
   selector: 'app-swap-initiate',
   templateUrl: './swap-initiate.component.html',
   styleUrls: ['./swap-initiate.component.scss'],
-  animations: [flyInOutAnimation],
+  animations: [flyInOutAnimation, fadeInAnimation],
 })
 export class SwapInitiateComponent extends AnimationEnabledComponent implements OnInit {
   $errorInitiate: Observable<string>;
   $loading: Observable<boolean>;
   $initiateData: Observable<any>;
+
+  infoMsg : string;
+  messageTypes: typeof MessageTypes = MessageTypes;
 
   private routeSub: Subscription;
   private offerTime: Date;
@@ -37,6 +41,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {
     super();
     this.parseLink();
+    this.infoMsg = "FOR TESTNET USE ONLY";
     this.$errorInitiate = this.store.select(fromSwap.getInitiateError);
     this.$loading = this.store.select(fromSwap.getInitiateLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);

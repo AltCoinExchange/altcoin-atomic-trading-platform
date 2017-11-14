@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, HostBinding, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {flyInOutAnimation} from '../../animations/animations';
+import {flyInOutAnimation, fadeInAnimation} from '../../animations/animations';
 import {Store} from '@ngrx/store';
 import * as fromSwap from '../../reducers/start.reducer';
 import * as swapSelector from '../../selectors/start.selector';
@@ -10,12 +10,13 @@ import {Observable} from 'rxjs/Observable';
 import {SwapProcess} from '../../models/swap-process.model';
 import {Coin} from '../../models/coins/coin.model';
 import {AnimationEnabledComponent} from '../../common/animation.component';
+import { MessageTypes } from '../../models/message-types.enum';
 
 @Component({
   selector: 'app-swap-start',
   templateUrl: './swap-start.component.html',
   styleUrls: ['./swap-start.component.scss'],
-  animations: [flyInOutAnimation],
+  animations: [flyInOutAnimation, fadeInAnimation],
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -23,6 +24,8 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   @HostBinding('class') classes = 'swap';
 
   firstSpinner = true;
+  infoMsg : string;
+  messageTypes: typeof MessageTypes = MessageTypes;
 
   $swapProcess: Observable<SwapProcess>;
   $depositCoin: Observable<Coin>;
@@ -32,6 +35,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
 
   constructor(private router: Router, private store: Store<fromSwap.State>) {
     super();
+    this.infoMsg = "FOR TESTNET USE ONLY";
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
     this.$receiveCoin = this.store.select(swapSelector.getReceiveCoin);

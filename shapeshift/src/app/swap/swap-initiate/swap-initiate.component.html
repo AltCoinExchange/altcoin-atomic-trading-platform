@@ -34,6 +34,9 @@
         <app-shapeshift-button (click)="startInitiate()">
           Agree
         </app-shapeshift-button>
+        <div class="message-box">
+        <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+        </div>
       </div>
     </div>
   </div>

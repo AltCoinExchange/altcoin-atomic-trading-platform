@@ -7,7 +7,7 @@
     <div class="qr-code-image">
         <div #qrPlaceholder></div>
         <ngx-qrcode
-        [qrc-value] = "'asdasdasd'"
+        [qrc-value] = "QRCodeValue"
         qrc-class = "qr-code"
         qrc-errorCorrectionLevel = "L">
       </ngx-qrcode>
@@ -26,6 +26,9 @@
       <div class="circle-loader" [ngClass]="{'load-complete' : !waitingDepositSpinner}">
         <div [hidden]="waitingDepositSpinner" class="checkmark draw"></div>
       </div>
+    </div>
+    <div class="message-box">
+    <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
     </div>
   </div>
   <div class="form-footer">

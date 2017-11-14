@@ -15,6 +15,9 @@
                         [receiveQuote]="$quote | async"
                         (depositChange)="onDepositChange($event)">
                 </app-swap-inputs>
+                <div class="message-box">
+                <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+                </div>
         </div>
         <div class="swap-start form-footer">
                 <p>BTC miner fee: 0.0001 BTC</p>
