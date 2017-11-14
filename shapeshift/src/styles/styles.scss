@@ -49,6 +49,19 @@ input::-webkit-inner-spin-button {
  color:  $text-color;
 }
 
+input:focus::-webkit-input-placeholder { 
+  color:transparent; 
+}
+input:focus:-moz-placeholder { 
+  color:transparent; 
+} 
+input:focus::-moz-placeholder { 
+  color:transparent; 
+} 
+input:focus:-ms-input-placeholder { 
+  color:transparent; 
+} 
+
 a{
   text-decoration: none;
 }
