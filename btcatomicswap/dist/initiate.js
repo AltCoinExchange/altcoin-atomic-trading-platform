@@ -13,15 +13,15 @@ var _unixTs = require('./common/unix-ts');
 
 var _publicTx = require('./common/public-tx');
 
-async function initiate(cp2Addr, amount) {
+async function initiate(cp2Addr, amount, privateKey) {
   var _generateSecret = (0, _secretHash.generateSecret)(),
       secret = _generateSecret.secret,
       secretHash = _generateSecret.secretHash;
 
   var lockTime = (0, _unixTs.getUnixTimeFor2Days)();
-  var b = await (0, _buildContract.buildContract)(cp2Addr, amount, lockTime, secretHash);
+  var b = await (0, _buildContract.buildContract)(cp2Addr, amount, lockTime, secretHash, privateKey);
 
-  var rawTx = await (0, _publicTx.publishTx)(b.contractTx.hex);
+  var rawTx = await (0, _publicTx.publishTx)(b.contractTx.toString());
 
   console.log('Secret:              ', secret);
   console.log('Secret hash:         ', secretHash);
@@ -32,7 +32,7 @@ async function initiate(cp2Addr, amount) {
   console.log(b.contract.toHex());
   console.log('\n');
   console.log('Contract transaction:', '(' + b.contractTxHash + ')');
-  console.log(b.contractTx.hex);
+  console.log(b.contractTx.toString());
   console.log('\n');
   console.log('Refund transaction:  ', '(', b.refundTx.hash, ')');
   console.log(b.refundTx.toString());

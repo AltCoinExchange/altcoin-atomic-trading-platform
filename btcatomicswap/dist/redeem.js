@@ -19,6 +19,10 @@ var _extractAtomicSwapContract = require('./contract/extract-atomic-swap-contrac
 
 var _redeemP2SHContract = require('./contract/redeem-P2SH-contract');
 
+var _feePerKb = require('./common/fee-per-kb');
+
+var _sizeest = require('./common/sizeest');
+
 var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
 var Transaction = require('bitcore').Transaction;
@@ -60,12 +64,14 @@ async function redeem(strCt, strCtTx, secret, privateKey) {
   }
   var PK = PrivateKey.fromWIF(privateKey);
   var newRawAddr = PK.toPublicKey().toAddress(_config.configuration.network);
-  console.log('newRawAddr', newRawAddr);
-  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
-  var addr = new Address(newRawAddr);
+  // const addr = new Address(newRawAddr);
 
-  var outScript = Script.buildPublicKeyHashOut(addr);
-  var amount = ctTx.outputs[ctTxOutIdx].satoshis - 0.0005 * 100000000;
+
+  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+  // TODO: pass redeemToAddr as parametar
+  var redeemToAddr = new Address("moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq");
+
+  var outScript = Script.buildPublicKeyHashOut(redeemToAddr);
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   var redeemTx = new Transaction();
@@ -73,8 +79,24 @@ async function redeem(strCt, strCtTx, secret, privateKey) {
   // TODO: "redeem output value of %v is dust"
   var output = Transaction.Output({
     script: outScript,
+    satoshis: 0
+  });
+
+  redeemTx.addOutput(output);
+
+  var feePerKb = await (0, _feePerKb.getFeePerKb)();
+  var redeemSerializeSize = (0, _sizeest.estimateRedeemSerializeSize)(contract, redeemTx.outputs);
+
+  var fee = (0, _sizeest.feeForSerializeSize)(feePerKb, redeemSerializeSize) * 100000000;
+
+  var amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
+
+  output = Transaction.Output({
+    script: outScript,
     satoshis: amount
   });
+
+  redeemTx.removeOutput(0);
   redeemTx.addOutput(output);
 
   var input = Transaction.Input({
@@ -95,17 +117,15 @@ async function redeem(strCt, strCtTx, secret, privateKey) {
 
   redeemTx.inputs[0].setScript(script);
 
-  console.log("**redeem transaction  ", redeemTx);
-  console.log("**redeem transaction  ", redeemTx.toString());
-  var res = await (0, _publicTx.publishTx)(redeemTx.toString());
+  var res = void 0;
+  try {
+    res = await (0, _publicTx.publishTx)(redeemTx.toString());
+  } catch (e) {
+    console.log(e);
+  }
 
   return {
     redeemTx: redeemTx,
     rawTx: res
   };
 }
-
-var getChangeAddress = async function getChangeAddress() {
-  var refundAddr = await (0, _rawRequest.getRawChangeAddress)();
-  return refundAddr;
-};

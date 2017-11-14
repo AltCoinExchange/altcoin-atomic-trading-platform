@@ -21,6 +21,8 @@ var _publicTx = require('./public-tx.js');
 
 var _feePerKb = require('./fee-per-kb');
 
+var _sizeest = require('./sizeest');
+
 var Script = require('bitcore').Script;
 var Address = require('bitcore').Address;
 
@@ -28,7 +30,7 @@ var Transaction = require('bitcore').Transaction;
 
 var BufferReader = require('bitcore').encoding.BufferReader;
 
-async function buildRefund(strCt, strCtTx) {
+async function buildRefund(strCt, strCtTx, privateKey) {
 
   // TODO: change strCt, strCtTx to ct, ctTx
   var contract = new Script(strCt);
@@ -65,11 +67,10 @@ async function buildRefund(strCt, strCtTx) {
   }
 
   // TODO:  "getrawchangeaddres" + erroe
-  var addr = new Address((await getChangeAddress()));
+  // const addr = new Address(await getChangeAddress())
+  var addr = "mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ";
 
   var outScript = Script.buildPublicKeyHashOut(addr);
-  var refundFee = 0.0005 * 100000000;
-  var amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee;
 
   // https://bitcoin.org/en/developer-examples#offline-signing
   var refundTx = new Transaction();
@@ -79,8 +80,24 @@ async function buildRefund(strCt, strCtTx) {
   // TODO: "refund output value of %v is dust"
   var output = Transaction.Output({
     script: outScript,
+    satoshis: 0
+  });
+
+  refundTx.addOutput(output);
+
+  var feePerKb = await (0, _feePerKb.getFeePerKb)();
+  var redeemSerializeSize = (0, _sizeest.estimateRefundSerializeSize)(contract, refundTx.outputs);
+
+  var refundFee = (0, _sizeest.feeForSerializeSize)(feePerKb, redeemSerializeSize) * 100000000;
+
+  var amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee;
+
+  output = Transaction.Output({
+    script: outScript,
     satoshis: amount
   });
+
+  refundTx.removeOutput(0);
   refundTx.addOutput(output);
 
   var input = Transaction.Input({
@@ -94,7 +111,7 @@ async function buildRefund(strCt, strCtTx) {
 
   var inputIndex = 0;
 
-  var _ref = await (0, _createSig.createSig)(refundTx, inputIndex, contract, refundAddress),
+  var _ref = await (0, _createSig.createSig)(refundTx, inputIndex, contract, refundAddress, privateKey),
       sig = _ref.sig,
       pubKey = _ref.pubKey;
 

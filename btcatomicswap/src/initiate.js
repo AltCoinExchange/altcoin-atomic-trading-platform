@@ -3,12 +3,12 @@ import {generateSecret} from './common/secret-hash';
 import {getUnixTimeFor2Days} from './common/unix-ts';
 import {publishTx} from './common/public-tx';
 
-export async function initiate(cp2Addr, amount) {
+export async function initiate(cp2Addr, amount, privateKey) {
   const {secret, secretHash} = generateSecret();
   const lockTime = getUnixTimeFor2Days();
-  const b = await buildContract(cp2Addr, amount, lockTime, secretHash);
+  const b = await buildContract(cp2Addr, amount, lockTime, secretHash, privateKey);
 
-  const rawTx = await publishTx(b.contractTx.hex);
+  const rawTx = await publishTx(b.contractTx.toString());
 
   console.log('Secret:              ', secret);
   console.log('Secret hash:         ', secretHash);
@@ -22,7 +22,7 @@ export async function initiate(cp2Addr, amount) {
   console.log(b.contract.toHex());
   console.log('\n');
   console.log('Contract transaction:', '(' + b.contractTxHash + ')');
-  console.log(b.contractTx.hex);
+  console.log(b.contractTx.toString());
   console.log('\n');
   console.log('Refund transaction:  ', '(', b.refundTx.hash, ')');
   console.log(b.refundTx.toString());

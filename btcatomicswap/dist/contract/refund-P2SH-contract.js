@@ -9,6 +9,7 @@ var Buffer = require('buffer/').Buffer;
 
 var refundP2SHContract = exports.refundP2SHContract = function refundP2SHContract(contract, sig, pubkey, secret) {
   var script = new Script();
+  // script.add(sig);
   script.add(new Buffer(sig));
   script.add(new Buffer(pubkey, 'hex'));
   script.add(Opcode.OP_0);
