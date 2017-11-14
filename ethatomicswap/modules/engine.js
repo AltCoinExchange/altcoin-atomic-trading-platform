@@ -67,7 +67,8 @@ var Engine = function (configuration, appConfiguration, bin) {
             try {
 
                 // TODO: Catch events
-                // var event = contract.events.Initiated({}/*{filter: {from: "0x6D5ae9dd8F1a2582Deb1b096915313459f11ba70"}}*/, function (err, result, sub) {
+                // var event = contract.events.Initiated(
+                //  {}/*{filter: {from: "0x6D5ae9dd8F1a2582Deb1b096915313459f11ba70"}}*/, function (err, result, sub) {
                 //     console.log(result);
                 //     sub.unsubscribe();
                 // });
@@ -154,6 +155,41 @@ var Engine = function (configuration, appConfiguration, bin) {
      */
     this.GetBalance = function(address) {
         return this.web3.eth.getBalance(address);
+    };
+
+  /**
+   * Send All Ether
+   * @param privateKey
+   * @param toAddress
+   * @returns {Promise<number>}
+   * @constructor
+   */
+    this.SendAllEther = async function(privateKey, toAddress) {
+
+        let currentBalance = await this.web3.eth.getBalance(this.web3.eth.defaultAccount);
+        let currentGasPrice = await this.web3.eth.getGasPrice();
+
+        let estimateGas = await this.web3.eth.estimateGas(
+            {
+              from: this.web3.eth.defaultAccount,
+              to: toAddress,
+              amount: currentBalance
+            }
+        );
+
+        let signedTx = await this.web3.eth.signTransaction(
+            {
+              from: this.web3.eth.defaultAccount,
+              gasPrice: currentGasPrice,
+              gas: estimateGas,
+              gasLimit: estimateGas * 2,
+              to: toAddress,
+              value: currentBalance - estimateGas * currentGasPrice * 2,
+              data: '',
+            }, privateKey
+        );
+
+        return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     };
 
     /**
