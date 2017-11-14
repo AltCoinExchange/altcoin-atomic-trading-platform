@@ -30,6 +30,7 @@
             <p class="label green big-font">{{depositCoin.amount}} {{depositCoin.name}}</p>
           </div>
         </div>
+        <redeem-address [coin]="depositCoin"></redeem-address>
         <app-shapeshift-button (click)="startInitiate()">
           Agree
         </app-shapeshift-button>
