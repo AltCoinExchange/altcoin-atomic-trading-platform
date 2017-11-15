@@ -33,73 +33,73 @@ var Engine = function (configuration, appConfiguration, bin) {
                 return abi[i];
         }
     };
-
-    /**
-     * Call contract function
-     * @param name
-     * @param address
-     * @param params
-     * @param generalParams
-     */
-    this.callFunction = async function(name, params, generalParams, confirmation) {
-        confirmation = confirmation === undefined ? 0 : confirmation;
-        var functionAbi = this.clone(this.getFunctionAbi(this.config, name));
-        var contract = new this.web3.eth.Contract(this.config, this.appConfig.contractAddress);
-
-        // var funcObj = {};
-        //
-        // funcObj._method = functionAbi;
-        // funcObj._parent = contract;
-        // funcObj.encodeABI = contract._encodeMethodABI.bind(funcObj);
-        // funcObj.arguments = params;
-        //that = this;
-
-        if (generalParams.gas === undefined) {
-            let price = await this.web3.eth.getGasPrice();
-
-            let ets = await this.web3.eth.estimateGas({ data: this.bin.code, to: this.appConfig.defaultWallet });
-            //params.gas = price;
-            generalParams.gas = ets;
-            generalParams.gasLimit = ets * 2;
-        }
-
-        return new Promise(function (resolve, reject) {
-            try {
-
-                // TODO: Catch events
-                // var event = contract.events.Initiated(
-                //  {}/*{filter: {from: "0x6D5ae9dd8F1a2582Deb1b096915313459f11ba70"}}*/, function (err, result, sub) {
-                //     console.log(result);
-                //     sub.unsubscribe();
-                // });
-
-                let method = contract.methods[name](...params);
-
-                if (confirmation === 0) {
-                    method.send(generalParams).on('receipt', function (rec) {
-                        resolve(rec);
-                    }).catch(function (err) {
-                        reject(err);
-                    });
-                } else if (confirmation === 1) {
-                    method.send(generalParams).on('confirmation', function (confNumber, receipt) {
-                        receipt.confNumber = confNumber;
-                        resolve(receipt);
-                    }).catch(function (err) {
-                        reject(err);
-                    });
-                } else if (confirmation === 2) {
-                    method.call(generalParams, function (err, result) {
-                        resolve(result);
-                    }).catch(function (err) {
-                        reject(err);
-                    });
-                }
-            } catch (e) {
-                reject(e);
-            }
-        });
-    };
+    //
+    // /**
+    //  * Call contract function
+    //  * @param name
+    //  * @param address
+    //  * @param params
+    //  * @param generalParams
+    //  */
+    // this.callFunction = async function(name, params, generalParams, confirmation) {
+    //     confirmation = confirmation === undefined ? 0 : confirmation;
+    //     var functionAbi = this.clone(this.getFunctionAbi(this.config, name));
+    //     var contract = new this.web3.eth.Contract(this.config, this.appConfig.contractAddress);
+    //
+    //     // var funcObj = {};
+    //     //
+    //     // funcObj._method = functionAbi;
+    //     // funcObj._parent = contract;
+    //     // funcObj.encodeABI = contract._encodeMethodABI.bind(funcObj);
+    //     // funcObj.arguments = params;
+    //     //that = this;
+    //
+    //     if (generalParams.gas === undefined) {
+    //         let price = await this.web3.eth.getGasPrice();
+    //
+    //         let ets = await this.web3.eth.estimateGas({ data: this.bin.code, to: this.appConfig.defaultWallet });
+    //         //params.gas = price;
+    //         generalParams.gas = ets;
+    //         generalParams.gasLimit = ets * 2;
+    //     }
+    //
+    //     return new Promise(function (resolve, reject) {
+    //         try {
+    //
+    //             // TODO: Catch events
+    //             // var event = contract.events.Initiated(
+    //             //  {}/*{filter: {from: "0x6D5ae9dd8F1a2582Deb1b096915313459f11ba70"}}*/, function (err, result, sub) {
+    //             //     console.log(result);
+    //             //     sub.unsubscribe();
+    //             // });
+    //
+    //             let method = contract.methods[name](...params);
+    //
+    //             if (confirmation === 0) {
+    //                 method.send(generalParams).on('receipt', function (rec) {
+    //                     resolve(rec);
+    //                 }).catch(function (err) {
+    //                     reject(err);
+    //                 });
+    //             } else if (confirmation === 1) {
+    //                 method.send(generalParams).on('confirmation', function (confNumber, receipt) {
+    //                     receipt.confNumber = confNumber;
+    //                     resolve(receipt);
+    //                 }).catch(function (err) {
+    //                     reject(err);
+    //                 });
+    //             } else if (confirmation === 2) {
+    //                 method.call(generalParams, function (err, result) {
+    //                     resolve(result);
+    //                 }).catch(function (err) {
+    //                     reject(err);
+    //                 });
+    //             }
+    //         } catch (e) {
+    //             reject(e);
+    //         }
+    //     });
+    // };
 
     /**
      * Create wallet
@@ -154,7 +154,7 @@ var Engine = function (configuration, appConfiguration, bin) {
      * @constructor
      */
     this.GetBalance = function(address) {
-      return this.web3.eth.getBalance(address).then(balance => {
+      return this.web3.eth.getBalance(address).then(function(balance){
         return this.web3.utils.fromWei(balance, 'ether');
       })
     };
@@ -166,33 +166,33 @@ var Engine = function (configuration, appConfiguration, bin) {
    * @returns {Promise<number>}
    * @constructor
    */
-    this.SendAllEther = async function(privateKey, toAddress) {
-
-        let currentBalance = await this.web3.eth.getBalance(this.web3.eth.defaultAccount);
-        let currentGasPrice = await this.web3.eth.getGasPrice();
-
-        let estimateGas = await this.web3.eth.estimateGas(
-            {
-              from: this.web3.eth.defaultAccount,
-              to: toAddress,
-              amount: currentBalance
-            }
-        );
-
-        let signedTx = await this.web3.eth.signTransaction(
-            {
-              from: this.web3.eth.defaultAccount,
-              gasPrice: currentGasPrice,
-              gas: estimateGas,
-              gasLimit: estimateGas * 2,
-              to: toAddress,
-              value: currentBalance - estimateGas * currentGasPrice * 2,
-              data: '',
-            }, privateKey
-        );
-
-        return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-    };
+    // this.SendAllEther = async function(privateKey, toAddress) {
+    //
+    //     var currentBalance = await this.web3.eth.getBalance(this.web3.eth.defaultAccount);
+    //     var currentGasPrice = await this.web3.eth.getGasPrice();
+    //
+    //     var estimateGas = await this.web3.eth.estimateGas(
+    //         {
+    //           from: this.web3.eth.defaultAccount,
+    //           to: toAddress,
+    //           amount: currentBalance
+    //         }
+    //     );
+    //
+    //     var signedTx = await this.web3.eth.signTransaction(
+    //         {
+    //           from: this.web3.eth.defaultAccount,
+    //           gasPrice: currentGasPrice,
+    //           gas: estimateGas,
+    //           gasLimit: estimateGas * 2,
+    //           to: toAddress,
+    //           value: currentBalance - estimateGas * currentGasPrice * 2,
+    //           data: '',
+    //         }, privateKey
+    //     );
+    //
+    //     return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+    // };
 
     /**
      * Constructor

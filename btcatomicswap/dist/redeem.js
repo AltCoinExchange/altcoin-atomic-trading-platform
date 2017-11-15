@@ -28,104 +28,119 @@ var Address = require('bitcore').Address;
 var Transaction = require('bitcore').Transaction;
 var PrivateKey = require('bitcore').PrivateKey;
 
-async function redeem(strCt, strCtTx, secret, privateKey) {
+function redeem(strCt, strCtTx, secret, privateKey) {
+  var contract, pushes, ctTx, recipientAddrString, recipientAddress, contractP2SH, ctTxOutIdx, i, _script, address, addressHash, PK, newRawAddr, redeemToAddr, outScript, redeemTx, output, feePerKb, redeemSerializeSize, fee, amount, input, inputIndex, _ref, sig, pubKey, script, res;
 
-  // TODO: change strCt, strCtTx to ct, ctTx
-  var contract = new Script(strCt);
-  var pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(strCt);
+  return Promise.resolve().then(function () {
 
-  if (!pushes) {
-    console.log("contract is not an atomic swap script recognized by this tool");
-    return;
-  }
+    // TODO: change strCt, strCtTx to ct, ctTx
+    contract = new Script(strCt);
+    pushes = (0, _extractAtomicSwapContract.extractAtomicSwapContract)(strCt);
 
-  var ctTx = new Transaction(strCtTx);
 
-  var recipientAddrString = pushes.recipientHash.replace('0x', '');
-  var recipientAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(recipientAddrString, 'testnet');
-  var contractP2SH = _addressUtil.AddressUtil.NewAddressScriptHash(strCt, _config.configuration.network);
+    if (!pushes) {
+      console.log("contract is not an atomic swap script recognized by this tool");
+    } else {
+      ctTx = new Transaction(strCtTx);
+      recipientAddrString = pushes.recipientHash.replace('0x', '');
+      recipientAddress = _addressUtil.AddressUtil.NewAddressPubKeyHash(recipientAddrString, 'testnet');
+      contractP2SH = _addressUtil.AddressUtil.NewAddressScriptHash(strCt, _config.configuration.network);
+      ctTxOutIdx = -1;
 
-  var ctTxOutIdx = -1;
 
-  for (var i = 0; i < ctTx.outputs.length; i++) {
-    var _script = new Script(ctTx.outputs[i].script);
-    var address = _script.toAddress(_config.configuration.network);
-    var addressHash = address.toJSON().hash;
+      for (i = 0; i < ctTx.outputs.length; i++) {
+        _script = new Script(ctTx.outputs[i].script);
+        address = _script.toAddress(_config.configuration.network);
+        addressHash = address.toJSON().hash;
 
-    if (addressHash === contractP2SH.toJSON().hash) {
-      ctTxOutIdx = i;
-      break;
+
+        if (addressHash === contractP2SH.toJSON().hash) {
+          ctTxOutIdx = i;
+          break;
+        }
+      }
+
+      if (ctTxOutIdx == -1) {
+        console.log("transaction does not contain a contract output");
+      } else {
+        return Promise.resolve().then(function () {
+          PK = PrivateKey.fromWIF(privateKey);
+          newRawAddr = PK.toPublicKey().toAddress(_config.configuration.network);
+          // const addr = new Address(newRawAddr);
+
+
+          // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+          // TODO: pass redeemToAddr as parametar
+
+          redeemToAddr = new Address("moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq");
+          outScript = Script.buildPublicKeyHashOut(redeemToAddr);
+
+          // https://bitcoin.org/en/developer-examples#offline-signing
+
+          redeemTx = new Transaction();
+
+          // TODO: "redeem output value of %v is dust"
+
+          output = Transaction.Output({
+            script: outScript,
+            satoshis: 0
+          });
+
+
+          redeemTx.addOutput(output);
+
+          return (0, _feePerKb.getFeePerKb)();
+        }).then(function (_resp) {
+          feePerKb = _resp;
+          redeemSerializeSize = (0, _sizeest.estimateRedeemSerializeSize)(contract, redeemTx.outputs);
+          fee = (0, _sizeest.feeForSerializeSize)(feePerKb, redeemSerializeSize) * 100000000;
+          amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
+
+
+          output = Transaction.Output({
+            script: outScript,
+            satoshis: amount
+          });
+
+          redeemTx.removeOutput(0);
+          redeemTx.addOutput(output);
+
+          input = Transaction.Input({
+            prevTxId: ctTx.id,
+            outputIndex: ctTxOutIdx,
+            script: new Script(ctTx.outputs[ctTxOutIdx].script)
+          });
+
+
+          redeemTx.uncheckedAddInput(input);
+
+          inputIndex = 0;
+          return (0, _createSig.createSig)(redeemTx, inputIndex, contract, recipientAddress, privateKey);
+        }).then(function (_resp) {
+          _ref = _resp;
+          sig = _ref.sig;
+          pubKey = _ref.pubKey;
+          script = (0, _redeemP2SHContract.redeemP2SHContract)(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
+
+
+          redeemTx.inputs[0].setScript(script);
+
+          res = void 0;
+          return Promise.resolve().then(function () {
+            return (0, _publicTx.publishTx)(redeemTx.toString());
+          }).then(function (_resp) {
+            res = _resp;
+          }).catch(function (e) {
+            console.log(e);
+          });
+        }).then(function () {
+
+          return {
+            redeemTx: redeemTx.toString(),
+            rawTx: res
+          };
+        });
+      }
     }
-  }
-
-  if (ctTxOutIdx == -1) {
-    console.log("transaction does not contain a contract output");
-    return;
-  }
-  var PK = PrivateKey.fromWIF(privateKey);
-  var newRawAddr = PK.toPublicKey().toAddress(_config.configuration.network);
-  // const addr = new Address(newRawAddr);
-
-
-  // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
-  // TODO: pass redeemToAddr as parametar
-  var redeemToAddr = new Address("moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq");
-
-  var outScript = Script.buildPublicKeyHashOut(redeemToAddr);
-
-  // https://bitcoin.org/en/developer-examples#offline-signing
-  var redeemTx = new Transaction();
-
-  // TODO: "redeem output value of %v is dust"
-  var output = Transaction.Output({
-    script: outScript,
-    satoshis: 0
-  });
-
-  redeemTx.addOutput(output);
-
-  var feePerKb = await (0, _feePerKb.getFeePerKb)();
-  var redeemSerializeSize = (0, _sizeest.estimateRedeemSerializeSize)(contract, redeemTx.outputs);
-
-  var fee = (0, _sizeest.feeForSerializeSize)(feePerKb, redeemSerializeSize) * 100000000;
-
-  var amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
-
-  output = Transaction.Output({
-    script: outScript,
-    satoshis: amount
-  });
-
-  redeemTx.removeOutput(0);
-  redeemTx.addOutput(output);
-
-  var input = Transaction.Input({
-    prevTxId: ctTx.id,
-    outputIndex: ctTxOutIdx,
-    script: new Script(ctTx.outputs[ctTxOutIdx].script)
-  });
-
-  redeemTx.uncheckedAddInput(input);
-
-  var inputIndex = 0;
-
-  var _ref = await (0, _createSig.createSig)(redeemTx, inputIndex, contract, recipientAddress, privateKey),
-      sig = _ref.sig,
-      pubKey = _ref.pubKey;
-
-  var script = (0, _redeemP2SHContract.redeemP2SHContract)(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
-
-  redeemTx.inputs[0].setScript(script);
-
-  var res = void 0;
-  try {
-    res = await (0, _publicTx.publishTx)(redeemTx.toString());
-  } catch (e) {
-    console.log(e);
-  }
-
-  return {
-    redeemTx: redeemTx.toString(),
-    rawTx: res
-  };
+  }).then(function () {});
 }

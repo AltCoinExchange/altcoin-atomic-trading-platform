@@ -91,8 +91,10 @@ var EthWallet = exports.EthWallet = function () {
 
     }, {
         key: "sendAllEther",
-        value: async function sendAllEther(privateKey, toAddress) {
-            return this.atomicSwap.engine.sendAllEther(privateKey, toAddress);
+        value: function sendAllEther(privateKey, toAddress) {
+            var _this = this;
+
+            return _this.atomicSwap.engine.sendAllEther(privateKey, toAddress);
         }
 
         /**
@@ -106,18 +108,27 @@ var EthWallet = exports.EthWallet = function () {
 
     }, {
         key: "initiate",
-        value: async function initiate(refundTime, secret, address, amount) {
+        value: function initiate(refundTime, secret, address, amount) {
+            var secretObj,
+                result,
+                _this2 = this;
 
-            var secretObj = null;
+            return Promise.resolve().then(function () {
+                secretObj = null;
 
-            if (secret === '') {
-                secretObj = this.atomicSwap.common.GenerateSecret();
-                secret = '0x' + secretObj.hashedSecret;
-            }
 
-            var result = await this.atomicSwap.Initiate(refundTime, secret, address, amount);
-            result.secret = secretObj;
-            return result;
+                if (secret === '') {
+                    secretObj = _this2.atomicSwap.common.GenerateSecret();
+                    secret = '0x' + secretObj.hashedSecret;
+                }
+
+                return _this2.atomicSwap.Initiate(refundTime, secret, address, amount);
+            }).then(function (_resp) {
+                result = _resp;
+
+                result.secret = secretObj;
+                return result;
+            });
         }
 
         /**
@@ -131,9 +142,17 @@ var EthWallet = exports.EthWallet = function () {
 
     }, {
         key: "participate",
-        value: async function participate(refundTime, secret, address, amount) {
-            var result = await this.atomicSwap.Participate(refundTime, secret, address, amount);
-            return result;
+        value: function participate(refundTime, secret, address, amount) {
+            var result,
+                _this3 = this;
+
+            return Promise.resolve().then(function () {
+                return _this3.atomicSwap.Participate(refundTime, secret, address, amount);
+            }).then(function (_resp) {
+                result = _resp;
+
+                return result;
+            });
         }
 
         /**
@@ -144,9 +163,17 @@ var EthWallet = exports.EthWallet = function () {
 
     }, {
         key: "extractsecret",
-        value: async function extractsecret(hashedSecret) {
-            var result = await this.atomicSwap.ExtractSecret(hashedSecret);
-            return result;
+        value: function extractsecret(hashedSecret) {
+            var result,
+                _this4 = this;
+
+            return Promise.resolve().then(function () {
+                return _this4.atomicSwap.ExtractSecret(hashedSecret);
+            }).then(function (_resp) {
+                result = _resp;
+
+                return result;
+            });
         }
 
         /**
@@ -158,9 +185,17 @@ var EthWallet = exports.EthWallet = function () {
 
     }, {
         key: "redeem",
-        value: async function redeem(secret, hashedSecret) {
-            var result = await this.atomicSwap.Redeem(secret, hashedSecret);
-            return result;
+        value: function redeem(secret, hashedSecret) {
+            var result,
+                _this5 = this;
+
+            return Promise.resolve().then(function () {
+                return _this5.atomicSwap.Redeem(secret, hashedSecret);
+            }).then(function (_resp) {
+                result = _resp;
+
+                return result;
+            });
         }
 
         /**
@@ -171,9 +206,17 @@ var EthWallet = exports.EthWallet = function () {
 
     }, {
         key: "refund",
-        value: async function refund(hashedSecret) {
-            var result = await this.atomicSwap.Refund(hashedSecret);
-            return result;
+        value: function refund(hashedSecret) {
+            var result,
+                _this6 = this;
+
+            return Promise.resolve().then(function () {
+                return _this6.atomicSwap.Refund(hashedSecret);
+            }).then(function (_resp) {
+                result = _resp;
+
+                return result;
+            });
         }
     }]);
 

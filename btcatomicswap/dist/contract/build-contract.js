@@ -20,70 +20,75 @@ var Address = require('bitcore').Address;
 var Script = require('bitcore').Script;
 var PrivateKey = require('bitcore').PrivateKey;
 
-var buildContract = exports.buildContract = async function buildContract(them, amount, lockTime, secretHash, privateKey) {
-  var PK = PrivateKey.fromWIF(privateKey);
-  var refundAddr = PK.toPublicKey().toAddress(_config.configuration.network);
+var buildContract = exports.buildContract = function buildContract(them, amount, lockTime, secretHash, privateKey) {
+  var PK, refundAddr, themAddr, contract, contractP2SH, contractP2SHPkScript, contractTx, value, output, signitures, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, signiture, contractTxHash, contractFee, _ref, refundFee, refundTx;
 
-  var themAddr = new Address(them);
+  return Promise.resolve().then(function () {
+    PK = PrivateKey.fromWIF(privateKey);
+    refundAddr = PK.toPublicKey().toAddress(_config.configuration.network);
+    themAddr = new Address(them);
+    contract = (0, _atomicSwapContract.atomicSwapContract)(refundAddr.toJSON().hash, themAddr.toJSON().hash, lockTime, secretHash);
+    contractP2SH = _addressUtil.AddressUtil.NewAddressScriptHash(contract.toHex(), _config.configuration.network);
+    contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
+    contractTx = new Transaction();
+    value = Math.round(amount * 100000000);
+    // console.log(value);
 
-  var contract = (0, _atomicSwapContract.atomicSwapContract)(refundAddr.toJSON().hash, themAddr.toJSON().hash, lockTime, secretHash);
+    output = Transaction.Output({
+      script: contractP2SHPkScript,
+      satoshis: value
+    });
 
-  var contractP2SH = _addressUtil.AddressUtil.NewAddressScriptHash(contract.toHex(), _config.configuration.network);
-  var contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
+    contractTx.addOutput(output);
 
-  var contractTx = new Transaction();
-  var value = Math.round(amount * 100000000);
-  // console.log(value);
-  var output = Transaction.Output({
-    script: contractP2SHPkScript,
-    satoshis: value
-  });
-  contractTx.addOutput(output);
+    return (0, _fundTransaction.fundTransaction)(refundAddr, contractTx);
+  }).then(function () {
 
-  await (0, _fundTransaction.fundTransaction)(refundAddr, contractTx);
+    //SIGN TRANSACTION
+    signitures = contractTx.getSignatures(privateKey);
+    _iteratorNormalCompletion = true;
+    _didIteratorError = false;
+    _iteratorError = undefined;
 
-  //SIGN TRANSACTION
-  var signitures = contractTx.getSignatures(privateKey);
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = signitures[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var signiture = _step.value;
-
-      contractTx.applySignature(signiture);
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
     try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
+      for (_iterator = signitures[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        signiture = _step.value;
+
+        contractTx.applySignature(signiture);
       }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
     } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
       }
     }
-  }
 
-  var contractTxHash = contractTx.hash;
-  var contractFee = contractTx._getInputAmount() - contractTx._getOutputAmount();
+    contractTxHash = contractTx.hash;
+    contractFee = contractTx._getInputAmount() - contractTx._getOutputAmount();
+    return (0, _buildRefund.buildRefund)(contract.toHex(), contractTx.toString(), privateKey);
+  }).then(function (_resp) {
+    _ref = _resp;
+    refundFee = _ref.refundFee;
+    refundTx = _ref.refundTx;
 
-  var _ref = await (0, _buildRefund.buildRefund)(contract.toHex(), contractTx.toString(), privateKey),
-      refundFee = _ref.refundFee,
-      refundTx = _ref.refundTx;
 
-  return {
-    contract: contract,
-    contractP2SH: contractP2SH,
-    contractP2SHPkScript: contractP2SHPkScript,
-    contractTxHash: contractTxHash,
-    contractTx: contractTx,
-    contractFee: contractFee,
-    refundTx: refundTx,
-    refundFee: refundFee
-  };
+    return {
+      contract: contract,
+      contractP2SH: contractP2SH,
+      contractP2SHPkScript: contractP2SHPkScript,
+      contractTxHash: contractTxHash,
+      contractTx: contractTx,
+      contractFee: contractFee,
+      refundTx: refundTx,
+      refundFee: refundFee
+    };
+  });
 };

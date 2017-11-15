@@ -2,7 +2,7 @@
   "name": "ethatomicswap",
   "version": "0.1.0",
   "description": "Ethereum Atomic Swap",
-  "main": "dist/dist.js",
+  "main": "modules/bundle.js",
   "scripts": {
     "build": "babel --presets es2015 dist -d dist",
     "test": "test/testatomicswap.js"

@@ -24,25 +24,33 @@ var rpc = new RpcClient(_config.configuration);
 //     const pubKey = WIF.toPublicKey()
 //     return {sig, pubKey}
 // }
-var getBalance = exports.getBalance = async function getBalance(address) {
-    //const addr = new Address(address);
-    //const accAddr = await getFunc('getAccountAddress', [address]);
-    //const rec = await getFunc('getReceivedByAddress', [accAddr, 1]);
+var getBalance = exports.getBalance = function getBalance(address) {
+    var balance;
+    return Promise.resolve().then(function () {
+        return getFunc('getBalance', [address, 1]);
+    }).then(function (_resp) {
+        //const addr = new Address(address);
+        //const accAddr = await getFunc('getAccountAddress', [address]);
+        //const rec = await getFunc('getReceivedByAddress', [accAddr, 1]);
 
-    //const addrs = await getFunc('getAddressesByAccount', [address]);
+        //const addrs = await getFunc('getAddressesByAccount', [address]);
 
-    //const addrBalance = await getFunc('getReceivedByAddress', [address, 1]);
+        //const addrBalance = await getFunc('getReceivedByAddress', [address, 1]);
 
-    //console.log(addrs);
+        //console.log(addrs);
 
-    var balance = await getFunc('getBalance', [address, 1]);
-    return balance;
+        balance = _resp;
+
+        return balance;
+    });
 };
 
-var getFunc = async function getFunc(func, params) {
-    return new Promise(function (resolve, reject) {
-        rpc[func].apply(rpc, _toConsumableArray(params).concat([function (c, e) {
-            resolve(e.result);
-        }]));
+var getFunc = function getFunc(func, params) {
+    return Promise.resolve().then(function () {
+        return new Promise(function (resolve, reject) {
+            rpc[func].apply(rpc, _toConsumableArray(params).concat([function (c, e) {
+                resolve(e.result);
+            }]));
+        });
     });
 };
