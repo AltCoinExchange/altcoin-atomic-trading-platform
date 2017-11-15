@@ -2,3 +2,15 @@
 <div>{{$loading | async}}</div>
 <div>{{$ethBalanace | async | json}}</div>
 <div>{{$btcBalance | async | json}}</div>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div fxHide.sm="true" fxHide.xs="true">
+  </div>
+  <div class="content" fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="70%" fxFlex.xs="90%">
+    <p>wallet component</p>
+    <div>{{$loading | async}}</div>
+    <div>{{$ethBalanace | async | json}}</div>
+  </div>
+  <div fxHide.sm="true" fxHide.xs="true">
+  </div>
+</div>
+
