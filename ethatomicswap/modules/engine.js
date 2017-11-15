@@ -154,8 +154,9 @@ var Engine = function (configuration, appConfiguration, bin) {
      * @constructor
      */
     this.GetBalance = function(address) {
+      var that = this;
       return this.web3.eth.getBalance(address).then(function(balance){
-        return this.web3.utils.fromWei(balance, 'ether');
+        return that.web3.utils.fromWei(balance, 'ether');
       })
     };
 
