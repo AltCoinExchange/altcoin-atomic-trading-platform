@@ -8,7 +8,9 @@ import {BtcWalletModel} from './models/wallets/btc-wallet.model';
 import {EthWalletModel} from "./models/wallets/eth-wallet.model";
 import {environment} from "../environments/environment";
 import {ShapeshiftStorage} from "./common/shapeshift-storage";
-import {EthCoinModel} from "./models/coins/eth-coin.model";
+import {MoscaService} from "./services/mosca.service";
+
+// import * as mqtt from 'mqtt';
 
 
 @Component({
@@ -23,7 +25,7 @@ export class AppComponent implements OnInit {
   public altcoinLogo = 'assets/icon/altcoin-icon.png';
   public name = 'Angular 2 Webpack Starter';
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private moscaService: MoscaService) {
     let codes;
     if (environment.production) {
       codes = wallet.Wallet.code;

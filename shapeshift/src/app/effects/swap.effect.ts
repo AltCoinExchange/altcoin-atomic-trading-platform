@@ -16,12 +16,12 @@ import {Go} from '../actions/router.action';
 import {AppState} from '../reducers/app.state';
 import {LinkService} from '../services/link.service';
 import {SwapService} from '../services/swap.service';
-import {getSwapProcess} from "../selectors/start.selector";
-import {getInitiateData, getSwapCoins} from "../selectors/swap.selector";
+import {getInitateLink, getSwapProcess} from "../selectors/start.selector";
+import {getInitiateData, getSwapCoins, getSwapState} from "../selectors/swap.selector";
 import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
 import {InformParticipatedDataModel} from "../models/inform-participated-data.model";
 import {ParticipateDataFactory} from "../models/factory-participated-data";
-
+import {MoscaService} from "../services/mosca.service";
 
 @Injectable()
 export class SwapEffect {
@@ -65,7 +65,6 @@ export class SwapEffect {
 
       return this.swapService.initiate(payload.address, payload.coin)
         .mergeMap(res => {
-          console.log('initData', res);
           return Observable.from([
             new swapAction.InitiateSuccessAction(res),
             new startAction.InformInitiatedAction(
@@ -89,8 +88,17 @@ export class SwapEffect {
     .ofType(startAction.WAIT_FOR_INITIATE)
     .map(toPayload)
     .switchMap(payload => {
-      return this.swapService.waitForInitiate(payload).map(initiateBigChainDBResponse => {
-        return new startAction.WaitForInitiateSuccessAction(InformInitiatedDataModel.newFrom(initiateBigChainDBResponse));
+
+      //WAIT FOR INITIATE
+      const topic = '/initiate/' + payload.replace('==', '');
+      this.moscaService.subscribeToTopic(topic);
+      return this.moscaService.onMessage(topic).map(initiateBigChainDBResponse => {
+        return new startAction.WaitForInitiateSuccessAction(InformInitiatedDataModel.newFrom(
+          {
+            id: initiateBigChainDBResponse.topic,
+            data: JSON.parse(initiateBigChainDBResponse.message)
+          }
+        ));
       });
     });
 
@@ -99,9 +107,16 @@ export class SwapEffect {
     .ofType(startAction.INFORM_INITIATED)
     .map(toPayload)
     .mergeMap((payload: InformInitiatedDataModel) => {
-      this.swapService.informInitiated(payload);
-      return this.swapService.waitForParticipate(payload.participateId).map(participateData => {
-        return new WaitForParticipateSuccessAction(ParticipateDataFactory.createData(participateData.data.coin, participateData.data));
+      this.moscaService.sendMsg('/initiate/' + payload.link, JSON.stringify(payload.data));
+
+      //WAIT FOR PARTICIPATE
+      const topic = '/participate/' + payload.link;
+      console.log('WAIT FOR PARTICIPATE', topic);
+      this.moscaService.subscribeToTopic(topic);
+
+      return this.moscaService.onMessage(topic).map(participateData => {
+        const data = JSON.parse(participateData.message);
+        return new WaitForParticipateSuccessAction(ParticipateDataFactory.createData(data.coin, data));
       })
     });
 
@@ -116,8 +131,8 @@ export class SwapEffect {
       return this.swapService.participate(swapProcess.depositCoin, initiateData).mergeMap(partData => {
         return Observable.from(
           [
-            new ParticipateSuccessAction(partData),
-            new InformParticipatedAction(new InformParticipatedDataModel(initiateData.participateId, partData, swapProcess.depositCoin.name)),
+            new ParticipateSuccessAction(initiateData.link),
+            new InformParticipatedAction(new InformParticipatedDataModel(initiateData.link, partData, swapProcess.depositCoin.name)),
           ]
         );
       });
@@ -129,23 +144,24 @@ export class SwapEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getSwapProcess))
     .mergeMap(([payload, swapProcess]) => {
-      let redeemId;
-      if (payload.to) { //ETH TODO - return class that knows how to generate itself
-        redeemId = payload.to + payload.blockHash;
-      } else {
-        redeemId = payload.contractHex;
-      }
-      console.log('redeemId', redeemId);
-      this.swapService.waitForRedeem('mojcustomcustomcustomstring7').subscribe(r => {
-        console.log(r[0].data.data);
-        swapProcess.depositCoin.extractSecret(r[0].data.data).subscribe(secret => {
-          console.log('SECRET --- ', secret);
-          swapProcess.receiveCoin.redeem({secret, secretHash: r[0].data.data.secretHash}).subscribe((ra) => {
-            console.log(swapProcess.receiveCoin.name, ra);
+
+      //WAIT FOR REDEEM
+      console.log(' !!!!!!!!!!!!! waiting for redeeem ', payload);
+      const redeemTopic = payload.replace('initiate', 'redeem');
+      this.moscaService.subscribeToTopic(redeemTopic);
+      return this.moscaService.onMessage(redeemTopic).flatMap(r => {
+        console.log('redeem response', r);
+        const data = JSON.parse(r.message);
+
+        return swapProcess.depositCoin.extractSecret(data).flatMap(secret => {
+
+          return swapProcess.receiveCoin.redeem({secret, secretHash: data.secretHash}).map((ra) => {
+            console.log('REDEEM: ', swapProcess.receiveCoin.name, ra);
+            return new RedeemSuccessAction();
           });
+
         });
       });
-      return Observable.empty();
     });
 
 
@@ -153,8 +169,12 @@ export class SwapEffect {
   informParticipated: Observable<Action> = this.actions$
     .ofType(startAction.INFORM_PARTICIPATED)
     .map(toPayload)
-    .mergeMap((data) => {
-      this.swapService.informParticipated(data);
+    .withLatestFrom(this.store.select(getInitateLink))
+    .mergeMap(([payload, link]) => {
+      const d = payload.data;
+      const topic = link.replace('==', '');
+      console.log('INFORM PARTICIPATE', '/participate/' + topic, d);
+      this.moscaService.sendMsg('/participate/' + topic, JSON.stringify(d));
       return Observable.empty();
     });
 
@@ -162,43 +182,35 @@ export class SwapEffect {
   redeem: Observable<Action> = this.actions$
     .ofType(startAction.WAIT_FOR_PARTICIPATE_SUCCESS)
     .map(toPayload)
-    .withLatestFrom(this.store.select(getInitiateData), this.store.select(getSwapCoins), (payload, initData, coins) => {
+    .withLatestFrom(this.store.select(getInitiateData), this.store.select(getSwapCoins), this.store.select(getSwapState), (payload, initData, coins, swapState) => {
       return {
-        payload, initData, coins
+        payload, initData, coins, link: swapState
       }
     })
     .mergeMap((a) => {
-      console.log('WAIT_FOR_PARTICIPATE_SUCCESS', a);
+      console.log('PARTICIPATE DATA', a);
+
       let redeemParams = a.payload.redeemParams(a.initData);
-      console.log('!!! redeemParams !!!', redeemParams);
+
       let redeem = a.coins.depositCoin.redeem(redeemParams);
 
       return redeem.map(r => {
-        console.log('redeem data: ', r);
 
-        let id;
-        if (a.payload.data.to) {
-          id = a.payload.data.to + a.payload.data.blockHash
-        } else {
-          id = a.payload.data.contractHex;
-        }
-        console.log('id', id);
         let informRedeem = {
-          id: 'mojcustomcustomcustomstring7',
-          data: {
-            secretHash: a.initData.secretHash,
-            redeemTx: r.redeemTx
-          }
+          secretHash: a.initData.secretHash,
+          redeemTx: r.redeemTx
         };
 
-        console.log('informRedeem DATA ::: ', informRedeem);
-        this.swapService.informRedeemed(informRedeem);
+        console.log('about to inform redeemed', informRedeem);
+        const redeemTopic = '/redeem/' + a.link.link;
+
+        this.moscaService.sendMsg(redeemTopic, JSON.stringify(informRedeem));
         return new RedeemSuccessAction();
       });
     });
 
 
-  constructor(private linkService: LinkService,
+  constructor(private moscaService: MoscaService, private linkService: LinkService,
               private actions$: Actions,
               private store: Store<AppState>,
               private swapService: SwapService) {

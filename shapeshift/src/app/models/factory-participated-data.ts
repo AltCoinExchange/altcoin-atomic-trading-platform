@@ -7,6 +7,7 @@ export class ETHParticipateData implements ParticipateData {
     return {
       secret: '0x' + initData.secret,
       secretHash: '0x' + initData.secretHash,
+      uuid: initData.uuid,
     };
   };
 
@@ -21,6 +22,7 @@ export class BTCParticipateData implements ParticipateData {
       contractHex: this.data.contractHex,
       contractTxHex: this.data.contractTxHex,
       secret: initData.secret,
+      uuid: initData.uuid,
     };
   };
 
