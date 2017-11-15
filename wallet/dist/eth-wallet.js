@@ -81,6 +81,20 @@ var EthWallet = exports.EthWallet = function () {
         value: function getbalance(address) {
             return this.atomicSwap.engine.GetBalance(address);
         }
+
+        /**
+        * Send All Ether
+        * @param privateKey
+        * @param toAddress
+        * @returns {Promise<number>}
+        */
+
+    }, {
+        key: "sendAllEther",
+        value: async function sendAllEther(privateKey, toAddress) {
+            return this.atomicSwap.engine.sendAllEther(privateKey, toAddress);
+        }
+
         /**
          * Initiate atomic swap
          * @param refundTime

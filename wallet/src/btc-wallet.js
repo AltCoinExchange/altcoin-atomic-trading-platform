@@ -1,8 +1,10 @@
 import {btcRpcConfiguration} from './config/config';
+import {configuration} from '../../btcatomicswap/src/config/config';
 
 const Mnemonic = require('bitcore-mnemonic');
 var bitcore = require('bitcore');
 var HDPrivateKey = bitcore.HDPrivateKey;
+var PrivateKey = bitcore.PrivateKey;
 
 export class BtcWallet {
 
@@ -41,6 +43,11 @@ export class BtcWallet {
     const address = hdPublicKey.publicKey.toAddress();
     this.addressess[hdPublicKey] = address;
     return address;
+  }
+
+  generateAddressFromWif(wif) {
+    const WIF = new PrivateKey(wif);
+    return WIF.toPublicKey().toAddress(configuration.network);
   }
 
   getDerived() {

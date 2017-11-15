@@ -3,6 +3,7 @@ import {BtcWalletModel} from '../models/wallets/btc-wallet.model';
 import {EthWalletModel} from '../models/wallets/eth-wallet.model';
 import * as wallet from 'wallet';
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
+import {BtcCoinModel} from "../models/coins/btc-coin.model";
 
 export interface State {
   BTC: BtcWalletModel;

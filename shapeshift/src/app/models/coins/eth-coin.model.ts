@@ -35,9 +35,9 @@ export class EthCoinModel implements Coin {
     return model;
   }
 
-  extractSecret(hashedSecret: string) {
+  extractSecret(data) {
     const eth = this.getSwapInstance();
-    const result = eth.extractsecret(hashedSecret);
+    const result = eth.extractsecret('0x' + data.secretHash);
     const resultObservable = Observable.fromPromise(result);
     return resultObservable.map((result: any) => {
       console.log(result);
@@ -87,7 +87,7 @@ export class EthCoinModel implements Coin {
 
   redeem(data){
     const eth = this.getSwapInstance();
-    const result = eth.redeem(data.secret, data.secretHash);
+    const result = eth.redeem('0x' + data.secret, '0x' + data.secretHash);
     const resultObservable = Observable.fromPromise(result);
     return resultObservable.map((res: any) => {
       console.log('REDEEM');

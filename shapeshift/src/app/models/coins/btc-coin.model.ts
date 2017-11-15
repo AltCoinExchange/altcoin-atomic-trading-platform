@@ -15,10 +15,7 @@ export class BtcCoinModel implements Coin {
 
   generateNewAddress(btcWallet: BtcWalletModel) {
     const btc = new wallet.Wallet.Bitcoin.BtcWallet(btcWallet.xprivkey, true);
-
-    const derivedPrivKey = btc.deriveHdPrivateKey(1); //TODO this also needs to be autoincremental
-    const hdPublicKey = derivedPrivKey.hdPublicKey;
-    const address = btc.generateAddress(hdPublicKey);
+    const address = btc.generateAddressFromWif(ShapeshiftStorage.get('btc-wif'));
     return address.toString();
   }
 
@@ -32,8 +29,12 @@ export class BtcCoinModel implements Coin {
     throw new Error("Method not implemented.");
   }
 
-  extractSecret(hashedSecret: string) {
-    throw new Error('Method not implemented.');
+  extractSecret(data) {
+    console.log('BTC extractSecret');
+    console.log('data.secretHash', data.secretHash);
+    console.log('data.redeemTx', data.redeemTx);
+    const extract = btcswap.extractSecret(data.redeemTx, data.secretHash);
+    return Observable.of(extract);
   }
 
   initiate(address: string): any {
@@ -48,6 +49,10 @@ export class BtcCoinModel implements Coin {
 
   redeem(data) {
     const wif = ShapeshiftStorage.get('btc-wif');
+    console.log('BTC redeeming data.contractHex ', data.contractHex);
+    console.log('BTC redeeming data.contractTxHex ', data.contractTxHex);
+    console.log('BTC redeeming data.secret ', data.secret);
+    console.log('BTC redeeming wif ', wif);
     const redeemResult = btcswap.redeem(/**contract*/ data.contractHex, /**contractTx*/data.contractTxHex, /**secret*/data.secret, wif);
     return Observable.fromPromise(redeemResult);
   }

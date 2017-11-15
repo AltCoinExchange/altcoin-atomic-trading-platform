@@ -125,7 +125,7 @@ async function redeem(strCt, strCtTx, secret, privateKey) {
   }
 
   return {
-    redeemTx: redeemTx,
+    redeemTx: redeemTx.toString(),
     rawTx: res
   };
 }

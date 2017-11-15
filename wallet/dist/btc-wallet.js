@@ -9,11 +9,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _config = require('./config/config');
 
+var _config2 = require('../../btcatomicswap/src/config/config');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Mnemonic = require('bitcore-mnemonic');
 var bitcore = require('bitcore');
 var HDPrivateKey = bitcore.HDPrivateKey;
+var PrivateKey = bitcore.PrivateKey;
 
 var BtcWallet = exports.BtcWallet = function () {
   function BtcWallet(code) {
@@ -59,6 +62,12 @@ var BtcWallet = exports.BtcWallet = function () {
       var address = hdPublicKey.publicKey.toAddress();
       this.addressess[hdPublicKey] = address;
       return address;
+    }
+  }, {
+    key: 'generateAddressFromWif',
+    value: function generateAddressFromWif(wif) {
+      var WIF = new PrivateKey(wif);
+      return WIF.toPublicKey().toAddress(_config2.configuration.network);
     }
   }, {
     key: 'getDerived',

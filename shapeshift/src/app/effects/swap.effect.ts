@@ -133,13 +133,16 @@ export class SwapEffect {
       if (payload.to) { //ETH TODO - return class that knows how to generate itself
         redeemId = payload.to + payload.blockHash;
       } else {
-        redeemId = payload.rawTx;
+        redeemId = payload.contractHex;
       }
       console.log('redeemId', redeemId);
-      this.swapService.waitForRedeem(redeemId).subscribe(r => {
+      this.swapService.waitForRedeem('mojcustomcustomcustomstring7').subscribe(r => {
         console.log(r[0].data.data);
-        swapProcess.depositCoin.extractSecret('0x' + r[0].data.data).subscribe(secret => {
-          console.log(secret);
+        swapProcess.depositCoin.extractSecret(r[0].data.data).subscribe(secret => {
+          console.log('SECRET --- ', secret);
+          swapProcess.receiveCoin.redeem({secret, secretHash: r[0].data.data.secretHash}).subscribe((ra) => {
+            console.log(swapProcess.receiveCoin.name, ra);
+          });
         });
       });
       return Observable.empty();
@@ -177,13 +180,18 @@ export class SwapEffect {
         if (a.payload.data.to) {
           id = a.payload.data.to + a.payload.data.blockHash
         } else {
-          id = a.payload.data.rawTx;
+          id = a.payload.data.contractHex;
         }
         console.log('id', id);
         let informRedeem = {
-          id: id,
-          data: a.initData.secretHash
+          id: 'mojcustomcustomcustomstring7',
+          data: {
+            secretHash: a.initData.secretHash,
+            redeemTx: r.redeemTx
+          }
         };
+
+        console.log('informRedeem DATA ::: ', informRedeem);
         this.swapService.informRedeemed(informRedeem);
         return new RedeemSuccessAction();
       });

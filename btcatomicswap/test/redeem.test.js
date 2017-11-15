@@ -13,7 +13,7 @@ const rpcAddr = "moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq"
 
 describe('#reedem()', function () {
   this.timeout(15000);
-  it.only('should create redeemTx', async () => {
+  it('should create redeemTx', async () => {
     const testData = await initiate("mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ", 0.001, privateKey);
     // console.log(testData);
     // redeem(contract, contractTx, secret, privateKey)
