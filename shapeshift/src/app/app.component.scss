@@ -1,3 +1,5 @@
+@import '../styles/variables';
+
 nav{
   position: fixed;
   padding: 0px 15px;
@@ -34,7 +36,37 @@ a.logo{
   float: left;
   cursor: pointer;
   img{
-    height: 45px;
+    height: 35px;
+    margin: 5px 0px;
+  }
+}
+
+.nav-links{
+  height: 100%;
+  ul{
+    list-style-type: none;
+    margin: 0px;
+    height: 100%;
+    vertical-align: middle;
+    display: table;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 13px;
+    li{
+      display: table-cell;
+      vertical-align: middle;
+      padding: 0px 10px;
+
+      a{
+        color: $text-color;
+      }
+
+      &.active{
+        a{
+          color: $main-blue;
+        }
+      }
+    }
   }
 }
 
