@@ -1,17 +1,4 @@
-.container{
-  display: flex;
-  flex-flow: row;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-}
-
 @import '../../../styles/variables';
-
-.row{
-  flex: 1 1 auto;
-  min-width: 50%;
-}
 
 .content{
   display: flex;
