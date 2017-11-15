@@ -27,13 +27,13 @@ export class AppComponent implements OnInit {
 
   constructor(private store: Store<AppState>, private moscaService: MoscaService) {
     let codes;
-    if (environment.production) {
+    // if (environment.production) {
       codes = wallet.Wallet.code;
-    } else {
-      codes = {
-        phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin"
-      };
-    }
+    // } else {
+    //   codes = {
+    //     phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin"
+    //   };
+    // }
 
     this.generateBtcWallet(codes);
     this.generateEthWallet(codes);

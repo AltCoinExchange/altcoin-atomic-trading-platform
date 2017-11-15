@@ -53,7 +53,8 @@ export class BtcCoinModel implements Coin {
     console.log('BTC redeeming data.contractTxHex ', data.contractTxHex);
     console.log('BTC redeeming data.secret ', data.secret);
     console.log('BTC redeeming wif ', wif);
-    const redeemResult = btcswap.redeem(/**contract*/ data.contractHex, /**contractTx*/data.contractTxHex, /**secret*/data.secret, wif);
+    const secret = data.secret.replace('0x', '');
+    const redeemResult = btcswap.redeem(/**contract*/ data.contractHex, /**contractTx*/data.contractTxHex, /**secret*/secret, wif);
     return Observable.fromPromise(redeemResult);
   }
 
