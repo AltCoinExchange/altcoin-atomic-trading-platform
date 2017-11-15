@@ -1,6 +1,3 @@
-const RIPEMD160 = require('ripemd160');
-const crypto = require('crypto');
-
 /**
  * Atomic swap class
  *
@@ -15,6 +12,9 @@ var Common = function () {
      * @constructor
      */
     this.GenerateSecret = function() {
+
+        const RIPEMD160 = require('ripemd160');
+        const crypto = require('crypto-browserify');
 
         var secretBuffer = crypto.randomBytes(32);
         var secret = secretBuffer.toString('hex');
@@ -37,7 +37,7 @@ var Common = function () {
     this.Extend = function(target, source, exclude) {
         if (source) {
             for(var prop in source) {
-                if (exclude && exclude.indexOf(prop) != -1) {
+                if (exclude && exclude.indexOf(prop) !== -1) {
                     continue;
                 }
 
@@ -47,7 +47,7 @@ var Common = function () {
             }
         }
         return target;
-    }
+    };
 };
 
 module.exports = Common;
