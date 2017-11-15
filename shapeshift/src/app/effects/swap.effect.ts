@@ -22,6 +22,7 @@ import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
 import {InformParticipatedDataModel} from "../models/inform-participated-data.model";
 import {ParticipateDataFactory} from "../models/factory-participated-data";
 import {MoscaService} from "../services/mosca.service";
+import {Http} from "@angular/http";
 
 @Injectable()
 export class SwapEffect {
@@ -32,7 +33,7 @@ export class SwapEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(walletSelector.getWalletState))
     .mergeMap(([data, wallets]) => {
-        return this.linkService.generateLink(data, wallets).mergeMap(link => {
+        const success = this.linkService.generateLink(data, wallets).mergeMap(link => {
           return Observable.from([
             new startAction.SetLinkAction(link),
             new Go({
@@ -40,6 +41,28 @@ export class SwapEffect {
             }),
             new startAction.WaitForInitiateAction(link),
           ]);
+        });
+
+        if (data.depositCoin.name === 'BTC') {
+          return this.http.get('https://chain.so/api/v2/get_address_balance/BTCTEST/' + data.depositCoin.generateNewAddress(wallets[data.depositCoin.name])).mergeMap(resp => {
+            console.log('confirmed_balance', resp.json().data.confirmed_balance);
+            if(resp.json().data.confirmed_balance <= data.depositCoin.amount) {
+              return Observable.of(new Go({
+                path: ['/wallet'],
+              }));
+            }
+            return success;
+          });
+        }
+
+        return data.depositCoin.getBalance(data.depositCoin.generateNewAddress(wallets[data.depositCoin.name])).mergeMap(balance => {
+          console.log('balance', balance);
+          if (balance <= data.depositCoin.amount) {
+            return Observable.of(new Go({
+              path: ['/wallet'],
+            }));
+          }
+          return success;
         });
       },
     );
@@ -215,6 +238,6 @@ export class SwapEffect {
   constructor(private moscaService: MoscaService, private linkService: LinkService,
               private actions$: Actions,
               private store: Store<AppState>,
-              private swapService: SwapService) {
+              private swapService: SwapService, private http: Http) {
   }
 }

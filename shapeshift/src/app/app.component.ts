@@ -6,9 +6,10 @@ import * as walletAction from './actions/wallet.action';
 import * as quoteAction from './actions/quote.action';
 import {BtcWalletModel} from './models/wallets/btc-wallet.model';
 import {EthWalletModel} from "./models/wallets/eth-wallet.model";
-import {environment} from "../environments/environment";
 import {ShapeshiftStorage} from "./common/shapeshift-storage";
 import {MoscaService} from "./services/mosca.service";
+import {environment} from "../environments/environment";
+
 import {RouterLink} from '@angular/router';
 // import * as mqtt from 'mqtt';
 
@@ -27,13 +28,13 @@ export class AppComponent implements OnInit {
 
   constructor(private store: Store<AppState>, private moscaService: MoscaService) {
     let codes;
-    // if (environment.production) {
-      codes = wallet.Wallet.code;
-    // } else {
-    //   codes = {
-    //     phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin"
-    //   };
-    // }
+    if (environment.production) {
+    codes = wallet.Wallet.code;
+    } else {
+      codes = {
+        phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin"
+      };
+    }
 
     this.generateBtcWallet(codes);
     this.generateEthWallet(codes);

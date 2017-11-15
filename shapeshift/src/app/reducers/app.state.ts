@@ -3,6 +3,8 @@ import * as fromSwap from './swap.reducer';
 import * as fromWallets from './wallet.reducer';
 import * as fromAudit from './audit.reducer';
 import * as fromQuote from './quote.reducer';
+import * as fromBalance from './balance.reducer';
+
 
 export interface AppState {
   start: fromStart.State,
@@ -10,4 +12,5 @@ export interface AppState {
   swap: fromSwap.State,
   audit: fromAudit.State,
   quote: fromQuote.State,
+  balance: fromBalance.State,
 }
