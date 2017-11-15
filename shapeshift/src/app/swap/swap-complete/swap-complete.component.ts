@@ -48,7 +48,6 @@ export class SwapCompleteComponent extends AnimationEnabledComponent implements 
   }
 
   ngOnDestroy() {
-    this.swapStatusSubscription.unsubscribe();
   }
 
 }
