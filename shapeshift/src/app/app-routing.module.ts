@@ -5,6 +5,9 @@ export const ROUTES: Routes = [
   {
     path: '', loadChildren: 'app/swap/swap.module#SwapModule',
   },
+  {
+    path: 'wallet', loadChildren: 'app/wallet/wallet.module#WalletModule'
+  }
 ];
 
 @NgModule({
