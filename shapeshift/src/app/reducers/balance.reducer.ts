@@ -20,6 +20,7 @@ export const initialState: State = {
 export function reducer(state = initialState, action: balance.Actions): State {
   switch (action.type) {
 
+    case balance.GET_BTC_BALANCE:
     case balance.GET_ETH_BALANCE: {
       return {
         ...state,
@@ -35,6 +36,14 @@ export function reducer(state = initialState, action: balance.Actions): State {
       };
     }
 
+    case balance.GET_BTC_BALANCE_SUCCESS: {
+      return {
+        ...state,
+        BTC: action.payload,
+        loading: false,
+      };
+    }
+
     default: {
       return state;
     }
@@ -43,3 +52,4 @@ export function reducer(state = initialState, action: balance.Actions): State {
 }
 export const getLoading = (state: State) => state.loading;
 export const getETHBalance = (state: State) => state.ETH;
+export const getBTCBalance = (state: State) => state.BTC;

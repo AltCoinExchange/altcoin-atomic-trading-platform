@@ -6,5 +6,8 @@ export const getBalanceState = createFeatureSelector<fromBalance.State>('balance
 export const getETHBalance = createSelector(getBalanceState,
   fromBalance.getETHBalance);
 
+export const getBTCBalance = createSelector(getBalanceState,
+  fromBalance.getBTCBalance);
+
 export const getBalanceLoading = createSelector(getBalanceState,
   fromBalance.getLoading);
