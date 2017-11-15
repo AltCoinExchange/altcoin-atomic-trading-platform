@@ -14,6 +14,7 @@ import {AnimationEnabledComponent} from '../../common/animation.component';
 import {disAssembleLink} from '../../common/link-util';
 import {Coins} from '../../models/coins/coins.enum';
 import { MessageTypes } from '../../models/message-types.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-swap-initiate',
@@ -38,7 +39,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
 
   private link;
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+  constructor(private route: ActivatedRoute, private store: Store<AppState>, private router: Router) {
     super();
     this.parseLink();
     this.infoMsg = "FOR TESTNET USE ONLY";
@@ -46,7 +47,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     this.$loading = this.store.select(fromSwap.getInitiateLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);
 
-    this.store.dispatch(new startAction.SetActiveStepAction(3)); //step 1?
+    this.store.dispatch(new startAction.SetActiveStepAction(2)); //step 1?
   }
 
   ngOnDestroy() {
@@ -66,6 +67,17 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
         depositCoin: this.depositCoin,
       },
     ));
+
+    //this.goToSwapComplete();
+  }
+
+  goToSwapComplete(){
+    setTimeout(() => {
+      this.formFlyOut();
+      setTimeout(() => {
+        this.router.navigate(['/complete']);
+      }, 500);
+    }, 1000);
   }
 
   private parseLink() {

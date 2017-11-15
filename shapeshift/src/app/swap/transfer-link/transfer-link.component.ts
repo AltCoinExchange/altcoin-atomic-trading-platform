@@ -44,7 +44,6 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
     setTimeout(() => {
       this.formFlyOut();
       setTimeout(() => {
-        this.store.dispatch(new swapAction.SetActiveStepAction(3));
         this.router.navigate(['/complete']);
       }, 500);
     }, 1000);

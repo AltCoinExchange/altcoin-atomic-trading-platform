@@ -14,7 +14,7 @@ import {WalletRecord} from "../reducers/balance.reducer";
 export class WalletComponent implements OnInit {
 
   $loading: Observable<boolean>;
-  $ethBalanace: Observable<WalletRecord>;
+  $ethBalance: Observable<WalletRecord>;
   $btcBalance: Observable<WalletRecord>;
 
   constructor(private store: Store<AppState>) {
@@ -22,11 +22,12 @@ export class WalletComponent implements OnInit {
     this.store.dispatch(new GetBtcBalanceAction());
 
     this.$loading = this.store.select(getBalanceLoading);
-    this.$ethBalanace = this.store.select(getETHBalance);
+    this.$ethBalance = this.store.select(getETHBalance);
     this.$btcBalance = this.store.select(getBTCBalance);
   }
 
   ngOnInit() {
+    
   }
 
 }

@@ -1,9 +1,27 @@
 @import '../../styles/variables';
 
-.content{
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+.block{
+    flex: 1 1 auto;
+    min-width: 70%;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+
+.cell-xs{
+    width: 10%;
+}
+
+.cell-xl{
+    width: 70%;
+}
+
+.cell{
+    width: 20%;
+}
+
+.label{
+    text-align: left;
 }

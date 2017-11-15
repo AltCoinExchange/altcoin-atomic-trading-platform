@@ -7,6 +7,7 @@ import {AppState} from "../../reducers/app.state";
 import {Observable} from "rxjs/Observable";
 import {getInitateLink, getSwapStatus} from "../../selectors/start.selector";
 import {Subscription} from "rxjs/Subscription";
+import * as swapAction from '../../actions/start.action';
 
 @Component({
   selector: 'app-swap-complete',
@@ -33,6 +34,7 @@ export class SwapCompleteComponent extends AnimationEnabledComponent implements 
   constructor(private store: Store<AppState>, private cd: ChangeDetectorRef) {
     super();
 
+    this.store.dispatch(new swapAction.SetActiveStepAction(3));
     this.$link = this.store.select(getInitateLink);
     this.$swapStatus = this.store.select(getSwapStatus);
 
