@@ -13,8 +13,8 @@ var Common = function () {
      */
     this.GenerateSecret = function() {
 
-        const RIPEMD160 = require('ripemd160');
-        const crypto = require('crypto-browserify');
+        var RIPEMD160 = require('ripemd160');
+        var crypto = require('crypto-browserify');
 
         var secretBuffer = crypto.randomBytes(32);
         var secret = secretBuffer.toString('hex');
