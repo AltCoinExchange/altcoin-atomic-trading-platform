@@ -16,7 +16,6 @@ import {SwapInitiatePreviewModule} from '../components/swap-initiate-preview/swa
 import {MatButtonModule, MatProgressSpinnerModule} from '@angular/material';
 import {SwapInitiatedModule} from '../components/swap-initiated/swap-initiated.module';
 import {SwapParticipateComponent} from './swap-participate/swap-participate.component';
-import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 
 @NgModule({
   imports: [
@@ -40,7 +39,6 @@ import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
     SwapInitiatedModule,
     SwapInitiatePreviewModule,
     MatProgressSpinnerModule,
-    NgxQRCodeModule,
     MatButtonModule,
   ],
   declarations: [

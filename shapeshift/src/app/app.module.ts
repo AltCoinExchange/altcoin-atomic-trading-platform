@@ -19,7 +19,6 @@ import {RouterEffects} from './effects/router.effect';
 import {LinkService} from './services/link.service';
 import {SwapService} from './services/swap.service';
 import {QuoteService} from './services/quote.service';
-import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 import {QuoteEffect} from './effects/quote.effect';
 import {BigchainDbService} from "./services/bigchain-db.service";
 import {MoscaService} from "./services/mosca.service";

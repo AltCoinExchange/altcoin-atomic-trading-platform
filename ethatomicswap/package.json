@@ -2,7 +2,7 @@
   "name": "ethatomicswap",
   "version": "0.1.0",
   "description": "Ethereum Atomic Swap",
-  "main": "main.js",
+  "main": "dist/dist.js",
   "scripts": {
     "test": "test/testatomicswap.js"
   },

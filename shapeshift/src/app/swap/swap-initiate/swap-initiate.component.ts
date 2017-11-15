@@ -32,9 +32,9 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
   private routeSub: Subscription;
   private offerTime: Date;
 
-  private depositCoin: Coin;
+  depositCoin: Coin;
   private address: string;
-  private receiveCoin: Coin;
+  receiveCoin: Coin;
 
   private link;
 

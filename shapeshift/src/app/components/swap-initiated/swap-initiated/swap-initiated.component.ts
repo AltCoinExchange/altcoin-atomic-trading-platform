@@ -7,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class SwapInitiatedComponent implements OnInit {
   @Input() initiateData: any;
-
+  text;
   participateLink: string;
 
   constructor() {

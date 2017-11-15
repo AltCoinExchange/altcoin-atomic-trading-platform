@@ -12,6 +12,7 @@ export class SwapInitiateFieldsComponent implements OnInit {
   @Input() depositCoin;
 
   @Input() receiveCoin;
+  text;
   constructor() {
   }
 

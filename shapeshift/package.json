@@ -27,7 +27,6 @@
     "@ngrx/effects": "^4.1.1",
     "@ngrx/router-store": "^4.1.1",
     "@ngrx/store": "^4.1.1",
-    "@techiediaries/ngx-qrcode": "^0.0.5",
     "axios": "^0.17.0",
     "bigchaindb-driver": "^0.3.0",
     "bitcore": "^4.1.1",
