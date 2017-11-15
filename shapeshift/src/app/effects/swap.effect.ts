@@ -90,7 +90,7 @@ export class SwapEffect {
     .switchMap(payload => {
 
       //WAIT FOR INITIATE
-      const topic = '/initiate/' + payload.replace('==', '');
+      const topic = '/initiate/' + payload.replace('=', '').replace('=', '');
       this.moscaService.subscribeToTopic(topic);
       return this.moscaService.onMessage(topic).map(initiateBigChainDBResponse => {
         return new startAction.WaitForInitiateSuccessAction(InformInitiatedDataModel.newFrom(
@@ -152,10 +152,10 @@ export class SwapEffect {
       return this.moscaService.onMessage(redeemTopic).flatMap(r => {
         console.log('redeem response', r);
         const data = JSON.parse(r.message);
-
+        console.log('redeem response', data);
         return swapProcess.depositCoin.extractSecret(data).flatMap(secret => {
-
-          return swapProcess.receiveCoin.redeem({secret, secretHash: data.secretHash}).map((ra) => {
+          console.log('!! secret !!', secret);
+          return swapProcess.receiveCoin.redeem({...data, secret, secretHash: data.secretHash}).map((ra) => {
             console.log('REDEEM: ', swapProcess.receiveCoin.name, ra);
             return new RedeemSuccessAction();
           });
@@ -172,7 +172,7 @@ export class SwapEffect {
     .withLatestFrom(this.store.select(getInitateLink))
     .mergeMap(([payload, link]) => {
       const d = payload.data;
-      const topic = link.replace('==', '');
+      const topic = link.replace('=', '').replace('=', '');
       console.log('INFORM PARTICIPATE', '/participate/' + topic, d);
       this.moscaService.sendMsg('/participate/' + topic, JSON.stringify(d));
       return Observable.empty();
@@ -198,7 +198,9 @@ export class SwapEffect {
 
         let informRedeem = {
           secretHash: a.initData.secretHash,
-          redeemTx: r.redeemTx
+          redeemTx: r.redeemTx,
+          contractHex: a.initData.contractHex,
+          contractTxHex: a.initData.contractTxHex,
         };
 
         console.log('about to inform redeemed', informRedeem);
