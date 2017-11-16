@@ -9,7 +9,7 @@ const dcrcoin = require('node-dcr-rpc');
 export class DcrWallet {
 
     // Decred wallet and RPC API
-    dcrd;
+    //this.dcrd = null;
 
     constructor() {
         this.AppConfig = require("../dcrConfig.json");
@@ -42,7 +42,7 @@ export class DcrWallet {
      * @returns {{address}}
      */
     create(accName, password) {
-        var accountName = accName;
+        const accountName = accName;
         this.dcrd.cmd('createnewaccount', accountName, function(err, wallets){
             if (err) return console.log(err);
             console.log('createenwaccount:', "true");

@@ -4,11 +4,12 @@ const assert = require('assert');
 
 describe('DcrWallet', function () {
   describe('#new DcrWallet()', function () {
-    it('should generate new BtcWallet for mnemonic keywords', async () => {
+    it('should generate new DcrWallet for mnemonic keywords', () => {
+        console.log("test");
         const mnemonicCode = 'select scout crash enforce riot rival spring whale hollow radar rule sentence';
         const passPhrase = 'testwallt12#!';
-        const btcWallet = new Wallet.Decred.DcrWallet(mnemonicCode);
-        btcWallet.generateHDPrivateKey(passPhrase);
+        const dcrWallet = new Wallet.Decred.DcrWallet();
+        dcrWallet.create(passPhrase);
     });
   });
 });
