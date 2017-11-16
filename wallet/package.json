@@ -12,6 +12,7 @@
     "babel-preset-env": "^1.6.1",
     "bitcore": "^4.1.1",
     "bitcore-mnemonic": "^1.5.0",
+    "grpc": "^1.7.1",
     "node-dcr-rpc": "0.0.7"
   },
   "devDependencies": {

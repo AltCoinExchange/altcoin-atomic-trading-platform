@@ -9,7 +9,7 @@ describe('DcrWallet', function () {
         const mnemonicCode = 'select scout crash enforce riot rival spring whale hollow radar rule sentence';
         const passPhrase = 'testwallt12#!';
         const dcrWallet = new Wallet.Decred.DcrWallet();
-        dcrWallet.create(passPhrase);
+        dcrWallet.create("testWallet");
     });
   });
 });

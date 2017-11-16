@@ -16,13 +16,13 @@ export class DcrWallet {
 
         this.dcrd = new dcrcoin.Client({
             host: this.AppConfig.host,
-            dcrdPort: 19109, // dcrd port
-            dcrWalletPort: 19110, // dcrwallet port
+            dcrdPort: this.AppConfig.port, // dcrd port
+            dcrWalletPort: this.AppConfig.walletPort, // dcrwallet port
             port: this.AppConfig.port,
             user: this.AppConfig.user,
             pass: this.AppConfig.pass,
-            ssl: this.AppConfig.ssl
-            //,sslCa: fs.readFileSync('~/.dcrd/rpc.cert')
+            ssl: this.AppConfig.ssl,
+            sslCa: this.AppConfig.sslCa
         });
     }
 
