@@ -1,0 +1,8 @@
+{
+  "host": "34.215.58.192",
+  "port": 19108,
+  "walletPort": 19110,
+  "user": "bedrock",
+  "pass": "bedrock",
+  "ssl": true
+}

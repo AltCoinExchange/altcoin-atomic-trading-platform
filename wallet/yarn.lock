@@ -1095,6 +1095,10 @@ depd@1.1.1, depd@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.1.tgz#5783b4e1c459f06fa5ca27f991f3d06e7a310359"
 
+deprecate@~0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/deprecate/-/deprecate-0.1.0.tgz#c49058612dc6c8e5145eafe4839b8c2c7d041c14"
+
 destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
@@ -2069,6 +2073,12 @@ nan@~2.4.0:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+node-dcr-rpc@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/node-dcr-rpc/-/node-dcr-rpc-0.0.7.tgz#dd72dceacaca126c940a1792b43a7997923a0c69"
+  dependencies:
+    deprecate "~0.1.0"
 
 node-pre-gyp@^0.6.36:
   version "0.6.39"
