@@ -8,6 +8,7 @@
 var Common = require("./common");
 var Web3 = require("web3");
 var Accounts = require("web3-eth-accounts");
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var Engine = function (configuration, appConfiguration, bin) {
     this.config = configuration;
@@ -55,9 +56,9 @@ var Engine = function (configuration, appConfiguration, bin) {
     //     //that = this;
     //
     //     if (generalParams.gas === undefined) {
-    //         let price = await this.web3.eth.getGasPrice();
+    //         var price = await this.web3.eth.getGasPrice();
     //
-    //         let ets = await this.web3.eth.estimateGas({ data: this.bin.code, to: this.appConfig.defaultWallet });
+    //         var ets = await this.web3.eth.estimateGas({ data: this.bin.code, to: this.appConfig.defaultWallet });
     //         //params.gas = price;
     //         generalParams.gas = ets;
     //         generalParams.gasLimit = ets * 2;
@@ -100,6 +101,80 @@ var Engine = function (configuration, appConfiguration, bin) {
     //         }
     //     });
     // };
+  this.callFunction = function (name, params, generalParams, confirmation) {
+    var functionAbi,
+      contract,
+      price,
+      ets,
+      _this = this;
+
+    return Promise.resolve().then(function () {
+      confirmation = confirmation === undefined ? 0 : confirmation;
+      functionAbi = _this.clone(_this.getFunctionAbi(_this.config, name));
+      contract = new _this.web3.eth.Contract(_this.config, _this.appConfig.contractAddress);
+
+      // var funcObj = {};
+      //
+      // funcObj._method = functionAbi;
+      // funcObj._parent = contract;
+      // funcObj.encodeABI = contract._encodeMethodABI.bind(funcObj);
+      // funcObj.arguments = params;
+      //that = this;
+
+      if (generalParams.gas === undefined) {
+        return Promise.resolve().then(function () {
+          return _this.web3.eth.getGasPrice();
+        }).then(function (_resp) {
+          price = _resp;
+          return _this.web3.eth.estimateGas({ data: _this.bin.code, to: _this.appConfig.defaultWallet });
+        }).then(function (_resp) {
+          ets = _resp;
+          //params.gas = price;
+
+          generalParams.gas = ets;
+          generalParams.gasLimit = ets * 2;
+        });
+      }
+    }).then(function () {
+      return new Promise(function (resolve, reject) {
+        try {
+          var _contract$methods;
+
+          // TODO: Catch events
+          // var event = contract.events.Initiated(
+          //  {}/*{filter: {from: "0x6D5ae9dd8F1a2582Deb1b096915313459f11ba70"}}*/, function (err, result, sub) {
+          //     console.log(result);
+          //     sub.unsubscribe();
+          // });
+
+          var method = (_contract$methods = contract.methods)[name].apply(_contract$methods, _toConsumableArray(params));
+
+          if (confirmation === 0) {
+            method.send(generalParams).on('receipt', function (rec) {
+              resolve(rec);
+            }).catch(function (err) {
+              reject(err);
+            });
+          } else if (confirmation === 1) {
+            method.send(generalParams).on('confirmation', function (confNumber, receipt) {
+              receipt.confNumber = confNumber;
+              resolve(receipt);
+            }).catch(function (err) {
+              reject(err);
+            });
+          } else if (confirmation === 2) {
+            method.call(generalParams, function (err, result) {
+              resolve(result);
+            }).catch(function (err) {
+              reject(err);
+            });
+          }
+        } catch (e) {
+          reject(e);
+        }
+      });
+    });
+  };
 
     /**
      * Create wallet

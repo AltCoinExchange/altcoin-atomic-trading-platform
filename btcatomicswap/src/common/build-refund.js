@@ -12,8 +12,9 @@ import {getFeePerKb} from './fee-per-kb';
 import {feeForSerializeSize, estimateRefundSerializeSize} from './sizeest';
 const BufferReader  = require('bitcore').encoding.BufferReader;
 
-export async function buildRefund(strCt, strCtTx, privateKey) {
 
+export const buildRefund = async (strCt, strCtTx, privateKey) => {
+  console.log('buildRefund');
 
   // TODO: change strCt, strCtTx to ct, ctTx
   const contract = new Script(strCt);
@@ -69,8 +70,9 @@ export async function buildRefund(strCt, strCtTx, privateKey) {
   })
 
   refundTx.addOutput(output)
-
+  console.log('aaaa');
   const feePerKb = await getFeePerKb()
+  console.log('bbbb');
   const redeemSerializeSize = estimateRefundSerializeSize(contract, refundTx.outputs)
 
   const refundFee = feeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000
@@ -102,7 +104,6 @@ export async function buildRefund(strCt, strCtTx, privateKey) {
   const script = refundP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString());
 
   refundTx.inputs[0].setScript(script)
-
 
   return {
     refundFee,

@@ -9,6 +9,8 @@ var _config = require('../config/config');
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var Transaction = require('bitcore').Transaction;
 var PrivateKey = require('bitcore').PrivateKey;
 
@@ -24,33 +26,54 @@ var rpc = new RpcClient(_config.configuration);
 //     const pubKey = WIF.toPublicKey()
 //     return {sig, pubKey}
 // }
-var getBalance = exports.getBalance = function getBalance(address) {
-    var balance;
-    return Promise.resolve().then(function () {
-        return getFunc('getBalance', [address, 1]);
-    }).then(function (_resp) {
-        //const addr = new Address(address);
-        //const accAddr = await getFunc('getAccountAddress', [address]);
-        //const rec = await getFunc('getReceivedByAddress', [accAddr, 1]);
+var getBalance = exports.getBalance = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(address) {
+        var balance;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        _context.next = 2;
+                        return getFunc('getBalance', [address, 1]);
 
-        //const addrs = await getFunc('getAddressesByAccount', [address]);
+                    case 2:
+                        balance = _context.sent;
+                        return _context.abrupt('return', balance);
 
-        //const addrBalance = await getFunc('getReceivedByAddress', [address, 1]);
+                    case 4:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, undefined);
+    }));
 
-        //console.log(addrs);
+    return function getBalance(_x) {
+        return _ref.apply(this, arguments);
+    };
+}();
 
-        balance = _resp;
+var getFunc = function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(func, params) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+                switch (_context2.prev = _context2.next) {
+                    case 0:
+                        return _context2.abrupt('return', new Promise(function (resolve, reject) {
+                            rpc[func].apply(rpc, _toConsumableArray(params).concat([function (c, e) {
+                                resolve(e.result);
+                            }]));
+                        }));
 
-        return balance;
-    });
-};
+                    case 1:
+                    case 'end':
+                        return _context2.stop();
+                }
+            }
+        }, _callee2, undefined);
+    }));
 
-var getFunc = function getFunc(func, params) {
-    return Promise.resolve().then(function () {
-        return new Promise(function (resolve, reject) {
-            rpc[func].apply(rpc, _toConsumableArray(params).concat([function (c, e) {
-                resolve(e.result);
-            }]));
-        });
-    });
-};
+    return function getFunc(_x2, _x3) {
+        return _ref2.apply(this, arguments);
+    };
+}();

@@ -13,13 +13,13 @@
                 <div class="cell-xs"><p class="label blue">ETH</p></div>
                 <div class="cell-xl">{{ ($ethBalance | async)?.address }}</div>
                 <div class="cell"><p class="label green">{{ ($ethBalance | async)?.balance }}</p></div>
-                <div class="cell-xs"><p class="label"><a href="https://faucet.rinkeby.io/">ETH FAUCET</a></p></div>
+                <div class="cell-xs"><p class="label"><a target="_blank" href="https://faucet.rinkeby.io/">ETH FAUCET</a></p></div>
             </div>
             <div class="block">
                 <div class="cell-xs"><p class="label blue">BTC</p></div>
                 <div class="cell-xl">{{ ($btcBalance | async)?.address }}</div>
-                <div class="cell"><p class="label green">{{ ($btcBalance | async)?.balance }}</p></div> 
-                <div class="cell-xs"><p class="label"><a href="https://testnet.coinfaucet.eu/en/">BTC FAUCET</a></p></div> 
+                <div class="cell"><p class="label green">{{ ($btcBalance | async)?.balance }}</p></div>
+                <div class="cell-xs"><p class="label"><a target="_blank" href="https://testnet.coinfaucet.eu/en/">BTC FAUCET</a></p></div>
             </div>
         </div>
     </div>

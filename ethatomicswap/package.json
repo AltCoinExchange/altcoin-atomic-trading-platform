@@ -4,7 +4,7 @@
   "description": "Ethereum Atomic Swap",
   "main": "modules/bundle.js",
   "scripts": {
-    "build": "babel --presets es2015 dist -d dist",
+    "build": "babel --presets es2015 --plugins async-to-promises modules -d dist",
     "test": "test/testatomicswap.js"
   },
   "author": "Sulejman Sarajlija & Anto Brajkovic <sule@altcoinexchange.com>",
@@ -40,6 +40,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
-    "jasmine": "^2.8.0"
+    "jasmine": "^2.8.0",
+    "babel-plugin-async-to-promises": "^1.0.5"
   }
 }

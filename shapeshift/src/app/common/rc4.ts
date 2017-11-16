@@ -2,7 +2,8 @@ import {environment} from "../../environments/environment";
 
 export class RC4 {
   static encDec(key: string, str: string) {
-    if (!environment.production) {
+    const b = true;
+    if (b) {
       return str;
     }
     if (str === null) {

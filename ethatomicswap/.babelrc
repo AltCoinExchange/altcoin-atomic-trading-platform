@@ -1,3 +1,4 @@
 {
-  "presets": ["env"]
+  "presets": ["es2015"],
+  "plugins": ["async-to-promises"]
 }

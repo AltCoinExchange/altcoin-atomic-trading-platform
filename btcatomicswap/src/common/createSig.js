@@ -5,7 +5,7 @@ const PrivateKey = require('bitcore').PrivateKey;
 
 
 
-export async function createSig(reedemTx, inputIndex, contract, recipientAddress, privateKey){
+export const createSig = async (reedemTx, inputIndex, contract, recipientAddress, privateKey) => {
   const wif = privateKey;
   const WIF = new PrivateKey(wif)
   const sighashType = 1
