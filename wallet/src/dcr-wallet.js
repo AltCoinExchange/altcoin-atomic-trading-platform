@@ -1,29 +1,53 @@
+const tls = require("tls");
+tls.DEFAULT_ECDH_CURVE = "secp521r1";
+
 /**
  * Decred wallet es6
  *
  * @author Djenad Razic
  * @company Altcoin Exchange, Inc.
  */
-const dcrcoin = require('node-dcr-rpc');
 
 export class DcrWallet {
 
-    // Decred wallet and RPC API
-    //this.dcrd = null;
-
     constructor() {
         this.AppConfig = require("../dcrConfig.json");
+
+        const dcrcoin = require('node-dcr-rpc');
 
         this.dcrd = new dcrcoin.Client({
             host: this.AppConfig.host,
             dcrdPort: this.AppConfig.port, // dcrd port
             dcrWalletPort: this.AppConfig.walletPort, // dcrwallet port
-            port: this.AppConfig.port,
+            //port: this.AppConfig.port,
             user: this.AppConfig.user,
             pass: this.AppConfig.pass,
             ssl: this.AppConfig.ssl,
             sslCa: this.AppConfig.sslCa
         });
+
+
+        // TODO: gRPC throwing error compilation main focus is on normal RPC
+        // var fs = require('fs');
+        // var grpc = require('grpc');
+        // var protoDescriptor = grpc.load('wallet/api.proto');
+        // var walletrpc = protoDescriptor.walletrpc;
+        //
+        // var cert = fs.readFileSync("wallet/certs/decred_wallet.cert");
+        // var creds = grpc.credentials.createSsl(cert); //Buffer.from(this.AppConfig.sslCa)
+        // var client = new walletrpc.WalletService(this.AppConfig.host + ":" + this.AppConfig.port, creds);
+        //
+        // var request = {
+        //
+        // };
+        //
+        // client.accounts(request, function(err, response) {
+        //     if (err) {
+        //         console.error(err);
+        //     } else {
+        //         console.log('Spendable balance:', response.spendable, 'atoms');
+        //     }
+        // });
     }
 
     /**
@@ -31,26 +55,45 @@ export class DcrWallet {
      * @param keystore
      * @param password
      */
-    login(keystore, password) {
-
-
-    }
+    login(account, password) {
+        this.dcrd.cmd('authenticate', [account, password], function(err, wallets) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(wallets);
+        });
+    };
 
     /**
      * Create account
-     * @param accNaem
+     * @param accName
      * @returns {{address}}
      */
     create(accName, password) {
-        const accountName = accName;
-        this.dcrd.cmd('createnewaccount', accountName, function(err, wallets){
+        // const accountName = accName;
+        // this.dcrd.cmd('createnewaccount', accountName, function(err, wallets){
+        //     if (err) {
+        //         return console.log(err);
+        //     }
+        //
+        //     console.log('createenwaccount:', "true");
+        //     this.dcrd.cmd('getnewaddress', accountName, function(err, address){
+        //         if (err) return console.log(err);
+        //         console.log('getnewaddress:', address);
+        //         return address;
+        //     });
+        // });
+    }
+
+    test() {
+        this.dcrd.getinfo(function(err, info) {
             if (err) return console.log(err);
-            console.log('createenwaccount:', "true");
-            this.dcrd.cmd('getnewaddress', accountName, function(err, address){
-                if (err) return console.log(err);
-                console.log('getnewaddress:', address);
-                return address;
-            });
+            console.log('info:', info);
+        });
+
+        this.dcrd.wallet.listaccounts(function (err, accounts) {
+            if (err) return console.log(err);
+            console.log('listaccounts:', accounts);
         });
     }
 
