@@ -1,0 +1,7 @@
+{
+  "/wss": {
+    "target": "ws://swap.altcoin.io:3000",
+    "secure": false,
+    "ws": true
+  }
+}

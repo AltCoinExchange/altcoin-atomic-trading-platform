@@ -22,7 +22,7 @@ export class QuoteService {
    * @param all
    */
   private fetch(currency, all: boolean = false): Observable<Quote | Quote[]> {
-    const url = all === true ? 'http://coincap.io/front' : 'http://coincap.io/page/';
+    const url = all === true ? 'https://coincap.io/front' : 'https://coincap.io/page/';
     return this.http.get(`${url}${currency}`).map(res => res.json());
   }
 }

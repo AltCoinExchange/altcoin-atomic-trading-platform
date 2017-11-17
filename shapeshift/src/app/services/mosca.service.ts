@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs/Subject";
 
-declare const mqtt;
+import * as mqtt from 'mqtt';
 
 @Injectable()
 export class MoscaService {
@@ -10,7 +10,7 @@ export class MoscaService {
   messages: Subject<any> = new Subject();
 
   constructor() {
-    this.client = mqtt.connect({host: '34.215.58.192', port: 3000});
+    this.client = mqtt.connect('ws://swap.altcoin.io:3000/');
     this.client.on('message', (topic, message) => {
       this.messages.next({topic, message: message.toString()})
     });

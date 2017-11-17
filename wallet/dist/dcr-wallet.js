@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -8,34 +8,56 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var tls = require("tls");
+tls.DEFAULT_ECDH_CURVE = "secp521r1";
+
 /**
  * Decred wallet es6
  *
  * @author Djenad Razic
  * @company Altcoin Exchange, Inc.
  */
-var dcrcoin = require('node-dcr-rpc');
 
 var DcrWallet = exports.DcrWallet = function () {
-
-  // Decred wallet and RPC API
-  //this.dcrd = null;
-
   function DcrWallet() {
     _classCallCheck(this, DcrWallet);
 
     this.AppConfig = require("../dcrConfig.json");
 
+    var dcrcoin = require('node-dcr-rpc');
+
     this.dcrd = new dcrcoin.Client({
       host: this.AppConfig.host,
       dcrdPort: this.AppConfig.port, // dcrd port
       dcrWalletPort: this.AppConfig.walletPort, // dcrwallet port
-      port: this.AppConfig.port,
+      //port: this.AppConfig.port,
       user: this.AppConfig.user,
       pass: this.AppConfig.pass,
       ssl: this.AppConfig.ssl,
       sslCa: this.AppConfig.sslCa
     });
+
+    // TODO: gRPC throwing error compilation main focus is on normal RPC
+    // var fs = require('fs');
+    // var grpc = require('grpc');
+    // var protoDescriptor = grpc.load('wallet/api.proto');
+    // var walletrpc = protoDescriptor.walletrpc;
+    //
+    // var cert = fs.readFileSync("wallet/certs/decred_wallet.cert");
+    // var creds = grpc.credentials.createSsl(cert); //Buffer.from(this.AppConfig.sslCa)
+    // var client = new walletrpc.WalletService(this.AppConfig.host + ":" + this.AppConfig.port, creds);
+    //
+    // var request = {
+    //
+    // };
+    //
+    // client.accounts(request, function(err, response) {
+    //     if (err) {
+    //         console.error(err);
+    //     } else {
+    //         console.log('Spendable balance:', response.spendable, 'atoms');
+    //     }
+    // });
   }
 
   /**
@@ -46,27 +68,50 @@ var DcrWallet = exports.DcrWallet = function () {
 
 
   _createClass(DcrWallet, [{
-    key: 'login',
-    value: function login(keystore, password) {}
+    key: "login",
+    value: function login(account, password) {
+      this.dcrd.cmd('authenticate', [account, password], function (err, wallets) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(wallets);
+      });
+    }
+  }, {
+    key: "create",
+
 
     /**
      * Create account
-     * @param accNaem
+     * @param accName
      * @returns {{address}}
      */
-
-  }, {
-    key: 'create',
     value: function create(accName, password) {
-      var accountName = accName;
-      this.dcrd.cmd('createnewaccount', accountName, function (err, wallets) {
+      // const accountName = accName;
+      // this.dcrd.cmd('createnewaccount', accountName, function(err, wallets){
+      //     if (err) {
+      //         return console.log(err);
+      //     }
+      //
+      //     console.log('createenwaccount:', "true");
+      //     this.dcrd.cmd('getnewaddress', accountName, function(err, address){
+      //         if (err) return console.log(err);
+      //         console.log('getnewaddress:', address);
+      //         return address;
+      //     });
+      // });
+    }
+  }, {
+    key: "test",
+    value: function test() {
+      this.dcrd.getinfo(function (err, info) {
         if (err) return console.log(err);
-        console.log('createenwaccount:', "true");
-        this.dcrd.cmd('getnewaddress', accountName, function (err, address) {
-          if (err) return console.log(err);
-          console.log('getnewaddress:', address);
-          return address;
-        });
+        console.log('info:', info);
+      });
+
+      this.dcrd.wallet.listaccounts(function (err, accounts) {
+        if (err) return console.log(err);
+        console.log('listaccounts:', accounts);
       });
     }
 
@@ -78,7 +123,7 @@ var DcrWallet = exports.DcrWallet = function () {
      */
 
   }, {
-    key: 'recover',
+    key: "recover",
     value: function recover(privateKey, password) {}
 
     /**
@@ -88,7 +133,7 @@ var DcrWallet = exports.DcrWallet = function () {
      */
 
   }, {
-    key: 'getbalance',
+    key: "getbalance",
     value: function getbalance(address) {}
 
     /**
@@ -99,8 +144,10 @@ var DcrWallet = exports.DcrWallet = function () {
      */
 
   }, {
-    key: 'sendAllEther',
-    value: async function sendAllEther(privateKey, toAddress) {}
+    key: "sendAllEther",
+    value: function sendAllEther(privateKey, toAddress) {
+      return Promise.resolve();
+    }
 
     /**
      * Initiate atomic swap
@@ -112,8 +159,10 @@ var DcrWallet = exports.DcrWallet = function () {
      */
 
   }, {
-    key: 'initiate',
-    value: async function initiate(refundTime, secret, address, amount) {}
+    key: "initiate",
+    value: function initiate(refundTime, secret, address, amount) {
+      return Promise.resolve();
+    }
 
     /**
      * Participate in atomic swap
@@ -125,8 +174,10 @@ var DcrWallet = exports.DcrWallet = function () {
      */
 
   }, {
-    key: 'participate',
-    value: async function participate(refundTime, secret, address, amount) {}
+    key: "participate",
+    value: function participate(refundTime, secret, address, amount) {
+      return Promise.resolve();
+    }
 
     /**
      * Extract swap info
@@ -135,8 +186,10 @@ var DcrWallet = exports.DcrWallet = function () {
      */
 
   }, {
-    key: 'extractsecret',
-    value: async function extractsecret(hashedSecret) {}
+    key: "extractsecret",
+    value: function extractsecret(hashedSecret) {
+      return Promise.resolve();
+    }
 
     /**
      * Redeem atomic swap
@@ -146,8 +199,10 @@ var DcrWallet = exports.DcrWallet = function () {
      */
 
   }, {
-    key: 'redeem',
-    value: async function redeem(secret, hashedSecret) {}
+    key: "redeem",
+    value: function redeem(secret, hashedSecret) {
+      return Promise.resolve();
+    }
 
     /**
      * Refund atomic swap
@@ -156,8 +211,10 @@ var DcrWallet = exports.DcrWallet = function () {
      */
 
   }, {
-    key: 'refund',
-    value: async function refund(hashedSecret) {}
+    key: "refund",
+    value: function refund(hashedSecret) {
+      return Promise.resolve();
+    }
   }]);
 
   return DcrWallet;

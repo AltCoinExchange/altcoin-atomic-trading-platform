@@ -1,5 +1,5 @@
+//process.env['SSL_CIPHER'] = 'HIGH+ECDSA';
 import {Wallet} from '../src/index';
-
 const assert = require('assert');
 
 describe('DcrWallet', function () {
@@ -9,7 +9,10 @@ describe('DcrWallet', function () {
         const mnemonicCode = 'select scout crash enforce riot rival spring whale hollow radar rule sentence';
         const passPhrase = 'testwallt12#!';
         const dcrWallet = new Wallet.Decred.DcrWallet();
-        dcrWallet.create("testWallet");
+
+        dcrWallet.test();
+        //dcrWallet.create("testWallet");
+        //dcrWallet.login("testWallet", "bedrock");
     });
   });
 });
