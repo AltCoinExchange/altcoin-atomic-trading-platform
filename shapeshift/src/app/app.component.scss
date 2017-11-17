@@ -19,13 +19,17 @@ main{
   min-height: -webkit-calc(100% - 140px);    
   min-height: -moz-calc(100% - 140px); 
   min-height: calc(100% - 140px);
-  overflow: hidden;  
+  overflow-y: scroll;  
   padding-top: 70px;
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
   align-content: center;
   align-items: stretch;
+
+  > * {
+    min-height: 100%;
+  }
 }
 
 a.logo{

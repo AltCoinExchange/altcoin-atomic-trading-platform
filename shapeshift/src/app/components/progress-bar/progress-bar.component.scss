@@ -89,10 +89,6 @@
   .bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {
     opacity: 0;
   }
-
-  .bs-wizard > .bs-wizard-step.disabled > .progress > .progress-bar {
-    background-color: $main-gray;
-  }
   
   .bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot {
     pointer-events: none;

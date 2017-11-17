@@ -1,25 +1,65 @@
-<div fxLayout="row" fxLayoutAlign="center center">
+<div fxLayout="row" fxLayoutAlign="center stretch">
     <div fxHide.sm="true" fxHide.xs="true">
     </div>
-    <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex.xl="40%" fxFlex.lg="60%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="95%">
-        <div fxFlex="1">
-            <div class="block">
-                <div class="cell-xs"></div>
-                <div class="cell-xl"><p class="label blue">Address</p></div>
-                <div class="cell"><p class="label blue">Balance</p></div>
-                <div class="cell-xs"><p class="label blue">Faucet</p></div>
+    <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="90%">
+        <div class="spacer" fxHide.xs="true"></div>
+        <div class="message-box">
+        <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+            <div class="form" fxFlex="45%">
+                <div class="form-header">
+                    <img class="header-icon" src="assets/icon/eth-icon-o.png" alt="">
+                    <p>Ethereum</p>
+                </div>
+                <div class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
+                    <div class="row" fxFlex="1">
+                        <p class="label blue">Address</p>
+                        <div class="input-box">
+                            <input class="url-copy" value="{{ ($ethBalance | async)?.address }}" id="ethAddress"/>
+                            <p class="copy-icon">
+                                <a (click)="copyEthAddress($event)">
+                                <i class="fa fa-clone" aria-hidden="true"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" fxFlex="1">
+                        <p class="label blue">Balance</p>
+                        <p class="label green">{{ ($ethBalance | async)?.balance }}</p>
+                    </div>
+                    <div class="row">
+                        <p class="label blue">Faucet</p>
+                        <p class="label"><a target="_blank" href="https://faucet.rinkeby.io/">ETH FAUCET</a></p>
+                    </div>
+                </div>
             </div>
-            <div class="block">
-                <div class="cell-xs"><p class="label blue">ETH</p></div>
-                <div class="cell-xl">{{ ($ethBalance | async)?.address }}</div>
-                <div class="cell"><p class="label green">{{ ($ethBalance | async)?.balance }}</p></div>
-                <div class="cell-xs"><p class="label"><a target="_blank" href="https://faucet.rinkeby.io/">ETH FAUCET</a></p></div>
-            </div>
-            <div class="block">
-                <div class="cell-xs"><p class="label blue">BTC</p></div>
-                <div class="cell-xl">{{ ($btcBalance | async)?.address }}</div>
-                <div class="cell"><p class="label green">{{ ($btcBalance | async)?.balance }}</p></div>
-                <div class="cell-xs"><p class="label"><a target="_blank" href="https://testnet.coinfaucet.eu/en/">BTC FAUCET</a></p></div>
+            <div class="form" fxFlex="45%">
+                <div class="form-header">
+                    <img class="header-icon" src="assets/icon/btc-icon-o.png" alt="">
+                    <p>Bitcoin</p>
+                </div>
+                <div class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
+                    <div class="row" fxFlex="1">
+                        <p class="label blue">Address</p>
+                        <div class="input-box">
+                            <input class="url-copy" value="{{ ($btcBalance | async)?.address }}" id="btcAddress"/>
+                            <p class="copy-icon">
+                                <a (click)="copyBtcAddress($event)">
+                                <i class="fa fa-clone" aria-hidden="true"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" fxFlex="1">
+                        <p class="label blue">Balance</p>
+                        <p class="label green">{{ ($btcBalance | async)?.balance }}</p>
+                    </div>
+                    <div class="row" fxFlex="1">
+                        <p class="label blue">Faucet</p>
+                        <p class="label"><a target="_blank" href="https://testnet.coinfaucet.eu/en/">BTC FAUCET</a></p>  
+                    </div>   
+                </div>
             </div>
         </div>
     </div>

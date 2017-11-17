@@ -11,6 +11,8 @@ var _btcWallet = require('./btc-wallet');
 
 var _ethWallet = require('./eth-wallet');
 
+var _dcrWallet = require('./dcr-wallet');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Mnemonic = require('bitcore-mnemonic');
@@ -25,6 +27,13 @@ var Wallet = exports.Wallet = function () {
     get: function get() {
       return {
         EthWallet: _ethWallet.EthWallet
+      };
+    }
+  }, {
+    key: 'Decred',
+    get: function get() {
+      return {
+        DcrWallet: _dcrWallet.DcrWallet
       };
     }
   }, {

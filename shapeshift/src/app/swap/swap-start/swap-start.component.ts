@@ -35,6 +35,8 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
 
   constructor(private router: Router, private store: Store<fromSwap.State>) {
     super();
+    
+    this.store.dispatch(new swapAction.SetActiveStepAction(1));
     this.infoMsg = "FOR TESTNET USE ONLY";
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
@@ -76,7 +78,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   }
 
   onSwap(data) {
-    // this.formFlyOut();
+    //this.formFlyOut();
     // setTimeout(() => {
     //   console.log(data);
     this.store.dispatch(new swapAction.StartSwapAction(data));

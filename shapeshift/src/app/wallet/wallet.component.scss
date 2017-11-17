@@ -1,27 +1,43 @@
 @import '../../styles/variables';
 
-.block{
-    flex: 1 1 auto;
-    min-width: 70%;
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
+.header-icon{
+    align-self: center;
+    height: 34px;
+    margin: 6px 0px;
 }
 
-.cell-xs{
-    width: 10%;
-}
-
-.cell-xl{
-    width: 60%;
-}
-
-.cell{
-    width: 20%;
+.card{
+    padding: 15px;
 }
 
 .label{
     text-align: left;
+}
+
+.row{
+    margin-bottom: 5%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.input-box{
+    margin-bottom: 0px;
+    input{
+        text-align: left;
+    }
+}
+
+.form{
+    margin-bottom: 15px;
+    .form-content{
+        padding: 4% 12% 8% 12%;
+    }
+}
+
+.spacer{
+    height: 50px;
+}
+
+.message-box{
+    margin-bottom: 15px;
 }
