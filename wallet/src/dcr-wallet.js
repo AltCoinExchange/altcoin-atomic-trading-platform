@@ -56,13 +56,13 @@ export class DcrWallet {
      * @param password
      */
     login(account, password) {
-        this.dcrd.cmd('authenticate', [account, password], function(err, wallets) {
+        this.dcrd.wallet.authenticate(account, password, function(err, wallets) {
             if (err) {
                 return console.log(err);
             }
             console.log(wallets);
         });
-    };
+    }
 
     /**
      * Create account
@@ -70,6 +70,12 @@ export class DcrWallet {
      * @returns {{address}}
      */
     create(accName, password) {
+        this.dcrd.wallet.createnewaccount(accName, password, function(err, wallets) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(wallets);
+        });
         // const accountName = accName;
         // this.dcrd.cmd('createnewaccount', accountName, function(err, wallets){
         //     if (err) {
@@ -85,15 +91,24 @@ export class DcrWallet {
         // });
     }
 
-    test() {
+    getInfo() {
         this.dcrd.getinfo(function(err, info) {
             if (err) return console.log(err);
             console.log('info:', info);
         });
+    }
 
+    listAccounts() {
         this.dcrd.wallet.listaccounts(function (err, accounts) {
             if (err) return console.log(err);
             console.log('listaccounts:', accounts);
+        });
+    }
+
+    getBalance() {
+        this.dcrd.wallet.getbalance(function (err, balance) {
+            if (err) return console.log(err);
+            console.log('getbalance:', balance);
         });
     }
 

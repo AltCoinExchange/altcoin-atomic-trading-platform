@@ -10,8 +10,11 @@ describe('DcrWallet', function () {
         const passPhrase = 'testwallt12#!';
         const dcrWallet = new Wallet.Decred.DcrWallet();
 
-        dcrWallet.test();
-        //dcrWallet.create("testWallet");
+        dcrWallet.getInfo();
+        //dcrWallet.login("testWallet", "pwd");
+        dcrWallet.listAccounts();
+        dcrWallet.getBalance();
+        //dcrWallet.create("testWallet", "bedrock");
         //dcrWallet.login("testWallet", "bedrock");
     });
   });
