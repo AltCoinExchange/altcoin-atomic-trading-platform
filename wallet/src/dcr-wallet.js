@@ -1,6 +1,16 @@
 const tls = require("tls");
 tls.DEFAULT_ECDH_CURVE = "secp521r1";
 
+import {buildContract} from '../../btcatomicswap/src/contract/build-contract';
+import {generateSecret} from '../../btcatomicswap/src/common/secret-hash';
+import {getUnixTimeFor2Days} from '../../btcatomicswap/src/common/unix-ts';
+import {configuration} from '../../btcatomicswap/src/config/config';
+
+const Mnemonic = require('bitcore-mnemonic');
+var bitcore = require('bitcore');
+var HDPrivateKey = bitcore.HDPrivateKey;
+var PrivateKey = bitcore.PrivateKey;
+
 /**
  * Decred wallet es6
  *
@@ -10,7 +20,7 @@ tls.DEFAULT_ECDH_CURVE = "secp521r1";
 
 export class DcrWallet {
 
-    constructor() {
+    constructor(code, regenerate = false) {
         this.AppConfig = require("../dcrConfig.json");
 
         const dcrcoin = require('node-dcr-rpc');
@@ -26,28 +36,17 @@ export class DcrWallet {
             sslCa: this.AppConfig.sslCa
         });
 
-
-        // TODO: gRPC throwing error compilation main focus is on normal RPC
-        // var fs = require('fs');
-        // var grpc = require('grpc');
-        // var protoDescriptor = grpc.load('wallet/api.proto');
-        // var walletrpc = protoDescriptor.walletrpc;
-        //
-        // var cert = fs.readFileSync("wallet/certs/decred_wallet.cert");
-        // var creds = grpc.credentials.createSsl(cert); //Buffer.from(this.AppConfig.sslCa)
-        // var client = new walletrpc.WalletService(this.AppConfig.host + ":" + this.AppConfig.port, creds);
-        //
-        // var request = {
-        //
-        // };
-        //
-        // client.accounts(request, function(err, response) {
-        //     if (err) {
-        //         console.error(err);
-        //     } else {
-        //         console.log('Spendable balance:', response.spendable, 'atoms');
-        //     }
-        // });
+        if (regenerate === true) {
+            this.hdPrivateKey = new HDPrivateKey(code);
+        } else {
+            const valid = Mnemonic.isValid(code);
+            if (!valid) {
+                throw Error('Not valid mnemonic code');
+            }
+            this.code = new Mnemonic(code);
+        }
+        this.derived = {};
+        this.addressess = {};
     }
 
     /**
@@ -89,6 +88,13 @@ export class DcrWallet {
         //         return address;
         //     });
         // });
+    }
+
+    test() {
+        this.dcrd.wallet.listscripts(function(err, info) {
+            if (err) return console.log(err);
+            console.log('scripts:', info);
+        });
     }
 
     getInfo() {
@@ -149,8 +155,59 @@ export class DcrWallet {
      * @param amount
      * @returns {Promise.<*>}
      */
-    async initiate(refundTime, secret, address, amount) {
+    async initiate(them, amount, privateKey) {
+        const {secret, secretHash} = generateSecret();
+        const lockTime = getUnixTimeFor2Days();
 
+        const b = await buildContract(them, amount, lockTime, secretHash, privateKey);
+
+        this.dcrd.sendrawtransaction(b.contractTx.toString(), function(err, info) {
+            if (err) return console.log(err);
+            console.log('info:', info);
+
+            return {
+                secret,
+                secretHash,
+                fee: b.contractFee,
+                contract: b.contractP2SH.toString(),
+                contractHex: b.contract.toHex(),
+                contractTx: b.contractTx.hash,
+                contractTxHex: b.contractTx.toString(),
+                rawTx,
+            };
+        });
+    }
+
+    generateHDPrivateKey(passPhrase) {
+        this.hdPrivateKey = this.code.toHDPrivateKey(passPhrase, btcRpcConfiguration.network);
+        return this.hdPrivateKey;
+    }
+
+    deriveHdPrivateKey(deriveArg) {
+        if (!this.hdPrivateKey) {
+            throw new Error('No HdPrivateKey found to derive from, did you mean to use generateHDPrivateKey() ?');
+        }
+        const derived = this.hdPrivateKey.derive(deriveArg);
+        this.derived[deriveArg] = derived;
+        return derived;
+    }
+
+    generateAddress(hdPublicKey) {
+        if (!hdPublicKey) {
+            throw new Error('hdPublicKey required to generate address');
+        }
+        const address = hdPublicKey.publicKey.toAddress();
+        this.addressess[hdPublicKey] = address;
+        return address;
+    }
+
+    generateAddressFromWif(wif) {
+        const WIF = new PrivateKey(wif);
+        return WIF.toPublicKey().toAddress(configuration.network);
+    }
+
+    getDerived() {
+        return this.derived;
     }
 
     /**

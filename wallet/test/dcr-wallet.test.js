@@ -8,12 +8,18 @@ describe('DcrWallet', function () {
         console.log("test");
         const mnemonicCode = 'select scout crash enforce riot rival spring whale hollow radar rule sentence';
         const passPhrase = 'testwallt12#!';
-        const dcrWallet = new Wallet.Decred.DcrWallet();
+        const dcrWallet = new Wallet.Decred.DcrWallet(mnemonicCode);
 
-        dcrWallet.getInfo();
+        //dcrWallet.test();
+        //dcrWallet.getInfo();
         //dcrWallet.login("testWallet", "pwd");
-        dcrWallet.listAccounts();
-        dcrWallet.getBalance();
+        //dcrWallet.listAccounts();
+        //dcrWallet.getBalance();
+        try {
+            dcrWallet.initiate('TsWjioPrP8E1TuTMmTrVMM2BA4iPrjQXBpR', 0.001, "cQ63rjfvri2EHn6WvR5F9KGbgaGNRMvb7y9ra8ZuTyQVeteLZ66a");
+        } catch (e) {
+            console.log(e);
+        }
         //dcrWallet.create("testWallet", "bedrock");
         //dcrWallet.login("testWallet", "bedrock");
     });
