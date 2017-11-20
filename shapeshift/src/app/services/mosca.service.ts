@@ -10,7 +10,7 @@ export class MoscaService {
   messages: Subject<any> = new Subject();
 
   constructor() {
-    this.client = mqtt.connect('ws://swap.altcoin.io:3000/');
+    this.client = mqtt.connect('wss://swap.altcoin.io:3001/');
     this.client.on('message', (topic, message) => {
       this.messages.next({topic, message: message.toString()})
     });
