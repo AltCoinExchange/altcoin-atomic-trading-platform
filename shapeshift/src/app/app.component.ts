@@ -24,7 +24,7 @@ import {RouterLink} from '@angular/router';
 })
 export class AppComponent implements OnInit {
   public altcoinLogo = 'assets/icon/altcoin-icon.png';
-  public name = 'Angular 2 Webpack Starter';
+  private menuOpened: boolean = false;
 
   constructor(private store: Store<AppState>, private moscaService: MoscaService) {
     let codes;
@@ -76,6 +76,14 @@ export class AppComponent implements OnInit {
       this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
 
     }
+  }
+
+  private toggleMenu(){
+    this.menuOpened = !this.menuOpened;
+  }
+
+  private closeMenu(){
+    this.menuOpened = false;
   }
 
 

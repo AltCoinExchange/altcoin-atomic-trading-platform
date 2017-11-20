@@ -7,7 +7,7 @@ nav{
   left: 0;
   top: 0;
   z-index: 1030;
-  background-color: #283142;
+  background-color: $main-gray;
   border: 0;
   -webkit-transition: all .5s ease;
   transition: all .5s ease;
@@ -16,11 +16,11 @@ nav{
 }
 
 main{
-  min-height: -webkit-calc(100% - 140px);    
-  min-height: -moz-calc(100% - 140px); 
-  min-height: calc(100% - 140px);
+  min-height: -webkit-calc(100% - 132px);    
+  min-height: -moz-calc(100% - 132px); 
+  min-height: calc(100% - 132px);
   overflow-y: scroll;  
-  padding-top: 70px;
+  padding-top: 62px;
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
@@ -47,6 +47,7 @@ a.logo{
 
 .nav-links{
   height: 100%;
+  display: inline-block;
   ul{
     list-style-type: none;
     margin: 0px;
@@ -74,10 +75,51 @@ a.logo{
   }
 }
 
+.bars-menu{
+  float: right;
+  padding-top: 20px;
+}
+
+.mobile-menu{
+  position: absolute;
+  background-color: $main-gray;
+  opacity: 0.95;
+  width: 100%;
+  height: 0px;
+  z-index: 100;
+  transition: all 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  .menu-links{
+    width: inherit;
+    height: inherit;
+    transition: all 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    .menu-link-item{
+      visibility: hidden;
+      text-align: center;
+      padding: 10%;
+      a{
+        font-size: 44pt;
+        font-weight: 500;
+        opacity: 1;
+      }
+    }
+  }
+  &.open{
+    height: 100%;
+    .menu-links{
+      padding: 62px 0px;
+      transition: all 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+      .menu-link-item{
+        visibility: visible;
+      }
+    }
+  }
+  
+}
+
 footer {
   width: 100%;
   height: 70px;
-  background-color: #283142;
+  background-color: $main-gray;
 
   ul {
     text-align: center;
