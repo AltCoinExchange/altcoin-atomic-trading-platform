@@ -16,7 +16,6 @@ export const buildContract = async (them, amount, lockTime, secretHash, privateK
 
   const themAddr = new Address(them);
 
-
   const contract = atomicSwapContract(
     refundAddr.toJSON().hash,
     themAddr.toJSON().hash,
