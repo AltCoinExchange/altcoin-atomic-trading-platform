@@ -46,41 +46,6 @@ export interface BtcWalletModel extends WalletModel{
 //
 //   balance() {
 //
-//     const requestOptions = {
-//       host: 'chain.so',
-//       port: 80,
-//       method: 'POST',
-//       path: '/api/v2/get_address_balance/BTCTEST/' + this.newAddress,
-//       rejectUnauthorized: false,
-//       agent: false,
-//       // ca: 'cert'
-//     };
-//
-//     const result = new Promise(function(reject, resolve) {
-//       const req = http.request(requestOptions);
-//       req.on('response', function (response) {
-//
-//         // We need to buffer the response chunks in a nonblocking way.
-//         let buffer = '';
-//
-//         response.on('data', function (chunk) {
-//           buffer = buffer + chunk;
-//         });
-//         // When all the responses are finished, we decode the JSON and
-//         // depending on whether it's got a result or an error, we call
-//         // emitSuccess or emitError on the promise.
-//         response.on('end', function () {
-//           try {
-//             resolve(JSON.parse(buffer));
-//           } catch (e) {
-//             reject(e);
-//           }
-//         });
-//
-//       });
-//     });
-//
-//     return Observable.fromPromise(result);
 //   }
 //
 //   get privateKey(): string {
