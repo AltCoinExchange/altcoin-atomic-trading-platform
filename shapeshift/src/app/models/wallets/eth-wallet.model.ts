@@ -10,30 +10,34 @@ export class EthWalletModel extends WalletModel {
   timeout = 7200;
   xprivKey: '';
   mnemonic: string[];
+  eth: any;
 
-  generateNewAddress(key?: string) {
+  generateNewAddress(key: string) {
     const eth = new wallet.Wallet.Ethereum.EthWallet();
     const keystore = eth.recover(key, '');
     return keystore.address.toString();
   }
 
-  initialize(xprivKey?, codesPhrase?: string[]) {
-    this.xprivKey = xprivKey;
+  initialize(key?, codesPhrase?: string[], keystore?: any) {
+    this.xprivKey = key;
     this.mnemonic = codesPhrase;
+    this.keystore = keystore;
+
+    this.eth = new wallet.Wallet.Ethereum.EthWallet();
+    this.eth.login(key, keystore);
+    return this.eth;
   }
 
   getBalance(address: string) {
-    const eth = this.getSwapInstance();
-    const result = eth.getbalance(address);
+    const result = this.eth.getbalance(address);
     const resultObservable = Observable.fromPromise(result);
     return resultObservable;
   }
 
   extractSecret(data) {
-    const eth = this.getSwapInstance();
     const hash = data.secretHash.indexOf('0x') === -1 ? '0x' + data.secretHash : data.secretHash;
 
-    const res = eth.extractsecret(hash);
+    const res = this.eth.extractsecret(hash);
     const resultObservable = Observable.fromPromise(res);
     return resultObservable.map((result: any) => {
 
@@ -53,8 +57,7 @@ export class EthWalletModel extends WalletModel {
   }
 
   initiate(address: string, amount: number): Observable<ContractResponseModel> {
-    const eth = this.getSwapInstance();
-    const res = eth.initiate(this.timeout, '', address, amount);
+    const res = this.eth.initiate(this.timeout, '', address, amount);
     const resultObservable = Observable.fromPromise(res);
     return resultObservable.map((result: any) => {
       const model = new ContractResponseModel();
@@ -67,8 +70,7 @@ export class EthWalletModel extends WalletModel {
   }
 
   participate(address: string, secretHash: string, amount: number): any {
-    const eth = this.getSwapInstance();
-    const result = eth.participate(this.timeout, secretHash, address, amount);
+    const result = this.eth.participate(this.timeout, secretHash, address, amount);
     const resultObservable = Observable.fromPromise(result);
     return resultObservable.map((res: any) => {
       console.log('participate');
@@ -81,10 +83,9 @@ export class EthWalletModel extends WalletModel {
   }
 
   redeem(data) {
-    const eth = this.getSwapInstance();
     const hash = data.secretHash.indexOf('0x') === -1 ? '0x' + data.secretHash : data.secretHash;
     const secret = data.secret.indexOf('0x') === -1 ? '0x' + data.secret : data.secret;
-    const result = eth.redeem(secret, hash);
+    const result = this.eth.redeem(secret, hash);
     const resultObservable = Observable.fromPromise(result);
     return resultObservable.map((res: any) => {
       console.log('REDEEM');
@@ -97,8 +98,7 @@ export class EthWalletModel extends WalletModel {
   }
 
   refund(hashedSecret: string): any {
-    const eth = this.getSwapInstance();
-    const res = eth.refund(hashedSecret);
+    const res = this.eth.refund(hashedSecret);
     const resultObservable = Observable.fromPromise(res);
     return resultObservable.map((result: any) => {
       const model = new ContractResponseModel();
@@ -108,20 +108,12 @@ export class EthWalletModel extends WalletModel {
     });
   }
 
-  constructor(xprivKey?, codesPhrase?: string[]) {
+  constructor(xprivKey?, keystore?: any, codesPhrase?: string[]) {
     super();
-    this.initialize(xprivKey, codesPhrase);
-  }
-
-  private getSwapInstance(): any {
-    const eth = new wallet.Wallet.Ethereum.EthWallet();
-    const ethPrivKey = ShapeshiftStorage.get('ethprivkey');
-    const ethKeyStore = JSON.parse(ShapeshiftStorage.get('ethkeystore'));
-    eth.login(ethKeyStore, ethPrivKey);
-    return eth;
+    this.initialize(xprivKey, codesPhrase, keystore);
   }
 
   privateKey(): string {
-    return this.privKey;
+    return this.xprivKey;
   }
 }

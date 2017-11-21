@@ -17,25 +17,25 @@ export class BtcCoinModel extends BtcWalletModel implements Coin {
     model.amount = coin.amount;
     return model;
   }
-
-  generateNewAddress(key?: string) {
-    if (!key) {
-      key = ShapeshiftStorage.get('btc-wif');
-    }
-    return super.generateNewAddress(key);
-  }
-
-  redeem(data, key?: string) {
-    if (!key) {
-      key = ShapeshiftStorage.get('btc-wif');
-    }
-    return super.redeem(data, key);
-  }
-
-  initiate(address: string, amount: number, key: string) {
-    if (!key) {
-      key = ShapeshiftStorage.get('btc-wif');
-    }
-    return super.initiate(address, amount, key);
-  }
+  //
+  // generateNewAddress(key?: string) {
+  //   if (!key) {
+  //     key = ShapeshiftStorage.get('btc-wif');
+  //   }
+  //   return super.generateNewAddress(key);
+  // }
+  //
+  // redeem(data, key?: string) {
+  //   if (!key) {
+  //     key = ShapeshiftStorage.get('btc-wif');
+  //   }
+  //   return super.redeem(data, key);
+  // }
+  //
+  // initiate(address: string, amount: number, key: string) {
+  //   if (!key) {
+  //     key = ShapeshiftStorage.get('btc-wif');
+  //   }
+  //   return super.initiate(address, amount, key);
+  // }
 }

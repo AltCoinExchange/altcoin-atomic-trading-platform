@@ -3,7 +3,7 @@ import {Coins} from './coins.enum';
 import {BtcCoinModel} from './btc-coin.model';
 import {EthCoinModel} from './eth-coin.model';
 
-export abstract class Coin {
+export abstract class Coin extends WalletModel {
   readonly name: string;
   readonly icon: string;
   readonly iconOutline: string;

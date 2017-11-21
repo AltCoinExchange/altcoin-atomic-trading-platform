@@ -5,7 +5,7 @@ export abstract class WalletModel {
 
   abstract initialize(xprivKey, codesPhrase?: string[]);
   abstract privateKey();
-  abstract redeem(data);
+  abstract redeem(data, key?: string, keystore?: any);
   abstract refund(hashedSecret: string, amount: number);
   abstract refund(contract: string, contractTx: string): any;
   abstract extractSecret(hashedSecret: string): any;

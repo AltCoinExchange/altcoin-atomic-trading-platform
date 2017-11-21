@@ -32,7 +32,7 @@ export class BtcWalletModel extends WalletModel {
     return wall;
   }
 
-  public constructor(xprivKey?, codesPhrase?: string[]) {
+  public constructor(xprivKey?: string, codesPhrase?: string[]) {
     super();
     this.initialize(xprivKey, codesPhrase);
   }

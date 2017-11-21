@@ -2,8 +2,7 @@ import * as walletAction from '../actions/wallet.action';
 import {BtcWalletModel} from '../models/wallets/btc-wallet.model';
 import {EthWalletModel} from '../models/wallets/eth-wallet.model';
 import * as wallet from 'wallet';
-import {ShapeshiftStorage} from "../common/shapeshift-storage";
-import {BtcCoinModel} from "../models/coins/btc-coin.model";
+import {ShapeshiftStorage} from '../common/shapeshift-storage';
 
 export interface State {
   BTC: BtcWalletModel;
@@ -25,23 +24,16 @@ if (ethPrivKey && ethKeyStore) {
   ethLogin = eth.atomicSwap.Login(JSON.parse(ethKeyStore), ethPrivKey);
 }
 
+
 export const initialState: State = {
-  BTC: {
-    xprivkey: btc.hdPrivateKey ? btc.hdPrivateKey.xprivkey : '',
-    addresses: {},
-    derived: {},
-    wif: ShapeshiftStorage.get('btc-wif')
-  },
-  ETH: {
-    privateKey: ethPrivKey,
-    keystore: ethKeyStore
-  }
+  BTC: new BtcWalletModel(ShapeshiftStorage.get('btc-wif')),
+  ETH: new EthWalletModel(ShapeshiftStorage.get('ethprivkey'), ShapeshiftStorage.get('ethkeystore'))
 };
 
 export function reducer(state = initialState, action: walletAction.Actions) {
   switch (action.type) {
     case walletAction.SET_BTC_WALLET: {
-      if (state.BTC.xprivkey) {
+      if (state.BTC.privateKey()) {
 
         console.log(state);
         return state;
@@ -54,11 +46,11 @@ export function reducer(state = initialState, action: walletAction.Actions) {
       };
     }
     case walletAction.SET_ETH_WALLET: {
-      if (state.ETH.privateKey) {
+      if (state.ETH.privateKey()) {
         console.log(state);
         return state;
       }
-      ShapeshiftStorage.set('ethprivkey', action.payload.privateKey);
+      ShapeshiftStorage.set('ethprivkey', action.payload.xprivKey);
       ShapeshiftStorage.set('ethkeystore', JSON.stringify(action.payload.keystore));
       return {
         ...state,

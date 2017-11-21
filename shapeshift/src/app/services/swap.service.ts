@@ -2,8 +2,8 @@ import * as btcswap from 'btc-atomic-swap';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BigchainDbService} from './bigchain-db.service';
-import {Coin} from "../models/coins/coin.model";
-import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
+import {Coin} from '../models/coins/coin.model';
+import {InformInitiatedDataModel} from '../models/inform-initiated-data.model';
 
 @Injectable()
 export class SwapService {
@@ -12,7 +12,7 @@ export class SwapService {
   }
 
   public initiate(address: string, coin: Coin): Observable<any> {
-    const initiateResult = coin.initiate(address);
+    const initiateResult = coin.initiate(address, coin.amount);
     return initiateResult;
   }
 
@@ -43,7 +43,7 @@ export class SwapService {
   }
 
   public participate(coin: Coin, initiateData: InformInitiatedDataModel): Observable<any> {
-    return coin.participate(initiateData.data.address, '0x' + initiateData.data.secretHash);
+    return coin.participate(initiateData.data.address, '0x' + initiateData.data.secretHash, coin.amount);
   }
 
   public waitForRedeem(block) {
