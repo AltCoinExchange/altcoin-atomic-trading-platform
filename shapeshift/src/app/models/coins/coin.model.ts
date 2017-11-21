@@ -9,16 +9,7 @@ export abstract class Coin {
   readonly iconOutline: string;
   readonly fullName: string;
   amount: number;
-
-  abstract generateNewAddress(wallet: WalletModel);
   abstract update(coin: Coin): Coin;
-  abstract initiate(address: string): any;
-  abstract participate(address: string, secretHash: string): any;
-  abstract redeem(data);
-  abstract refund(hashedSecret: string);
-  abstract refund(contract: string, contractTx: string): any;
-  abstract extractSecret(hashedSecret: string): any;
-  abstract getBalance(address: string): any;
 }
 
 export class CoinFactory {
