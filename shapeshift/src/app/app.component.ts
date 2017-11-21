@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewEncapsulation,} from '@angular/core';
-import * as wallet from 'wallet';
+import {Wallet} from '../../../wallet/src';
 import {Store} from '@ngrx/store';
 import {AppState} from './reducers/app.state';
 import * as walletAction from './actions/wallet.action';
 import * as quoteAction from './actions/quote.action';
 import {BtcWalletModel} from './models/wallets/btc-wallet.model';
-import {EthWalletModel} from "./models/wallets/eth-wallet.model";
-import {ShapeshiftStorage} from "./common/shapeshift-storage";
-import {MoscaService} from "./services/mosca.service";
-import {environment} from "../environments/environment";
+import {EthWalletModel} from './models/wallets/eth-wallet.model';
+import {ShapeshiftStorage} from './common/shapeshift-storage';
+import {MoscaService} from './services/mosca.service';
+import {environment} from '../environments/environment';
 
 import {RouterLink} from '@angular/router';
 // import * as mqtt from 'mqtt';
@@ -29,10 +29,10 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AppState>, private moscaService: MoscaService) {
     let codes;
     if (environment.production) {
-    codes = wallet.Wallet.code;
+      codes = Wallet.code;
     } else {
       codes = {
-        phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin"
+        phrase: 'away stomach fire police satoshi wire entire awake dilemma average town napkin'
       };
     }
 
@@ -49,8 +49,8 @@ export class AppComponent implements OnInit {
   private generateBtcWallet(codes: any) {
     const xprivKey = ShapeshiftStorage.get('xprivkey');
     if (!xprivKey) {
-      const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
-      btc.generateHDPrivateKey();
+      const btc = new Wallet.Bitcoin.BtcWallet(codes.phrase);
+      btc.generateHDPrivateKey('');
 
       const btcWallet = {
         xprivkey: btc.hdPrivateKey.xprivkey,
@@ -64,13 +64,13 @@ export class AppComponent implements OnInit {
   private generateEthWallet(codes: any) {
     const ethprivkey = ShapeshiftStorage.get('ethprivkey');
     if (!ethprivkey) {
-      const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
-      btc.generateHDPrivateKey();
-      const eth = new wallet.Wallet.Ethereum.EthWallet;
+      const btc = new Wallet.Bitcoin.BtcWallet(codes.phrase);
+      btc.generateHDPrivateKey('');
+      const eth = new Wallet.Ethereum.EthWallet();
       const privateKey = btc.hdPrivateKey.xprivkey.toString();
       const ethWallet = {
         privateKey: privateKey,
-        keystore: eth.recover(privateKey, "")
+        keystore: eth.recover(privateKey, '')
       } as EthWalletModel;
 
       this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
@@ -78,13 +78,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private toggleMenu(){
+  private toggleMenu() {
     this.menuOpened = !this.menuOpened;
   }
 
-  private closeMenu(){
+  private closeMenu() {
     this.menuOpened = false;
   }
-
-
 }

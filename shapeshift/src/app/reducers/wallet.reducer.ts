@@ -1,7 +1,8 @@
 import * as walletAction from '../actions/wallet.action';
 import {BtcWalletModel} from '../models/wallets/btc-wallet.model';
 import {EthWalletModel} from '../models/wallets/eth-wallet.model';
-import * as wallet from 'wallet';
+import {BtcWallet} from '../../../../wallet/src/wallet-btc';
+import {EthWallet} from '../../../../wallet/src/wallet-eth';
 import {ShapeshiftStorage} from '../common/shapeshift-storage';
 
 export interface State {
@@ -12,7 +13,7 @@ export interface State {
 const xprivKey = ShapeshiftStorage.get('xprivkey');
 let btc = {} as any;
 if (xprivKey) {
-  btc = new wallet.Wallet.Bitcoin.BtcWallet(xprivKey, true);
+  btc = new BtcWallet(xprivKey, true);
 }
 
 const ethPrivKey = ShapeshiftStorage.get('ethprivkey');
@@ -20,7 +21,7 @@ const ethKeyStore = ShapeshiftStorage.get('ethkeystore');
 let eth = {} as any;
 let ethLogin = {} as any;
 if (ethPrivKey && ethKeyStore) {
-  eth = new wallet.Wallet.Ethereum.EthWallet();
+  eth = new EthWallet();
   ethLogin = eth.atomicSwap.Login(JSON.parse(ethKeyStore), ethPrivKey);
 }
 

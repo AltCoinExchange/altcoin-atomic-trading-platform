@@ -3,7 +3,7 @@ import {ShapeshiftStorage} from '../../common/shapeshift-storage';
 import {SwapsResponseModel} from '../responses/swaps-response.model';
 import {Observable} from 'rxjs/Observable';
 import {ContractResponseModel} from '../responses/contract-response.model';
-import * as wallet from 'wallet';
+import {EthWallet} from '../../../../../wallet/src/wallet-eth';
 
 export class EthWalletModel extends WalletModel {
   keystore: {};
@@ -13,7 +13,7 @@ export class EthWalletModel extends WalletModel {
   eth: any;
 
   generateNewAddress(key: string) {
-    const eth = new wallet.Wallet.Ethereum.EthWallet();
+    const eth = new EthWallet();
     const keystore = eth.recover(key, '');
     return keystore.address.toString();
   }
@@ -23,7 +23,7 @@ export class EthWalletModel extends WalletModel {
     this.mnemonic = codesPhrase;
     this.keystore = keystore;
 
-    this.eth = new wallet.Wallet.Ethereum.EthWallet();
+    this.eth = new EthWallet();
     this.eth.login(key, keystore);
     return this.eth;
   }

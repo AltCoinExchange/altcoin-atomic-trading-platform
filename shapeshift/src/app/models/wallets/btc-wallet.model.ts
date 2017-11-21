@@ -6,11 +6,10 @@
 //   derived: {};
 //   xprivkey: string;
 // }
-import * as wallet from 'wallet';
+import {BtcWallet} from '../../../../../wallet/src/wallet-btc';
 import {WalletModel} from './wallet.model';
 import {Observable} from 'rxjs/Observable';
 import * as util from '../../common/util';
-import {ShapeshiftStorage} from '../../common/shapeshift-storage';
 import * as btcswap from 'btc-atomic-swap';
 
 export class BtcWalletModel extends WalletModel {
@@ -45,9 +44,9 @@ export class BtcWalletModel extends WalletModel {
   initialize(xprivKey, codesPhrase?: string[]) {
     let btc;
     if (!xprivKey) {
-      btc = new wallet.Wallet.Bitcoin.BtcWallet(codesPhrase);
+      btc = new BtcWallet(codesPhrase);
     } else {
-      btc = new wallet.Wallet.Bitcoin.BtcWallet(xprivKey, true);
+      btc = new BtcWallet(xprivKey, true);
     }
 
     btc.generateHDPrivateKey();
@@ -61,7 +60,7 @@ export class BtcWalletModel extends WalletModel {
   }
 
   generateNewAddress(secret?: string) {
-    const btc = new wallet.Wallet.Bitcoin.BtcWallet(this.xprivkey, true);
+    const btc = new BtcWallet(this.xprivkey, true);
     const address = btc.generateAddressFromWif(secret);
     return address.toString();
   }

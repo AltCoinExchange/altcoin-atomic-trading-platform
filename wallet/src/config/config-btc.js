@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BtcRpcConfiguration = {
-    protocol: 'http',
+exports.BtcConfiguration = {
+    protocol: 'https',
     user: 'bedrock',
     pass: 'bedrock',
-    host: '34.215.58.192',
-    port: '8013',
+    host: 'swap.altcoin.io',
+    port: '8014',
     network: 'testnet',
 };
