@@ -8,12 +8,18 @@ import * as wallet from 'wallet';
 export class EthWalletModel extends WalletModel {
   keystore: {};
   timeout = 7200;
+  xprivKey: '';
+  mnemonic: string[];
 
-  generateNewAddress() {
+  generateNewAddress(key?: string) {
     const eth = new wallet.Wallet.Ethereum.EthWallet();
-    const xprivKey = ShapeshiftStorage.get('xprivkey');
-    const keystore = eth.recover(xprivKey, '');
+    const keystore = eth.recover(key, '');
     return keystore.address.toString();
+  }
+
+  initialize(xprivKey?, codesPhrase?: string[]) {
+    this.xprivKey = xprivKey;
+    this.mnemonic = codesPhrase;
   }
 
   getBalance(address: string) {
@@ -74,7 +80,7 @@ export class EthWalletModel extends WalletModel {
     });
   }
 
-  redeem(data){
+  redeem(data) {
     const eth = this.getSwapInstance();
     const hash = data.secretHash.indexOf('0x') === -1 ? '0x' + data.secretHash : data.secretHash;
     const secret = data.secret.indexOf('0x') === -1 ? '0x' + data.secret : data.secret;
@@ -92,14 +98,19 @@ export class EthWalletModel extends WalletModel {
 
   refund(hashedSecret: string): any {
     const eth = this.getSwapInstance();
-    const result = eth.refund(hashedSecret);
-    const resultObservable = Observable.fromPromise(result);
+    const res = eth.refund(hashedSecret);
+    const resultObservable = Observable.fromPromise(res);
     return resultObservable.map((result: any) => {
       const model = new ContractResponseModel();
       model.fee = 100;
       // TODO: Find gas
       return model;
     });
+  }
+
+  constructor(xprivKey?, codesPhrase?: string[]) {
+    super();
+    this.initialize(xprivKey, codesPhrase);
   }
 
   private getSwapInstance(): any {

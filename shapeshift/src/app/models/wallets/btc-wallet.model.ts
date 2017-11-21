@@ -14,14 +14,35 @@ import {ShapeshiftStorage} from '../../common/shapeshift-storage';
 import * as btcswap from 'btc-atomic-swap';
 
 export class BtcWalletModel extends WalletModel {
-  private readonly btcWallet;
+  private btcWallet;
   public wif: string;
   public xprivkey: string;
   public addresses: {};
   public derived: any;
 
-  constructor(xprivKey, codesPhrase?: string[]) {
+  static fromPrivKey(privKey: string) {
+    const wall = new BtcWalletModel();
+    wall.initialize(privKey);
+    return wall;
+  }
+
+  static fromMnemonic(mnemonic: string[]) {
+    const wall = new BtcWalletModel();
+    wall.initialize(null, mnemonic);
+    return wall;
+  }
+
+  public constructor(xprivKey?, codesPhrase?: string[]) {
     super();
+    this.initialize(xprivKey, codesPhrase);
+  }
+
+  public newAddress(): string {
+    const address = this.btcWallet.generateAddressFromWif(this.privKey);
+    return address.toString();
+  }
+
+  initialize(xprivKey, codesPhrase?: string[]) {
     let btc;
     if (!xprivKey) {
       btc = new wallet.Wallet.Bitcoin.BtcWallet(codesPhrase);
@@ -35,26 +56,13 @@ export class BtcWalletModel extends WalletModel {
     this.btcWallet = btc;
   }
 
-  static fromPrivKey(privKey: string) {
-    return new BtcWalletModel(privKey);
-  }
-
-  static fromMnemonic(mnemonic: string[]) {
-    return new BtcWalletModel(null, mnemonic);
-  }
-
-  public newAddress(): string {
-    const address = this.btcWallet.generateAddressFromWif(this.privKey);
-    return address.toString();
-  }
-
   privateKey(): string {
     return this.privKey;
   }
 
-  generateNewAddress() {
+  generateNewAddress(secret?: string) {
     const btc = new wallet.Wallet.Bitcoin.BtcWallet(this.xprivkey, true);
-    const address = btc.generateAddressFromWif(ShapeshiftStorage.get('btc-wif'));
+    const address = btc.generateAddressFromWif(secret);
     return address.toString();
   }
 
@@ -71,26 +79,25 @@ export class BtcWalletModel extends WalletModel {
     return Observable.of(extract);
   }
 
-  initiate(address: string, amount: number): any {
-    const initiateResult = btcswap.initiate(address, amount, ShapeshiftStorage.get('btc-wif'));
+  initiate(address: string, amount: number, key?: string): any {
+    const initiateResult = btcswap.initiate(address, amount, key);
     return Observable.fromPromise(initiateResult);
   }
 
-  participate(address: string, secretHash: string, amount: number): any {
+  participate(address: string, secretHash: string, amount: number, key?: string): any {
     const participateResult = btcswap.participate(address, amount.toString(),
       secretHash.replace('0x', ''),
-      ShapeshiftStorage.get('btc-wif'));
+      key);
     return Observable.fromPromise(participateResult);
   }
 
-  redeem(data) {
-    const wif = ShapeshiftStorage.get('btc-wif');
+  redeem(data, key?: string) {
     console.log('BTC redeeming data.contractHex ', data.contractHex);
     console.log('BTC redeeming data.contractTxHex ', data.contractTxHex);
     console.log('BTC redeeming data.secret ', data.secret);
-    console.log('BTC redeeming wif ', wif);
+    console.log('BTC redeeming wif ', key);
     const secret = data.secret.replace('0x', '');
-    const redeemResult = btcswap.redeem(/**contract*/ data.contractHex, /**contractTx*/data.contractTxHex, /**secret*/secret, wif);
+    const redeemResult = btcswap.redeem(/**contract*/ data.contractHex, /**contractTx*/data.contractTxHex, /**secret*/secret, key);
     return Observable.fromPromise(redeemResult);
   }
 
