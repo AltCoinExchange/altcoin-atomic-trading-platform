@@ -60,14 +60,13 @@ export class BtcWalletModel extends WalletModel {
   }
 
   generateNewAddress(secret?: string) {
-    const btc = new BtcWallet(this.privKey, true);
-    const address = btc.generateAddressFromWif(secret);
+    const address = this.btcWallet.generateAddressFromWif(this.privKey);
     return address.toString();
   }
 
   getBalance(address: string) {
-    const addr = this.btcWallet.generateAddressFromWif(this.privKey);
-    return Observable.fromPromise(util.HttpRequester.Request({ url: '/api/v2/get_address_balance/BTCTEST/' + addr }));
+    const addr = this.btcWallet.generateAddressFromWif(this.privKey).toString();
+    return Observable.fromPromise(util.HttpRequester.Request({ path: '/api/v2/get_address_balance/BTCTEST/' + addr }));
   }
 
   extractSecret(data) {

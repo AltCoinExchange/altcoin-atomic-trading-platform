@@ -23,7 +23,7 @@ export class HttpRequester {
       host: options.host || 'chain.so',
       port: options.port || 443,
       protocol: 'https:',
-      method: options.method || 'POST',
+      method: options.method || 'GET',
       path: options.path || '/api/v2/get_address_balance/BTCTEST/',
       rejectUnauthorized: false,
       headers: {

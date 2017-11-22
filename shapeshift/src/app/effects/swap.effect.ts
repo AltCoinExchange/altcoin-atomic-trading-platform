@@ -43,19 +43,7 @@ export class SwapEffect {
           ]);
         });
 
-        if (data.depositCoin.name === 'BTC') {
-          return this.http.get('https://chain.so/api/v2/get_address_balance/BTCTEST/' + data.depositCoin.generateNewAddress(wallets[data.depositCoin.name])).mergeMap(resp => {
-            console.log('confirmed_balance', resp.json().data.confirmed_balance);
-            if(resp.json().data.confirmed_balance <= data.depositCoin.amount) {
-              return Observable.of(new Go({
-                path: ['/wallet'],
-              }));
-            }
-            return success;
-          });
-        }
-
-        return data.depositCoin.getBalance(data.depositCoin.generateNewAddress(wallets[data.depositCoin.name])).mergeMap(balance => {
+        return data.depositCoin.getBalance(data.depositCoin.generateNewAddress('')).mergeMap(balance => {
           console.log('balance', balance);
           if (balance <= data.depositCoin.amount) {
             return Observable.of(new Go({
