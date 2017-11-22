@@ -36,9 +36,8 @@ export class EthCoinModel extends EthWalletModel implements Coin {
   }
 
   update(coin: Coin): Coin {
-    const xprivKey = this.getKeyStore().key;
-    const model = new EthCoinModel(xprivKey);
-    model.initialize();
+    const store = this.getKeyStore();
+    const model = new EthCoinModel(store.key, store.storage);
     model.amount = coin.amount;
     return model;
   }
