@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var btc_wallet_1 = require("./btc-wallet");
+var wallet_btc_1 = require("./wallet-btc");
 var Mnemonic = require('bitcore-mnemonic');
-var eth_wallet_1 = require("./eth-wallet");
+var wallet_eth_1 = require("./wallet-eth");
 // import {DcrWallet} from "./dcr-wallet";
 var Wallet = (function () {
     function Wallet() {
@@ -10,7 +10,7 @@ var Wallet = (function () {
     Object.defineProperty(Wallet, "Ethereum", {
         get: function () {
             return {
-                EthWallet: eth_wallet_1.EthWallet
+                EthWallet: wallet_eth_1.EthWallet
             };
         },
         enumerable: true,
@@ -24,7 +24,7 @@ var Wallet = (function () {
         // }
         get: function () {
             return {
-                BtcWallet: btc_wallet_1.BtcWallet
+                BtcWallet: wallet_btc_1.BtcWallet
             };
         },
         enumerable: true,

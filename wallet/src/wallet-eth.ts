@@ -6,6 +6,8 @@
  * @company Altcoin Exchange, Inc.
  */
 
+import * as AppConfig from './config/config-eth';
+
 export class EthWallet {
     AppConfig: any;
     AtomicSwap: any;
@@ -14,11 +16,10 @@ export class EthWallet {
     atomicSwap: any;
 
     constructor() {
-        // this.AppConfig = require('ethatomicswap/config.json');
-        // this.AtomicSwap = require('ethatomicswap/modules/atomicswap');
-        // this.AbiConfig = require('ethatomicswap/abi/atomicswap.json');
-        // this.BinConfig = require('ethatomicswap/abi/bin.json');
-        this.atomicSwap = new this.AtomicSwap(this.AbiConfig, this.AppConfig.hosts[0], this.BinConfig);
+        this.AtomicSwap = require('ethatomicswap/modules/atomicswap');
+        this.AbiConfig = require('./config/abi/atomicswap.json');
+        this.BinConfig = require('./config/abi/bin.json');
+        this.atomicSwap = new this.AtomicSwap(this.AbiConfig, AppConfig.EthConfiguration.hosts[0], this.BinConfig);
     }
 
     /**

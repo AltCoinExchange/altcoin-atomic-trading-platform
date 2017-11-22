@@ -41,13 +41,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var AppConfig = require("./config/config-eth");
 var EthWallet = (function () {
     function EthWallet() {
-        this.AppConfig = require('ethatomicswap/config.json');
         this.AtomicSwap = require('ethatomicswap/modules/atomicswap');
-        this.AbiConfig = require('ethatomicswap/abi/atomicswap.json');
-        this.BinConfig = require('ethatomicswap/abi/bin.json');
-        this.atomicSwap = new this.AtomicSwap(this.AbiConfig, this.AppConfig.hosts[0], this.BinConfig);
+        this.AbiConfig = require('./config/abi/atomicswap.json');
+        this.BinConfig = require('./config/abi/bin.json');
+        this.atomicSwap = new this.AtomicSwap(this.AbiConfig, AppConfig.EthConfiguration.hosts[0], this.BinConfig);
     }
     /**
      * Login

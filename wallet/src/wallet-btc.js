@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("./config/config");
-var config_2 = require("../../btcatomicswap/src/config/config");
+var config_btc_1 = require("./config/config-btc");
 var Mnemonic = require('bitcore-mnemonic');
 var bitcore = require('bitcore');
 var HDPrivateKey = bitcore.HDPrivateKey;
@@ -23,7 +23,7 @@ var BtcWallet = (function () {
         this.addressess = {};
     }
     BtcWallet.prototype.generateHDPrivateKey = function (passPhrase) {
-        this.hdPrivateKey = this.code.toHDPrivateKey(passPhrase, config_1.btcRpcConfiguration.network);
+        this.hdPrivateKey = this.code.toHDPrivateKey(passPhrase, config_1.BtcRpcConfiguration.network);
         return this.hdPrivateKey;
     };
     BtcWallet.prototype.deriveHdPrivateKey = function (deriveArg) {
@@ -44,7 +44,7 @@ var BtcWallet = (function () {
     };
     BtcWallet.prototype.generateAddressFromWif = function (wif) {
         var WIF = new PrivateKey(wif);
-        return WIF.toPublicKey().toAddress(config_2.configuration.network);
+        return WIF.toPublicKey().toAddress(config_btc_1.BtcConfiguration.network);
     };
     BtcWallet.prototype.getDerived = function () {
         return this.derived;
