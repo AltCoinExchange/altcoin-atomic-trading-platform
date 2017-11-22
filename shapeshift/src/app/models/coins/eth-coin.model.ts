@@ -15,6 +15,10 @@ export class EthCoinModel extends EthWalletModel implements Coin {
   readonly fullName: string = 'Ethereum';
   amount: number;
 
+  constructor(key?: string, keystore?: any) {
+    super(key, keystore);
+  }
+
   /**
    * Get key store
    * @returns {KeyStore}
@@ -38,23 +42,4 @@ export class EthCoinModel extends EthWalletModel implements Coin {
     model.amount = coin.amount;
     return model;
   }
-  //
-  // generateNewAddress(key?: string, storage?: any) {
-  //   const ks = this.getKeyStore(key, storage);
-  //   return super.generateNewAddress(ks.key, ks.storage);
-  // }
-  //
-  // redeem(data, key?: string) {
-  //   if (!key) {
-  //     key = ShapeshiftStorage.get('btc-wif');
-  //   }
-  //   return super.redeem(data, key);
-  // }
-  //
-  // initiate(address: string, amount: number, key: string) {
-  //   if (!key) {
-  //     key = ShapeshiftStorage.get('btc-wif');
-  //   }
-  //   return super.initiate(address, amount, key);
-  // }
 }
