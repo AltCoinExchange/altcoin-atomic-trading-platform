@@ -11,7 +11,6 @@ import {WalletModel} from './wallet.model';
 import {Observable} from 'rxjs/Observable';
 import * as util from '../../common/util';
 import * as btcswap from 'btc-atomic-swap';
-import {Http} from "@angular/http";
 
 export class BtcWalletModel extends WalletModel {
   private btcWallet;
@@ -60,7 +59,7 @@ export class BtcWalletModel extends WalletModel {
     return this.privKey;
   }
 
-  generateNewAddress(secret?: string) {
+  generateNewAddress(key?: string) {
     const address = this.btcWallet.generateAddressFromWif(this.privKey);
     return address.toString();
   }
@@ -78,25 +77,25 @@ export class BtcWalletModel extends WalletModel {
     return Observable.of(extract);
   }
 
-  initiate(address: string, amount: number, key?: string): any {
-    const initiateResult = btcswap.initiate(address, amount, key);
+  initiate(address: string, amount: number): any {
+    const initiateResult = btcswap.initiate(address, amount, this.privKey);
     return Observable.fromPromise(initiateResult);
   }
 
-  participate(address: string, secretHash: string, amount: number, key?: string): any {
+  participate(address: string, secretHash: string, amount: number): any {
     const participateResult = btcswap.participate(address, amount.toString(),
       secretHash.replace('0x', ''),
-      key);
+      this.privKey);
     return Observable.fromPromise(participateResult);
   }
 
-  redeem(data, key?: string) {
+  redeem(data) {
     console.log('BTC redeeming data.contractHex ', data.contractHex);
     console.log('BTC redeeming data.contractTxHex ', data.contractTxHex);
     console.log('BTC redeeming data.secret ', data.secret);
-    console.log('BTC redeeming wif ', key);
+    console.log('BTC redeeming wif ', this.privKey);
     const secret = data.secret.replace('0x', '');
-    const redeemResult = btcswap.redeem(/**contract*/ data.contractHex, /**contractTx*/data.contractTxHex, /**secret*/secret, key);
+    const redeemResult = btcswap.redeem(/**contract*/ data.contractHex, /**contractTx*/data.contractTxHex, /**secret*/secret, this.privKey);
     return Observable.fromPromise(redeemResult);
   }
 

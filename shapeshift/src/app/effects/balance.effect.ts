@@ -37,7 +37,7 @@ export class BalanceEffect {
     .withLatestFrom(this.store.select(walletSelector.getWalletState))
     .mergeMap(([, wallet]) => {
         const coin = new BtcCoinModel();
-        const address = coin.generateNewAddress(wallet[coin.name]);
+        const address = coin.generateNewAddress('');
         return this.http.get('https://chain.so/api/v2/get_address_balance/BTCTEST/' + address).map(resp => {
           return new balanceAction.GetBtcBalanceSuccessAction({address, balance: resp.json().data.confirmed_balance,});
         });

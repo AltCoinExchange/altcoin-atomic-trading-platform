@@ -12,7 +12,7 @@ export class EthWalletModel extends WalletModel {
   mnemonic: string[];
   eth: any;
 
-  generateNewAddress(key: string) {
+  generateNewAddress(key?: string) {
     // const eth = new EthWallet();
     const keystore = this.eth.recover(this.xprivKey, '');
     return keystore.address.toString();
