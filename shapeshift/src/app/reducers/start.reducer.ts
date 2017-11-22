@@ -3,7 +3,8 @@ import * as swap from '../actions/start.action';
 import {EthCoinModel} from '../models/coins/eth-coin.model';
 import {BtcCoinModel} from '../models/coins/btc-coin.model';
 import {Coin} from '../models/coins/coin.model';
-import {SwapSpinners} from "../models/swap-spinners.enum";
+import {SwapSpinners} from '../models/swap-spinners.enum';
+import {ShapeshiftStorage} from '../common/shapeshift-storage';
 
 export interface State {
   swapProcess: SwapProcess;
@@ -12,8 +13,8 @@ export interface State {
 
 export const initialState: State = {
   swapProcess: {
-    depositCoin: new EthCoinModel(),
-    receiveCoin: new BtcCoinModel(),
+    depositCoin: new EthCoinModel(ShapeshiftStorage.get('ethprivkey'), JSON.parse(ShapeshiftStorage.get('ethkeystore'))),
+    receiveCoin: new BtcCoinModel(ShapeshiftStorage.get('xprivkey')),
     activeStep: 1,
     status: {
       initiated: SwapSpinners.Waiting,
