@@ -35,13 +35,14 @@ export class HttpRequester {
 
     // console.log(requestOptions);
 
-    const result = new Promise(function(reject, resolve) {
+    const result = new Promise(function(resolve, reject) {
       const http = require('https');
 
       const req = http.request(requestOptions, function(res) {
         console.log(res.statusCode);
         res.on('data', function(d) {
-          resolve(JSON.parse(d.toString()));
+          console.log(d.toString());
+          resolve(d.toString());
         });
         res.on('error', function(err) {
           reject(err);

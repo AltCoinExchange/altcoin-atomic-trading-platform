@@ -11,6 +11,7 @@ import {WalletModel} from './wallet.model';
 import {Observable} from 'rxjs/Observable';
 import * as util from '../../common/util';
 import * as btcswap from 'btc-atomic-swap';
+import {Http} from "@angular/http";
 
 export class BtcWalletModel extends WalletModel {
   private btcWallet;
