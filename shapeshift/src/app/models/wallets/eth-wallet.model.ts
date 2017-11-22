@@ -13,8 +13,8 @@ export class EthWalletModel extends WalletModel {
   eth: any;
 
   generateNewAddress(key: string) {
-    const eth = new EthWallet();
-    const keystore = eth.recover(key, '');
+    // const eth = new EthWallet();
+    const keystore = this.eth.recover(this.xprivKey, '');
     return keystore.address.toString();
   }
 

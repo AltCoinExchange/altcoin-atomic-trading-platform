@@ -1,4 +1,4 @@
-[
+export const AtomicSwapAbi = [
     {
         "constant": false,
         "inputs": [
@@ -214,4 +214,4 @@
         "name": "Initiated",
         "type": "event"
     }
-]
+];

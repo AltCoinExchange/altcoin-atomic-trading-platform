@@ -60,7 +60,7 @@ export class BtcWalletModel extends WalletModel {
   }
 
   generateNewAddress(secret?: string) {
-    const btc = new BtcWallet(this.xprivkey, true);
+    const btc = new BtcWallet(this.privKey, true);
     const address = btc.generateAddressFromWif(secret);
     return address.toString();
   }

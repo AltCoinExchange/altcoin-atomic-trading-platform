@@ -7,19 +7,19 @@
  */
 
 import * as AppConfig from './config/config-eth';
+import {AtomicSwapAbi} from './config/abi/atomicswap';
+import {AtomicSwapBin} from './config/abi/bin';
+const AtomicSwap = require('ethatomicswap/modules/atomicswap');
 
 export class EthWallet {
-    AppConfig: any;
-    AtomicSwap: any;
-    AbiConfig: any;
-    BinConfig: any;
+    // AppConfig: any;
+    // AtomicSwap: any;
+    // AbiConfig: any;
+    // BinConfig: any;
     atomicSwap: any;
 
     constructor() {
-        this.AtomicSwap = require('ethatomicswap/modules/atomicswap');
-        this.AbiConfig = require('./config/abi/atomicswap.json');
-        this.BinConfig = require('./config/abi/bin.json');
-        this.atomicSwap = new this.AtomicSwap(this.AbiConfig, AppConfig.EthConfiguration.hosts[0], this.BinConfig);
+        this.atomicSwap = new AtomicSwap(AtomicSwapAbi, AppConfig.EthConfiguration.hosts[0], AtomicSwapBin);
     }
 
     /**
