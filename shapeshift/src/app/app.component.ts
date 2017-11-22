@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation,} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Wallet} from '../../../wallet/src';
 import {Store} from '@ngrx/store';
 import {AppState} from './reducers/app.state';
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
       };
     }
 
+    console.log(codes);
     this.generateBtcWallet(codes);
     this.generateEthWallet(codes);
 
@@ -74,7 +75,6 @@ export class AppComponent implements OnInit {
       } as EthWalletModel;
 
       this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
-
     }
   }
 

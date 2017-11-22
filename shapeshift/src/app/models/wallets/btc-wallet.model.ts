@@ -49,7 +49,7 @@ export class BtcWalletModel extends WalletModel {
       btc = new BtcWallet(xprivKey, true);
     }
 
-    btc.generateHDPrivateKey();
+    // btc.generateHDPrivateKey();
     this.xprivKey = xprivKey;
     this.privKey = btc.hdPrivateKey.privateKey.toWIF();
     this.btcWallet = btc;

@@ -9,25 +9,25 @@ export interface State {
   BTC: BtcWalletModel;
   ETH: EthWalletModel;
 }
-
-const xprivKey = ShapeshiftStorage.get('xprivkey');
-let btc = {} as any;
-if (xprivKey) {
-  btc = new BtcWallet(xprivKey, true);
-}
-
-const ethPrivKey = ShapeshiftStorage.get('ethprivkey');
-const ethKeyStore = ShapeshiftStorage.get('ethkeystore');
-let eth = {} as any;
-let ethLogin = {} as any;
-if (ethPrivKey && ethKeyStore) {
-  eth = new EthWallet();
-  ethLogin = eth.atomicSwap.Login(JSON.parse(ethKeyStore), ethPrivKey);
-}
+//
+// const xprivKey = ShapeshiftStorage.get('xprivkey');
+// let btc = {} as any;
+// if (xprivKey) {
+//   btc = new BtcWallet(xprivKey, true);
+// }
+//
+// const ethPrivKey = ShapeshiftStorage.get('ethprivkey');
+// const ethKeyStore = ShapeshiftStorage.get('ethkeystore');
+// let eth = {} as any;
+// let ethLogin = {} as any;
+// if (ethPrivKey && ethKeyStore) {
+//   eth = new EthWallet();
+//   ethLogin = eth.atomicSwap.Login(JSON.parse(ethKeyStore), ethPrivKey);
+// }
 
 
 export const initialState: State = {
-  BTC: new BtcWalletModel(ShapeshiftStorage.get('btc-wif')),
+  BTC: new BtcWalletModel(ShapeshiftStorage.get('xprivkey')),
   ETH: new EthWalletModel(ShapeshiftStorage.get('ethprivkey'), ShapeshiftStorage.get('ethkeystore'))
 };
 

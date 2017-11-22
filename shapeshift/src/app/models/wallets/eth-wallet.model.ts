@@ -24,7 +24,7 @@ export class EthWalletModel extends WalletModel {
     this.keystore = keystore;
 
     this.eth = new EthWallet();
-    this.eth.login(key, keystore);
+    this.eth.login(keystore, key);
     return this.eth;
   }
 
