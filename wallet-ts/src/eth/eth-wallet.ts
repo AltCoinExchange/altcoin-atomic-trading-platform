@@ -6,9 +6,6 @@
  */
 
 import * as eth_swap from "ethatomicswap";
-import "rxjs/add/observable/fromPromise";
-import "rxjs/add/operator/map";
-import {Observable} from "rxjs/Observable";
 import {AtomicSwapAbi} from "../config/abi/atomicswap";
 import {AtomicSwapBin} from "../config/abi/bin";
 import * as AppConfig from "../config/config-eth";
@@ -54,8 +51,8 @@ export class EthWallet {
    * @param address
    * @returns {*}
    */
-  public getbalance(address): Observable<any> {
-    return Observable.fromPromise(this.atomicSwap.engine.GetBalance(address));
+  public async getbalance(address) {
+    return await this.atomicSwap.engine.GetBalance(address);
   }
 
   /**
@@ -64,7 +61,7 @@ export class EthWallet {
    * @param toAddress
    * @returns {Promise<number>}
    */
-  public sendAllEther(privateKey, toAddress): Observable<any> {
+  public sendAllEther(privateKey, toAddress) {
     // return  this.atomicSwap.engine.sendAllEther(privateKey, toAddress);
     throw new Error("atomicSwap.engine.sendAllEther not implemented");
   }
@@ -77,7 +74,7 @@ export class EthWallet {
    * @param amount
    * @returns {Promise.<*>}
    */
-  public initiate(refundTime, secret, address, amount): Observable<any> {
+  public async initiate(refundTime, secret, address, amount): Promise<any> {
 
     let secretObj = null;
 
@@ -90,10 +87,9 @@ export class EthWallet {
       }
     }
 
-    return Observable.fromPromise(this.atomicSwap.Initiate(refundTime, secret, address, amount)).map((result: any) => {
-      result.secret = secretObj;
-      return result;
-    });
+    const result = await this.atomicSwap.Initiate(refundTime, secret, address, amount);
+    result.secret = secretObj;
+    return result;
   }
 
   /**
@@ -104,17 +100,20 @@ export class EthWallet {
    * @param amount
    * @returns {Promise.<*>}
    */
-  public participate(refundTime, secret, address, amount): Observable<any> {
-    return Observable.fromPromise(this.atomicSwap.Participate(refundTime, secret, address, amount));
+  public async participate(refundTime, secret, address, amount): Promise<any> {
+    const result = await this.atomicSwap.Participate(refundTime, secret, address, amount);
+    return result;
   }
+
 
   /**
    * Extract swap info
    * @param hashedSecret
    * @returns {Promise.<*>}
    */
-  public extractsecret(hashedSecret): Observable<any> {
-    return Observable.fromPromise(this.atomicSwap.ExtractSecret(hashedSecret));
+  public async extractsecret(hashedSecret): Promise<any> {
+    const result = await this.atomicSwap.ExtractSecret(hashedSecret);
+    return result;
   }
 
   /**
@@ -123,8 +122,9 @@ export class EthWallet {
    * @param hashedSecret
    * @returns {Promise.<*>}
    */
-  public redeem(secret, hashedSecret): Observable<any> {
-    return Observable.fromPromise(this.atomicSwap.Redeem(secret, hashedSecret));
+  public async redeem(secret, hashedSecret): Promise<any> {
+    const result = await this.atomicSwap.Redeem(secret, hashedSecret);
+    return result;
   }
 
   /**
@@ -132,7 +132,8 @@ export class EthWallet {
    * @param hashedSecret
    * @returns {Promise.<*>}
    */
-  public refund(hashedSecret): Observable<any> {
-    return Observable.fromPromise(this.atomicSwap.Refund(hashedSecret));
+  public async refund(hashedSecret): Promise<any> {
+    const result = await this.atomicSwap.Refund(hashedSecret);
+    return result;
   }
 }
