@@ -10,4 +10,13 @@ describe("EthWallet", () => {
     const ethWallet = new EthWallet();
     expect(ethWallet.create("customPassword").wallet.privateKey).toBeTruthy();
   });
+
+  it("Should be able to login", () => {
+    const ethWallet = new EthWallet();
+    const newAccount = ethWallet.create("customPassword");
+    const address = newAccount.wallet.address;
+    const store = newAccount.keystore;
+    const accountRelogged = ethWallet.login(store, "customPassword");
+    expect(accountRelogged.address).toEqual(address);
+  });
 });
