@@ -54,8 +54,8 @@ export class AppComponent implements OnInit {
       btc.generateHDPrivateKey('');
 
       const btcWallet = {
-        xprivkey: btc.hdPrivateKey.xprivkey,
-        wif: btc.hdPrivateKey.privateKey.toWIF(),
+        xprivkey: btc.hierarhicalPrivateKey.xprivkey,
+        wif: btc.hierarhicalPrivateKey.privateKey.toWIF(),
       } as BtcWalletModel;
 
       this.store.dispatch(new walletAction.SetBtcWalletAction(btcWallet));
@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
       const btc = new Wallet.Bitcoin.BtcWallet(codes.phrase);
       btc.generateHDPrivateKey('');
       const eth = new Wallet.Ethereum.EthWallet();
-      const privateKey = btc.hdPrivateKey.xprivkey.toString();
+      const privateKey = btc.hierarhicalPrivateKey.xprivkey.toString();
       const ethWallet = {
         privateKey: privateKey,
         keystore: eth.recover(privateKey, '')

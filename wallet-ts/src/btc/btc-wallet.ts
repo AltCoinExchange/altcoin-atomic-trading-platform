@@ -1,19 +1,21 @@
 import * as bitcore from "bitcore";
-import * as Mnemonic from 'bitcore-mnemonic';
-import {BtcRpcConfiguration} from "./config/config";
-import {BtcConfiguration} from "./config/config-btc";
+import {BtcRpcConfiguration} from "../config/config";
+import {BtcConfiguration} from "../config/config-btc";
+import {FreshBitcoinWallet} from "./fresh-btc";
+import * as Mnemonic from "bitcore-mnemonic";
+import {RegenerateBitcoinWallet} from "./regenerate-btc";
 
 const HDPrivateKey = bitcore.HDPrivateKey;
 const PrivateKey = bitcore.PrivateKey;
 
 export class BtcWallet {
   private code: any;
+  private hierarchicalPrivateKey: any;
 
   constructor(params: RegenerateBitcoinWallet);
-
   constructor(params: FreshBitcoinWallet) {
     if (params instanceof RegenerateBitcoinWallet) {
-      this._hdPrivateKey = new HDPrivateKey(params.code);
+      this.hierarchicalPrivateKey = new HDPrivateKey(params.code);
     } else if (params instanceof FreshBitcoinWallet) {
       const valid = Mnemonic.isValid(params.code);
       if (!valid) {
@@ -27,13 +29,15 @@ export class BtcWallet {
     }
   }
 
-  private _hdPrivateKey: any;
-
   get hdPrivateKey(): any {
-    return this._hdPrivateKey;
+    return this.hierarchicalPrivateKey;
   }
 
-  generateAddressFromWif(wif?: string): string {
+  public get WIF(): string {
+    return this.hierarchicalPrivateKey.privateKey.toWIF();
+  }
+
+  public generateAddressFromWif(wif?: string): string {
     if (!wif) {
       wif = this.WIF;
     }
@@ -41,25 +45,7 @@ export class BtcWallet {
     return WIF.toPublicKey().toAddress(BtcConfiguration.network).toString();
   }
 
-  public get WIF(): string {
-    return this.hdPrivateKey.privateKey.toWIF();
-  }
-
   private generateHDPrivateKey(passPhrase): void {
-    this._hdPrivateKey = this.code.toHDPrivateKey(passPhrase, BtcRpcConfiguration.network);
-  }
-}
-
-export class RegenerateBitcoinWallet {
-
-  constructor(public readonly code: string, public readonly password?: string) {
-
-  }
-}
-
-export class FreshBitcoinWallet {
-
-  constructor(public readonly code: string, public readonly password?: string) {
-
+    this.hierarchicalPrivateKey = this.code.toHDPrivateKey(passPhrase, BtcRpcConfiguration.network);
   }
 }

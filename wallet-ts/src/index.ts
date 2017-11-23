@@ -1,1 +1,2 @@
-export { BtcWallet } from "./btc-wallet";
+export * from "./btc/index";
+export {EthWallet} from "./eth-wallet";

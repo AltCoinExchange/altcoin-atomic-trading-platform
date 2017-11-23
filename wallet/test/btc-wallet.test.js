@@ -17,7 +17,7 @@ describe('BtcWallet', function () {
       assert.equal(address.toString(), 'mjwJRsgU4pMtkhZiLadrasmPJ6v4L4Khf2');
       assert.equal(Object.keys(btcWallet.addressess).length, 1);
       assert.equal(Object.keys(btcWallet.derived).length, 1);
-      assert.equal(btcWallet.hdPrivateKey, 'tprv8ZgxMBicQKsPduGeY6hbXFTfS8k86Cwcpkrrchag7xf18KkHP9kdr2shydHT669xmzFb3B6E4m2jpfacpNpr9RsBH67Lh42k1ywdREEQfaB');
+      assert.equal(btcWallet.hierarhicalPrivateKey, 'tprv8ZgxMBicQKsPduGeY6hbXFTfS8k86Cwcpkrrchag7xf18KkHP9kdr2shydHT669xmzFb3B6E4m2jpfacpNpr9RsBH67Lh42k1ywdREEQfaB');
 
 
 
@@ -29,7 +29,7 @@ describe('BtcWallet', function () {
       assert.equal(address2.toString(), 'mgjR4G9V7Hyvy5S2DtpRJKBubsU1pKR4bA');
       assert.equal(Object.keys(btcWallet.addressess).length, 2);
       assert.equal(Object.keys(btcWallet.derived).length, 2);
-      assert.equal(btcWallet.hdPrivateKey, 'tprv8ZgxMBicQKsPduGeY6hbXFTfS8k86Cwcpkrrchag7xf18KkHP9kdr2shydHT669xmzFb3B6E4m2jpfacpNpr9RsBH67Lh42k1ywdREEQfaB');
+      assert.equal(btcWallet.hierarhicalPrivateKey, 'tprv8ZgxMBicQKsPduGeY6hbXFTfS8k86Cwcpkrrchag7xf18KkHP9kdr2shydHT669xmzFb3B6E4m2jpfacpNpr9RsBH67Lh42k1ywdREEQfaB');
 
       const address2FromWallet = btcWallet.addressess[hdPublicKey2];
       assert.equal(address2FromWallet.toString(), 'mgjR4G9V7Hyvy5S2DtpRJKBubsU1pKR4bA');

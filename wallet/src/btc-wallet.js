@@ -24,13 +24,13 @@ var BtcWallet = (function () {
     }
     BtcWallet.prototype.generateHDPrivateKey = function (passPhrase) {
         this.hdPrivateKey = this.code.toHDPrivateKey(passPhrase, config_1.btcRpcConfiguration.network);
-        return this.hdPrivateKey;
+        return this.hierarhicalPrivateKey;
     };
     BtcWallet.prototype.deriveHdPrivateKey = function (deriveArg) {
-        if (!this.hdPrivateKey) {
+        if (!this.hierarhicalPrivateKey) {
             throw new Error('No HdPrivateKey found to derive from, did you mean to use generateHDPrivateKey() ?');
         }
-        var derived = this.hdPrivateKey.derive(deriveArg);
+        var derived = this.hierarhicalPrivateKey.derive(deriveArg);
         this.derived[deriveArg] = derived;
         return derived;
     };
