@@ -6,7 +6,7 @@ const Address = require('bitcore').Address;
 const PrivateKey = require('bitcore').PrivateKey;
 const Script = require('bitcore').Script;
 const Opcode = require('bitcore').Opcode;
-const Buffer = require('buffer/').Buffer;
+const Buffer = require('buffer').Buffer;
 
 export class Contract {
 

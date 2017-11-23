@@ -1,14 +1,12 @@
 import {BtcRpcConfiguration} from './config/config';
 import {BtcConfiguration} from './config/config-btc';
-import * as Hashing from './common/hashing';
-import {Util} from './common/util';
 
 const Mnemonic = require('bitcore-mnemonic');
 const bitcore = require('bitcore');
 const HDPrivateKey = bitcore.HDPrivateKey;
 const PrivateKey = bitcore.PrivateKey;
 
-export class BWallet  {
+export class BtcWallet {
 
   hdPrivateKey: any;
   derived: {};
@@ -59,25 +57,5 @@ export class BWallet  {
 
   getDerived() {
     return this.derived;
-  }
-
-  async initiate(them, amount, privateKey) {
-
-      const result: Hashing.SecretResult = Hashing.SecretGenerator.generateSecret(Hashing.AlgoTypes.Ripemd160);
-      const lockTime = Time.getUnixTimeFor2Days();
-      const b = await buildContract(them, amount, lockTime, result.secretHash, privateKey);
-
-      const rawTx = await publishTx(b.contractTx.toString());
-
-      return {
-          secret: result.secret,
-          secretHash: result.secretHash,
-          fee: b.contractFee,
-          contract: b.contractP2SH.toString(),
-          contractHex: b.contract.toHex(),
-          contractTx: b.contractTx.hash,
-          contractTxHex: b.contractTx.toString(),
-          rawTx,
-      };
   }
 }
