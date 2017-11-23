@@ -9,21 +9,21 @@ export class EthAtomicSwap {
     this.engine = new EthEngine(abiConfiguration, appConfiguration, bin);
   }
 
-  public async initiate(refundTime, secret, address, amount, extendedParams): InitiateData {
+  public async initiate(refundTime, secret, address, amount, extendedParams): Promise<InitiateData> {
     const conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : "ether";
 
     const params = {
       ...extendedParams,
       from: this.appConfiguration.defaultWallet,
-      value: this.engine.web3.utils.toWei(amount, conversion),
+      value: this.engine.toWei(amount, conversion),
       conversion: undefined,
     };
 
     const initiateResult = await this.engine.callFunction("initiate", [refundTime, secret, address], params);
 
-    console.log("initiateResult", initiateResult);
+    // console.log("initiateResult", initiateResult);
 
     const initiateData = new EthInitiateData();
-    return initiateData;
+    return null;
   }
 }

@@ -13,7 +13,7 @@ const WIF = "cQ63rjfvri2EHn6WvR5F9KGbgaGNRMvb7y9ra8ZuTyQVeteLZ66a";
 const freshWallet = new FreshBitcoinWallet(phrase);
 const regenerateWallet = new RegenerateBitcoinWallet(hdPrivateKey);
 
-describe.skip("BtcWallet", () => {
+describe("BtcWallet", () => {
   it("Should be pass sanity", () => {
     expect(typeof BtcWallet).toBe("function");
   });

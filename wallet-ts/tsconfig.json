@@ -11,7 +11,7 @@
     "sourceMap": false,
     "declaration": true,
     "outDir": "dist",
-    "removeComments": false,
+    "removeComments": true,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -24,8 +24,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
-  "include": [
-    "./node_modules/web3-typescript-typings/index.d.ts"
   ]
 }

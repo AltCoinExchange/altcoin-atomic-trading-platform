@@ -14,7 +14,7 @@ describe("EthAtomicSwap", () => {
     expect(typeof EthAtomicSwap).toBe("function");
   });
 
-  it.only("Should pass initiate", async () => {
+  it("Should pass initiate", async () => {
     expect.assertions(1);
 
     const ethSwap = new EthAtomicSwap(AtomicSwapAbi, EthConfiguration.hosts[0], AtomicSwapBin);

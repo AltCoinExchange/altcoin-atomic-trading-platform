@@ -1,4 +1,4 @@
-import * as Web3 from "web3";
+import * as Web3 from "web3/src";
 import {Account, Contract} from "web3/types";
 import {IEthAccount} from "./eth-account";
 
@@ -9,8 +9,8 @@ export class EthEngine {
   private contract: Contract;
 
   constructor(private abiConfiguration, private configuration, private bin) {
-    const web3Providers: any = Web3.providers;
-    this.web3 = new Web3(new web3Providers.WebsocketProvider(configuration.wshost));
+    const wsProvider = new Web3.providers.WebsocketProvider(configuration.wshost);
+    this.web3 = new Web3(wsProvider);
     this.web3.defaultAccount = configuration.defaultWallet;
 
     this.contract = new this.web3.eth.Contract(abiConfiguration, configuration.contractAddress);
@@ -124,5 +124,9 @@ export class EthEngine {
     const accounts = this.web3.eth.accounts;
     const acc = accounts.privateKeyToAccount(this.web3.utils.asciiToHex(privateKey));
     return acc.encrypt(privateKey, password);
+  }
+
+  public toWei(amount, conversion) {
+    return this.web3.utils.toWei(amount, conversion);
   }
 }

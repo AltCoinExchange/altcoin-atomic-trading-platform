@@ -5,17 +5,17 @@
  * @company Altcoin Exchange, Inc.
  */
 
-import * as eth_swap from "ethatomicswap";
 import {AtomicSwapAbi} from "../config/abi/atomicswap";
 import {AtomicSwapBin} from "../config/abi/bin";
 import * as AppConfig from "../config/config-eth";
 import {IEthAccount} from "./eth-account";
+import {EthAtomicSwap} from "./eth-atomic-swap";
 
 export class EthWallet {
   private atomicSwap: any;
 
   constructor() {
-    this.atomicSwap = new eth_swap.AtomicSwap(AtomicSwapAbi, AppConfig.EthConfiguration.hosts[0], AtomicSwapBin);
+    this.atomicSwap = new EthAtomicSwap(AtomicSwapAbi, AppConfig.EthConfiguration.hosts[0], AtomicSwapBin);
   }
 
   /**
@@ -24,7 +24,7 @@ export class EthWallet {
    * @param password
    */
   public login(keystore, password) {
-    return this.atomicSwap.engine.Login(keystore, password);
+    return this.atomicSwap.engine.login(keystore, password);
   }
 
   /**
@@ -33,7 +33,7 @@ export class EthWallet {
    * @returns {{wallet, keystore}}
    */
   public create(password): IEthAccount {
-    return this.atomicSwap.engine.CreateAccount(password);
+    return this.atomicSwap.engine.createAccount(password);
   }
 
   /**
@@ -43,7 +43,7 @@ export class EthWallet {
    * @returns {{wallet, keystore}}
    */
   public recover(privateKey, password) {
-    return this.atomicSwap.engine.RecoverAccount(privateKey, password);
+    return this.atomicSwap.engine.recoverAccount(privateKey, password);
   }
 
   /**
@@ -52,7 +52,7 @@ export class EthWallet {
    * @returns {*}
    */
   public async getbalance(address) {
-    return await this.atomicSwap.engine.GetBalance(address);
+    return await this.atomicSwap.engine.getBalance(address);
   }
 
   /**
@@ -62,8 +62,7 @@ export class EthWallet {
    * @returns {Promise<number>}
    */
   public sendAllEther(privateKey, toAddress) {
-    // return  this.atomicSwap.engine.sendAllEther(privateKey, toAddress);
-    throw new Error("atomicSwap.engine.sendAllEther not implemented");
+    return this.atomicSwap.engine.sendAllEther(privateKey, toAddress);
   }
 
   /**
@@ -87,7 +86,7 @@ export class EthWallet {
       }
     }
 
-    const result = await this.atomicSwap.Initiate(refundTime, secret, address, amount);
+    const result = await this.atomicSwap.initiate(refundTime, secret, address, amount);
     result.secret = secretObj;
     return result;
   }
@@ -104,7 +103,6 @@ export class EthWallet {
     const result = await this.atomicSwap.Participate(refundTime, secret, address, amount);
     return result;
   }
-
 
   /**
    * Extract swap info
