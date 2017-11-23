@@ -7,8 +7,8 @@ export enum AlgoTypes {
 }
 
 export class SecretResult {
-  private secretHash;
-  private secret;
+  public secretHash;
+  public secret;
 
   constructor(secret: string, secretHash: string) {
     this.secret = secret;
@@ -54,7 +54,7 @@ export class SecretGenerator {
    * @param {AlgoTypes} algo
    * @returns {SecretResult}
    */
-  public static generateSecret(algo?: AlgoTypes = AlgoTypes.Ripemd160) {
+  public static generateSecret(algo: AlgoTypes = AlgoTypes.Ripemd160) {
 
     let algoInstance: IHashAlgo;
     if (algo === AlgoTypes.Ripemd160) {
