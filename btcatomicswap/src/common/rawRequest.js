@@ -63,7 +63,6 @@ export const fundRawTransaction = async (tx, feePerKb,) => {
   }
 };
 
-
 export const estimateFee = async () => {
   return await axios.post(
     url,

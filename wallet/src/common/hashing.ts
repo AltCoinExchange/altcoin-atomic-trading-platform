@@ -18,14 +18,14 @@ export class SecretResult {
 
 export interface IHashAlgo {
     hash(value: string);
-    buffer(value: string);
+    buffer(value: any);
 }
 
 export class Ripemd160 implements IHashAlgo {
     public hash(value: string) {
         return new RIPEMD160().update(value).digest('hex');
     }
-    public buffer(value: string) {
+    public buffer(value: any) {
         return new RIPEMD160().update(value).digest();
     }
 }
@@ -35,7 +35,7 @@ export class Hash160 implements IHashAlgo {
         const hashScriptBuffer = crypto.createHash('sha256').update(value).digest();
         return new RIPEMD160().update(hashScriptBuffer).digest('hex');
     }
-    public buffer(value: string) {
+    public buffer(value: any) {
         const hash = crypto.createHash('sha256').update(value).digest();
         return new RIPEMD160().update(hash).digest();
     }
@@ -46,6 +46,11 @@ export class Hash160 implements IHashAlgo {
  */
 export class SecretGenerator {
 
+    /**
+     * Generate secret
+     * @param {AlgoTypes} algo
+     * @returns {SecretResult}
+     */
     public static generateSecret(algo: AlgoTypes) {
 
         let algoInstance: IHashAlgo;
@@ -60,29 +65,4 @@ export class SecretGenerator {
         const secretHash = algoInstance.hash(secretBuffer);
         return new SecretResult(secret, secretHash);
     };
-
 }
-
-/**
- * Hash256 then RIPEMD160 = hash160
- * @param value
- */
-
-// export const hash160 = (value) => {
-//     const hashScriptBuffer = crypto.createHash('sha256').update(value).digest();
-//     return new RIPEMD160().update(hashScriptBuffer).digest('hex');
-// };
-//
-//
-// export const hash160Buffer = (value) => {
-//     const hash = crypto.createHash('sha256').update(value).digest();
-//     return new RIPEMD160().update(hash).digest();
-// };
-
-// export const ripemd160 = (value) => {
-//     return new RIPEMD160().update(value).digest('hex');
-// };
-
-// export const ripemd160Buffer = (value) => {
-//     return new RIPEMD160().update(value).digest();
-// };
