@@ -1,5 +1,6 @@
 const axios = require('axios');
 const UnspentOutput = require('bitcore').Transaction.UnspentOutput;
+const RpcClient = require('bitcoind-rpc');
 
 // const url =
 //     configuration.protocol + '://' +
@@ -10,9 +11,24 @@ const UnspentOutput = require('bitcore').Transaction.UnspentOutput;
 
 export class BtcTransaction {
     configuration: any;
+    rpc: any;
     constructor(configuration) {
         this.configuration = configuration;
+        this.rpc = new RpcClient(configuration);
     }
+
+  /**
+   * Publish tx
+   * @returns {Promise<any>}
+   */
+  public async publishTx(tx: any) {
+      return new Promise(function(resolve, reject) {
+        this.rpc.sendRawTransaction(tx, (a, b) => {
+          console.log(b);
+          resolve(b.result);
+        });
+      });
+    };
 
     /**
      * Get raw change address

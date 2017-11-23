@@ -8,11 +8,9 @@ const Script = require('bitcore').Script;
 const Opcode = require('bitcore').Opcode;
 const Buffer = require('buffer').Buffer;
 
-export class Contract {
-
-    configuration: any;
+export class Contract extends BtcTransaction {
     constructor(configuration: any) {
-        this.configuration = configuration;
+        super(configuration);
     }
     /**
      * Build contract

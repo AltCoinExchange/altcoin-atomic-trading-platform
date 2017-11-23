@@ -1,5 +1,6 @@
 import {BtcRpcConfiguration} from './config/config';
 import {BtcConfiguration} from './config/config-btc';
+import {Contract} from './common/contract';
 import * as Hashing from './common/hashing';
 import {Util} from './common/util';
 
@@ -9,13 +10,14 @@ const HDPrivateKey = bitcore.HDPrivateKey;
 const PrivateKey = bitcore.PrivateKey;
 
 export class BWallet {
-
   hdPrivateKey: any;
   derived: {};
   addressess: {};
   code: any;
+  configuration: any;
 
-  constructor(code, regenerate = false) {
+  constructor(configuration, code, regenerate = false) {
+    this.configuration = configuration;
     if (regenerate === true) {
       this.hdPrivateKey = new HDPrivateKey(code);
     } else {
@@ -29,11 +31,21 @@ export class BWallet {
     this.addressess = {};
   }
 
+  /**
+   * Generate HD private key
+   * @param passPhrase
+   * @returns {any}
+   */
   generateHDPrivateKey(passPhrase) {
     this.hdPrivateKey = this.code.toHDPrivateKey(passPhrase, BtcRpcConfiguration.network);
     return this.hdPrivateKey;
   }
 
+  /**
+   * Derive HD private
+   * @param deriveArg
+   * @returns {any}
+   */
   deriveHdPrivateKey(deriveArg) {
     if (!this.hdPrivateKey) {
       throw new Error('No HdPrivateKey found to derive from, did you mean to use generateHDPrivateKey() ?');
@@ -43,6 +55,11 @@ export class BWallet {
     return derived;
   }
 
+  /**
+   * Generate new address
+   * @param hdPublicKey
+   * @returns {any}
+   */
   generateAddress(hdPublicKey) {
     if (!hdPublicKey) {
       throw new Error('hdPublicKey required to generate address');
@@ -52,21 +69,40 @@ export class BWallet {
     return address;
   }
 
+  /**
+   * Generate address from WIF
+   * @param wif
+   * @returns {any}
+   */
   generateAddressFromWif(wif) {
     const WIF = new PrivateKey(wif);
     return WIF.toPublicKey().toAddress(BtcConfiguration.network);
   }
 
+  /**
+   * Get derived key
+   * @returns {{}}
+   */
   getDerived() {
     return this.derived;
   }
 
+  /**
+   * Initiate atomic swap
+   * @param them
+   * @param amount
+   * @param privateKey
+   * @returns {Promise<{secret; secretHash; fee: number; contract: string; contractHex; contractTx; contractTxHex: string; rawTx: Promise<any>}>}
+   */
   async initiate(them, amount, privateKey) {
     const result: Hashing.SecretResult = Hashing.SecretGenerator.generateSecret(Hashing.AlgoTypes.Ripemd160);
     const lockTime = Util.getUnixTimeFor2Days();
-    const b = await buildContract(them, amount, lockTime, result.secretHash, privateKey);
 
-    const rawTx = await publishTx(b.contractTx.toString());
+    const contract = new Contract(this.configuration);
+
+    const b = await contract.buildContract(them, amount, lockTime, result.secretHash, privateKey);
+
+    const rawTx = await contract.publishTx(b.contractTx.toString());
 
     return {
       secret: result.secret,
