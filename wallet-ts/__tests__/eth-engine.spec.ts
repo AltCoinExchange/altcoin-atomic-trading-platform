@@ -17,8 +17,6 @@ describe.only("EthEngine", () => {
     const store = newAccount.keystore;
     const accountRelogged = ethEngine.login(store, "customPassword");
     expect(accountRelogged.address).toEqual(address);
-
-    console.log("address ", await ethEngine.getBalance(address));
   });
 
 });

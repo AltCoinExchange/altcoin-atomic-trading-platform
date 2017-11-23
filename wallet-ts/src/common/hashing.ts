@@ -51,7 +51,7 @@ export class SecretGenerator {
      * @param {AlgoTypes} algo
      * @returns {SecretResult}
      */
-    public static generateSecret(algo: AlgoTypes) {
+    public static generateSecret(algo?: AlgoTypes = AlgoTypes.Ripemd160) {
 
         let algoInstance: IHashAlgo;
         if (algo === AlgoTypes.Ripemd160) {

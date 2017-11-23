@@ -5,7 +5,7 @@ import {IEthAccount} from "./eth-account";
 const walletN = 256;
 
 export class EthEngine {
-  private web3: any;
+  protected web3: any;
   private contract: Contract;
 
   constructor(private abiConfiguration, private configuration, private bin) {
@@ -14,12 +14,6 @@ export class EthEngine {
     this.web3.defaultAccount = configuration.defaultWallet;
 
     this.contract = new this.web3.eth.Contract(abiConfiguration, configuration.contractAddress);
-  }
-
-  public getFunctionAbi(abi, name) {
-    return abi.find((ab) => {
-      return ab.name === name;
-    });
   }
 
   public createAccount(password): IEthAccount {
@@ -86,12 +80,12 @@ export class EthEngine {
    * @param generalParams
    * @param confirmation
    */
-  public async callFunction(name, params, generalParams, confirmation) {
+  public async callFunction(name, params, generalParams, confirmation?) {
     confirmation = confirmation === undefined ? 0 : confirmation;
-    const contract = new this.web3.eth.Contract(this.config, this.appConfig.contractAddress);
+    const contract = new this.web3.eth.Contract(this.abiConfiguration, this.configuration.contractAddress);
 
     if (generalParams.gas === undefined) {
-      const ets = await this.web3.eth.estimateGas({data: this.bin.code, to: this.appConfig.defaultWallet});
+      const ets = await this.web3.eth.estimateGas({data: this.bin.code, to: this.abiConfiguration.defaultWallet});
       generalParams.gas = ets;
       generalParams.gasLimit = ets * 2;
     }
