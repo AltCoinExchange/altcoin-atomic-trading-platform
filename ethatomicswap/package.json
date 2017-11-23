@@ -28,8 +28,9 @@
     "npm": "^5.5.1",
     "random-hex": "^1.0.2",
     "ripemd160": "^2.0.1",
+    "scrypt": "^6.0.3",
     "utf-8-validate": "^3.0.3",
-    "web3": "github:ethereum/web3.js",
+    "web3": "^1.0.0-beta.26",
     "web3-utils": "^1.0.0-beta.24",
     "webpack": "^3.8.1",
     "webpack-obfuscator": "^0.12.0"

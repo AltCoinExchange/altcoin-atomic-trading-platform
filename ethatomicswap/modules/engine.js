@@ -182,8 +182,6 @@ var Engine = function (configuration, appConfiguration, bin) {
      */
     this.CreateAccount = function(password) {
         var accounts = this.web3.eth.accounts;
-
-        console.log(password);
         var acc = accounts.create();
         var keystore = acc.encrypt(password, {n: this.walletN});
 

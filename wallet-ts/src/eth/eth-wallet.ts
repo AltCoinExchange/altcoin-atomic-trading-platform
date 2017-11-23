@@ -5,19 +5,20 @@
  * @company Altcoin Exchange, Inc.
  */
 
-import * as AppConfig from "./config/config-eth";
-import * as AtomicSwap from "ethatomicswap";
-import {AtomicSwapAbi} from "./config/abi/atomicswap";
-import {AtomicSwapBin} from "./config/abi/bin";
-import {Observable} from "rxjs/Observable";
+import * as eth_swap from "ethatomicswap";
 import "rxjs/add/observable/fromPromise";
 import "rxjs/add/operator/map";
+import {Observable} from "rxjs/Observable";
+import {AtomicSwapAbi} from "../config/abi/atomicswap";
+import {AtomicSwapBin} from "../config/abi/bin";
+import * as AppConfig from "../config/config-eth";
+import {IEthAccount} from "./eth-account";
 
 export class EthWallet {
   private atomicSwap: any;
 
   constructor() {
-    this.atomicSwap = new AtomicSwap(AtomicSwapAbi, AppConfig.EthConfiguration.hosts[0], AtomicSwapBin);
+    this.atomicSwap = new eth_swap.AtomicSwap(AtomicSwapAbi, AppConfig.EthConfiguration.hosts[0], AtomicSwapBin);
   }
 
   /**
@@ -34,7 +35,7 @@ export class EthWallet {
    * @param password
    * @returns {{wallet, keystore}}
    */
-  public create(password) {
+  public create(password): IEthAccount {
     return this.atomicSwap.engine.CreateAccount(password);
   }
 
