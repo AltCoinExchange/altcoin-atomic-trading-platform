@@ -1,7 +1,7 @@
 import "jest";
 import {EthWallet} from "../src/eth/eth-wallet";
 
-describe("EthWallet", () => {
+describe.skip("EthWallet", () => {
   it("Should be pass sanity", () => {
     expect(typeof EthWallet).toBe("function");
   });

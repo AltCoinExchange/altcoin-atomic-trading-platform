@@ -49,18 +49,21 @@
     "dts-bundle": "^0.7.3",
     "jest": "^20.0.4",
     "standard-version": "^4.2.0",
-    "ts-jest": "^20.0.10",
+    "ts-jest": "^20.0.14",
     "ts-loader": "^2.3.3",
     "tslint": "^5.6.0",
     "tslint-loader": "^3.5.3",
-    "typescript": "2.4.2",
+    "typescript": "^2.4.2",
+    "web3-typescript-typings": "^0.7.2",
     "webpack": "3.5.5",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
     "bitcore": "^4.1.1",
     "bitcore-mnemonic": "^1.5.0",
-    "rxjs": "^5.5.2"
+    "clone": "^2.1.1",
+    "web3": "^1.0.0-beta.26",
+    "web3-utils": "^1.0.0-beta.26"
   },
   "jest": {
     "transform": {
@@ -80,6 +83,9 @@
       "ts",
       "js",
       "json"
-    ]
+    ],
+    "moduleNameMapper": {
+      "@app/(.*)": "<rootDir>/src/$1"
+    }
   }
 }
