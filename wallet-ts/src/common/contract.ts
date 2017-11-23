@@ -18,12 +18,24 @@ export class Contract extends BtcTransaction {
         super(configuration);
     }
 
+    /**
+     * Flatten map
+     * @param arr
+     */
     private flatMap(arr) {
         return arr.reduce((a, b) => {
             return a.concat(b);
         }, []);
     }
 
+    /**
+     * Create redeem contract
+     * @param contract
+     * @param sig
+     * @param pubkey
+     * @param secret
+     * @returns {any}
+     */
     private redeemP2SHContract(contract, sig, pubkey, secret) {
         const script = new Script();
         script.add(sig);
@@ -38,6 +50,11 @@ export class Contract extends BtcTransaction {
         return script;
     }
 
+    /**
+     * Get atomic swap contract
+     * @param ct
+     * @returns {any}
+     */
     private extractAtomicSwapContract(ct: any) {
         const contract = new Script(ct);
         const pops = contract.toString().split(' ');
@@ -82,6 +99,12 @@ export class Contract extends BtcTransaction {
         };
     }
 
+    /**
+     * Call RPC generic procedure with parameters
+     * @param {string} method
+     * @param {any[]} params
+     * @returns {Promise<any>}
+     */
     private async callRPCProc(method: string, params: any[]) {
         return await axios.post(
           this.configuration.url,
@@ -100,6 +123,10 @@ export class Contract extends BtcTransaction {
         );
     }
 
+    /**
+     * Get fee per Kb
+     * @returns {Promise<any>}
+     */
     private async getFeePerKb() {
         const estimateRawResp = await this.callRPCProc('estimatesmartfee', [6]);
         return estimateRawResp.data.result.feerate;
@@ -134,7 +161,7 @@ export class Contract extends BtcTransaction {
      * @param lockTime
      * @param secretHash
      * @param privateKey
-     * @returns {Promise<{contract: any; contractP2SH: any; contractP2SHPkScript: any; contractTxHash: any; contractTx: any; contractFee: number; refundTx: any; refundFee: any}>}
+     * @returns {any}
      */
     public async buildContract(them, amount, lockTime, secretHash, privateKey) {
         const PK = PrivateKey.fromWIF(privateKey);
@@ -192,7 +219,7 @@ export class Contract extends BtcTransaction {
      * @param them
      * @param amount
      * @param privateKey
-     * @returns {Promise<{secretHash; secret; fee: number; contract: string; contractHex; contractTx; contractTxHex: string; rawTx: Promise<any>}>}
+     * @returns {any}
      */
     public async initiate(them, amount, privateKey) {
         const secret: SecretResult = SecretGenerator.generateSecret();
@@ -235,7 +262,7 @@ export class Contract extends BtcTransaction {
      * @param amount
      * @param secretHash
      * @param privkey
-     * @returns {Promise<{fee: number; contract: string; contractHex; contractTx; contractTxHex: string; rawTx: Promise<any>}>}
+     * @returns {any}
      */
     public async participate(them, amount, secretHash, privkey) {
         const lockTime = Util.getUnixTimeFor2Days();
@@ -380,7 +407,7 @@ export class Contract extends BtcTransaction {
      * Audit contract
      * @param ct
      * @param tx
-     * @returns {Promise<{contractSH: any; contractValue: string; recipientAddress: string; refundAddress: string; secretHash: string; lockTime: Date}>}
+     * @returns {any}
      */
     public async auditContract(ct, tx) {
         const contract = new Script(ct);
