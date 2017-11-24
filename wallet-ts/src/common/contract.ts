@@ -19,16 +19,6 @@ export class Contract extends BtcTransaction {
     }
 
     /**
-     * Flatten map
-     * @param arr
-     */
-    private flatMap(arr) {
-        return arr.reduce((a, b) => {
-            return a.concat(b);
-        }, []);
-    }
-
-    /**
      * Create redeem contract
      * @param contract
      * @param sig
@@ -459,9 +449,15 @@ export class Contract extends BtcTransaction {
         };
     };
 
+    /**
+     * Extract secret
+     * @param redemptionTx
+     * @param secretHash
+     * @returns {any}
+     */
     public extractSecret(redemptionTx, secretHash) {
         const transaction = new Transaction(redemptionTx);
-        const txData = this.flatMap(
+        const txData = Util.flatMap(
           transaction.toJSON().inputs.map(input => {
               const script = new Script(input.scriptString);
               const pops = script.toString().split(' ');

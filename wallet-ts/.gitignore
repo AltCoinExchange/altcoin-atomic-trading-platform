@@ -9,5 +9,5 @@
 !.travis.yml
 !LICENSE
 !.npmignore
-!__tests__/
-!__tests__/**/*
+!test/
+!test/**/*

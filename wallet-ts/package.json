@@ -75,11 +75,11 @@
       "src/**/*.ts"
     ],
     "coveragePathIgnorePatterns": [
-      "/__tests__/",
+      "/test/",
       "/node_modules/"
     ],
     "testEnvironment": "node",
-    "testRegex": "__tests__/.*\\.spec\\.ts$",
+    "testRegex": "test/.*\\.spec\\.ts$",
     "moduleFileExtensions": [
       "ts",
       "js",

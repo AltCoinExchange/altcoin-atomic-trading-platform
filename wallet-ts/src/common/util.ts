@@ -31,6 +31,21 @@ export class Util {
         return Util.getCurrentUnixTime();
     }
 
+    /**
+     * Flatten map
+     * @param arr
+     */
+    public static flatMap(arr) {
+        return arr.reduce((a, b) => {
+            return a.concat(b);
+        }, []);
+    }
+
+    /**
+     * Get unix time
+     * @param {number} appendDays
+     * @returns {number}
+     */
     private static getCurrentUnixTime(appendDays = 0) {
         const currDate = new Date();
         currDate.setDate(currDate.getDate() + appendDays);
