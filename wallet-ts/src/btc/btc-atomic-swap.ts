@@ -1,5 +1,11 @@
+import {IAtomicSwap} from "../atomic-swap";
 import {SecretGenerator, SecretResult} from "../common/hashing";
-import {BtcInitiateData, BtcParticipateData, BtcRedeemData} from "./atomic-swap";
+import {
+    BtcExtractSecretData,
+    BtcExtractSecretParams,
+    BtcInitiateData, BtcInitiateParams, BtcParticipateData, BtcParticipateParams,
+    BtcRedeemData, BtcRedeemParams, BtcRefundData, BtcRefundParams,
+} from "./atomic-swap";
 import {BtcAuditContractData} from "./atomic-swap/btc-audit-contract-data";
 import {BtcContractBuilder} from "./btc-contract-builder";
 import {Util} from './util';
@@ -13,23 +19,22 @@ const Buffer = require('buffer').Buffer;
 
 import * as Hashing from '../common/hashing';
 
-export class BtcAtomicSwap extends BtcTransaction {
+export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
+
     constructor(configuration: any) {
         super(configuration);
     }
 
     /**
-     * Initiate contract
-     * @param them
-     * @param amount
-     * @param privateKey
-     * @returns {any}
+     * Initiate atomic swap
+     * @param {BtcInitiateParams} params
+     * @returns {Promise<BtcInitiateData>}
      */
-    public async initiate(them, amount, privateKey) {
+    public async initiate(params: BtcInitiateParams): Promise<BtcInitiateData> {
         const secret: SecretResult = SecretGenerator.generateSecret();
         const lockTime = Util.getUnixTimeFor2Days();
-        const b = await BtcContractBuilder.buildContract(this.configuration, them, amount, lockTime, secret.secretHash, privateKey);
-
+        const b = await BtcContractBuilder.buildContract(this.configuration, params.address, params.amount,
+          lockTime, secret.secretHash, params.secret /* Private key*/);
         const rawTx = await this.publishTx(b.contractTx.toString());
 
         return new BtcInitiateData(b.contractFee, b.contractP2SH.toString(), b.contract.toHex(), b.contractTx.hash,
@@ -37,16 +42,14 @@ export class BtcAtomicSwap extends BtcTransaction {
     }
 
     /**
-     * Participate to contract
-     * @param them
-     * @param amount
-     * @param secretHash
-     * @param privkey
-     * @returns {any}
+     * Participate atomic swap
+     * @param {BtcParticipateParams} params
+     * @returns {Promise<BtcParticipateData>}
      */
-    public async participate(them, amount, secretHash, privkey) {
+    public async participate(params: BtcParticipateParams): Promise<BtcParticipateData> {
         const lockTime = Util.getUnixTimeFor2Days();
-        const b = await BtcContractBuilder.buildContract(this.configuration, them, amount, lockTime, secretHash, privkey);
+        const b = await BtcContractBuilder.buildContract(this.configuration, params.address, params.amount,
+          lockTime, params.secret, params.privateKey);
 
         const rawTx = await this.publishTx(b.contractTx.toString());
 
@@ -55,29 +58,25 @@ export class BtcAtomicSwap extends BtcTransaction {
     }
 
     /**
-     * Redeem contract
-     * @param strCt
-     * @param strCtTx
-     * @param secret
-     * @param privateKey
-     * @returns {Promise<{redeemTx: string; rawTx: any}>}
+     * Redeem atomic swap
+     * @param {BtcRedeemParams} params
+     * @returns {Promise<BtcRedeemData>}
      */
-    public async redeem(strCt, strCtTx, secret, privateKey) {
-
+    public async redeem(params: BtcRedeemParams): Promise<BtcRedeemData> {
         // TODO: change strCt, strCtTx to ct, ctTx
-        const contract = new Script(strCt);
-        const pushes = BtcContractBuilder.extractAtomicSwapContract(strCt);
+        const contract = new Script(params.contractBin);
+        const pushes = BtcContractBuilder.extractAtomicSwapContract(params.contractBin);
 
         if (!pushes) {
             console.log('contract is not an atomic swap script recognized by this tool');
             return;
         }
 
-        const ctTx = new Transaction(strCtTx);
+        const ctTx = new Transaction(params.contractTx);
 
         const recipientAddrString = pushes.recipientHash.replace('0x', '');
         const recipientAddress = Util.NewAddressPubKeyHash(recipientAddrString, 'testnet');
-        const contractP2SH = Util.NewAddressScriptHash(strCt, this.configuration.network);
+        const contractP2SH = Util.NewAddressScriptHash(params.contractBin, this.configuration.network);
 
         let ctTxOutIdx = -1;
 
@@ -97,7 +96,7 @@ export class BtcAtomicSwap extends BtcTransaction {
             return;
         }
 
-        const PK = PrivateKey.fromWIF(privateKey);
+        const PK = PrivateKey.fromWIF(params.secret);
         const newRawAddr = PK.toPublicKey().toAddress(this.configuration.network);
         const redeemToAddr = new Address(newRawAddr);
 
@@ -142,13 +141,38 @@ export class BtcAtomicSwap extends BtcTransaction {
         redeemTx.uncheckedAddInput(input);
 
         const inputIndex = 0;
-        const {sig, pubKey} = await BtcContractBuilder.createSig(redeemTx, inputIndex, contract, recipientAddress, privateKey);
-        const script = BtcContractBuilder.redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
+        const {sig, pubKey} = await BtcContractBuilder.createSig(redeemTx, inputIndex, contract, recipientAddress, params.secret);
+        const script = BtcContractBuilder.redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), params.hashedSecret);
         redeemTx.inputs[0].setScript(script);
 
         const res = await this.publishTx(redeemTx.toString());
 
         return new BtcRedeemData(redeemTx.toString(), res);
+    }
+
+    /**
+     * Extract secret
+     * @param {BtcExtractSecretParams} extractSecretParams
+     * @returns {Promise<BtcExtractSecretData>}
+     */
+    public async extractSecret(extractSecretParams: BtcExtractSecretParams): Promise<BtcExtractSecretData> {
+        const transaction = new Transaction(extractSecretParams.redemptionTx);
+        const txData = Util.flatMap(
+          transaction.toJSON().inputs.map(input => {
+              const script = new Script(input.scriptString);
+              const pops = script.toString().split(' ');
+              const data = pops.filter(opcode => opcode.indexOf('0x') !== -1).map(opdata => opdata.replace('0x', ''));
+              return data;
+          }),
+        );
+        const secret = txData.find(sc => {
+            return new Hashing.Ripemd160().buffer(Buffer.from(sc, 'hex')) === extractSecretParams.hashedSecret;
+        });
+        return secret;
+    }
+
+    refund(refundParams: BtcRefundParams): Promise<BtcRefundData> {
+        return undefined;
     }
 
     /**
@@ -199,27 +223,5 @@ export class BtcAtomicSwap extends BtcTransaction {
 
         return new BtcAuditContractData(contractSH, contractValue, recipientAddress.toString(),
             refundAddress.toString(), pushes.secretHash.replace('0x', ''), new Date(pushes.lockTime * 1000));
-    }
-
-    /**
-     * Extract secret
-     * @param redemptionTx
-     * @param secretHash
-     * @returns {any}
-     */
-    public extractSecret(redemptionTx, secretHash) {
-        const transaction = new Transaction(redemptionTx);
-        const txData = Util.flatMap(
-          transaction.toJSON().inputs.map(input => {
-              const script = new Script(input.scriptString);
-              const pops = script.toString().split(' ');
-              const data = pops.filter(opcode => opcode.indexOf('0x') !== -1).map(opdata => opdata.replace('0x', ''));
-              return data;
-          }),
-        );
-        const secret = txData.find(sc => {
-            return new Hashing.Ripemd160().buffer(Buffer.from(sc, 'hex')) === secretHash;
-        });
-        return secret;
     }
 }
