@@ -108,21 +108,21 @@ export const WAIT_FOR_BREDEEM = "WAIT_FOR_BREDEEM";
 export const WAIT_FOR_BREDEEM_SUCCESS = "WAIT_FOR_BREDEEM_SUCCESS";
 export const WAIT_FOR_BREDEEM_FAIL = "WAIT_FOR_BREDEEM_FAIL";
 
-export class WaitForRedeemAction implements Action {
+export class WaitForBRedeemAction implements Action {
   readonly type = WAIT_FOR_BREDEEM;
 
   constructor(public payload) { // TODO
   }
 }
 
-export class WaitForRedeemSuccessAction implements Action {
+export class WaitForBRedeemSuccessAction implements Action {
   readonly type = WAIT_FOR_BREDEEM_SUCCESS;
 
   constructor(public payload) { // TODO
   }
 }
 
-export class WaitForRedeemFailAction implements Action {
+export class WaitForBRedeemFailAction implements Action {
   readonly type = WAIT_FOR_BREDEEM_FAIL;
 
   constructor(public payload) { // TODO
@@ -203,9 +203,9 @@ export type Actions = GenerateLinkAction
   | InformParticipateAction
   | InformParticipateSuccessAction
   | InformParticipateFailAction
-  | WaitForRedeemAction
-  | WaitForRedeemSuccessAction
-  | WaitForRedeemFailAction
+  | WaitForBRedeemAction
+  | WaitForBRedeemSuccessAction
+  | WaitForBRedeemFailAction
   | ExtractSecretAction
   | ExtractSecretSuccessAction
   | ExtractSecretFailAction

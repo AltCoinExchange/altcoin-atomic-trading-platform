@@ -19,6 +19,6 @@ export class QuoteEffect {
     );
 
   constructor(private quoteService: QuoteService,
-              private actions$: Actions,) {
+              private actions$: Actions) {
   }
 }
