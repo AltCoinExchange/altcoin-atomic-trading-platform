@@ -1,3 +1,4 @@
+import {ExtractSecretData} from "./extract-secret.data";
 import {ExtractSecretParams} from "./extract-secret.params";
 import {InitiateData} from "./initiate-data";
 import {InitiateParams} from "./initiate-params";

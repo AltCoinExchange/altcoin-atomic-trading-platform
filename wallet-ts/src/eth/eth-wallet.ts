@@ -2,6 +2,7 @@ import {AtomicSwapAbi} from "../config/abi/atomicswap";
 import {AtomicSwapBin} from "../config/abi/bin";
 import * as AppConfig from "../config/config-eth";
 import {EthAtomicSwap} from "./eth-atomic-swap";
+import {IEthAccount} from "./eth-account";
 
 export class EthWallet extends EthAtomicSwap {
 

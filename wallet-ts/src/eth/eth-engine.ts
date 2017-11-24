@@ -27,7 +27,7 @@ export class EthEngine {
     } as IEthAccount;
   }
 
-  public login(keystore, password): Account {
+  public login(keystore, password) {
     const accounts = this.web3.eth.accounts;
 
     const wallet = accounts.decrypt(keystore, password);
@@ -120,7 +120,7 @@ export class EthEngine {
     });
   }
 
-  public recoverAccount(privateKey, password): Account {
+  public recoverAccount(privateKey, password) {
     const accounts = this.web3.eth.accounts;
     const acc = accounts.privateKeyToAccount(this.web3.utils.asciiToHex(privateKey));
     return acc.encrypt(privateKey, password);
