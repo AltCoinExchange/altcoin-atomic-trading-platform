@@ -1,16 +1,15 @@
 import {IAtomicSwap} from "../atomic-swap/atomic-swap.interface";
-import {ExtractSecretData} from "../atomic-swap/extract-secret.data";
-import {InitiateData} from "../atomic-swap/initiate-data";
-import {ParticipateData} from "../atomic-swap/participate-data";
-import {RedeemData} from "../atomic-swap/redeem-data";
-import {RefundData} from "../atomic-swap/refund-data";
+import {EthExtractSecretData} from "./atomic-swap/eth-extract-secret-data";
+import {EthExtractSecretParams} from "./atomic-swap/eth-extract-secret-params";
+import {EthInitiateData} from "./atomic-swap/eth-initiate-data";
+import {EthInitiateParams} from "./atomic-swap/eth-initiate-params";
+import {EthParticipateData} from "./atomic-swap/eth-participate-data";
+import {EthParticipateParams} from "./atomic-swap/eth-participate-params";
+import {EthRedeemData} from "./atomic-swap/eth-redeem-data";
+import {EthRedeemParams} from "./atomic-swap/eth-redeem-params";
+import {EthRefundData} from "./atomic-swap/eth-refund-data";
+import {EthRefundParams} from "./atomic-swap/eth-refund-params";
 import {EthEngine} from "./eth-engine";
-import {EthExtractSecretData} from "./eth-extract-secret-data";
-import {EthInitiateData} from "./eth-initiate-data";
-import {EthInitiateParams} from "./eth-initiate-params";
-import {EthParticipateData} from "./eth-participate-data";
-import {EthRedeemData} from "./eth-redeem-data";
-import {EthRefundData} from "./eth-refund-data";
 
 export class EthAtomicSwap implements IAtomicSwap {
   public engine: EthEngine;
@@ -19,7 +18,7 @@ export class EthAtomicSwap implements IAtomicSwap {
     this.engine = new EthEngine(abiConfiguration, appConfiguration, bin);
   }
 
-  public async initiate(initParams: EthInitiateParams): Promise<InitiateData> {
+  public async initiate(initParams: EthInitiateParams): Promise<EthInitiateData> {
     const refundTime = initParams.refundTime;
     const secret = initParams.secret;
     const address = initParams.address;
@@ -41,7 +40,13 @@ export class EthAtomicSwap implements IAtomicSwap {
     });
   }
 
-  public async participate(refundTime, secret, address, amount, extendedParams): Promise<ParticipateData> {
+  public async participate(partParams: EthParticipateParams): Promise<EthParticipateData> {
+    const refundTime = partParams.refundTime;
+    const secret = partParams.secret;
+    const address = partParams.address;
+    const amount = partParams.amount;
+    const extendedParams = partParams.extendedParams;
+
     const conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : "ether";
 
     const params = {
@@ -56,7 +61,10 @@ export class EthAtomicSwap implements IAtomicSwap {
     });
   }
 
-  public async redeem(secret, hashedSecret, extendedParams): Promise<RedeemData> {
+  public async redeem(redeemParams: EthRedeemParams): Promise<EthRedeemData> {
+    const secret = redeemParams.secret;
+    const hashedSecret = redeemParams.hashedSecret;
+    const extendedParams = redeemParams.extendedParams;
 
     const params = {
       from: this.appConfiguration.defaultWallet,
@@ -69,7 +77,10 @@ export class EthAtomicSwap implements IAtomicSwap {
     });
   }
 
-  public async extractSecret(hashedSecret, extendedParams): Promise<ExtractSecretData> {
+  public async extractSecret(extractSecretParams: EthExtractSecretParams): Promise<EthExtractSecretData> {
+    const hashedSecret = extractSecretParams.hashedSecret;
+    const extendedParams = extractSecretParams.extendedParams;
+
     const params = {
       from: this.appConfiguration.defaultWallet,
       ...extendedParams,
@@ -82,7 +93,10 @@ export class EthAtomicSwap implements IAtomicSwap {
     });
   }
 
-  public async refund(hashedSecret, extendedParams): Promise<RefundData> {
+  public async refund(refundParams: EthRefundParams): Promise<EthRefundData> {
+    const hashedSecret = refundParams.hashedSecret;
+    const extendedParams = refundParams.extendedParams;
+
     const params = {
       from: this.appConfiguration.defaultWallet,
       ...extendedParams,

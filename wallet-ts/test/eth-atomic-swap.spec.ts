@@ -1,13 +1,12 @@
 // 7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 10, 2000000
 
-
 import "jest";
 import {SecretGenerator} from "../src/common/hashing";
 import {AtomicSwapAbi} from "../src/config/abi/atomicswap";
 import {AtomicSwapBin} from "../src/config/abi/bin";
 import {EthConfiguration} from "../src/config/config-eth";
 import {EthAtomicSwap} from "../src/eth/eth-atomic-swap";
-import {EthInitiateParams} from "../src/eth/eth-initiate-params";
+import {EthInitiateParams} from "../src/eth/atomic-swap/eth-initiate-params";
 
 describe("EthAtomicSwap", () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
