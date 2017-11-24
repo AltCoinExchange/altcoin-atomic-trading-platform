@@ -226,6 +226,6 @@ export class SwapEffect {
   constructor(private moscaService: MoscaService, private linkService: LinkService,
               private actions$: Actions,
               private store: Store<AppState>,
-              private swapService: SwapService, private http: Http) {
+              private swapService: SwapService) {
   }
 }
