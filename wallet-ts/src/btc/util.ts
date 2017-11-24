@@ -1,4 +1,4 @@
-import {Hash160} from './hashing';
+import {Hash160} from '../common/hashing';
 
 const Base58Check = require('bitcore').encoding.Base58Check;
 const Address = require('bitcore').Address;

@@ -9,8 +9,8 @@ const HDPrivateKey = bitcore.HDPrivateKey;
 const PrivateKey = bitcore.PrivateKey;
 
 export class BtcWallet {
-  private code: any;
-  private hierarchicalPrivateKey: any;
+  public code: any;
+  public hierarchicalPrivateKey: any;
 
   constructor(params: RegenerateBitcoinWallet);
   constructor(params: FreshBitcoinWallet) {

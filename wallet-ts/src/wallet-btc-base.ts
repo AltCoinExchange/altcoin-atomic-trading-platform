@@ -1,8 +1,8 @@
 import {BtcRpcConfiguration} from './config/config';
 import {BtcConfiguration} from './config/config-btc';
-import {Contract} from './common/contract';
+import {BtcAtomicSwap} from './btc/btc-atomic-swap';
 import * as Hashing from './common/hashing';
-import {Util} from './common/util';
+import {Util} from './btc/util';
 
 const Mnemonic = require('bitcore-mnemonic');
 const bitcore = require('bitcore');
@@ -95,24 +95,20 @@ export class BWallet {
    * @returns {Promise<{secret; secretHash; fee: number; contract: string; contractHex; contractTx; contractTxHex: string; rawTx: Promise<any>}>}
    */
   async initiate(them, amount, privateKey) {
-    const result: Hashing.SecretResult = Hashing.SecretGenerator.generateSecret(Hashing.AlgoTypes.Ripemd160);
-    const lockTime = Util.getUnixTimeFor2Days();
-
-    const contract = new Contract(this.configuration);
-
-    const b = await contract.buildContract(them, amount, lockTime, result.secretHash, privateKey);
-
-    const rawTx = await contract.publishTx(b.contractTx.toString());
-
-    return {
-      secret: result.secret,
-      secretHash: result.secretHash,
-      fee: b.contractFee,
-      contract: b.contractP2SH.toString(),
-      contractHex: b.contract.toHex(),
-      contractTx: b.contractTx.hash,
-      contractTxHex: b.contractTx.toString(),
-      rawTx,
-    };
+    // const result: Hashing.SecretResult = Hashing.SecretGenerator.generateSecret(Hashing.AlgoTypes.Ripemd160);
+    // const lockTime = Util.getUnixTimeFor2Days();
+    //
+    // const contract = new BtcAtomicSwap(this.configuration);
+    //
+    // return {
+    //   secret: result.secret,
+    //   secretHash: result.secretHash,
+    //   fee: b.contractFee,
+    //   contract: b.contractP2SH.toString(),
+    //   contractHex: b.contract.toHex(),
+    //   contractTx: b.contractTx.hash,
+    //   contractTxHex: b.contractTx.toString(),
+    //   rawTx,
+    // };
   }
 }
