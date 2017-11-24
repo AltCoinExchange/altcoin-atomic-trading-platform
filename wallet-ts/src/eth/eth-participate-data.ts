@@ -1,4 +1,4 @@
-import {ParticipateData} from "../common/participate-data";
+import {ParticipateData} from "../atomic-swap/participate-data";
 
 export class EthParticipateData extends ParticipateData {
 

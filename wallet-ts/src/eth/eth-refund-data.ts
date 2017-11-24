@@ -1,4 +1,4 @@
-import {RefundData} from "../common/refund-data";
+import {RefundData} from "../atomic-swap/refund-data";
 
 export class EthRefundData extends RefundData {
 
