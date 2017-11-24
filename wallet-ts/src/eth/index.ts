@@ -1,2 +1,2 @@
 export * from "./eth-wallet";
-export * from "./eth-account";
+export * from "./atomic-swap";
