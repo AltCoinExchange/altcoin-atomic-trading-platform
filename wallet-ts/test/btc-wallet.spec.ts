@@ -1,7 +1,7 @@
 "use strict";
 
 import "jest";
-import {BtcWallet} from "../src";
+import {BtctWallet} from "../src/btctestnet/btct-wallet";
 import {FreshBitcoinWallet} from "../src/btc/fresh-btc";
 import {RegenerateBitcoinWallet} from "../src/btc/regenerate-btc";
 
@@ -15,28 +15,28 @@ const regenerateWallet = new RegenerateBitcoinWallet(hdPrivateKey);
 
 describe("BtcWallet", () => {
   it("Should be pass sanity", () => {
-    expect(typeof BtcWallet).toBe("function");
+    expect(typeof BtctWallet).toBe("function");
   });
 
   it("Should be able to regenerate new wallet instance", () => {
-    const btcWallet = new BtcWallet(regenerateWallet);
+    const btcWallet = new BtctWallet(regenerateWallet);
     expect(btcWallet.hdPrivateKey.privateKey.toString())
       .toEqual("4ac5d28f380439fcb79b678cb00bdc13e11cbbf8020fbc46442b724f06412c91");
   });
 
   it("Should be able to create new wallet instance", () => {
-    const btcWallet = new BtcWallet(freshWallet);
+    const btcWallet = new BtctWallet(freshWallet);
     expect(btcWallet.hdPrivateKey.privateKey.toString())
       .toEqual("4ac5d28f380439fcb79b678cb00bdc13e11cbbf8020fbc46442b724f06412c91");
   });
 
   it("Should return wif from fresh instance", () => {
-    const btcWallet = new BtcWallet(freshWallet);
+    const btcWallet = new BtctWallet(freshWallet);
     expect(btcWallet.WIF).toEqual(WIF);
   });
 
   it("Should return wif from regenerated instance", () => {
-    const btcWallet = new BtcWallet(regenerateWallet);
+    const btcWallet = new BtctWallet(regenerateWallet);
     expect(btcWallet.WIF).toEqual(WIF);
   });
 });

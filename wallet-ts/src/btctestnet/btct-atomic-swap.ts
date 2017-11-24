@@ -1,4 +1,4 @@
-import {BtcAtomicSwap} from "../../dist/src/btc/btc-atomic-swap";
+import {BtcAtomicSwap} from "../btc/btc-atomic-swap";
 import {BtcRpcConfiguration} from "../config/config";
 import {BtcConfiguration} from "../config/config-btc";
 

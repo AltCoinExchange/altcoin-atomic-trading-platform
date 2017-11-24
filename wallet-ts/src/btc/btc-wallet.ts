@@ -12,8 +12,10 @@ export class BtcWallet {
     public btcConfiguration: any;
     public btcRpcConfiguration: any;
 
-    constructor(params: RegenerateBitcoinWallet);
-    constructor(params: FreshBitcoinWallet) {
+    constructor(btcConfiguration, btcRpcConfiguration, params: RegenerateBitcoinWallet);
+    constructor(btcConfiguration, btcRpcConfiguration, params: FreshBitcoinWallet) {
+        this.btcConfiguration = btcConfiguration;
+        this.btcRpcConfiguration = btcRpcConfiguration;
         if (params instanceof RegenerateBitcoinWallet) {
             this.hierarchicalPrivateKey = new HDPrivateKey(params.code);
         } else if (params instanceof FreshBitcoinWallet) {
