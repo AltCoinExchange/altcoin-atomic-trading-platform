@@ -1,5 +1,5 @@
-import {ParticipateData} from "../../atomic-swap/participate-data";
+import {BtcInitiateData} from "./btc-initiate-data";
 
-export class BtcParticipateData extends ParticipateData {
+export class BtcParticipateData extends BtcInitiateData {
 
 }

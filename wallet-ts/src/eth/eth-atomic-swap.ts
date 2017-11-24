@@ -35,7 +35,7 @@ export class EthAtomicSwap implements IAtomicSwap {
 
     return await this.engine.callFunction("initiate", [refundTime, secret, address], params).then((resp) => {
       // TODO map the fields to ethInitiateData
-      const initiateData = new EthInitiateData();
+      const initiateData = new EthInitiateData(null, secret);
       return initiateData;
     });
   }

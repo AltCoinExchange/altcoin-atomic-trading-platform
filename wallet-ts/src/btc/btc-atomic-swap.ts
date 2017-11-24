@@ -1,4 +1,6 @@
 import {SecretGenerator, SecretResult} from "../common/hashing";
+import {BtcInitiateData, BtcParticipateData, BtcRedeemData} from "./atomic-swap";
+import {BtcAuditContractData} from "./atomic-swap/btc-audit-contract-data";
 import {BtcContractBuilder} from "./btc-contract-builder";
 import {Util} from './util';
 import {BtcTransaction} from './btc-transaction';
@@ -30,32 +32,8 @@ export class BtcAtomicSwap extends BtcTransaction {
 
         const rawTx = await this.publishTx(b.contractTx.toString());
 
-        // console.log('Secret:              ', secret);
-        // console.log('Secret hash:         ', secretHash);
-        // console.log('Contract fee:        ', b.contractFee);
-        // console.log('Refund fee:          ', b.refundFee);
-        // console.log('\n');
-        // console.log(
-        //   'Contract:            ',
-        //   '(' + b.contractP2SH.toString() + ')',
-        // );
-        // console.log(b.contract.toHex());
-        // console.log('\n');
-        // console.log('Contract transaction:', '(' + b.contractTxHash + ')');
-        // console.log(b.contractTx.toString());
-        // console.log('\n');
-        // console.log('Refund transaction:  ', '(', b.refundTx.hash, ')');
-        // console.log(b.refundTx.toString());
-        // console.log('Published contract transaction: ', rawTx);
-        return {
-            ...secret,
-            fee: b.contractFee,
-            contract: b.contractP2SH.toString(),
-            contractHex: b.contract.toHex(),
-            contractTx: b.contractTx.hash,
-            contractTxHex: b.contractTx.toString(),
-            rawTx,
-        };
+        return new BtcInitiateData(b.contractFee, b.contractP2SH.toString(), b.contract.toHex(), b.contractTx.hash,
+          b.contractTx.toString(), rawTx, secret.secret, secret.secretHash);
     }
 
     /**
@@ -72,30 +50,8 @@ export class BtcAtomicSwap extends BtcTransaction {
 
         const rawTx = await this.publishTx(b.contractTx.toString());
 
-        console.log('Secret hash:         ', secretHash);
-        console.log('Contract fee:        ', b.contractFee);
-        console.log('Refund fee:          ', '-- TODO --');
-        console.log('\n');
-        console.log(
-          'Contract:            ',
-          '(' + b.contractP2SH.toString() + ')',
-        );
-        console.log(b.contract.toHex());
-        console.log('\n');
-        console.log('Contract transaction:', '(' + b.contractTxHash + ')');
-        console.log(b.contractTx.hex);
-        console.log('\n');
-        console.log('Refund transaction:  ', '(', b.refundTx.hash, ')');
-        console.log(b.refundTx.toString());
-        console.log('Published contract transaction: ', rawTx);
-        return {
-            fee: b.contractFee,
-            contract: b.contractP2SH.toString(),
-            contractHex: b.contract.toHex(),
-            contractTx: b.contractTx.hash,
-            contractTxHex: b.contractTx.toString(),
-            rawTx
-        };
+        return new BtcParticipateData(b.contractFee, b.contractP2SH.toString(),
+          b.contract.toHex(), b.contractTx.hash, b.contractTx.toString(), rawTx);
     }
 
     /**
@@ -190,18 +146,9 @@ export class BtcAtomicSwap extends BtcTransaction {
         const script = BtcContractBuilder.redeemP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), secret);
         redeemTx.inputs[0].setScript(script);
 
-        let res;
-        try {
-            res = await this.publishTx(redeemTx.toString());
+        const res = await this.publishTx(redeemTx.toString());
 
-        } catch (e) {
-            console.log(e);
-        }
-
-        return {
-            redeemTx: redeemTx.toString(),
-            rawTx: res,
-        };
+        return new BtcRedeemData(redeemTx.toString(), res);
     }
 
     /**
@@ -250,14 +197,8 @@ export class BtcAtomicSwap extends BtcTransaction {
         console.log('\n');
         console.log('Locktime:               ', new Date(pushes.lockTime * 1000));
 
-        return {
-            contractSH,
-            contractValue,
-            recipientAddress: recipientAddress.toString(),
-            refundAddress: refundAddress.toString(),
-            secretHash: pushes.secretHash.replace('0x', ''),
-            lockTime: new Date(pushes.lockTime * 1000), // TODO reverse the staff from buildCOntract ^^
-        };
+        return new BtcAuditContractData(contractSH, contractValue, recipientAddress.toString(),
+            refundAddress.toString(), pushes.secretHash.replace('0x', ''), new Date(pushes.lockTime * 1000));
     }
 
     /**

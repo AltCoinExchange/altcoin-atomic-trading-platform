@@ -1,4 +1,5 @@
-import {BtcAtomicSwapData} from "./atomic-swap";
+import {BtcAtomicSwapData, BtcRefundData} from "./atomic-swap";
+import {BtcAtomicSwapContractData} from "./atomic-swap/btc-atomic-swap-contract-data";
 import {BtcTransaction} from "./btc-transaction";
 import {Util} from "./util";
 const Script = require('bitcore').Script;
@@ -192,18 +193,11 @@ export class BtcContractBuilder {
         const contractTxHash = contractTx.hash;
         const contractFee = contractTx._getInputAmount() - contractTx._getOutputAmount();
 
-        const {refundFee, refundTx} = await BtcContractBuilder.buildRefund(config, contract.toHex(), contractTx.toString(), privateKey);
+        const refundData: BtcRefundData = await BtcContractBuilder.buildRefund(config,
+          contract.toHex(), contractTx.toString(), privateKey);
 
-        return {
-            contract,
-            contractP2SH,
-            contractP2SHPkScript,
-            contractTxHash,
-            contractTx,
-            contractFee,
-            refundTx,
-            refundFee,
-        };
+        return new BtcAtomicSwapContractData(contract, contractP2SH, contractP2SHPkScript,
+          contractTxHash, contractTx, contractFee, refundData.refundFee, refundData.refundTx);
     }
 
     /**
@@ -229,9 +223,9 @@ export class BtcContractBuilder {
      * @param strCt
      * @param strCtTx
      * @param privateKey
-     * @returns {Promise<{refundFee: number; refundTx: any}>}
+     * @returns {Promise<BtcRefundData>}
      */
-    public static async buildRefund(config, strCt, strCtTx, privateKey) {
+    public static async buildRefund(config, strCt, strCtTx, privateKey): Promise<BtcRefundData> {
         console.log('buildRefund');
 
         // TODO: change strCt, strCtTx to ct, ctTx
@@ -317,9 +311,6 @@ export class BtcContractBuilder {
 
         refundTx.inputs[0].setScript(script);
 
-        return {
-            refundFee,
-            refundTx,
-        };
+        return new BtcRefundData(refundFee, refundTx);
     }
 }
