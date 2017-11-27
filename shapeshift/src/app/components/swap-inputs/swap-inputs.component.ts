@@ -21,7 +21,7 @@ export class SwapInputsComponent implements OnInit {
   }
 
   submitSwap() {
-    let model = {
+    const model = {
       depositCoin: this.depositCoin,
       receiveCoin: this.receiveCoin.update({amount: this.receiveQuote}),
     };
@@ -31,9 +31,6 @@ export class SwapInputsComponent implements OnInit {
 
   updateDepositCoinAmount(depositCoinAmount: number) {
     this.depositChange.next(depositCoinAmount);
-    this.depositCoin = {
-      ...this.depositCoin,
-      amount: depositCoinAmount,
-    };
+    this.depositCoin = this.depositCoin.update(depositCoinAmount);
   }
 }

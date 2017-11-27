@@ -7,7 +7,6 @@ import * as quoteAction from "./actions/quote.action";
 import * as walletAction from "./actions/wallet.action";
 import {ShapeshiftStorage} from "./common/shapeshift-storage";
 import {AppState} from "./reducers/app.state";
-import {MoscaService} from "./services/mosca.service";
 
 @Component({
   selector: "app",
@@ -21,7 +20,7 @@ export class AppComponent implements OnInit {
   public altcoinLogo = "assets/icon/altcoin-icon.png";
   private menuOpened = false;
 
-  constructor(private store: Store<AppState>, private moscaService: MoscaService) {
+  constructor(private store: Store<AppState>) {
     let codes;
     if (environment.production) {
       codes = Wallet.code;

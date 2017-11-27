@@ -1,4 +1,4 @@
-import * as swap from '../actions/swap.action';
+import * as swap from "../actions/swap.action";
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
 import {Coin} from "../models/coins/coin.model";
 
@@ -10,7 +10,7 @@ export interface State {
   coins: {
     receiveCoin: Coin,
     depositCoin: Coin,
-  }
+  },
 }
 
 export const initialState: State = {
@@ -21,7 +21,7 @@ export const initialState: State = {
   coins: {
     receiveCoin: undefined,
     depositCoin: undefined,
-  }
+  },
 };
 
 export function reducer(state = initialState, action: swap.Actions): State {
@@ -35,7 +35,7 @@ export function reducer(state = initialState, action: swap.Actions): State {
         coins: {
           receiveCoin: action.payload.coin,
           depositCoin: action.payload.depositCoin,
-        }
+        },
       };
     }
     case swap.INITIATE_SUCCESS: {

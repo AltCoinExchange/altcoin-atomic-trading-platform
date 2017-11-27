@@ -13,4 +13,18 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
   constructor() {
     super();
   }
+
+  toPersistable() {
+    return {
+      type: this.type,
+      amount: this.amount,
+    };
+  }
+
+  update(coin: EthCoinModel): EthCoinModel {
+    const model = new EthCoinModel();
+    model.amount = coin.amount;
+    return model;
+  }
+
 }

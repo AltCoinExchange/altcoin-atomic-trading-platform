@@ -1,4 +1,4 @@
-import {BtcWalletTestNet, FreshBitcoinWallet, RegenerateBitcoinWallet} from "ts-wallet";
+import {BtcWalletTestNet} from "ts-wallet";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 
@@ -12,6 +12,20 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
 
   constructor() {
     super();
+  }
+
+
+  toPersistable() {
+    return {
+      type: this.type,
+      amount: this.amount,
+    };
+  }
+
+  update(coin: BtcCoinModel): BtcCoinModel {
+    const model = new BtcCoinModel();
+    model.amount = coin.amount;
+    return model;
   }
 
 }

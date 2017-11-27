@@ -24,6 +24,7 @@ import {BigchainDbService} from "./services/bigchain-db.service";
 import {MoscaService} from "./services/mosca.service";
 import {BalanceEffect} from "./effects/balance.effect";
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {SideAEffect} from "./effects/side-A.effect";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
       RouterEffects,
       QuoteEffect,
       BalanceEffect,
+      SideAEffect,
     ]),
   ],
   providers: [

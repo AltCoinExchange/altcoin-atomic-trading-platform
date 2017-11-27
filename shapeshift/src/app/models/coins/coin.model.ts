@@ -8,4 +8,7 @@ export abstract class Coin {
   readonly fullName: string;
   amount: number;
 
+  abstract update(coin: Coin): Coin;
+
+  abstract toPersistable();
 }
