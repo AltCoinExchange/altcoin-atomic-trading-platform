@@ -24,7 +24,6 @@ import {RouterLink} from '@angular/router';
 })
 export class AppComponent implements OnInit {
   public altcoinLogo = 'assets/icon/altcoin-icon.png';
-  private menuOpened: boolean = false;
 
   constructor(private store: Store<AppState>, private moscaService: MoscaService) {
     let codes;
@@ -77,14 +76,5 @@ export class AppComponent implements OnInit {
 
     }
   }
-
-  private toggleMenu(){
-    this.menuOpened = !this.menuOpened;
-  }
-
-  private closeMenu(){
-    this.menuOpened = false;
-  }
-
 
 }
