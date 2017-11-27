@@ -6,7 +6,7 @@ export const SET_ETH_WALLET = 'SET_ETH_WALLET';
 export class SetBtcWalletAction implements Action {
   readonly type = SET_BTC_WALLET;
 
-  constructor(public payload: {xprivkey, WIF}) {
+  constructor(public payload: {xprivkey, WIF, address}) {
 
   }
 }

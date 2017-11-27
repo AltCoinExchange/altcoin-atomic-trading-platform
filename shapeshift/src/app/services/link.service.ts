@@ -7,8 +7,8 @@ import {BigchainDbService} from './bigchain-db.service';
 @Injectable()
 export class LinkService {
 
-  public generateLink(coins): Observable<string> {
-    const address = coins.receiveCoin.generateNewAddress('');
+  public generateLink(coins, wallet): Observable<string> {
+    const address = wallet[coins.receiveCoin.name].address;
     console.log(coins.receiveCoin.name, address);
     const link = assembleLink(
       coins.depositCoin.name,

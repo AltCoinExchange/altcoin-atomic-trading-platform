@@ -1,9 +1,11 @@
 import {Injectable} from "@angular/core";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
-import {Action} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import * as sideA from "../actions/side-A.action";
 import {LinkService} from "../services/link.service";
+import {getWalletState} from "../selectors/wallets.selector";
+import {AppState} from "../reducers/app.state";
 
 @Injectable()
 export class SideAEffect {
@@ -12,10 +14,10 @@ export class SideAEffect {
   $generateLink: Observable<Action> = this.actions$
     .ofType(sideA.GENERATE_LINK)
     .map(toPayload)
-    .mergeMap((payload) => {
-
+    .withLatestFrom(this.store.select(getWalletState))
+    .mergeMap(([payload, wallet]) => {
       console.log(payload);
-      return this.linkService.generateLink(payload).map(resp => { // TODO provide implementation
+      return this.linkService.generateLink(payload, wallet).map(resp => { // TODO provide implementation
           console.log('LINK::: ', resp);
           return new sideA.GenerateLinkSuccessAction(resp);
         }).catch(err => Observable.of(new sideA.GenerateLinkFailAction(err)));
@@ -142,7 +144,7 @@ export class SideAEffect {
 
   $done;
 
-  constructor(private actions$: Actions, private linkService: LinkService) {
+  constructor(private actions$: Actions, private linkService: LinkService, private store: Store<AppState>) {
 
   }
 }

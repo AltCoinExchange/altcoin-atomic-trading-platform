@@ -55,10 +55,12 @@ export class AppComponent implements OnInit {
       btc.recover(wallet);
     }
     const WIF = btc.WIF;
+    const address = btc.generateAddressFromWif(WIF);
     const xkey = btc.hdPrivateKey.xprivkey;
     this.store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,
+      address,
     }));
     return {
       xprivkey: xkey,
@@ -68,9 +70,11 @@ export class AppComponent implements OnInit {
 
   private generateEthWallet(xprivKey) {
     const eth = new EthWalletTestnet();
+    const recovered = eth.recover(xprivKey, "");
     const ethWallet = {
       privateKey: xprivKey,
-      keystore: eth.recover(xprivKey, ""),
+      keystore: recovered,
+      address: recovered.address,
     };
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
   }
