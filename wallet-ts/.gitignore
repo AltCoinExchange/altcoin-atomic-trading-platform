@@ -5,9 +5,11 @@
 !*.js
 !*.json
 !*.md
+!*.sh
 !.gitignore
 !.travis.yml
 !LICENSE
 !.npmignore
 !test/
 !test/**/*
+!fix_scripts/

@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
 
     const recovered = eth.recover(xprivKey, "abc");
     console.log(recovered);
-    eth.login(recovered, "abc");
+    // eth.login(recovered, "abc");
     const ethWallet = {
       privateKey: xprivKey,
       keystore: recovered,
