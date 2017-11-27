@@ -1,18 +1,20 @@
 import * as bitcore from "bitcore";
 import * as Mnemonic from "bitcore-mnemonic";
+import {BtcAtomicSwap} from "./btc-atomic-swap";
 import {FreshBitcoinWallet} from "./fresh-btc";
 import {RegenerateBitcoinWallet} from "./regenerate-btc";
 
 const HDPrivateKey = bitcore.HDPrivateKey;
 const PrivateKey = bitcore.PrivateKey;
 
-export class BtcWallet {
+export class BtcWallet extends BtcAtomicSwap {
   public code: any;
   public hierarchicalPrivateKey: any;
   public btcConfiguration: any;
   public btcRpcConfiguration: any;
 
   constructor(btcConfiguration, btcRpcConfiguration) {
+    super(btcRpcConfiguration);
     this.btcConfiguration = btcConfiguration;
     this.btcRpcConfiguration = btcRpcConfiguration;
   }

@@ -158,7 +158,7 @@ export class BtcContractBuilder {
      */
     public static async buildContract(config, them, amount, lockTime, secretHash, privateKey) {
         const PK = PrivateKey.fromWIF(privateKey);
-        const refundAddr = PK.toPublicKey().toAddress(config);
+        const refundAddr = PK.toPublicKey().toAddress(config.network);
 
         const themAddr = new Address(them);
 

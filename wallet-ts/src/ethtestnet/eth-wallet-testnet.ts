@@ -1,7 +1,7 @@
 import {AtomicSwapAbi} from "../config/abi/atomicswap";
 import {AtomicSwapBin} from "../config/abi/bin";
 import * as AppConfig from "../config/config-eth";
-import {EthWallet} from "../eth/eth-wallet";
+import {EthWallet} from "../eth";
 
 export class EthWalletTestnet extends EthWallet {
   constructor() {
