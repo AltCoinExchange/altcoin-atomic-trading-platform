@@ -4,6 +4,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    z-index: 2;
 
     .mat-tab-nav-bar{
         padding: 0;
@@ -28,7 +29,7 @@
 
     text-transform: uppercase;
     font-weight: 500;
-    font-size: 13px;
+    font-size: 100%;
 
     a{
         color: $text-color;
