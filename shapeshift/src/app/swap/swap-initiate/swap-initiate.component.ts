@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {Coin, CoinFactory} from '../../models/coins/coin.model';
+import {Coin} from '../../models/coins/coin.model';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../reducers/app.state';
 import * as swapAction from '../../actions/swap.action';
@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./swap-initiate.component.scss'],
   animations: [flyInOutAnimation, fadeInAnimation],
 })
-export class SwapInitiateComponent extends AnimationEnabledComponent implements OnInit {
+export class SwapInitiateComponent extends AnimationEnabledComponent implements OnInit, OnDestroy {
   $errorInitiate: Observable<string>;
   $loading: Observable<boolean>;
   $initiateData: Observable<any>;
@@ -68,10 +68,10 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
       },
     ));
 
-    //this.goToSwapComplete();
+    // this.goToSwapComplete();
   }
 
-  goToSwapComplete(){
+  goToSwapComplete() {
     setTimeout(() => {
       this.formFlyOut();
       setTimeout(() => {
@@ -94,9 +94,9 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
 
       this.offerTime = new Date(offerTimein2hrs - now);
 
-      this.receiveCoin = CoinFactory.createCoin(Coins[data.receiveCoin]);
-      this.receiveCoin.amount = data.receiveAmount;
-      this.depositCoin = CoinFactory.createCoin(Coins[data.depositCoin]);
+      // this.receiveCoin = CoinFactory.createCoin(Coins[data.receiveCoin]);
+      // this.receiveCoin.amount = data.receiveAmount;
+      // this.depositCoin = CoinFactory.createCoin(Coins[data.depositCoin]);
       this.depositCoin.amount = data.depositAmount;
       this.address = data.address;
     });

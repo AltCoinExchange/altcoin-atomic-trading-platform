@@ -19,15 +19,15 @@ export class BalanceEffect {
     .withLatestFrom(this.store.select(walletSelector.getWalletState))
     .mergeMap(([, wallet]) => {
         const coin = new EthCoinModel();
-        const address = coin.generateNewAddress(wallet[coin.name]);
-        const b = coin.getBalance(address);
-        return b.map(balance => {
-          const result = {
-            address, balance
-          };
-          return new balanceAction.GetEthBalanceSuccessAction(result);
-        });
-
+        // const address = coin.generateNewAddress(wallet[coin.name]);
+        // const b = coin.getBalance(address);
+        // return b.map(balance => {
+        //   const result = {
+        //     address, balance
+        //   };
+        //   return new balanceAction.GetEthBalanceSuccessAction(result);
+        // });
+        return Observable.empty();
       },
     );
 
@@ -36,11 +36,12 @@ export class BalanceEffect {
     .ofType(balanceAction.GET_BTC_BALANCE)
     .withLatestFrom(this.store.select(walletSelector.getWalletState))
     .mergeMap(([, wallet]) => {
-        const coin = new BtcCoinModel();
-        const address = coin.generateNewAddress('');
-        return this.http.get('https://chain.so/api/v2/get_address_balance/BTCTEST/' + address).map(resp => {
-          return new balanceAction.GetBtcBalanceSuccessAction({address, balance: resp.json().data.confirmed_balance,});
-        });
+        // const coin = new BtcCoinModel();
+        // const address = coin.generateNewAddress('');
+        // return this.http.get('https://chain.so/api/v2/get_address_balance/BTCTEST/' + address).map(resp => {
+        //   return new balanceAction.GetBtcBalanceSuccessAction({address, balance: resp.json().data.confirmed_balance,});
+        // });
+      return Observable.empty();
       },
     );
 

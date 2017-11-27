@@ -1,13 +1,10 @@
-import {AtomicSwapAbi} from "../config/abi/atomicswap";
-import {AtomicSwapBin} from "../config/abi/bin";
-import * as AppConfig from "../config/config-eth";
-import {EthAtomicSwap} from "./eth-atomic-swap";
 import {IEthAccount} from "./eth-account";
+import {EthAtomicSwap} from "./eth-atomic-swap";
 
 export class EthWallet extends EthAtomicSwap {
 
-  constructor() {
-    super(AtomicSwapAbi, AppConfig.EthConfiguration.hosts[0], AtomicSwapBin);
+  constructor(abi, eth, bin) {
+    super(abi, eth, bin);
   }
 
   public login(keystore, password) {
@@ -18,7 +15,7 @@ export class EthWallet extends EthAtomicSwap {
     return this.engine.createAccount(password);
   }
 
-  public recover(privateKey, password) {
+  public recover(privateKey, password?) {
     return this.engine.recoverAccount(privateKey, password);
   }
 

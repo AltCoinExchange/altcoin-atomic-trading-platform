@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Ts Wallet",
   "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "typings": "dist/src/index.d.ts",
   "jam": {
     "main": "./dist/index.browser.js"
   },

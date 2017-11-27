@@ -1,30 +1,25 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Wallet} from '../../../wallet/src';
-import {Store} from '@ngrx/store';
-import {AppState} from './reducers/app.state';
-import * as walletAction from './actions/wallet.action';
-import * as quoteAction from './actions/quote.action';
-import {BtcWalletModel} from './models/wallets/btc-wallet.model';
-import {EthWalletModel} from './models/wallets/eth-wallet.model';
-import {ShapeshiftStorage} from './common/shapeshift-storage';
-import {MoscaService} from './services/mosca.service';
-import {environment} from '../environments/environment';
-
-import {RouterLink} from '@angular/router';
-// import * as mqtt from 'mqtt';
-
+import {Component, OnInit, ViewEncapsulation} from "@angular/core";
+import {Store} from "@ngrx/store";
+import {BtcWalletTestNet, EthWalletTestnet, FreshBitcoinWallet, RegenerateBitcoinWallet} from "ts-wallet";
+import {Wallet} from "../../../wallet/src";
+import {environment} from "../environments/environment";
+import * as quoteAction from "./actions/quote.action";
+import * as walletAction from "./actions/wallet.action";
+import {ShapeshiftStorage} from "./common/shapeshift-storage";
+import {AppState} from "./reducers/app.state";
+import {MoscaService} from "./services/mosca.service";
 
 @Component({
-  selector: 'app',
+  selector: "app",
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
-    './app.component.scss',
+    "./app.component.scss",
   ],
-  templateUrl: './app.component.html',
+  templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  public altcoinLogo = 'assets/icon/altcoin-icon.png';
-  private menuOpened: boolean = false;
+  public altcoinLogo = "assets/icon/altcoin-icon.png";
+  private menuOpened = false;
 
   constructor(private store: Store<AppState>, private moscaService: MoscaService) {
     let codes;
@@ -32,13 +27,14 @@ export class AppComponent implements OnInit {
       codes = Wallet.code;
     } else {
       codes = {
-        phrase: 'away stomach fire police satoshi wire entire awake dilemma average town napkin'
+        phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin",
       };
     }
 
     console.log(codes);
-    this.generateBtcWallet(codes);
-    this.generateEthWallet(codes);
+    const btcWallet = this.generateBtcWallet(codes);
+
+    this.generateEthWallet(btcWallet.xprivkey);
 
     this.store.dispatch(new quoteAction.LoadQuoteAction());
   }
@@ -47,35 +43,35 @@ export class AppComponent implements OnInit {
 
   }
 
+// TODO create fromMnemonic method in wallets
   private generateBtcWallet(codes: any) {
-    const xprivKey = ShapeshiftStorage.get('xprivkey');
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    let wallet;
     if (!xprivKey) {
-      const btc = new Wallet.Bitcoin.BtcWallet(codes.phrase);
-      btc.generateHDPrivateKey('');
-
-      const btcWallet = {
-        xprivkey: btc.hierarhicalPrivateKey.xprivkey,
-        wif: btc.hierarhicalPrivateKey.privateKey.toWIF(),
-      } as BtcWalletModel;
-
-      this.store.dispatch(new walletAction.SetBtcWalletAction(btcWallet));
+      wallet = new FreshBitcoinWallet(codes.phrase);
+    } else {
+      wallet = new RegenerateBitcoinWallet(xprivKey);
     }
+    const btc = new BtcWalletTestNet(wallet);
+    const WIF = btc.WIF;
+    const xkey = btc.hdPrivateKey.xprivkey;
+    this.store.dispatch(new walletAction.SetBtcWalletAction({
+      xprivkey: xkey,
+      WIF,
+    }));
+    return {
+      xprivkey: xkey,
+      WIF,
+    };
   }
 
-  private generateEthWallet(codes: any) {
-    const ethprivkey = ShapeshiftStorage.get('ethprivkey');
-    if (!ethprivkey) {
-      const btc = new Wallet.Bitcoin.BtcWallet(codes.phrase);
-      btc.generateHDPrivateKey('');
-      const eth = new Wallet.Ethereum.EthWallet();
-      const privateKey = btc.hierarhicalPrivateKey.xprivkey.toString();
-      const ethWallet = {
-        privateKey: privateKey,
-        keystore: eth.recover(privateKey, '')
-      } as EthWalletModel;
-
-      this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
-    }
+  private generateEthWallet(xprivKey) {
+    const eth = new EthWalletTestnet();
+    const ethWallet = {
+      privateKey: xprivKey,
+      keystore: eth.recover(xprivKey, ""),
+    };
+    this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
   }
 
   private toggleMenu() {
