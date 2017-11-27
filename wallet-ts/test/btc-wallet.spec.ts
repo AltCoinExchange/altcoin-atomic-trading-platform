@@ -19,24 +19,28 @@ describe("BtcWallet", () => {
   });
 
   it("Should be able to regenerate new wallet instance", () => {
-    const btcWallet = new BtcWalletTestNet(regenerateWallet);
+    const btcWallet = new BtcWalletTestNet();
+    btcWallet.recover(regenerateWallet)
     expect(btcWallet.hdPrivateKey.privateKey.toString())
       .toEqual("4ac5d28f380439fcb79b678cb00bdc13e11cbbf8020fbc46442b724f06412c91");
   });
 
   it("Should be able to create new wallet instance", () => {
-    const btcWallet = new BtcWalletTestNet(freshWallet);
+    const btcWallet = new BtcWalletTestNet();
+    btcWallet.create(freshWallet);
     expect(btcWallet.hdPrivateKey.privateKey.toString())
       .toEqual("4ac5d28f380439fcb79b678cb00bdc13e11cbbf8020fbc46442b724f06412c91");
   });
 
   it("Should return wif from fresh instance", () => {
-    const btcWallet = new BtcWalletTestNet(freshWallet);
+    const btcWallet = new BtcWalletTestNet();
+    btcWallet.create(freshWallet);
     expect(btcWallet.WIF).toEqual(WIF);
   });
 
   it("Should return wif from regenerated instance", () => {
-    const btcWallet = new BtcWalletTestNet(regenerateWallet);
+    const btcWallet = new BtcWalletTestNet();
+    btcWallet.recover(regenerateWallet);
     expect(btcWallet.WIF).toEqual(WIF);
   });
 });

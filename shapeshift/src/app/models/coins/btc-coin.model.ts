@@ -10,8 +10,8 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
   readonly fullName: string = "Bitcoin";
   amount: number;
 
-  constructor(btcWallet: FreshBitcoinWallet | RegenerateBitcoinWallet) {
-    super(btcWallet);
+  constructor() {
+    super();
   }
 
 }

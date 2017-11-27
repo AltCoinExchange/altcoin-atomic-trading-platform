@@ -1,10 +1,8 @@
-import {SwapProcess} from '../models/swap-process.model';
-import * as swap from '../actions/start.action';
-import {EthCoinModel} from '../models/coins/eth-coin.model';
-import {BtcCoinModel} from '../models/coins/btc-coin.model';
-import {Coin} from '../models/coins/coin.model';
-import {SwapSpinners} from '../models/swap-spinners.enum';
-import {ShapeshiftStorage} from '../common/shapeshift-storage';
+import * as swap from "../actions/start.action";
+import {BtcCoinModel} from "../models/coins/btc-coin.model";
+import {EthCoinModel} from "../models/coins/eth-coin.model";
+import {SwapProcess} from "../models/swap-process.model";
+import {SwapSpinners} from "../models/swap-spinners.enum";
 
 export interface State {
   swapProcess: SwapProcess;
@@ -12,18 +10,17 @@ export interface State {
 }
 
 export const initialState: State = {
-  swapProcess: undefined
-  //   : {
-  //   depositCoin: new EthCoinModel(ShapeshiftStorage.get('ethprivkey'), JSON.parse(ShapeshiftStorage.get('ethkeystore'))),
-  //   receiveCoin: new BtcCoinModel(ShapeshiftStorage.get('xprivkey')),
-  //   activeStep: 1,
-  //   status: {
-  //     initiated: SwapSpinners.Waiting,
-  //     participated: SwapSpinners.Waiting,
-  //     redeeming: SwapSpinners.Waiting,
-  //     done: SwapSpinners.Waiting,
-  //   }
-  // } as SwapProcess
+  swapProcess: {
+    depositCoin: new EthCoinModel(),
+    receiveCoin: new BtcCoinModel(),
+    activeStep: 1,
+    status: {
+      initiated: SwapSpinners.Waiting,
+      participated: SwapSpinners.Waiting,
+      redeeming: SwapSpinners.Waiting,
+      done: SwapSpinners.Waiting,
+    },
+  } as SwapProcess
   ,
   link: undefined,
 };

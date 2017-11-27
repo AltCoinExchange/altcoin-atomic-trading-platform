@@ -47,12 +47,14 @@ export class AppComponent implements OnInit {
   private generateBtcWallet(codes: any) {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     let wallet;
+    const btc = new BtcWalletTestNet();
     if (!xprivKey) {
       wallet = new FreshBitcoinWallet(codes.phrase);
+      btc.create(wallet);
     } else {
       wallet = new RegenerateBitcoinWallet(xprivKey);
+      btc.recover(wallet);
     }
-    const btc = new BtcWalletTestNet(wallet);
     const WIF = btc.WIF;
     const xkey = btc.hdPrivateKey.xprivkey;
     this.store.dispatch(new walletAction.SetBtcWalletAction({
