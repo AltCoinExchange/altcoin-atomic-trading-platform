@@ -18,7 +18,6 @@ import {AppState} from "./reducers/app.state";
 })
 export class AppComponent implements OnInit {
   public altcoinLogo = "assets/icon/altcoin-icon.png";
-  private menuOpened = false;
 
   constructor(private store: Store<AppState>) {
     let codes;
@@ -83,11 +82,4 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
   }
 
-  private toggleMenu() {
-    this.menuOpened = !this.menuOpened;
-  }
-
-  private closeMenu() {
-    this.menuOpened = false;
-  }
 }
