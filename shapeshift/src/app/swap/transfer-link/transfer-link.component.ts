@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {environment} from "../../../environments/environment";
+import {Go} from "../../actions/router.action";
 import {fadeInAnimation, flyInOutAnimation} from "../../animations/animations";
 import {AnimationEnabledComponent} from "../../common/animation.component";
 import {MessageTypes} from "../../models/message-types.enum";
@@ -43,7 +44,9 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
     setTimeout(() => {
       this.formFlyOut();
       setTimeout(() => {
-        this.router.navigate(["/complete"]);
+        this.store.dispatch(new Go({
+          path: ["/a/complete"],
+        }));
       }, 500);
     }, 1000);
   }

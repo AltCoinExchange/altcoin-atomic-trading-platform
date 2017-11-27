@@ -69,8 +69,12 @@ export class AppComponent implements OnInit {
   }
 
   private generateEthWallet(xprivKey) {
+    console.log('xprivKey', xprivKey);
     const eth = new EthWalletTestnet();
-    const recovered = eth.recover(xprivKey, "");
+
+    const recovered = eth.recover(xprivKey, "abc");
+    console.log(recovered);
+    eth.login(recovered, "abc");
     const ethWallet = {
       privateKey: xprivKey,
       keystore: recovered,

@@ -14,6 +14,9 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
     super();
   }
 
+  getInitParams(): any {
+    throw new Error("Method not implemented.");
+  }
 
   toPersistable() {
     return {

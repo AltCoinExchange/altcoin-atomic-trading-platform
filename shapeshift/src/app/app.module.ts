@@ -25,6 +25,7 @@ import {MoscaService} from "./services/mosca.service";
 import {BalanceEffect} from "./effects/balance.effect";
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {SideAEffect} from "./effects/side-A.effect";
+import {SideBEffect} from "./effects/side-B.effect";
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {SideAEffect} from "./effects/side-A.effect";
       QuoteEffect,
       BalanceEffect,
       SideAEffect,
+      SideBEffect,
     ]),
   ],
   providers: [

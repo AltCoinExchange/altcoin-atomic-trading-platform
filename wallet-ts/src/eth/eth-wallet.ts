@@ -7,7 +7,7 @@ export class EthWallet extends EthAtomicSwap {
     super(abi, eth, bin);
   }
 
-  public login(keystore, password) {
+  public login(keystore, password?) {
     return this.engine.login(keystore, password);
   }
 

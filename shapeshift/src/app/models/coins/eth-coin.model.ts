@@ -1,8 +1,11 @@
-import {EthWalletTestnet} from "ts-wallet";
+import {EthInitiateParams, EthWalletTestnet} from "ts-wallet";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
+import {EthInitiateData} from "ts-wallet";
+import {Observable} from "rxjs/Observable";
 
 export class EthCoinModel extends EthWalletTestnet implements Coin {
+  readonly timeout: number = 7200;
   readonly type: Coins = Coins.ETH;
   readonly name: string = Coins[Coins.ETH].toString();
   readonly icon: string = "assets/icon/eth-icon.png";
@@ -12,6 +15,15 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
 
   constructor() {
     super();
+  }
+
+
+  Inititate(address): Observable<EthInitiateData> {
+    return Observable.fromPromise(super.initiate(this.getInitParams(address)));
+  }
+
+  getInitParams(address: string): EthInitiateParams {
+    return new EthInitiateParams(this.timeout, address, this.amount.toString());
   }
 
   toPersistable() {

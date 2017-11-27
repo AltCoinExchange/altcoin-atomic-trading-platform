@@ -7,7 +7,7 @@ export const INITIATE_FAIL = "INITIATE_FAIL";
 export class InitiateAction implements Action {
   readonly type = INITIATE;
 
-  constructor(public payload) { // TODO create class for payload
+  constructor(public payload: any) {
   }
 }
 

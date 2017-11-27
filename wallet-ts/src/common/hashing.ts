@@ -67,5 +67,5 @@ export class SecretGenerator {
     const secret = secretBuffer.toString("hex");
     const secretHash = algoInstance.hash(secretBuffer);
     return new SecretResult(secret, secretHash);
-  };
+  }
 }

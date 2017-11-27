@@ -5,6 +5,7 @@ import * as fromAudit from './audit.reducer';
 import * as fromQuote from './quote.reducer';
 import * as fromBalance from './balance.reducer';
 import * as fromSideA from './side-a.reducer';
+import * as fromSideB from './side-b.reducer';
 
 
 export interface AppState {
@@ -15,4 +16,5 @@ export interface AppState {
   quote: fromQuote.State;
   balance: fromBalance.State;
   sideA: fromSideA.State;
+  sideB: fromSideB.State;
 }

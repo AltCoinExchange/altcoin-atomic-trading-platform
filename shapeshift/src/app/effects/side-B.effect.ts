@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Actions, Effect} from "@ngrx/effects";
+import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import * as sideB from "../actions/side-B.action";
@@ -10,8 +10,15 @@ export class SideBEffect {
   @Effect()
   $initiate: Observable<Action> = this.actions$
     .ofType(sideB.INITIATE)
-    .mergeMap(() => {
-        return Observable.empty().map(resp => { // TODO provide implementation
+    .map(toPayload)
+    .switchMap((payload) => {
+        const coin = payload.coin;
+        console.log("initiating");
+        coin.Inititate(payload.address).subscribe(r => {
+          console.log(r);
+        });
+        return coin.Inititate(payload.address).map(resp => { // TODO provide implementation
+          console.log(resp);
           return new sideB.InitiateSuccessAction(resp);
         }).catch(err => Observable.of(new sideB.InitiateFailAction(err)));
       },

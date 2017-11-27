@@ -1,4 +1,7 @@
 import {Coins} from "./coins.enum";
+import {BtcCoinModel} from "./btc-coin.model";
+import {EthCoinModel} from "./eth-coin.model";
+import {InitiateParams} from "ts-wallet";
 
 export abstract class Coin {
   readonly type: Coins;
@@ -11,4 +14,22 @@ export abstract class Coin {
   abstract update(coin: Coin): Coin;
 
   abstract toPersistable();
+
+  abstract getInitParams(address: string): InitiateParams;
+}
+
+export class CoinFactory {
+  static createCoin(coin: Coins): Coin {
+    switch (coin) {
+      case Coins.BTC: {
+        return new BtcCoinModel();
+      }
+      case Coins.ETH: {
+        return new EthCoinModel();
+      }
+      default: {
+        throw new Error();
+      }
+    }
+  }
 }

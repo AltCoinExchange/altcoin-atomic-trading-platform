@@ -9,7 +9,6 @@ import {
   RedeemSuccessAction,
   WaitForParticipateSuccessAction
 } from '../actions/start.action';
-import * as swapAction from '../actions/swap.action';
 import * as auditContractAction from '../actions/swap-audit.action';
 import * as walletSelector from '../selectors/wallets.selector';
 import {Go} from '../actions/router.action';

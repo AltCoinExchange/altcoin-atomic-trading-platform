@@ -4,13 +4,13 @@
   </div>
   <div class="form-content">
     <div fxLayout="column" fxLayoutAlign="center start" class="swap-steps" fxFlex.gt-xs="50%" fxFlex.xs="100%">
-      <app-shapeshift-status-spinner [status]="($status | async)?.initiated"
+      <app-shapeshift-status-spinner [status]="status?.initiated"
                                      text="INITIATED"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="($status | async)?.participated"
+      <app-shapeshift-status-spinner [status]="status?.participated"
                                      text="PARTICIPATED"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="($status | async)?.redeeming"
+      <app-shapeshift-status-spinner [status]="status?.redeeming"
                                      text="REDEEMING"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="($status | async)?.done" text="DONE"></app-shapeshift-status-spinner>
+      <app-shapeshift-status-spinner [status]="status?.done" text="DONE"></app-shapeshift-status-spinner>
     </div>
   </div>
   <div class="form-footer">

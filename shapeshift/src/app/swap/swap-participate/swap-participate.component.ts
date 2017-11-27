@@ -5,8 +5,6 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../reducers/app.state';
 import {SwapAuditAction} from '../../actions/swap-audit.action';
 import * as fromSwap from '../../selectors/swap.selector';
-import * as swapAction from '../../actions/swap.action';
-import * as startAction from '../../actions/start.action';
 import {Observable} from 'rxjs/Observable';
 
 @Component({

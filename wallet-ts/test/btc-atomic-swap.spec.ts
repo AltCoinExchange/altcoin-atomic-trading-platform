@@ -27,7 +27,7 @@ describe("EthAtomicSwap", () => {
 
     try {
       await ethSwap.initiate(
-        new EthInitiateParams(7200, "0x" + secret.secretHash, EthConfiguration.hosts[1].defaultWallet, "10", 2000000),
+        new EthInitiateParams(7200, EthConfiguration.hosts[1].defaultWallet, "10"),
       );
     } catch (e) {
       expect(e.message).toEqual("Returned error: insufficient funds for gas * price + value");

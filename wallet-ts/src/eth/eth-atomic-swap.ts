@@ -10,6 +10,7 @@ import {EthRedeemParams} from "./atomic-swap/eth-redeem-params";
 import {EthRefundData} from "./atomic-swap/eth-refund-data";
 import {EthRefundParams} from "./atomic-swap/eth-refund-params";
 import {EthEngine} from "./eth-engine";
+import {SecretGenerator, SecretResult} from "../common/hashing";
 
 export class EthAtomicSwap implements IAtomicSwap {
   public engine: EthEngine;
@@ -19,23 +20,21 @@ export class EthAtomicSwap implements IAtomicSwap {
   }
 
   public async initiate(initParams: EthInitiateParams): Promise<EthInitiateData> {
+    const secret: SecretResult = SecretGenerator.generateSecret();
     const refundTime = initParams.refundTime;
-    const secret = initParams.secret;
+    const secretHash = secret.secretHash.indexOf("0x") === -1 ? "0x" + secret.secretHash : secret.secretHash;
     const address = initParams.address;
-    const amount = initParams.amount;
-    const extendedParams = initParams.extendedParams;
-    const conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : "ether";
-
     const params = {
-      ...extendedParams,
       from: this.appConfiguration.defaultWallet,
-      value: this.engine.toWei(amount, conversion),
-      conversion: undefined,
+      value: this.engine.toWei(initParams.amount, "ether"),
     };
-
-    return await this.engine.callFunction("initiate", [refundTime, secret, address], params).then((resp) => {
+    // tslint:disable-next-line
+    console.log("starting initiation");
+    return await this.engine.callFunction("initiate", [refundTime, secretHash, address], params).then((resp) => {
       // TODO map the fields to ethInitiateData
-      const initiateData = new EthInitiateData(null, secret);
+      // tslint:disable-next-line
+      console.log(resp);
+      const initiateData = new EthInitiateData(null, null);
       return initiateData;
     });
   }
