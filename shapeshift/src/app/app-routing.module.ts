@@ -7,6 +7,9 @@ export const ROUTES: Routes = [
   },
   {
     path: 'wallet', loadChildren: 'app/wallet/wallet.module#WalletModule'
+  },
+  {
+    path: 'links', loadChildren: 'app/links/links.module#LinksModule'
   }
 ];
 

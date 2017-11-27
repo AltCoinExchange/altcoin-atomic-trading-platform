@@ -3,6 +3,7 @@
 @import 'helpers';
 @import 'loader';
 @import 'nav-menu';
+@import 'tabs';
 
 $fa-font-path: "../../node_modules/font-awesome/fonts";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
@@ -21,6 +22,12 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: $text-color;
+}
+
+@media only screen and (max-width: 600px) {
+     body { 
+        font-size: 12px; 
+     }
 }
 
 input[type='number'] {
@@ -80,7 +87,7 @@ a{
 
   input{
     flex: 1 1 auto;
-    font-size: 14px;
+    font-size: 100%;
     margin: 0px;
     padding: 10px;
     background-color: $second-gray;
@@ -116,17 +123,17 @@ a{
   .form-header{
     background-color: $second-gray;
     border-bottom: 1px solid $border-color;  
-    padding: 20px 0px;
+    padding: 20px 5px;
     text-align: center;
     p{
-        font-size: 16px;
+        font-size: 100%;
         font-weight: 500;
         margin: 0px;
     }
   }
 
   .form-content{
-    padding: 8% 12% 4% 12%;
+    padding: 5% 8%;
   }
 
   .form-footer{
@@ -136,7 +143,7 @@ a{
     p{
         margin: 0px;
         text-align: center;
-        font-size: 12px;
+        font-size: 85%;
     }
   }
 

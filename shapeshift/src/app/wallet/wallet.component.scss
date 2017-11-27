@@ -29,13 +29,18 @@
 
 .form{
     margin-bottom: 15px;
-    .form-content{
-        padding: 4% 12% 8% 12%;
+
+    .form-header{
+        padding: 10px 5px;
     }
 }
 
 .spacer{
     height: 50px;
+}
+
+.small-spacer{
+    height: 15px;
 }
 
 .message-box{

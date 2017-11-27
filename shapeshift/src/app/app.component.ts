@@ -19,6 +19,7 @@ import {AppState} from "./reducers/app.state";
 export class AppComponent implements OnInit {
   public altcoinLogo = "assets/icon/altcoin-icon.png";
   private menuOpened = false;
+  public altcoinLogo = 'assets/icon/altcoin-icon.png';
 
   constructor(private store: Store<AppState>) {
     let codes;
