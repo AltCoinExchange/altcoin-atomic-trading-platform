@@ -2,6 +2,8 @@ import {Coins} from "./coins.enum";
 import {BtcCoinModel} from "./btc-coin.model";
 import {EthCoinModel} from "./eth-coin.model";
 import {InitiateParams} from "ts-wallet";
+import {InitiateData} from "ts-wallet";
+import {Observable} from "rxjs/Observable";
 
 export abstract class Coin {
   readonly type: Coins;
@@ -16,6 +18,8 @@ export abstract class Coin {
   abstract toPersistable();
 
   abstract getInitParams(address: string): InitiateParams;
+
+  abstract Initiate(address: string): Observable<InitiateData>;
 }
 
 export class CoinFactory {

@@ -1,8 +1,8 @@
+import {Observable} from "rxjs/Observable";
+import {BtcInitiateParams, BtcWalletTestNet, InitiateData} from "ts-wallet";
+import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
-import {Observable} from "rxjs/Observable";
-import {BtcInitiateParams, InitiateData, BtcWalletTestNet} from "ts-wallet";
-import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 
 export class BtcCoinModel extends BtcWalletTestNet implements Coin {
   readonly type = Coins.BTC;
@@ -17,13 +17,12 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
   }
 
   Initiate(address: string): Observable<InitiateData> {
-    const wif = ShapeshiftStorage.get("btc-wif");
-    const btcInitParams = new BtcInitiateParams(7200, wif, address, this.amount);
-    return Observable.fromPromise(super.initiate(btcInitParams));
+    return Observable.fromPromise(super.initiate(this.getInitParams(address)));
   }
 
-  getInitParams(): any {
-    throw new Error("Method not implemented.");
+  getInitParams(address): BtcInitiateParams {
+    const wif = ShapeshiftStorage.get("btc-wif");
+    return new BtcInitiateParams(7200, wif, address, this.amount);
   }
 
   toPersistable() {

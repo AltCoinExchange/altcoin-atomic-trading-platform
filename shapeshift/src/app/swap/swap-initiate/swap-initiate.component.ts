@@ -15,6 +15,7 @@ import {AppState} from "../../reducers/app.state";
 import * as fromSwap from "../../selectors/swap.selector";
 import {InitiateParams} from "ts-wallet";
 import {Coins} from "../../models/coins/coins.enum";
+import {getBLoading} from "../../selectors/side-b.selector";
 
 @Component({
   selector: "app-swap-initiate",
@@ -41,7 +42,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     this.parseLink();
     this.infoMsg = "FOR TESTNET USE ONLY";
     this.$errorInitiate = this.store.select(fromSwap.getInitiateError);
-    this.$loading = this.store.select(fromSwap.getInitiateLoading);
+    this.$loading = this.store.select(getBLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);
 
     this.store.dispatch(new startAction.SetActiveStepAction(2)); //step 1?
