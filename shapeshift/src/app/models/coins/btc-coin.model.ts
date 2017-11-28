@@ -15,10 +15,6 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
     super();
   }
 
-  Inititate(address): Observable<any> {
-    return Observable.fromPromise(super.initiate(this.getInitParams(address)));
-  }
-
   getInitParams(): any {
     throw new Error("Method not implemented.");
   }
