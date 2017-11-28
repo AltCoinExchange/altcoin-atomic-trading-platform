@@ -43,9 +43,6 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
     this.$receiveCoin = this.store.select(swapSelector.getReceiveCoin);
 
-    this.$depositCoin.subscribe(r => {
-      console.log(r);
-    });
     const quotes = this.store.select(quoteSelector.getQuotes);
 
     this.$quote = Observable.combineLatest(
