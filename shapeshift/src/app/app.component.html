@@ -1,5 +1,5 @@
 <nav>
-  <a routerLink="/swap" class="logo" (click)="closeMenu()">
+  <a routerLink="/swap" class="logo">
     <img [src]="altcoinLogo">
   </a>
   <div class="nav-links" fxHide.xs="true">
@@ -10,24 +10,37 @@
         <li><a target="_blank" href="mailto:support@altcoin.io">Contact</a></li>
       </ul>
   </div>
-  <div class="bars-menu" fxHide="true" fxShow.xs="true">
-    <a (click)="toggleMenu()">
-      <div id="nav-icon" [class.open]="menuOpened">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </a>
-  </div>
+
 </nav>
-<div class="mobile-menu" [class.open]="menuOpened">
+<!-- <div class="mobile-menu" [class.open]="menuOpened">
   <div class="menu-links" fxLayout="column" fxLayoutAlign="center stretch">
     <div fxFlex="25%" class="menu-link-item"><a routerLink="/wallet" (click)="closeMenu()">Wallet</a></div>
     <div fxFlex="25%" class="menu-link-item"><a target="_blank" href="https://blog.altcoin.io/" (click)="closeMenu()">Blog</a></div>
     <div fxFlex="25%" class="menu-link-item"><a target="_blank" href="https://blog.altcoin.io/worlds-first-atomic-swap-wallet-from-altcoin-io-released-6f1cfc52d1cc" (click)="closeMenu()">FAQs</a></div>
     <div fxFlex="25%" class="menu-link-item"><a target="_blank" href="mailto:support@altcoin.io" (click)="closeMenu()">Contact</a></div>
   </div>
+</div> -->
+<div class="tabs" fxHide="true" fxShow.xs="true">
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link
+        routerLink="/swap"
+        routerLinkActive #swap="routerLinkActive"
+        [active]="swap.isActive">
+      Swap
+    </a>
+    <a mat-tab-link
+        routerLink="/wallet"
+        routerLinkActive #wallet="routerLinkActive"
+        [active]="wallet.isActive">
+      Wallet
+    </a>
+    <a mat-tab-link
+        routerLink="/more"
+        routerLinkActive #more="routerLinkActive"
+        [active]="more.isActive">
+      Links
+    </a>
+  </nav>
 </div>
 <main>
   <router-outlet></router-outlet>

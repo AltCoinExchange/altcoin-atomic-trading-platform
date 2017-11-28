@@ -11,16 +11,16 @@ nav{
   border: 0;
   -webkit-transition: all .5s ease;
   transition: all .5s ease;
-  height: 62px;
+  height: 60px;
   box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
 }
 
 main{
-  min-height: -webkit-calc(100% - 132px);    
-  min-height: -moz-calc(100% - 132px); 
-  min-height: calc(100% - 132px);
+  min-height: -webkit-calc(100% - 120px);    
+  min-height: -moz-calc(100% - 120px); 
+  min-height: calc(100% - 120px);
   overflow-y: scroll;  
-  padding-top: 62px;
+  padding-top: 60px;
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
@@ -75,57 +75,16 @@ a.logo{
   }
 }
 
-.bars-menu{
-  float: right;
-  padding-top: 20px;
-}
-
-.mobile-menu{
-  position: absolute;
-  background-color: $main-gray;
-  opacity: 0.95;
-  width: 100%;
-  height: 0px;
-  z-index: 100;
-  transition: all 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
-  .menu-links{
-    width: inherit;
-    height: inherit;
-    transition: all 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
-    .menu-link-item{
-      visibility: hidden;
-      text-align: center;
-      padding: 10%;
-      a{
-        font-size: 44pt;
-        font-weight: 500;
-        opacity: 1;
-      }
-    }
-  }
-  &.open{
-    height: 100%;
-    .menu-links{
-      padding: 62px 0px;
-      transition: all 500ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
-      .menu-link-item{
-        visibility: visible;
-      }
-    }
-  }
-  
-}
-
 footer {
   width: 100%;
-  height: 70px;
+  height: 60px;
   background-color: $main-gray;
 
   ul {
     text-align: center;
     width: 220px;
     list-style: none;
-    height: 70px;
+    height: 60px;
     margin: auto;
     padding: 0;
 
@@ -139,7 +98,7 @@ footer {
         display: inline-block;
         width: 32px;
         height: 32px;
-        margin-top: 20px;
+        margin-top: 15px;
       }
     }
   }  
