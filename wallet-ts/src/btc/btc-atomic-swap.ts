@@ -34,7 +34,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
         const secret: SecretResult = SecretGenerator.generateSecret();
         const lockTime = Util.getUnixTimeFor2Days();
         const b = await BtcContractBuilder.buildContract(this.configuration, params.address, params.amount,
-          lockTime, secret.secretHash, params.secret /* Private key*/);
+          lockTime, secret.secretHash, params.privKey /* Private key*/);
         const rawTx = await this.publishTx(b.contractTx.toString());
 
         return new BtcInitiateData(b.contractFee, b.contractP2SH.toString(), b.contract.toHex(), b.contractTx.hash,

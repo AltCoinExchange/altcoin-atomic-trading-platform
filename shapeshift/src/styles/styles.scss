@@ -2,7 +2,7 @@
 @import 'variables';
 @import 'helpers';
 @import 'loader';
-@import 'tabs';
+//@import 'tabs';
 
 $fa-font-path: "../../node_modules/font-awesome/fonts";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
@@ -24,8 +24,8 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-     body { 
-        font-size: 12px; 
+     body {
+        font-size: 12px;
      }
 }
 
@@ -38,10 +38,10 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-::-webkit-input-placeholder { 
+::-webkit-input-placeholder {
   color: $text-color;
 }
-:-moz-placeholder { 
+:-moz-placeholder {
  color:  $text-color;
  opacity:  1;
 }
@@ -49,25 +49,25 @@ input::-webkit-inner-spin-button {
  color:  $text-color;
  opacity:  1;
 }
-:-ms-input-placeholder { 
+:-ms-input-placeholder {
  color:  $text-color;
 }
-::-ms-input-placeholder { 
+::-ms-input-placeholder {
  color:  $text-color;
 }
 
-input:focus::-webkit-input-placeholder { 
-  color:transparent; 
+input:focus::-webkit-input-placeholder {
+  color:transparent;
 }
-input:focus:-moz-placeholder { 
-  color:transparent; 
-} 
-input:focus::-moz-placeholder { 
-  color:transparent; 
-} 
-input:focus:-ms-input-placeholder { 
-  color:transparent; 
-} 
+input:focus:-moz-placeholder {
+  color:transparent;
+}
+input:focus::-moz-placeholder {
+  color:transparent;
+}
+input:focus:-ms-input-placeholder {
+  color:transparent;
+}
 
 a{
   text-decoration: none;
@@ -117,11 +117,11 @@ a{
 
 .form{
   background-color: $main-gray;
-  border: 1px solid $border-color;  
+  border: 1px solid $border-color;
 
   .form-header{
     background-color: $second-gray;
-    border-bottom: 1px solid $border-color;  
+    border-bottom: 1px solid $border-color;
     padding: 20px 5px;
     text-align: center;
     p{
@@ -136,7 +136,7 @@ a{
   }
 
   .form-footer{
-    border-top: 1px solid $border-color;  
+    border-top: 1px solid $border-color;
     background-color: $second-gray;
     padding: 10px 0px;
     p{
