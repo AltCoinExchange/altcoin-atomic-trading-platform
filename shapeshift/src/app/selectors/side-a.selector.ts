@@ -5,3 +5,6 @@ export const getSideAState = createFeatureSelector<fromSideA.State>("sideA");
 
 export const getLink = createSelector(getSideAState,
   fromSideA.getLink);
+
+export const getAStatus = createSelector(getSideAState,
+  fromSideA.getAStatus);
