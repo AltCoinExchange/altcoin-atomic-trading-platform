@@ -9,5 +9,8 @@ export const getETHBalance = createSelector(getBalanceState,
 export const getBTCBalance = createSelector(getBalanceState,
   fromBalance.getBTCBalance);
 
-export const getBalanceLoading = createSelector(getBalanceState,
-  fromBalance.getLoading);
+export const getBtcLoading = createSelector(getBalanceState,
+  fromBalance.getBtcLoading);
+
+export const getEthLoading = createSelector(getBalanceState,
+  fromBalance.getEthLoading);

@@ -4,6 +4,7 @@ import {RouterModule} from '@angular/router';
 import {WalletComponent} from './wallet.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ShapeShiftCommonModule} from '../common/common.module';
+import {MatProgressSpinnerModule} from "@angular/material";
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import {ShapeShiftCommonModule} from '../common/common.module';
         path: '', component: WalletComponent
       }
     ]),
+    MatProgressSpinnerModule,
   ],
   declarations: [
     WalletComponent

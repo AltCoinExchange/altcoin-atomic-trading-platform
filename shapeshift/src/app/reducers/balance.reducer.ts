@@ -1,30 +1,36 @@
-import * as balance from '../actions/balance.action';
+import * as balance from "../actions/balance.action";
 
 export interface WalletRecord {
-  address: string,
-  balance: string,
+  address: string;
+  balance: string;
 }
 
 export interface State {
-  ETH: WalletRecord,
-  BTC: WalletRecord,
-  loading: boolean,
+  ETH: WalletRecord;
+  BTC: WalletRecord;
+  ethLoading: boolean;
+  btcLoading: boolean;
 }
 
 export const initialState: State = {
   ETH: undefined,
   BTC: undefined,
-  loading: false,
+  ethLoading: false,
+  btcLoading: false,
 };
 
 export function reducer(state = initialState, action: balance.Actions): State {
   switch (action.type) {
-
-    case balance.GET_BTC_BALANCE:
     case balance.GET_ETH_BALANCE: {
       return {
         ...state,
-        loading: true,
+        ethLoading: true,
+      };
+    }
+    case balance.GET_BTC_BALANCE: {
+      return {
+        ...state,
+        btcLoading: true,
       };
     }
 
@@ -32,7 +38,7 @@ export function reducer(state = initialState, action: balance.Actions): State {
       return {
         ...state,
         ETH: action.payload,
-        loading: false,
+        ethLoading: false,
       };
     }
 
@@ -40,7 +46,7 @@ export function reducer(state = initialState, action: balance.Actions): State {
       return {
         ...state,
         BTC: action.payload,
-        loading: false,
+        btcLoading: false,
       };
     }
 
@@ -50,6 +56,8 @@ export function reducer(state = initialState, action: balance.Actions): State {
 
   }
 }
-export const getLoading = (state: State) => state.loading;
+
+export const getEthLoading = (state: State) => state.ethLoading;
+export const getBtcLoading = (state: State) => state.btcLoading;
 export const getETHBalance = (state: State) => state.ETH;
 export const getBTCBalance = (state: State) => state.BTC;
