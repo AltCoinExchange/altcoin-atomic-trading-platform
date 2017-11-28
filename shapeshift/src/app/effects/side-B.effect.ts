@@ -1,8 +1,12 @@
 import {Injectable} from "@angular/core";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
-import {Action} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
+import {Go} from "../actions/router.action";
 import * as sideB from "../actions/side-B.action";
+import {AppState} from "../reducers/app.state";
+import {getBLink} from "../selectors/side-b.selector";
+import {MoscaService} from "../services/mosca.service";
 
 @Injectable()
 export class SideBEffect {
@@ -13,12 +17,7 @@ export class SideBEffect {
     .map(toPayload)
     .switchMap((payload) => {
         const coin = payload.coin;
-        console.log("initiating");
-        coin.Inititate(payload.address).subscribe(r => {
-          console.log(r);
-        });
-        return coin.Inititate(payload.address).map(resp => { // TODO provide implementation
-          console.log(resp);
+        return coin.Initiate(payload.address).map(resp => {
           return new sideB.InitiateSuccessAction(resp);
         }).catch(err => Observable.of(new sideB.InitiateFailAction(err)));
       },
@@ -27,18 +26,27 @@ export class SideBEffect {
   @Effect()
   $initiateSuccess: Observable<Action> = this.actions$
     .ofType(sideB.INITIATE_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideB.InformInitiateAction(resp);
-      });
+    .map(toPayload)
+    .mergeMap((payload) => {
+      return Observable.from([
+        new Go({
+          path: ["/b/complete"],
+        }),
+        new sideB.InformInitiateAction(payload),
+      ]);
     });
 
   @Effect()
   $informInitiate: Observable<Action> = this.actions$
     .ofType(sideB.INFORM_INITIATE)
-    .mergeMap(() => {
-        return Observable.empty().map(resp => { // TODO provide implementation
-          return new sideB.InformInitiateSuccessAction(resp);
+    .map(toPayload)
+    .withLatestFrom(this.store.select(getBLink))
+    .mergeMap(([payload, link]) => {
+        console.log("should inform", payload, link);
+        // TODO payload contains SECRET ------- TODO please correct this
+        console.log("TODO payload contains SECRET ------- TODO please correct this");
+        return this.moscaService.informInitiate(link, payload).map(() => {
+          return new sideB.InformInitiateSuccessAction(payload);
         }).catch(err => Observable.of(new sideB.InformInitiateFailAction(err)));
       },
     );
@@ -111,7 +119,7 @@ export class SideBEffect {
 
   $done;
 
-  constructor(private actions$: Actions) {
+  constructor(private actions$: Actions, private store: Store<AppState>, private moscaService: MoscaService) {
 
   }
 }

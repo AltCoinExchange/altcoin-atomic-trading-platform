@@ -1,3 +1,4 @@
+import axios from "axios";
 import * as bitcore from "bitcore";
 import * as Mnemonic from "bitcore-mnemonic";
 import {BtcAtomicSwap} from "./btc-atomic-swap";
@@ -25,6 +26,12 @@ export class BtcWallet extends BtcAtomicSwap {
 
   public get WIF(): string {
     return this.hierarchicalPrivateKey.privateKey.toWIF();
+  }
+
+  public async getbalance(address: string): Promise<any> {
+    return await axios.get("https://chain.so/api/v2/get_address_balance/BTCTEST/" + address).then((balance) => {
+      return balance.data.data.confirmed_balance;
+    });
   }
 
   public recover(params: RegenerateBitcoinWallet) {

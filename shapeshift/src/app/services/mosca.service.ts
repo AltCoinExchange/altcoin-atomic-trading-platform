@@ -29,6 +29,7 @@ export class MoscaService {
 
   public informInitiate(link, data: InitiateParams) {
     this.sendMsg(INITIATE + link, isString(data) ? data : JSON.stringify(data));
+    return Observable.of(true);
   }
 
   private sendMsg(topic, data) {

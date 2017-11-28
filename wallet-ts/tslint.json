@@ -4,6 +4,7 @@
 		"ordered-imports": false,
 		"object-literal-sort-keys": false,
 		"quotemark": true,
-		"max-classes-per-file": [7]
+		"max-classes-per-file": [7],
+		"radix": false
 	}
 }

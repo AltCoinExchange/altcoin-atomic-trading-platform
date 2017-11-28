@@ -1,10 +1,10 @@
 // 7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 10, 2000000
 
 import "jest";
-import {BtcWalletTestNet} from "../src/btctestnet";
-import {SecretGenerator} from "../src/common/hashing";
 
 import {BtcInitiateParams} from "../src/btc/atomic-swap/btc-initiate-params";
+import {BtcWalletTestNet} from "../src/btctestnet/btc-wallet-testnet";
+import {SecretGenerator} from "../src/common/hashing";
 
 describe("BtcAtomicSwap", () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -18,8 +18,9 @@ describe("BtcAtomicSwap", () => {
     const secret = SecretGenerator.generateSecret();
 
     try {
-        const wallet = new BtcWalletTestNet();
-        const result = await wallet.initiate(new BtcInitiateParams(7200, secret.secretHash, "n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.001"));
+      const wallet = new BtcWalletTestNet();
+      const result = await wallet
+        .initiate(new BtcInitiateParams(7200, secret.secretHash, "n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.001"));
     } catch (e) {
       expect(e.message).toEqual("insufficent funds");
     }

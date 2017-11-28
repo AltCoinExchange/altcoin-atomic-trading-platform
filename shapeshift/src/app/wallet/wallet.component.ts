@@ -1,22 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {Store} from "@ngrx/store";
-import {AppState} from "../reducers/app.state";
-import {GetBtcBalanceAction, GetEthBalanceAction} from "../actions/balance.action";
 import {Observable} from "rxjs/Observable";
-import {getBalanceLoading, getBTCBalance, getETHBalance} from "../selectors/balance.selector";
+import {GetBtcBalanceAction, GetEthBalanceAction} from "../actions/balance.action";
+import {MessageTypes} from "../models/message-types.enum";
+import {AppState} from "../reducers/app.state";
 import {WalletRecord} from "../reducers/balance.reducer";
-import { MessageTypes } from '../models/message-types.enum';
+import {getBTCBalance, getBtcLoading, getETHBalance, getEthLoading} from "../selectors/balance.selector";
 
 @Component({
-  selector: 'app-wallet',
-  templateUrl: './wallet.component.html',
-  styleUrls: ['./wallet.component.scss']
+  selector: "app-wallet",
+  templateUrl: "./wallet.component.html",
+  styleUrls: ["./wallet.component.scss"],
 })
 export class WalletComponent implements OnInit {
-
-  infoMsg : string;
+  infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
-  $loading: Observable<boolean>;
+  $ethLoading: Observable<boolean>;
+  $btcLoading: Observable<boolean>;
   $ethBalance: Observable<WalletRecord>;
   $btcBalance: Observable<WalletRecord>;
 
@@ -26,22 +26,24 @@ export class WalletComponent implements OnInit {
     this.store.dispatch(new GetEthBalanceAction());
     this.store.dispatch(new GetBtcBalanceAction());
 
-    this.$loading = this.store.select(getBalanceLoading);
+    this.$ethLoading = this.store.select(getEthLoading);
+    this.$btcLoading = this.store.select(getBtcLoading);
+
     this.$ethBalance = this.store.select(getETHBalance);
     this.$btcBalance = this.store.select(getBTCBalance);
   }
 
   ngOnInit() {
-    
+
   }
 
-  copyEthAddress(event){
+  copyEthAddress(event) {
     const copyText = <HTMLInputElement>document.getElementById("ethAddress");
     copyText.select();
     document.execCommand("Copy");
   }
 
-  copyBtcAddress(event){
+  copyBtcAddress(event) {
     const copyText = <HTMLInputElement>document.getElementById("btcAddress");
     copyText.select();
     document.execCommand("Copy");

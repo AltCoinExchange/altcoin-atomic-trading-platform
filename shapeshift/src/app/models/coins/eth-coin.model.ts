@@ -18,7 +18,7 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
   }
 
 
-  Inititate(address): Observable<EthInitiateData> {
+  Initiate(address): Observable<EthInitiateData> {
     return Observable.fromPromise(super.initiate(this.getInitParams(address)));
   }
 
