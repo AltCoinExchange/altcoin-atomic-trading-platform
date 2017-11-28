@@ -1,6 +1,7 @@
 import {BtcWalletTestNet} from "ts-wallet";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
+import {Observable} from "rxjs/Observable";
 
 export class BtcCoinModel extends BtcWalletTestNet implements Coin {
   readonly type = Coins.BTC;
@@ -12,6 +13,10 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
 
   constructor() {
     super();
+  }
+
+  Inititate(address): Observable<any> {
+    return Observable.fromPromise(super.initiate(this.getInitParams(address)));
   }
 
   getInitParams(): any {
