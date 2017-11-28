@@ -1,8 +1,9 @@
 <div fxLayout="row" fxLayoutAlign="center stretch">
     <div fxHide.sm="true" fxHide.xs="true">
     </div>
-    <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="90%">
+    <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
         <div class="spacer" fxHide.xs="true"></div>
+        <div class="small-spacer" fxHide="true" fxHide.xs="false"></div>
         <div class="message-box">
         <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
         </div>
@@ -19,7 +20,7 @@
                             <input class="url-copy" value="{{ ($ethBalance | async)?.address }}" id="ethAddress"/>
                             <p class="copy-icon">
                                 <a (click)="copyEthAddress($event)">
-                                <i class="fa fa-clone" aria-hidden="true"></i>
+                                    <i class="material-icons">content_copy</i>
                                 </a>
                             </p>
                         </div>
@@ -46,7 +47,7 @@
                             <input class="url-copy" value="{{ ($btcBalance | async)?.address }}" id="btcAddress"/>
                             <p class="copy-icon">
                                 <a (click)="copyBtcAddress($event)">
-                                <i class="fa fa-clone" aria-hidden="true"></i>
+                                    <i class="material-icons">content_copy</i>
                                 </a>
                             </p>
                         </div>

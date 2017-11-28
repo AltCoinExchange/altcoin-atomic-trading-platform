@@ -22,9 +22,6 @@ import * as swapSelector from "../../selectors/start.selector";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SwapStartComponent extends AnimationEnabledComponent implements OnInit {
-  @HostBinding("class") classes = "swap";
-
-  firstSpinner = true;
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
 
@@ -38,7 +35,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     super();
 
     this.store.dispatch(new swapAction.SetActiveStepAction(1));
-    this.infoMsg = "FOR TESTNET USE ONLY";
+    this.infoMsg = "For testnet use only";
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
     this.$receiveCoin = this.store.select(swapSelector.getReceiveCoin);

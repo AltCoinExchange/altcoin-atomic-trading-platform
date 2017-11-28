@@ -7,20 +7,18 @@
   <div fxLayout="column" fxFlex="33" fxFlexAlign="center" class="swap-icon arrows">
     <a *ngIf="swapEnabled;else swap_disabled" href="" (click)="animateCoinSwap($event)">
       <div fxShow.gt-xs="true" fxShow.xs="false">
-        <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
-        <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
+          <i class="material-icons md-48">swap_horiz</i>
       </div>
       <div fxShow.gt-xs="false" fxShow.xs="true">
-        <i class="fa fa-angle-left fa-2x" aria-hidden="true"></i>
-        <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+          <i class="material-icons md-36">swap_horiz</i>
       </div>
     </a>
     <ng-template #swap_disabled>
       <div fxShow.gt-xs="true" fxShow.xs="false">
-        <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
+          <i class="material-icons md-48">swap_horiz</i>
       </div>
       <div fxShow.gt-xs="false" fxShow.xs="true">
-        <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+          <i class="material-icons md-36">swap_horiz</i>
       </div>
     </ng-template>
   </div>

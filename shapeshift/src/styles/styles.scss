@@ -3,10 +3,12 @@
 @import 'helpers';
 @import 'loader';
 @import 'tabs';
+@import 'icons';
 
 $fa-font-path: "../../node_modules/font-awesome/fonts";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 html,
 body {
@@ -148,6 +150,18 @@ a{
 
 }
 
+@media only screen and (max-width: 600px) {
+  .form {
+    border-right: none;
+    border-left: none;
+
+    .form-content{
+      padding: 5%;
+    }
+
+  }
+}
+
 .qr-code {
   text-align: center;
   img{
@@ -160,7 +174,6 @@ a{
   flex: 0 1 auto;
   display: inline;
   margin-right: 10px;
-  font-size: 16px;
   font-weight: 600;
   a{
     cursor: pointer;

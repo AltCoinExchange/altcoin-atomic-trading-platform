@@ -39,7 +39,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
   constructor(private route: ActivatedRoute, private store: Store<AppState>, private router: Router) {
     super();
     this.parseLink();
-    this.infoMsg = "FOR TESTNET USE ONLY";
+    this.infoMsg = "For testnet use only";
     this.$errorInitiate = this.store.select(fromSwap.getInitiateError);
     this.$loading = this.store.select(fromSwap.getInitiateLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);

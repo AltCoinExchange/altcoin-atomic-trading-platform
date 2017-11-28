@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from "@angular/core";
+import {Component, OnInit, ViewEncapsulation, HostListener} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {BtcWalletTestNet, EthWalletTestnet, FreshBitcoinWallet, RegenerateBitcoinWallet} from "ts-wallet";
 import {Wallet} from "../../../wallet/src";
@@ -17,9 +17,13 @@ import {AppState} from "./reducers/app.state";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event){
+    this.didScroll = true;
+  } 
   public altcoinLogo = "assets/icon/altcoin-icon.png";
-  private menuOpened = false;
-
+  private headerHidden = false;
+  private didScroll = false;
+  
   constructor(private store: Store<AppState>) {
     let codes;
     if (environment.production) {
@@ -39,7 +43,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
-
+    this.hideHeaderOnScroll();
   }
 
 // TODO create fromMnemonic method in wallets
@@ -83,11 +87,23 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
   }
 
-  private toggleMenu() {
-    this.menuOpened = !this.menuOpened;
-  }
-
-  private closeMenu() {
-    this.menuOpened = false;
+  private hideHeaderOnScroll(){
+    var lastScrollTop = 0;
+    var delta = 5;
+    var navbarHeight = 60;
+    setInterval(() => {
+        if (this.didScroll) {
+          var st = document.documentElement.scrollTop;
+          if(Math.abs(lastScrollTop - st) <= delta)
+            return;
+          if (st > lastScrollTop && st > navbarHeight){
+            this.headerHidden = true;
+          } else {
+              this.headerHidden = false;
+          }
+          lastScrollTop = st;
+          this.didScroll = false;
+        }
+    }, 250);
   }
 }

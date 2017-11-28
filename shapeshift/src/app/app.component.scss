@@ -9,10 +9,14 @@ nav{
   z-index: 1030;
   background-color: $main-gray;
   border: 0;
-  -webkit-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
   height: 60px;
   box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
+
+  &.nav-up{
+    top: -60px;
+  }
 }
 
 main{

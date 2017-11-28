@@ -1,3 +1,6 @@
+<div class="message-box">
+  <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+</div>
 <div class="form">
   <div class="swap-start form-header">
     <p>Copy this URL and send to second party for deposit</p>
@@ -15,15 +18,12 @@
       <input class="url-copy" value="http://swap.altcoin.io/initiate/{{$link | async}}" id="inputLink"/>
       <p class="copy-icon">
         <!-- <a routerLink="/initiate/{{$link | async}}">
-          <i class="fa fa-clone" aria-hidden="true"></i>
+          <i class="material-icons">content_copy</i>
         </a> -->
         <a (click)="copyLink($event)">
-          <i class="fa fa-clone" aria-hidden="true"></i>
+            <i class="material-icons">content_copy</i>
         </a>
       </p>
-    </div>
-    <div class="message-box">
-        <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
     </div>
   </div>
   <div class="form-footer">
