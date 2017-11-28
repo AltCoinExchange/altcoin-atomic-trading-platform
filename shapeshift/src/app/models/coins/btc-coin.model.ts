@@ -1,7 +1,8 @@
-import {BtcWalletTestNet} from "ts-wallet";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 import {Observable} from "rxjs/Observable";
+import {BtcInitiateParams, InitiateData, BtcWalletTestNet} from "ts-wallet";
+import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 
 export class BtcCoinModel extends BtcWalletTestNet implements Coin {
   readonly type = Coins.BTC;
@@ -13,6 +14,12 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
 
   constructor() {
     super();
+  }
+
+  Initiate(address: string): Observable<InitiateData> {
+    const wif = ShapeshiftStorage.get("btc-wif");
+    const btcInitParams = new BtcInitiateParams(7200, wif, address, this.amount);
+    return Observable.fromPromise(super.initiate(btcInitParams));
   }
 
   getInitParams(): any {

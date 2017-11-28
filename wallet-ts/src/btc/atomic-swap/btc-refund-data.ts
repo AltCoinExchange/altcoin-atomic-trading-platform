@@ -1,11 +1,7 @@
 import {RefundData} from "../../atomic-swap";
 
 export class BtcRefundData extends RefundData {
-    refundFee: any;
-    refundTx: any;
-    constructor(refundFee: any, refundTx: any) {
+    constructor(public refundFee: any, public refundTx: any) {
         super();
-        this.refundFee = refundFee;
-        this.refundTx = refundTx;
     }
 }

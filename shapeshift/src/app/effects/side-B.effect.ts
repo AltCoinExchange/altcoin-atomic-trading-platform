@@ -13,11 +13,11 @@ export class SideBEffect {
     .map(toPayload)
     .switchMap((payload) => {
         const coin = payload.coin;
-        console.log("initiating");
-        coin.Inititate(payload.address).subscribe(r => {
+        console.log("initiating", coin);
+        coin.Initiate(payload.address).subscribe(r => {
           console.log(r);
         });
-        return coin.Inititate(payload.address).map(resp => { // TODO provide implementation
+        return Observable.empty().map(resp => { // TODO provide implementation
           console.log(resp);
           return new sideB.InitiateSuccessAction(resp);
         }).catch(err => Observable.of(new sideB.InitiateFailAction(err)));

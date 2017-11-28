@@ -1,2 +1,1 @@
-export {BtcWalletTestNet} from "./btc-wallet-testnet";
-export * from "./btc-atomic-swap-testnet";
+export * from "./btc-wallet-testnet";
