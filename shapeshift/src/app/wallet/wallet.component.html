@@ -13,7 +13,7 @@
                     <img class="header-icon" src="assets/icon/eth-icon-o.png" alt="">
                     <p>Ethereum</p>
                 </div>
-                <div class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
+                <div *ngIf="!($ethLoading | async)" class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
                     <div class="row" fxFlex="1">
                         <p class="label blue">Address</p>
                         <div class="input-box">
@@ -34,13 +34,19 @@
                         <p class="label"><a target="_blank" href="https://faucet.rinkeby.io/">ETH FAUCET</a></p>
                     </div>
                 </div>
+                <div *ngIf="($ethLoading | async)" class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
+                    <div class="spinner">
+                        <div class="circle-loader">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form" fxFlex="45%">
                 <div class="form-header">
                     <img class="header-icon" src="assets/icon/btc-icon-o.png" alt="">
                     <p>Bitcoin</p>
                 </div>
-                <div class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
+                <div *ngIf="!($btcLoading | async)" class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
                     <div class="row" fxFlex="1">
                         <p class="label blue">Address</p>
                         <div class="input-box">
@@ -60,6 +66,12 @@
                         <p class="label blue">Faucet</p>
                         <p class="label"><a target="_blank" href="https://testnet.coinfaucet.eu/en/">BTC FAUCET</a></p>  
                     </div>   
+                </div>
+                <div *ngIf="($btcLoading | async)" class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
+                    <div class="spinner">
+                        <div class="circle-loader">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
