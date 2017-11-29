@@ -1,4 +1,4 @@
-import * as btcswap from 'btc-atomic-swap';
+// import * as btcswap from 'btc-atomic-swap';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BigchainDbService} from './bigchain-db.service';

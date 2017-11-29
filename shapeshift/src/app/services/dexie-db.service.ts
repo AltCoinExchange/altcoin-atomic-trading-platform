@@ -2,13 +2,14 @@ import {Injectable} from "@angular/core";
 // import {environment} from "../../environments/environment";
 // import {Observable} from "rxjs/Observable";
 
-import Dexie from 'dexie';
+// import Dexie from 'dexie';
 
 @Injectable()
-export class DexieDbService<T> extends Dexie {
-  public default: Dexie.Table<T, number>;
+export class DexieDbService<T> {
+  // extends Dexie {
+  // public default: Dexie.Table<T, number>;
   constructor(name: string = 'default') {
-    super(name);
+    // super(name);
     const db = this;
     // Define tables and indexes
     //
