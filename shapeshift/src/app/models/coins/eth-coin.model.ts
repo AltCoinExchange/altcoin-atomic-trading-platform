@@ -24,7 +24,11 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
     this.login(keystore, xprivKey);
 
     const secretHash = data.secretHash;
-    const participateParams = new EthParticipateParams();
+    const participateParams = new EthParticipateParams(this.timeout,
+      secretHash.indexOf("0x") === -1 ? "0x" + secretHash : secretHash,
+      "0x" + data.address,
+      this.amount.toString());
+
     participateParams.secretHash = secretHash.indexOf("0x") === -1 ? "0x" + secretHash : secretHash;
     participateParams.address = "0x" + data.address;
     participateParams.refundTime = this.timeout;
