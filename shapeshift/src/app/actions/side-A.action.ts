@@ -67,6 +67,7 @@ export class ParticipateSuccessAction implements Action {
   readonly type = PARTICIPATE_SUCCESS;
 
   constructor(public payload) { // TODO
+    console.log(PARTICIPATE_SUCCESS, payload);
   }
 }
 
@@ -74,6 +75,7 @@ export class ParticipateFailAction implements Action {
   readonly type = PARTICIPATE_FAIL;
 
   constructor(public payload) { // TODO
+    console.log(PARTICIPATE_FAIL, payload);
   }
 }
 

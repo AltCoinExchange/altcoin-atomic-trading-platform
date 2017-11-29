@@ -1,8 +1,7 @@
-import {EthInitiateParams, EthWalletTestnet} from "ts-wallet";
+import {Observable} from "rxjs/Observable";
+import {EthInitiateData, EthInitiateParams, EthWalletTestnet, InitiateData, ParticipateData} from "ts-wallet";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
-import {EthInitiateData} from "ts-wallet";
-import {Observable} from "rxjs/Observable";
 
 export class EthCoinModel extends EthWalletTestnet implements Coin {
   readonly timeout: number = 7200;
@@ -17,6 +16,9 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
     super();
   }
 
+  Participate(data: InitiateData): Observable<ParticipateData> {
+    throw new Error("Method not implemented.");
+  }
 
   Initiate(address): Observable<EthInitiateData> {
     return Observable.fromPromise(super.initiate(this.getInitParams(address)));

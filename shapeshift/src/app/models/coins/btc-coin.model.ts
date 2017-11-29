@@ -1,5 +1,5 @@
 import {Observable} from "rxjs/Observable";
-import {BtcInitiateParams, BtcWalletTestNet, InitiateData} from "ts-wallet";
+import {BtcInitiateParams, BtcParticipateParams, BtcWalletTestNet, InitiateData, ParticipateData} from "ts-wallet";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
@@ -14,6 +14,17 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
 
   constructor() {
     super();
+  }
+
+  Participate(data: InitiateData): Observable<ParticipateData> {
+    const btcParticipateParams = new BtcParticipateParams();
+    btcParticipateParams.address = (<any>data).address;
+    btcParticipateParams.secretHash = data.secretHash;
+    btcParticipateParams.amount = this.amount;
+    btcParticipateParams.privateKey = ShapeshiftStorage.get("btc-wif");
+    btcParticipateParams.refundTime = 7200;
+    console.log('btcParticipateParams', btcParticipateParams);
+    return Observable.fromPromise(super.participate(btcParticipateParams));
   }
 
   Initiate(address: string): Observable<InitiateData> {

@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {Go} from "../actions/router.action";
 import * as sideA from "../actions/side-A.action";
 import {AppState} from "../reducers/app.state";
+import {getSwapProcess} from "../selectors/start.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
@@ -50,17 +51,19 @@ export class SideAEffect {
   @Effect()
   $waitForInitiateSuccess: Observable<Action> = this.actions$
     .ofType(sideA.WAIT_FOR_INITIATE_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideA.ParticipateAction(resp);
-      });
+    .map(toPayload)
+    .mergeMap((payload) => {
+      return Observable.of(new sideA.ParticipateAction(payload));
     });
 
   @Effect()
   $participate: Observable<Action> = this.actions$
     .ofType(sideA.PARTICIPATE)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
+    .map(toPayload)
+    .withLatestFrom(this.store.select(getSwapProcess))
+    .mergeMap(([payload, swapProcess]) => {
+      console.log(payload, swapProcess);
+      return swapProcess.depositCoin.Participate(payload).map(resp => { // TODO provide implementation
         return new sideA.ParticipateSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.ParticipateFailAction(err)));
     });

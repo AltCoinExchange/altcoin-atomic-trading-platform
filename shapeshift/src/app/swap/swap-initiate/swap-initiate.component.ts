@@ -45,7 +45,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     this.$loading = this.store.select(getBLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);
 
-    this.store.dispatch(new startAction.SetActiveStepAction(2)); //step 1?
+    this.store.dispatch(new startAction.SetActiveStepAction(2)); // step 1?
   }
 
   ngOnDestroy() {

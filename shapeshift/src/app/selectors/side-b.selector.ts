@@ -9,3 +9,7 @@ export const getBStatus = createSelector(getSideBState,
   fromSideB.getBStatus);
 export const getBLoading = createSelector(getSideBState,
   fromSideB.getBLoading);
+export const getBReceiveCoin = createSelector(getSideBState,
+  fromSideB.getBReceiveCoin);
+export const getBDepositCoin = createSelector(getSideBState,
+  fromSideB.getBDepositCoin);

@@ -5,7 +5,8 @@ import {Observable} from "rxjs/Observable";
 import {Go} from "../actions/router.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
-import {getBLink} from "../selectors/side-b.selector";
+import {getBLink, getBReceiveCoin} from "../selectors/side-b.selector";
+import {getWalletState} from "../selectors/wallets.selector";
 import {MoscaService} from "../services/mosca.service";
 
 @Injectable()
@@ -40,13 +41,28 @@ export class SideBEffect {
   $informInitiate: Observable<Action> = this.actions$
     .ofType(sideB.INFORM_INITIATE)
     .map(toPayload)
-    .withLatestFrom(this.store.select(getBLink))
-    .mergeMap(([payload, link]) => {
-        console.log("should inform", payload, link);
+    .withLatestFrom(
+      this.store.select(getBLink),
+      this.store.select(getBReceiveCoin),
+      this.store.select(getWalletState),
+      (payload, blink, bReceiveCoin, walletState) => {
+        return {
+          payload,
+          link: blink,
+          receiveCoin: bReceiveCoin,
+          wallet: walletState,
+        };
+      })
+    .mergeMap((data) => {
         // TODO payload contains SECRET ------- TODO please correct this
         console.log("TODO payload contains SECRET ------- TODO please correct this");
-        return this.moscaService.informInitiate(link, payload).map(() => {
-          return new sideB.InformInitiateSuccessAction(payload);
+        const address = data.wallet[data.receiveCoin.name].address;
+        data.payload = {
+          ...data.payload,
+          address,
+        };
+        return this.moscaService.informInitiate(data.link, data.payload).map(() => {
+          return new sideB.InformInitiateSuccessAction(data.payload);
         }).catch(err => Observable.of(new sideB.InformInitiateFailAction(err)));
       },
     );

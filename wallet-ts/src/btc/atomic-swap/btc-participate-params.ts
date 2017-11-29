@@ -2,7 +2,7 @@ import {ParticipateParams} from "../../atomic-swap/participate-params";
 
 export class BtcParticipateParams extends ParticipateParams {
   public refundTime;
-  public secret;
+  public secretHash;
   public privateKey;
   public address;
   public amount;

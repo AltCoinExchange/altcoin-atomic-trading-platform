@@ -1,5 +1,5 @@
 import {Observable} from "rxjs/Observable";
-import {InitiateData, InitiateParams} from "ts-wallet";
+import {InitiateData, InitiateParams, ParticipateData} from "ts-wallet";
 import {BtcCoinModel} from "./btc-coin.model";
 import {Coins} from "./coins.enum";
 import {EthCoinModel} from "./eth-coin.model";
@@ -20,6 +20,7 @@ export abstract class Coin {
   abstract getInitParams(address: string): InitiateParams;
 
   abstract Initiate(address: string): Observable<InitiateData>;
+  abstract Participate(data: InitiateData): Observable<ParticipateData>;
 }
 
 export class CoinFactory {

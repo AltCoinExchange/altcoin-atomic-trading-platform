@@ -22,13 +22,14 @@ export class MoscaService {
   }
 
   public waitForInitiate(link): Observable<InitiateData> {
-    const topic = INITIATE + link;
+    const topic = INITIATE + link.replace('=', '').replace('=', '');
     this.subscribeToTopic(topic);
-    return this.onMessage(topic);
+    return this.onMessage(topic).map(msg => JSON.parse(msg.message));
   }
 
   public informInitiate(link, data: InitiateParams) {
-    this.sendMsg(INITIATE + link, isString(data) ? data : JSON.stringify(data));
+    const topic = INITIATE + link.replace('=', '').replace('=', '');
+    this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }
 

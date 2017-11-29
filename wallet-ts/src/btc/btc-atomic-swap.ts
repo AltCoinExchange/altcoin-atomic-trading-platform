@@ -55,7 +55,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
   public async participate(params: BtcParticipateParams): Promise<BtcParticipateData> {
     const lockTime = Util.getUnixTimeFor2Days();
     const b = await BtcContractBuilder.buildContract(this.configuration, params.address, params.amount,
-      lockTime, params.secret, params.privateKey);
+      lockTime, params.secretHash, params.privateKey);
 
     const rawTx = await this.publishTx(b.contractTx.toString());
 

@@ -44,6 +44,16 @@ export function reducer(state = initialState, action: sideA.Actions): State {
         }
       };
     }
+    case sideA.PARTICIPATE_SUCCESS: {
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          participated: SwapSpinners.Completed,
+          redeeming: SwapSpinners.Active,
+        }
+      };
+    }
 
     default: {
       return state;
