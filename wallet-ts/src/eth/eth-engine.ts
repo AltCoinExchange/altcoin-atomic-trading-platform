@@ -120,7 +120,7 @@ export class EthEngine {
     });
   }
 
-  public recoverAccount(privateKey, password) {
+  public recoverAccount(privateKey, password?) {
     const accounts = this.web3.eth.accounts;
     const acc = accounts.privateKeyToAccount(this.web3.utils.asciiToHex(privateKey));
     return acc.encrypt(privateKey, password);

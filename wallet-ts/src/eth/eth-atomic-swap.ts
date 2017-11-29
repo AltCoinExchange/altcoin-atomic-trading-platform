@@ -39,6 +39,12 @@ export class EthAtomicSwap implements IAtomicSwap {
   }
 
   public async participate(partParams: EthParticipateParams): Promise<EthParticipateData> {
+
+    // tslint:disable-next-line
+    console.log("ne treba", partParams);
+    const keystore = this.engine.recoverAccount(partParams.privateKey);
+    this.engine.login(keystore, partParams.privateKey);
+
     const refundTime = partParams.refundTime;
     const secretHash = partParams.secretHash;
     const address = partParams.address;

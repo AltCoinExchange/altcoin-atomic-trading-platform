@@ -29,8 +29,8 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
     participateParams.address = "0x" + data.address;
     participateParams.refundTime = this.timeout;
     participateParams.amount = this.amount.toString();
-    console.log('participateParams', participateParams);
-    return Observable.from(super.participate(participateParams));
+
+    return Observable.from(super.participate(ethParams));
   }
 
   Initiate(address): Observable<EthInitiateData> {
