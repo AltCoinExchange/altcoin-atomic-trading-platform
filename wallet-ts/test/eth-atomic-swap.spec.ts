@@ -5,6 +5,7 @@ import {SecretGenerator} from "../src/common/hashing";
 import {AtomicSwapAbi} from "../src/config/abi/atomicswap";
 import {AtomicSwapBin} from "../src/config/abi/bin";
 import {EthConfiguration} from "../src/config/config-eth";
+import {EthParticipateParams} from "../src/eth/atomic-swap";
 import {EthAtomicSwap} from "../src/eth/eth-atomic-swap";
 import {EthInitiateParams} from "../src/eth/atomic-swap/eth-initiate-params";
 
@@ -27,7 +28,7 @@ describe("EthAtomicSwap", () => {
 
     try {
       await ethSwap.initiate(
-        new EthInitiateParams(7200, EthConfiguration.hosts[1].defaultWallet, "10"),
+        new EthInitiateParams(7200, EthConfiguration.hosts[1].defaultWallet, "0.001"),
       );
     } catch (e) {
       expect(e.message).toEqual("Returned error: insufficient funds for gas * price + value");
@@ -35,4 +36,26 @@ describe("EthAtomicSwap", () => {
 
   });
 
+  it("Should pass participate", async () => {
+      expect.assertions(1);
+
+      const ethSwap = new EthAtomicSwap(AtomicSwapAbi, EthConfiguration.hosts[0], AtomicSwapBin);
+
+      const newAccount = ethSwap.engine.createAccount("customPassword");
+      const store = newAccount.keystore;
+      ethSwap.engine.login(store, "customPassword");
+
+      const secret = SecretGenerator.generateSecret();
+
+      try {
+          const ethParams = new EthParticipateParams(7200,
+            "0xc979e7b3fe3f71c1682d071cf17773a955c9667b", "0x6c4d7a11fb699bb020e46f315d8cb87ef2c0f8c8", "0.1");
+          await ethSwap.participate(
+            ethParams
+            // new EthParticipateParams(7200, secret.secretHash, EthConfiguration.hosts[1].defaultWallet, "0.001"),
+          );
+      } catch (e) {
+          expect(e.message).toEqual("Returned error: insufficient funds for gas * price + value");
+      }
+  });
 });
