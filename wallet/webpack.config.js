@@ -60,6 +60,7 @@ var webpack_opts = {
     filename: libPath('index.js'),
     libraryTarget: 'commonjs2'
   },
+  devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.js'],
     modules: [
@@ -85,7 +86,7 @@ var webpack_opts = {
   },
   externals: [nodeExternals()],
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
     new webpack.LoaderOptionsPlugin({
       options: {
         tslint: {
