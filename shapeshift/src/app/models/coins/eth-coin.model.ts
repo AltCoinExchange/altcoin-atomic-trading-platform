@@ -1,7 +1,9 @@
 import {Observable} from "rxjs/Observable";
 import {EthInitiateData, EthInitiateParams, EthWalletTestnet, InitiateData, ParticipateData} from "ts-wallet";
+import {EthParticipateParams} from "../../../../../wallet-ts/src/eth/atomic-swap/eth-participate-params";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
+import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 
 export class EthCoinModel extends EthWalletTestnet implements Coin {
   readonly timeout: number = 7200;
@@ -17,7 +19,18 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
   }
 
   Participate(data: InitiateData): Observable<ParticipateData> {
-    throw new Error("Method not implemented.");
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    const keystore = this.recover(xprivKey);
+    this.login(keystore, xprivKey);
+
+    const secretHash = data.secretHash;
+    const participateParams = new EthParticipateParams();
+    participateParams.secretHash = secretHash.indexOf("0x") === -1 ? "0x" + secretHash : secretHash;
+    participateParams.address = "0x" + data.address;
+    participateParams.refundTime = this.timeout;
+    participateParams.amount = this.amount.toString();
+    console.log('participateParams', participateParams);
+    return Observable.from(super.participate(participateParams));
   }
 
   Initiate(address): Observable<EthInitiateData> {

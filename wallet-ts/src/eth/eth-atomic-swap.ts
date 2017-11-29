@@ -40,20 +40,16 @@ export class EthAtomicSwap implements IAtomicSwap {
 
   public async participate(partParams: EthParticipateParams): Promise<EthParticipateData> {
     const refundTime = partParams.refundTime;
-    const secret = partParams.secret;
+    const secretHash = partParams.secretHash;
     const address = partParams.address;
     const amount = partParams.amount;
-    const extendedParams = partParams.extendedParams;
-
-    const conversion = (extendedParams && extendedParams.conversion) ? extendedParams.conversion : "ether";
 
     const params = {
       from: this.appConfiguration.defaultWallet,
-      value: this.engine.toWei(amount, conversion),
-      ...extendedParams,
-      conversion: undefined,
+      value: this.engine.toWei(amount, "ether"),
     };
-    return await this.engine.callFunction("participate", [refundTime, secret, address], params).then((resp) => {
+
+    return await this.engine.callFunction("participate", [refundTime, secretHash, address], params).then((resp) => {
       // TODO map the fields to ethParticipateData
       return new EthParticipateData();
     });

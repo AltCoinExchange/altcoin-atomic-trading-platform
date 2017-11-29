@@ -9,6 +9,7 @@ import {getSwapProcess} from "../selectors/start.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
+import {ShapeshiftStorage} from "../common/shapeshift-storage";
 
 @Injectable()
 export class SideAEffect {
@@ -62,8 +63,8 @@ export class SideAEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getSwapProcess))
     .mergeMap(([payload, swapProcess]) => {
-      console.log(payload, swapProcess);
-      return swapProcess.depositCoin.Participate(payload).map(resp => { // TODO provide implementation
+      const depositCoin = (<any>swapProcess.depositCoin);
+      return depositCoin.Participate(payload).map(resp => {
         return new sideA.ParticipateSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.ParticipateFailAction(err)));
     });

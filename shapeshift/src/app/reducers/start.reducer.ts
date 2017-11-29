@@ -4,15 +4,21 @@ import {EthCoinModel} from "../models/coins/eth-coin.model";
 import {SwapProcess} from "../models/swap-process.model";
 import {SwapSpinners} from "../models/swap-spinners.enum";
 import {Coin} from "../models/coins/coin.model";
+import {ShapeshiftStorage} from "../common/shapeshift-storage";
 
 export interface State {
   swapProcess: SwapProcess;
   link: string;
 }
 
+const ethCoinModel = new EthCoinModel();
+const xprivKey = ShapeshiftStorage.get("btcprivkey");
+const keystore = ethCoinModel.recover(xprivKey);
+ethCoinModel.login(keystore, xprivKey);
+
 export const initialState: State = {
   swapProcess: {
-    depositCoin: new EthCoinModel(),
+    depositCoin: ethCoinModel,
     receiveCoin: new BtcCoinModel(),
     activeStep: 1,
     status: {
