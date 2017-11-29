@@ -50,13 +50,11 @@ export class AppComponent implements OnInit {
 // TODO create fromMnemonic method in wallets
   private generateBtcWallet(codes: any) {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
-    console.log(xprivKey);
     let wallet;
     const btc = new BtcWalletTestNet();
     if (!xprivKey) {
       wallet = new FreshBitcoinWallet(codes.phrase);
       btc.create(wallet);
-      console.log(btc);
     } else {
       wallet = new RegenerateBitcoinWallet(xprivKey);
       btc.recover(wallet);

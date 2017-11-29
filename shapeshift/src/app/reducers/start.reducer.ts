@@ -1,10 +1,10 @@
 import * as swap from "../actions/start.action";
+import {ShapeshiftStorage} from "../common/shapeshift-storage";
 import {BtcCoinModel} from "../models/coins/btc-coin.model";
+import {Coin} from "../models/coins/coin.model";
 import {EthCoinModel} from "../models/coins/eth-coin.model";
 import {SwapProcess} from "../models/swap-process.model";
 import {SwapSpinners} from "../models/swap-spinners.enum";
-import {Coin} from "../models/coins/coin.model";
-import {ShapeshiftStorage} from "../common/shapeshift-storage";
 
 export interface State {
   swapProcess: SwapProcess;
@@ -13,8 +13,10 @@ export interface State {
 
 const ethCoinModel = new EthCoinModel();
 const xprivKey = ShapeshiftStorage.get("btcprivkey");
-const keystore = ethCoinModel.recover(xprivKey);
-ethCoinModel.login(keystore, xprivKey);
+if (xprivKey) {
+  const keystore = ethCoinModel.recover(xprivKey);
+  ethCoinModel.login(keystore, xprivKey);
+}
 
 export const initialState: State = {
   swapProcess: {
