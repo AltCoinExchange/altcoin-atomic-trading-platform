@@ -1,7 +1,7 @@
 {
-  "name": "wallet",
+  "name": "altcoinio-wallet",
   "version": "1.0.0",
-  "description": "Ts Wallet",
+  "description": "Wallet",
   "main": "dist/index.js",
   "typings": "dist/src/index.d.ts",
   "jam": {

@@ -13,7 +13,7 @@ import {Coin, CoinFactory} from "../../models/coins/coin.model";
 import {MessageTypes} from "../../models/message-types.enum";
 import {AppState} from "../../reducers/app.state";
 import * as fromSwap from "../../selectors/swap.selector";
-import {InitiateParams} from "ts-wallet";
+import {InitiateParams} from "altcoinio-wallet";
 import {Coins} from "../../models/coins/coins.enum";
 import {getBLoading} from "../../selectors/side-b.selector";
 

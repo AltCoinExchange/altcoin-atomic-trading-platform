@@ -1,6 +1,5 @@
 import {Observable} from "rxjs/Observable";
-import {EthInitiateData, EthInitiateParams, EthWalletTestnet, InitiateData, ParticipateData} from "ts-wallet";
-import {EthParticipateParams} from "../../../../../wallet-ts/src/eth/atomic-swap/eth-participate-params";
+import {EthInitiateData, EthParticipateParams, EthInitiateParams, EthWalletTestnet, InitiateData, ParticipateData} from "altcoinio-wallet";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";

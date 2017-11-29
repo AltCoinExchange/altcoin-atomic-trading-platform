@@ -1,5 +1,5 @@
 import {Observable} from "rxjs/Observable";
-import {InitiateData, InitiateParams, ParticipateData} from "ts-wallet";
+import {InitiateData, InitiateParams, ParticipateData} from "altcoinio-wallet";
 import {BtcCoinModel} from "./btc-coin.model";
 import {Coins} from "./coins.enum";
 import {EthCoinModel} from "./eth-coin.model";

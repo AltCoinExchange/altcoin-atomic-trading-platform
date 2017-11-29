@@ -1,5 +1,5 @@
 import {Observable} from "rxjs/Observable";
-import {BtcInitiateParams, BtcParticipateParams, BtcWalletTestNet, InitiateData, ParticipateData} from "ts-wallet";
+import {BtcInitiateParams, BtcParticipateParams, BtcWalletTestNet, InitiateData, ParticipateData} from "altcoinio-wallet";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";

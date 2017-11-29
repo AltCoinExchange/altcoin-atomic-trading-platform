@@ -1,7 +1,6 @@
 import {Component, HostListener, OnInit, ViewEncapsulation} from "@angular/core";
 import {Store} from "@ngrx/store";
-import {BtcWalletTestNet, EthWalletTestnet, FreshBitcoinWallet, RegenerateBitcoinWallet} from "ts-wallet";
-import {Wallet} from "../../../wallet/src";
+import {BtcWalletTestNet, EthWalletTestnet, FreshBitcoinWallet, RegenerateBitcoinWallet} from "altcoinio-wallet";
 import {environment} from "../environments/environment";
 import * as quoteAction from "./actions/quote.action";
 import * as walletAction from "./actions/wallet.action";
@@ -24,7 +23,7 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AppState>) {
     let codes;
     if (environment.production) {
-      codes = Wallet.code;
+      codes = ''; // TODO Wallet.code;
     } else {
       codes = {
         phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin",

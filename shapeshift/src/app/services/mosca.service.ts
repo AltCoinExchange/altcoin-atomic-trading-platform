@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import * as mqtt from "mqtt";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
-import {InitiateData, InitiateParams} from "ts-wallet";
+import {InitiateData, InitiateParams} from "altcoinio-wallet";
 import {isString} from "util";
 
 const INITIATE = "/inititate/";
