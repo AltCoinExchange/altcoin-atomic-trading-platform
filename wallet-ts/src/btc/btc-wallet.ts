@@ -57,6 +57,8 @@ export class BtcWallet extends BtcAtomicSwap {
   }
 
   private generateHDPrivateKey(passPhrase): void {
+    // tslint:disable-next-line
+    console.log(passPhrase);
     this.hierarchicalPrivateKey = this.code.toHDPrivateKey(passPhrase, this.btcRpcConfiguration.network);
   }
 }

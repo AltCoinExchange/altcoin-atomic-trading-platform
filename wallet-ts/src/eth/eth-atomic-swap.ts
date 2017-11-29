@@ -1,4 +1,5 @@
 import {IAtomicSwap} from "../atomic-swap/atomic-swap.interface";
+import {SecretGenerator, SecretResult} from "../common/hashing";
 import {EthExtractSecretData} from "./atomic-swap/eth-extract-secret-data";
 import {EthExtractSecretParams} from "./atomic-swap/eth-extract-secret-params";
 import {EthInitiateData} from "./atomic-swap/eth-initiate-data";
@@ -10,7 +11,6 @@ import {EthRedeemParams} from "./atomic-swap/eth-redeem-params";
 import {EthRefundData} from "./atomic-swap/eth-refund-data";
 import {EthRefundParams} from "./atomic-swap/eth-refund-params";
 import {EthEngine} from "./eth-engine";
-import {SecretGenerator, SecretResult} from "../common/hashing";
 
 export class EthAtomicSwap implements IAtomicSwap {
   public engine: EthEngine;
@@ -28,13 +28,12 @@ export class EthAtomicSwap implements IAtomicSwap {
       from: this.appConfiguration.defaultWallet,
       value: this.engine.toWei(initParams.amount, "ether"),
     };
-    // tslint:disable-next-line
-    console.log("starting initiation");
-    return await this.engine.callFunction("initiate", [refundTime, secretHash, address], params).then((resp) => {
-      // TODO map the fields to ethInitiateData
-      // tslint:disable-next-line
-      console.log(resp);
-      const initiateData = new EthInitiateData(null, null);
+    return await this.engine.callFunction("initiate", [refundTime, secretHash, address], params).then((resp: any) => {
+      const initiateData = new EthInitiateData(
+        secret.secret,
+        secret.secretHash, resp.blockHash, resp.blockNumber, resp.contractAddress,
+        resp.cumulativeGasUsed, resp.from, resp.gasUsed, resp.logsBloom, resp.status,
+        resp.to, resp.transactionHash, resp.transactionIndex);
       return initiateData;
     });
   }

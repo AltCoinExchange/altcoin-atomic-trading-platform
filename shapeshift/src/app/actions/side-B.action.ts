@@ -22,6 +22,7 @@ export class InitiateFailAction implements Action {
   readonly type = INITIATE_FAIL;
 
   constructor(public payload) { // TODO create class for payload
+    console.log(INITIATE_FAIL, payload);
   }
 }
 

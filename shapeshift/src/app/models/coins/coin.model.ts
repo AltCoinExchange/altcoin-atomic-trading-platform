@@ -1,9 +1,9 @@
-import {Coins} from "./coins.enum";
-import {BtcCoinModel} from "./btc-coin.model";
-import {EthCoinModel} from "./eth-coin.model";
-import {InitiateParams} from "ts-wallet";
-import {InitiateData} from "ts-wallet";
 import {Observable} from "rxjs/Observable";
+import {InitiateData, InitiateParams} from "ts-wallet";
+import {BtcCoinModel} from "./btc-coin.model";
+import {Coins} from "./coins.enum";
+import {EthCoinModel} from "./eth-coin.model";
+import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 
 export abstract class Coin {
   readonly type: Coins;
@@ -29,7 +29,11 @@ export class CoinFactory {
         return new BtcCoinModel();
       }
       case Coins.ETH: {
-        return new EthCoinModel();
+        const ethCoinModel = new EthCoinModel();
+        const xprivKey = ShapeshiftStorage.get("btcprivkey");
+        const keystore = ethCoinModel.recover(xprivKey);
+        ethCoinModel.login(keystore, xprivKey);
+        return ethCoinModel;
       }
       default: {
         throw new Error();

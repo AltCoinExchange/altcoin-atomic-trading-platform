@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation, HostListener} from "@angular/core";
+import {Component, HostListener, OnInit, ViewEncapsulation} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {BtcWalletTestNet, EthWalletTestnet, FreshBitcoinWallet, RegenerateBitcoinWallet} from "ts-wallet";
 import {Wallet} from "../../../wallet/src";
@@ -17,13 +17,10 @@ import {AppState} from "./reducers/app.state";
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  @HostListener('window:scroll', ['$event']) onScrollEvent($event){
-    this.didScroll = true;
-  } 
   public altcoinLogo = "assets/icon/altcoin-icon.png";
   private headerHidden = false;
   private didScroll = false;
-  
+
   constructor(private store: Store<AppState>) {
     let codes;
     if (environment.production) {
@@ -42,6 +39,11 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new quoteAction.LoadQuoteAction());
   }
 
+  @HostListener("window:scroll", ["$event"])
+  onScrollEvent($event) {
+    this.didScroll = true;
+  }
+
   public ngOnInit() {
     this.hideHeaderOnScroll();
   }
@@ -49,11 +51,13 @@ export class AppComponent implements OnInit {
 // TODO create fromMnemonic method in wallets
   private generateBtcWallet(codes: any) {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    console.log(xprivKey);
     let wallet;
     const btc = new BtcWalletTestNet();
     if (!xprivKey) {
       wallet = new FreshBitcoinWallet(codes.phrase);
       btc.create(wallet);
+      console.log(btc);
     } else {
       wallet = new RegenerateBitcoinWallet(xprivKey);
       btc.recover(wallet);
@@ -73,12 +77,10 @@ export class AppComponent implements OnInit {
   }
 
   private generateEthWallet(xprivKey) {
-    console.log('xprivKey', xprivKey);
     const eth = new EthWalletTestnet();
 
     const recovered = eth.recover(xprivKey);
-    console.log(recovered);
-    // eth.login(recovered, "abc");
+    eth.login(recovered, xprivKey);
     const ethWallet = {
       privateKey: xprivKey,
       keystore: recovered,
@@ -87,23 +89,20 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
   }
 
-  private hideHeaderOnScroll(){
-    var lastScrollTop = 0;
-    var delta = 5;
-    var navbarHeight = 60;
+  private hideHeaderOnScroll() {
+    let lastScrollTop = 0;
+    const delta = 5;
+    const navbarHeight = 60;
     setInterval(() => {
-        if (this.didScroll) {
-          var st = document.documentElement.scrollTop;
-          if(Math.abs(lastScrollTop - st) <= delta)
-            return;
-          if (st > lastScrollTop && st > navbarHeight){
-            this.headerHidden = true;
-          } else {
-              this.headerHidden = false;
-          }
-          lastScrollTop = st;
-          this.didScroll = false;
+      if (this.didScroll) {
+        const st = document.documentElement.scrollTop;
+        if (Math.abs(lastScrollTop - st) <= delta) {
+          return;
         }
+        this.headerHidden = st > lastScrollTop && st > navbarHeight;
+        lastScrollTop = st;
+        this.didScroll = false;
+      }
     }, 250);
   }
 }
