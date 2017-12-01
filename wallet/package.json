@@ -58,7 +58,9 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "@types/bitcoinjs-lib": "^3.0.5",
     "axios": "^0.17.1",
+    "bitcoinjs-lib": "^3.3.1",
     "bitcore": "^4.1.1",
     "bitcore-mnemonic": "^1.5.0",
     "clone": "^2.1.1",
