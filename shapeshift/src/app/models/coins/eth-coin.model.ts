@@ -49,8 +49,7 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
 
   update(coin: EthCoinModel): EthCoinModel {
     const model = new EthCoinModel();
-    model.amount = coin.amount;
+    model.amount = coin ? coin.amount : 0;
     return model;
   }
-
 }

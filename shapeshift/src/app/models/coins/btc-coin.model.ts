@@ -45,8 +45,7 @@ export class BtcCoinModel extends BtcWalletTestNet implements Coin {
 
   update(coin: BtcCoinModel): BtcCoinModel {
     const model = new BtcCoinModel();
-    model.amount = coin.amount;
+    model.amount = coin ? coin.amount : 0;
     return model;
   }
-
 }

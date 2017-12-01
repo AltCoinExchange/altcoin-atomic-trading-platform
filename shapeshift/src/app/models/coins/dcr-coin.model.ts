@@ -1,50 +1,51 @@
-// import {Coin} from './coin.model';
-// import {Coins} from './coins.enum';
-// import * as wallet from 'wallet';
-// import {DcrWalletModel} from '../wallets/dcr-wallet.model';
-// import {ContractResponseModel} from '../responses/contract-response.model';
-// import {Observable} from 'rxjs/Observable';
-// import {ShapeshiftStorage} from '../../common/shapeshift-storage';
-// import {SwapsResponseModel} from '../responses/swaps-response.model';
+// import {Observable} from "rxjs/Observable";
+// import {BtcInitiateParams, BtcParticipateParams, BtcWalletTestNet, InitiateData, ParticipateData} from "altcoinio-wallet";
+// import {ShapeshiftStorage} from "../../common/shapeshift-storage";
+// import {Coin} from "./coin.model";
+// import {Coins} from "./coins.enum";
 //
-// export class DcrCoinModel implements Coin {
-//   readonly timeout: number = 7200;
-//   readonly name: string = Coins[Coins.ETH].toString();
-//   // TODO: Add decred icon
-//   readonly icon: string = 'assets/icon/eth-icon.png';
-//   readonly iconOutline: string = 'assets/icon/eth-icon-o.png';
-//   readonly fullName: string = 'Decred';
+// export class DcrCoinModel extends BtcWalletTestNet implements Coin {
+//   readonly type = Coins.BTC;
+//   readonly name: string = Coins[Coins.BTC].toString();
+//   readonly icon: string = "assets/icon/btc-icon.png";
+//   readonly iconOutline: string = "assets/icon/btc-icon-o.png";
+//   readonly fullName: string = "Bitcoin";
 //   amount: number;
 //
-//   generateNewAddress(ethWallet: DcrWalletModel) {
-//     throw new Error("Method not implemented.");
+//   constructor() {
+//     super();
 //   }
 //
-//   getBalance(address: string) {
-//     throw new Error("Method not implemented.");
+//   Participate(data: InitiateData): Observable<ParticipateData> {
+//     const btcParticipateParams = new BtcParticipateParams();
+//     btcParticipateParams.address = (<any>data).address;
+//     btcParticipateParams.secretHash = data.secretHash;
+//     btcParticipateParams.amount = this.amount;
+//     btcParticipateParams.privateKey = ShapeshiftStorage.get("btc-wif");
+//     btcParticipateParams.refundTime = 7200;
+//     console.log('btcParticipateParams', btcParticipateParams);
+//     return Observable.fromPromise(super.participate(btcParticipateParams));
 //   }
 //
-//   update(coin: Coin): Coin {
-//     throw new Error("Method not implemented.");
+//   Initiate(address: string): Observable<InitiateData> {
+//     return Observable.fromPromise(super.initiate(this.getInitParams(address)));
 //   }
 //
-//   extractSecret(data) {
-//     throw new Error("Method not implemented.");
+//   getInitParams(address): BtcInitiateParams {
+//     const wif = ShapeshiftStorage.get("btc-wif");
+//     return new BtcInitiateParams(7200, wif, address, this.amount);
 //   }
 //
-//   initiate(address: string): Observable<ContractResponseModel> {
-//     throw new Error("Method not implemented.");
+//   toPersistable() {
+//     return {
+//       type: this.type,
+//       amount: this.amount,
+//     };
 //   }
 //
-//   participate(address: string, secretHash: string): any {
-//     throw new Error("Method not implemented.");
-//   }
-//
-//   redeem(data){
-//     throw new Error("Method not implemented.");
-//   }
-//
-//   refund(hashedSecret: string): any {
-//     throw new Error("Method not implemented.");
+//   update(coin: DcrCoinModel): DcrCoinModel {
+//     const model = new DcrCoinModel();
+//     model.amount = coin.amount;
+//     return model;
 //   }
 // }
