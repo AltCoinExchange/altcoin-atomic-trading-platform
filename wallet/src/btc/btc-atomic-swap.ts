@@ -27,8 +27,9 @@ const Buffer = bitcore.Buffer;
 
 export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
 
-  constructor(configuration: any) {
-    super(configuration);
+  constructor(btcConfiguration, btcRpcConfiguration) {
+    super(btcConfiguration, btcRpcConfiguration);
+    this.configuration = btcRpcConfiguration;
   }
 
   /**
@@ -41,7 +42,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
     const lockTime = Util.getUnixTimeFor2Days();
     // tslint:disable-next-line
     console.log("BTC INITIATE, BUILDING CONTRACT...");
-    const b = await BtcContractBuilder.buildContract(this.configuration, params.address, params.amount,
+    const b = await this.buildContract(params.address, params.amount,
       lockTime, secret.secretHash, (this as any).WIF /* Private key*/);
     // tslint:disable-next-line
     console.log("CONTRACT BUILT, PUBLISHING TRANSACTION..");
@@ -59,7 +60,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
    */
   public async participate(params: BtcParticipateParams): Promise<BtcParticipateData> {
     const lockTime = Util.getUnixTimeFor2Days();
-    const b = await BtcContractBuilder.buildContract(this.configuration, params.address, params.amount,
+    const b = await this.buildContract(params.address, params.amount,
       lockTime, params.secretHash, (this as any).WIF);
 
     const rawTx = await this.publishTx(b.contractTx.toString());

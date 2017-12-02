@@ -7,11 +7,15 @@ import {Util} from "./util";
 const Script = bitcore.Script;
 const Opcode = bitcore.Opcode;
 const Transaction = bitcore.Transaction;
-const Address = bitcore.Address;
 const PrivateKey = bitcore.PrivateKey;
-const BufferReader = bitcore.encoding.BufferReader;
 
 export class BtcContractBuilder {
+
+  configuration: any;
+
+  constructor(btcConfiguration, btcRpcConfiguration) {
+      this.configuration = btcRpcConfiguration;
+  }
 
   /**
    * Get atomic swap contract
@@ -148,59 +152,6 @@ export class BtcContractBuilder {
   }
 
   /**
-   * Build contract
-   * @param them
-   * @param amount
-   * @param lockTime
-   * @param secretHash
-   * @param privateKey
-   * @returns {any}
-   */
-  public static async buildContract(config, them, amount, lockTime, secretHash, privateKey) {
-    const PK = PrivateKey.fromWIF(privateKey);
-    const refundAddr = PK.toPublicKey().toAddress(config.network);
-
-    const themAddr = new Address(them);
-
-    const contract = BtcContractBuilder.atomicSwapContract(
-      refundAddr.toJSON().hash,
-      themAddr.toJSON().hash,
-      lockTime,
-      secretHash,
-    );
-
-    const contractP2SH = Util.NewAddressScriptHash(contract.toHex(), config.network);
-    const contractP2SHPkScript = Script.buildScriptHashOut(contractP2SH);
-
-    const contractTx = new Transaction();
-    const value = Math.round(amount * 100000000);
-    // console.log(value);
-    const output = Transaction.Output({
-      script: contractP2SHPkScript,
-      satoshis: value,
-    });
-    contractTx.addOutput(output);
-
-    const transaction: BtcTransaction = new BtcTransaction(config);
-    await transaction.fundTransaction(refundAddr, contractTx);
-
-    // SIGN TRANSACTION
-    const signatures = contractTx.getSignatures(privateKey);
-    for (const signature of signatures) {
-      contractTx.applySignature(signature);
-    }
-
-    const contractTxHash = contractTx.hash;
-    const contractFee = contractTx._getInputAmount() - contractTx._getOutputAmount();
-
-    const refundData: BtcRefundData = await BtcContractBuilder.buildRefund(config,
-      contract.toHex(), contractTx.toString(), privateKey);
-
-    return new BtcAtomicSwapContractData(contract, contractP2SH, contractP2SHPkScript,
-      contractTxHash, contractTx, contractFee, refundData.refundFee, refundData.refundTx);
-  }
-
-  /**
    * Create signature
    * @param reedemTx
    * @param inputIndex
@@ -216,110 +167,5 @@ export class BtcContractBuilder {
     const sig = Transaction.Sighash.sign(reedemTx, WIF, sighashType, inputIndex, contract);
     const pubKey = WIF.toPublicKey();
     return {sig, pubKey};
-  }
-
-  /**
-   * Build refund
-   * @param strCt
-   * @param strCtTx
-   * @param privateKey
-   * @returns {Promise<BtcRefundData>}
-   */
-  public static async buildRefund(config, strCt, strCtTx, privateKey): Promise<BtcRefundData> {
-    // TODO: change strCt, strCtTx to ct, ctTx
-    const contract = new Script(strCt);
-    const pushes = BtcContractBuilder.extractAtomicSwapContract(strCt);
-
-    if (!pushes) {
-      throw new Error("contract is not an atomic swap script recognized by this tool");
-    }
-
-    const ctTx = new Transaction(strCtTx);
-
-    const refundAddrString = pushes.refundHash160.replace("0x", "");
-    const refundAddress = Util.NewAddressPubKeyHash(refundAddrString, "testnet");
-    const contractP2SH = Util.NewAddressScriptHash(strCt, config.network);
-
-    let ctTxOutIdx = -1;
-
-    for (let i = 0; i < ctTx.outputs.length; i++) {
-      const scr = new Script(ctTx.outputs[i].script);
-      const address = scr.toAddress(config.network);
-      const addressHash = address.toJSON().hash;
-
-      if (addressHash === contractP2SH.toJSON().hash) {
-        ctTxOutIdx = i;
-        break;
-      }
-    }
-
-    if (ctTxOutIdx === -1) {
-      throw new Error("transaction does not contain a contract output");
-    }
-
-    // TODO:  "getrawchangeaddres" TODO Check?
-    const transaction: BtcTransaction = new BtcTransaction(config);
-
-    const addAxiosResponse = await transaction.getChangeAddress();
-    // tslint:disable-next-line
-    console.log("addr initiation", addAxiosResponse);
-    const addr = new Address(addAxiosResponse.data.result);
-    // tslint:disable-next-line
-    console.log("addr initiation");
-    // const addr = 'mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ';
-    const outScript = Script.buildPublicKeyHashOut(addr);
-    // tslint:disable-next-line
-    console.log("0 initiation");
-    // https://bitcoin.org/en/developer-examples#offline-signing
-    const refundTx = new Transaction();
-    const lockTime = new BufferReader(pushes.lockTime).readUInt32LE();
-    refundTx.lockUntilDate(lockTime);
-    // tslint:disable-next-line
-    console.log("1 initiation");
-    // TODO: "refund output value of %v is dust"
-    let output = Transaction.Output({
-      script: outScript,
-      satoshis: 0,
-    });
-
-    refundTx.addOutput(output);
-    const feePerKb = await transaction.getFeePerKb(); // Does not retrieve fee per kb
-    const redeemSerializeSize = Util.EstimateRefundSerializeSize(contract, refundTx.outputs);
-    const refundFee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000;
-
-    const amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee;
-    if (amount < 0) {
-      throw new Error("Transaction amount is too small!");
-    }
-    // tslint:disable-next-line
-    console.log("2 initiation", amount, ctTx.outputs[ctTxOutIdx].satoshis, refundFee);
-    output = Transaction.Output({
-      script: outScript,
-      satoshis: Math.round(amount),
-    });
-
-    refundTx.removeOutput(0);
-    refundTx.addOutput(output);
-
-    const input = Transaction.Input({
-      prevTxId: ctTx.id,
-      outputIndex: ctTxOutIdx,
-      sequenceNumber: 0,
-      script: new Script(ctTx.outputs[ctTxOutIdx].script),
-    });
-    // tslint:disable-next-line
-    console.log("3 initiation");
-    refundTx.uncheckedAddInput(input);
-
-    const inputIndex = 0;
-    const {sig, pubKey} = await BtcContractBuilder.createSig(refundTx, inputIndex, contract, refundAddress, privateKey);
-    // tslint:disable-next-line
-    console.log("4 initiation");
-    // TODO: Check
-    const script = this.refundP2SHContract(contract.toHex(), sig.toTxFormat(), pubKey.toString(), "");
-
-    refundTx.inputs[0].setScript(script);
-
-    return new BtcRefundData(refundFee, refundTx);
   }
 }

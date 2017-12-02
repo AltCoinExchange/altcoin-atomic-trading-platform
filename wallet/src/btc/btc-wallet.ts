@@ -15,7 +15,7 @@ export class BtcWallet extends BtcAtomicSwap {
   public btcRpcConfiguration: any;
 
   constructor(btcConfiguration, btcRpcConfiguration) {
-    super(btcRpcConfiguration);
+    super(btcConfiguration, btcRpcConfiguration);
     this.btcConfiguration = btcConfiguration;
     this.btcRpcConfiguration = btcRpcConfiguration;
   }

@@ -31,7 +31,9 @@ describe("BtcAtomicSwap", () => {
       const wallet = new BtcWalletTestNet();
       wallet.recover(regenerateWallet);
       const result = await wallet
-        .initiate(new BtcInitiateParams(7200, secret.secretHash, "n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.001"));
+        .initiate(new BtcInitiateParams(7200, secret.secretHash, "n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.005"));
+      console.log(result);
+      expect(result.fee).toEqual(100000);
     } catch (e) {
       expect(e.message).toEqual("insufficent funds");
     }

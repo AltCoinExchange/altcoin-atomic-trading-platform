@@ -152,7 +152,7 @@ export class Util {
   }
 
   public static FeeForSerializeSize(relayFeePerKb, txSerializeSize): number {
-    const fee = relayFeePerKb * txSerializeSize / 1000;
+    const fee = relayFeePerKb * txSerializeSize / 1024;
     return fee;
     // return fee.toFixed(8);
   }
