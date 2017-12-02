@@ -162,6 +162,10 @@ export class BtcTransaction {
    */
   public async getFeePerKb() {
     const estimateRawResp = await this.callRPCProc("estimatesmartfee", [6]);
-    return estimateRawResp.data.result.feerate;
+    if (estimateRawResp.data.result.errors) {
+        throw new Error("getFeePerKb: " + estimateRawResp.data.result.errors.toString());
+    } else {
+        return estimateRawResp.data.result.feerate;
+    }
   }
 }

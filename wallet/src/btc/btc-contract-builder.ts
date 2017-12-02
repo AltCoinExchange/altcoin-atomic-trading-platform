@@ -283,7 +283,7 @@ export class BtcContractBuilder {
     });
 
     refundTx.addOutput(output);
-    const feePerKb = await transaction.getFeePerKb();
+    const feePerKb = await transaction.getFeePerKb(); // Does not retrieve fee per kb
     const redeemSerializeSize = Util.EstimateRefundSerializeSize(contract, refundTx.outputs);
     const refundFee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000;
 

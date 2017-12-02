@@ -39,10 +39,15 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
   public async initiate(params: BtcInitiateParams): Promise<BtcInitiateData> {
     const secret: SecretResult = SecretGenerator.generateSecret();
     const lockTime = Util.getUnixTimeFor2Days();
+    // tslint:disable-next-line
+    console.log("BTC INITIATE, BUILDING CONTRACT...");
     const b = await BtcContractBuilder.buildContract(this.configuration, params.address, params.amount,
-      lockTime, secret.secretHash, params.privKey /* Private key*/);
+      lockTime, secret.secretHash, (this as any).WIF /* Private key*/);
+    // tslint:disable-next-line
+    console.log("CONTRACT BUILT, PUBLISHING TRANSACTION..");
     const rawTx = await this.publishTx(b.contractTx.toString());
-
+    // tslint:disable-next-line
+    console.log("TRANSACTION PUBLISHED, RETURNING..");
     return new BtcInitiateData(b.contractFee, b.contractP2SH.toString(), b.contract.toHex(), b.contractTx.hash,
       b.contractTx.toString(), rawTx, secret.secret, secret.secretHash);
   }
@@ -55,7 +60,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
   public async participate(params: BtcParticipateParams): Promise<BtcParticipateData> {
     const lockTime = Util.getUnixTimeFor2Days();
     const b = await BtcContractBuilder.buildContract(this.configuration, params.address, params.amount,
-      lockTime, params.secretHash, params.privateKey);
+      lockTime, params.secretHash, (this as any).WIF);
 
     const rawTx = await this.publishTx(b.contractTx.toString());
 

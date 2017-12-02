@@ -71,23 +71,24 @@ var webpack_opts = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
-        loader: 'source-map-loader',
-        exclude: /node_modules/,
-      },
-      {
         enforce: 'pre',
         test: /\.ts$/,
         loader: 'tslint-loader',
         exclude: /node_modules/,
-      }, {
+      },
+      {
         test: /\.ts$/,
         loader: 'ts-loader',
         exclude: [
           /node_modules/
         ],
       },
-    ],
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader',
+        exclude: /node_modules/,
+      }
+    ]
   },
   externals: [nodeExternals()],
   plugins: [
