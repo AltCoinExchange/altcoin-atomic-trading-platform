@@ -43,7 +43,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
     // tslint:disable-next-line
     console.log("BTC INITIATE, BUILDING CONTRACT...");
     const b = await this.buildContract(params.address, params.amount,
-      lockTime, secret.secretHash, (this as any).WIF /* Private key*/);
+      lockTime, secret.secretHash, params.privKey);
     // tslint:disable-next-line
     console.log("CONTRACT BUILT, PUBLISHING TRANSACTION..");
     const rawTx = await this.publishTx(b.contractTx.toString());
