@@ -11,16 +11,9 @@ export interface State {
   link: string;
 }
 
-const ethCoinModel = new EthCoinModel();
-const xprivKey = ShapeshiftStorage.get("btcprivkey");
-if (xprivKey) {
-  const keystore = ethCoinModel.recover(xprivKey);
-  ethCoinModel.login(keystore, xprivKey);
-}
-
 export const initialState: State = {
   swapProcess: {
-    depositCoin: ethCoinModel,
+    depositCoin: new EthCoinModel(),
     receiveCoin: new BtcCoinModel(),
     activeStep: 1,
     status: {
@@ -29,8 +22,7 @@ export const initialState: State = {
       redeeming: SwapSpinners.Waiting,
       done: SwapSpinners.Waiting,
     },
-  } as SwapProcess
-  ,
+  } as SwapProcess,
   link: undefined,
 };
 

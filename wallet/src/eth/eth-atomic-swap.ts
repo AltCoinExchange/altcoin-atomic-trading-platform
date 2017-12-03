@@ -39,22 +39,13 @@ export class EthAtomicSwap implements IAtomicSwap {
   }
 
   public async participate(partParams: EthParticipateParams): Promise<EthParticipateData> {
-
-    // tslint:disable-next-line
-    console.log("ne treba", partParams);
-    const keystore = this.engine.recoverAccount(partParams.privateKey);
-    const loggedIn = this.engine.login(keystore, partParams.privateKey);
-    // tslint:disable-next-line
-    console.log(loggedIn);
-
     const refundTime = partParams.refundTime;
     const secretHash = partParams.secretHash;
     const address = partParams.address;
-    const amount = partParams.amount;
 
     const params = {
       from: this.appConfiguration.defaultWallet,
-      value: this.engine.toWei(amount, "ether"),
+      value: this.engine.toWei(partParams.amount, "ether"),
     };
 
     const participateResult = this.engine
@@ -65,11 +56,7 @@ export class EthAtomicSwap implements IAtomicSwap {
         return new EthParticipateData();
       });
 
-    return participateResult.then((value) =>
-      new Promise((resolve) =>
-        setTimeout(() => resolve(value), 5000),
-      ),
-    );
+    return await participateResult;
   }
 
   public async redeem(redeemParams: EthRedeemParams): Promise<EthRedeemData> {

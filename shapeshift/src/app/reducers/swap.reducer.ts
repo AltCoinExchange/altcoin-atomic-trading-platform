@@ -9,7 +9,7 @@ export interface State {
   coins: {
     receiveCoin: Coin,
     depositCoin: Coin,
-  },
+  };
 }
 
 export const initialState: State = {

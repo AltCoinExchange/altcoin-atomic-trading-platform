@@ -10,12 +10,11 @@ import {fadeInAnimation, flyInOutAnimation} from "../../animations/animations";
 import {AnimationEnabledComponent} from "../../common/animation.component";
 import {disAssembleLink} from "../../common/link-util";
 import {Coin, CoinFactory} from "../../models/coins/coin.model";
+import {Coins} from "../../models/coins/coins.enum";
 import {MessageTypes} from "../../models/message-types.enum";
 import {AppState} from "../../reducers/app.state";
-import * as fromSwap from "../../selectors/swap.selector";
-import {InitiateParams} from "altcoinio-wallet";
-import {Coins} from "../../models/coins/coins.enum";
 import {getBLoading} from "../../selectors/side-b.selector";
+import * as fromSwap from "../../selectors/swap.selector";
 
 @Component({
   selector: "app-swap-initiate",
