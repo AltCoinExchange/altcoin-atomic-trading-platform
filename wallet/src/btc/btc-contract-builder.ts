@@ -1,8 +1,5 @@
 import * as bitcore from "bitcore";
-import {BtcAtomicSwapData, BtcRefundData} from "./atomic-swap";
-import {BtcAtomicSwapContractData} from "./atomic-swap/btc-atomic-swap-contract-data";
-import {BtcTransaction} from "./btc-transaction";
-import {Util} from "./util";
+import {BtcAtomicSwapData} from "./atomic-swap";
 
 const Script = bitcore.Script;
 const Opcode = bitcore.Opcode;
@@ -10,12 +7,6 @@ const Transaction = bitcore.Transaction;
 const PrivateKey = bitcore.PrivateKey;
 
 export class BtcContractBuilder {
-
-  configuration: any;
-
-  constructor(btcConfiguration, btcRpcConfiguration) {
-      this.configuration = btcRpcConfiguration;
-  }
 
   /**
    * Get atomic swap contract
@@ -167,5 +158,11 @@ export class BtcContractBuilder {
     const sig = Transaction.Sighash.sign(reedemTx, WIF, sighashType, inputIndex, contract);
     const pubKey = WIF.toPublicKey();
     return {sig, pubKey};
+  }
+
+  private configuration: any;
+
+  constructor(btcConfiguration, btcRpcConfiguration) {
+    this.configuration = btcRpcConfiguration;
   }
 }

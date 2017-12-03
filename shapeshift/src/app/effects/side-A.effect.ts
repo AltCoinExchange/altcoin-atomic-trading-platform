@@ -64,6 +64,9 @@ export class SideAEffect {
     .withLatestFrom(this.store.select(getSwapProcess))
     .mergeMap(([payload, swapProcess]) => {
       const depositCoin = (<any>swapProcess.depositCoin);
+      depositCoin.ParticipateProm(payload).then(succ => {
+        console.log('succsuccsucc', succ);
+      });
       return depositCoin.Participate(payload).map(resp => {
         return new sideA.ParticipateSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.ParticipateFailAction(err)));

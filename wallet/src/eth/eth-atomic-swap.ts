@@ -43,7 +43,9 @@ export class EthAtomicSwap implements IAtomicSwap {
     // tslint:disable-next-line
     console.log("ne treba", partParams);
     const keystore = this.engine.recoverAccount(partParams.privateKey);
-    this.engine.login(keystore, partParams.privateKey);
+    const loggedIn = this.engine.login(keystore, partParams.privateKey);
+    // tslint:disable-next-line
+    console.log(loggedIn);
 
     const refundTime = partParams.refundTime;
     const secretHash = partParams.secretHash;
@@ -55,10 +57,19 @@ export class EthAtomicSwap implements IAtomicSwap {
       value: this.engine.toWei(amount, "ether"),
     };
 
-    return await this.engine.callFunction("participate", [refundTime, secretHash, address], params).then((resp) => {
-      // TODO map the fields to ethParticipateData
-      return new EthParticipateData();
-    });
+    const participateResult = this.engine
+      .callFunction("participate", [refundTime, secretHash, address], params).then((resp) => {
+        // TODO map the fields to ethParticipateData
+        // tslint:disable-next-line
+        console.log(resp);
+        return new EthParticipateData();
+      });
+
+    return participateResult.then((value) =>
+      new Promise((resolve) =>
+        setTimeout(() => resolve(value), 5000),
+      ),
+    );
   }
 
   public async redeem(redeemParams: EthRedeemParams): Promise<EthRedeemData> {

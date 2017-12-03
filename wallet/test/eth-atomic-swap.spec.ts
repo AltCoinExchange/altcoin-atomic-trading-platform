@@ -39,14 +39,15 @@ describe("EthAtomicSwap", () => {
 
   it("Should pass participate", async () => {
     expect.assertions(1);
+    // tslint:disable-next-line
+    const privKey = "tprv8ZgxMBicQKsPdxZqLMWLFLxJiYwSnP92WVXzkb3meDwix5nxQtNd21AHzn3UvmJAqEqGoYzR7vtZk8hrujhZVGBh1MMED8JnsNja8gEopYM";
 
     const ethSwap = new EthWalletTestnet();
 
     try {
       const ethParams = new EthParticipateParams(7200,
-        "0xc979e7b3fe3f71c1682d071cf17773a955c9667b", "0x6c4d7a11fb699bb020e46f315d8cb87ef2c0f8c8", "0.1",
-        // tslint:disable-next-line
-        "tprv8ZgxMBicQKsPdxZqLMWLFLxJiYwSnP92WVXzkb3meDwix5nxQtNd21AHzn3UvmJAqEqGoYzR7vtZk8hrujhZVGBh1MMED8JnsNja8gEopYM");
+        "0x27168cc578fcaf7e5b6324234b628233f255c91a", "0x6c4d7a11fb699bb020e46f315d8cb87ef2c0f8c8", "0.1",
+        privKey);
       const result = await ethSwap.participate(ethParams);
       expect(result).toBeTruthy();
       // tslint:disable-next-line

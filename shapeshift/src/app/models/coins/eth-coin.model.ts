@@ -17,6 +17,23 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
     super();
   }
 
+  ParticipateProm(data: InitiateData): Promise<ParticipateData> {
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    const keystore = this.recover(xprivKey);
+    this.login(keystore, xprivKey);
+
+    const secretHash = data.secretHash;
+    const participateParams = new EthParticipateParams(this.timeout,
+      secretHash.indexOf("0x") === -1 ? "0x" + secretHash : secretHash,
+      "0x" + data.address,
+      this.amount.toString(), xprivKey);
+
+    console.log(participateParams);
+
+
+    return super.participate(participateParams);
+  }
+
   Participate(data: InitiateData): Observable<ParticipateData> {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     const keystore = this.recover(xprivKey);
@@ -27,6 +44,8 @@ export class EthCoinModel extends EthWalletTestnet implements Coin {
       secretHash.indexOf("0x") === -1 ? "0x" + secretHash : secretHash,
       "0x" + data.address,
       this.amount.toString(), xprivKey);
+
+    console.log(participateParams);
 
 
     return Observable.from(super.participate(participateParams));
