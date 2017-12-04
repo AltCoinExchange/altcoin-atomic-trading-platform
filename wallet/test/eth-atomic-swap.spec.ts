@@ -43,6 +43,8 @@ describe("EthAtomicSwap", () => {
     const privKey = "tprv8ZgxMBicQKsPdxZqLMWLFLxJiYwSnP92WVXzkb3meDwix5nxQtNd21AHzn3UvmJAqEqGoYzR7vtZk8hrujhZVGBh1MMED8JnsNja8gEopYM";
 
     const ethSwap = new EthWalletTestnet();
+    const ks = ethSwap.recover(privKey);
+    ethSwap.login(ks, privKey);
 
     try {
       const ethParams = new EthParticipateParams(7200,
