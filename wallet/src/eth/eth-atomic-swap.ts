@@ -49,11 +49,10 @@ export class EthAtomicSwap implements IAtomicSwap {
     };
 
     const participateResult = this.engine
-      .callFunction("participate", [refundTime, secretHash, address], params).then((resp) => {
-        // TODO map the fields to ethParticipateData
-        // tslint:disable-next-line
-        console.log(resp);
-        return new EthParticipateData();
+      .callFunction("participate", [refundTime, secretHash, address], params).then((resp: any) => {
+        return new EthParticipateData(resp.blockHash, resp.blockNumber, resp.contractAddress,
+          resp.cumulativeGasUsed, resp.from, resp.gasUsed, resp.logsBloom, resp.status,
+          resp.to, resp.transactionHash, resp.transactionIndex);
       });
 
     return await participateResult;

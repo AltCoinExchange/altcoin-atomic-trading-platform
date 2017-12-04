@@ -8,6 +8,8 @@ import {AppState} from "../reducers/app.state";
 import {getBLink, getBReceiveCoin} from "../selectors/side-b.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {MoscaService} from "../services/mosca.service";
+import {WalletFactory} from "../models/wallets/wallet";
+import {Coin} from "../models/coins/coin.model";
 
 @Injectable()
 export class SideBEffect {
@@ -17,8 +19,9 @@ export class SideBEffect {
     .ofType(sideB.INITIATE)
     .map(toPayload)
     .switchMap((payload) => {
-        const coin = payload.coin;
-        return coin.Initiate(payload.address).map(resp => {
+        const coin = payload.coin as Coin;
+        const wallet = WalletFactory.createWallet(coin.type);
+        return wallet.Initiate(payload.address, coin).map(resp => {
           return new sideB.InitiateSuccessAction(resp);
         }).catch(err => Observable.of(new sideB.InitiateFailAction(err)));
       },
