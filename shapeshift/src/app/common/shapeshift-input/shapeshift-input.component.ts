@@ -21,6 +21,7 @@ export class ShapeshiftInputComponent extends ValueAccessorBase<Number> implemen
   @Input() disabled: boolean = false;
   @Input() type = 'number';
   @Input() value;
+  @Input() label: String;
 
   constructor() {
     super();

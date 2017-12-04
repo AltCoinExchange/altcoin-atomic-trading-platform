@@ -2,17 +2,10 @@
 
 .info-message{
     color: white;
-    border-radius: 2px;
+    border-radius: 11px;
     text-align: center;
-    font-weight: 400;
     padding: 2px 15px;
     font-size: 85%;
-}
-
-@media only screen and (max-width: 600px) {
-    .info-message {
-      border-radius: 0px;
-    }
 }
 
 .info{

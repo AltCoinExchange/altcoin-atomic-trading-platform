@@ -2,13 +2,13 @@
 
 .mat-raised-button{
     width: 100%;
-    background-color: $main-blue !important;
+    background: $text-color !important;
     border: none;
     height: 50px;
     cursor: pointer;
     color: white;
     text-transform: uppercase;
-    font-size: 115%;
-    font-weight: 500;
-    font-family: 'Poppins', sans-serif;
-  }
+    font-size: 85%;
+    box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+    border-radius: 11px;
+}

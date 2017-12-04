@@ -1,10 +1,4 @@
-<div class="message-box">
-  <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
-</div>
 <div class="form">
-  <div class="swap-start form-header">
-    <p>Copy this URL and send to second party for deposit</p>
-  </div>
   <div class="form-content">
     <div class="spinner">
       <p [hidden]="!linkCopied" class="green success-message">
@@ -14,6 +8,7 @@
         <div [hidden]="!linkCopied" class="checkmark draw"></div>
       </div>
     </div>
+    <div class="input-label">Copy this URL and send to second party for deposit</div>
     <div class="input-box">
       <input class="url-copy" value="http://localhost:4200/initiate/{{$link | async}}" id="inputLink"/>
       <p class="copy-icon">
@@ -25,9 +20,9 @@
         </a>
       </p>
     </div>
-  </div>
-  <div class="form-footer">
-    <p>BTC miner fee: 0.001 BTC</p>
+    <div class="message-box">
+      <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+    </div>
   </div>
 </div>
 

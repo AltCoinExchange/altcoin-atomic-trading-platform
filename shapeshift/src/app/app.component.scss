@@ -12,12 +12,12 @@ nav{
   -webkit-transition: all .2s ease-in-out;
   transition: all .2s ease-in-out;
   height: 60px;
-  box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
-
+  box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.50);
   &.nav-up{
     top: -60px;
   }
 }
+
 
 main{
   min-height: -webkit-calc(100% - 120px);    
@@ -59,7 +59,6 @@ a.logo{
     vertical-align: middle;
     display: table;
     text-transform: uppercase;
-    font-weight: 500;
     font-size: 13px;
     li{
       display: table-cell;
@@ -83,6 +82,7 @@ footer {
   width: 100%;
   height: 60px;
   background-color: $main-gray;
+  box-shadow: 1px -2px 4px 0 rgba(0,0,0,0.50);
 
   ul {
     text-align: center;

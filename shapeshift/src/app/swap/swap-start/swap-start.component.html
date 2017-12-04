@@ -1,11 +1,6 @@
-<div class="message-box">
-<info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
-</div>
 <div class="swap-start form">
-        <div class="swap-start form-header">
-                <p>Choose which currency you want to exchange</p>
-        </div>
         <div class="swap-start form-content">
+                <div class="small-font">1 BTC = 23.55863 ETH</div>
                 <app-swap-icon 
                 [fromCoin]="$depositCoin | async" 
                 [toCoin]="$receiveCoin | async"
@@ -18,9 +13,10 @@
                         [receiveQuote]="$quote | async"
                         (depositChange)="onDepositChange($event)">
                 </app-swap-inputs>
-        </div>
-        <div class="swap-start form-footer">
-                <p>BTC miner fee: 0.0001 BTC</p>
+                <div class="message-box">
+                <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+                </div>
         </div>
 </div>
+
 

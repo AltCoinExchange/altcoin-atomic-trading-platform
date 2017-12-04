@@ -7,7 +7,7 @@
 
 $fa-font-path: "../../node_modules/font-awesome/fonts";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 html,
@@ -19,7 +19,8 @@ body {
 
 body {
   background-color: $background-color;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
   font-size: 14px;
   line-height: 1.42857143;
   color: $text-color;
@@ -81,8 +82,9 @@ a{
 }
 
 .input-box{
-  background-color: $second-gray;
-  border: 1px solid $border-color;
+  background: $main-gray;
+  box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  border-radius: 11px;
   margin-bottom: 15px;
   display: flex;
 
@@ -91,17 +93,23 @@ a{
     font-size: 100%;
     margin: 0px;
     padding: 10px;
-    background-color: $second-gray;
+    background-color: $main-gray;
     color: $text-color;
     text-align: center;
     border: none;
     border-style: none;
-    font-weight: 400;
+    border-radius: 11px;
     width: 70px;
+    min-height: 34px;
   }
   input:focus{
     outline: none;
   }
+}
+
+.input-label{
+  color: white;
+  margin-bottom: 10px;
 }
 
 .label{
@@ -109,26 +117,21 @@ a{
   text-transform: uppercase;
   margin: 6px 0px;
   font-size: 12px;
-  font-weight: 600;
 
   &.active{
-    color: $main-blue;
+    color: white;
   }
 
 }
 
 .form{
-  background-color: $main-gray;
-  border: 1px solid $border-color;
 
   .form-header{
     background-color: $second-gray;
-    border-bottom: 1px solid $border-color;
     padding: 20px 5px;
     text-align: center;
     p{
         font-size: 100%;
-        font-weight: 500;
         margin: 0px;
     }
   }
@@ -138,7 +141,6 @@ a{
   }
 
   .form-footer{
-    border-top: 1px solid $border-color;
     background-color: $second-gray;
     padding: 10px 0px;
     p{
@@ -183,3 +185,9 @@ a{
   }
 }
 
+.gradient{
+  background-image: radial-gradient(50% 218%, #2A3141 50%, $background-color 100%);
+  background-image: -webkit-radial-gradient(50% 218%, #2A3141 50%, $background-color 100%);
+  background-image: -o-radial-gradient(50% 218%, #2A3141 50%, $background-color 100%);
+  background-image: -moz-radial-gradient(50% 218%, #2A3141 50%, $background-color 100%);
+}
