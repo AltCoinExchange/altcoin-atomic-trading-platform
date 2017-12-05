@@ -3,9 +3,11 @@
 .info-message{
     color: white;
     border-radius: 11px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
     text-align: center;
     padding: 2px 15px;
-    font-size: 85%;
+    font-size: 100%;
 }
 
 .info{

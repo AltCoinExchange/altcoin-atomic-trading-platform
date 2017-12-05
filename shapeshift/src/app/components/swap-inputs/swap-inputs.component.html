@@ -10,12 +10,12 @@
   <div fxFlex="33" fxFlex.xs="1">
       <div class="input-label">You are getting</div>
       <div class="input-box">
-        <input [value]="receiveQuote" [readonly]="enabled" type="number" step="any" placeholder="0.00">
+        <input [value]="receiveQuote" readonly disabled type="number" step="any" placeholder="0.00">
       </div>
   </div>
 </div>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="center stretch">
-  <div fxFlex="33" fxFlex.xs="1" class="start-button">
+  <div fxFlex="25" fxFlex.xs="1" class="start-button">
     <app-shapeshift-button (click)="submitSwap()">Start</app-shapeshift-button> 
   </div>
 </div>

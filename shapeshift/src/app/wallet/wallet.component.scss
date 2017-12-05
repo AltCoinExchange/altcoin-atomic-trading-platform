@@ -35,18 +35,59 @@
     }		      
 }
 
-.small-spacer{
-    height: 15px;
-}
-
-.spacer{
-    height: 50px;
-}
-
 .message-box{
     margin-bottom: 15px;
 }
 
 .spinner{
     text-align: center;
+}
+
+.wallet-slide{
+    width: 100%;
+    margin: 5% 0;
+    padding: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    
+    .wallet-card{
+        position: relative;
+        height: 70px;
+        min-width: 180px;
+        margin: 0px 30px;
+        padding: 15px 15px 15px 50px;
+        background: $main-gray;
+        box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+        border-radius: 11px;
+
+        .coin-icon{
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            top: 20px;
+            left: -30px;
+        }
+
+        .coin-name{
+            color: white;
+            font-size: 125%;
+        }
+
+        .coin-balance{
+            color: white;
+            font-size: 100%;
+            margin-top: 5px;
+        }
+
+        .coin-usd{
+            color: $text_color;
+            font-size: 85%;
+        }
+
+        .spinner{
+            text-align: left;
+            margin-top: 8px;
+            margin-left: 50px;
+        }
+    }
 }

@@ -1,9 +1,6 @@
 <div class="form">
   <div class="form-content">
     <div class="spinner">
-      <p [hidden]="!linkCopied" class="green success-message">
-        Link has been successfully copied
-      </p>
       <div class="circle-loader" [ngClass]="{'load-complete' : linkCopied}">
         <div [hidden]="!linkCopied" class="checkmark draw"></div>
       </div>

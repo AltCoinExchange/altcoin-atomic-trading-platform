@@ -1,9 +1,43 @@
-<div fxLayout="row" fxLayoutAlign="center stretch">
-    <div fxHide.sm="true" fxHide.xs="true">
+<div class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
+    <div class="wallet-card">
+        <img class="coin-icon" src="assets/icon/eth-icon-o.png" alt="">
+        <div *ngIf="($ethLoading | async)">
+            <div class="spinner">
+                <div class="circle-loader">
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!($ethLoading | async)">
+            <div class="coin-name">Ethereum</div>
+            <div class="coin-balance">{{ ($ethBalance | async)?.balance }}</div>
+            <div class="coin-usd">0 USD</div>
+        </div>
     </div>
+    <div class="wallet-card">
+        <img class="coin-icon" src="assets/icon/btc-icon-o.png" alt="">
+        <div *ngIf="($btcLoading | async)">
+            <div class="spinner">
+                <div class="circle-loader">
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!($btcLoading | async)">
+            <div class="coin-name">Bitcoin</div>
+            <div class="coin-balance">{{ ($btcBalance | async)?.balance }}</div>
+            <div class="coin-usd">0 USD</div>
+        </div>
+    </div>
+    <div class="wallet-card">3</div>
+    <div class="wallet-card">4</div>
+    <div class="wallet-card">5</div>
+    <div class="wallet-card">6</div>
+    <div class="wallet-card">7</div>
+    <div class="wallet-card">8</div>
+    <div class="wallet-card">9</div>
+    <div class="wallet-card">10</div>
+</div>
+<div fxLayout="row" fxLayoutAlign="center stretch">
     <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
-        <div class="spacer" fxHide.xs="true"></div>
-        <div class="small-spacer" fxHide="true" fxHide.xs="false"></div>
         <div class="message-box">
         <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
         </div>
@@ -75,7 +109,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div fxHide.sm="true" fxHide.xs="true">
     </div>
 </div>

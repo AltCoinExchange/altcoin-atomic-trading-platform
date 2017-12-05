@@ -83,8 +83,12 @@ a{
 
 .input-box{
   background: $main-gray;
-  box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
   border-radius: 11px;
+  -webkit-border-radius: 11px;
+  -moz-border-radius: 11px;
+  box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);  
   margin-bottom: 15px;
   display: flex;
 
@@ -100,7 +104,7 @@ a{
     border-style: none;
     border-radius: 11px;
     width: 70px;
-    min-height: 34px;
+    min-height: 40px;
   }
   input:focus{
     outline: none;
@@ -179,9 +183,7 @@ a{
   font-weight: 600;
   a{
     cursor: pointer;
-  }
-  .fa{
-    color: $link-blue;
+    color: white;
   }
 }
 
