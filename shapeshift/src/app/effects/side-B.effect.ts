@@ -63,6 +63,7 @@ export class SideBEffect {
         data.payload = {
           ...data.payload,
           address,
+          secret: undefined,
         };
         return this.moscaService.informInitiate(data.link, data.payload).map(() => {
           return new sideB.InformInitiateSuccessAction(data.payload);
