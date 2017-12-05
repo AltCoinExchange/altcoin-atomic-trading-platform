@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {InitiateData, InitiateParams} from "altcoinio-wallet";
 import {isString} from "util";
+import {PARTICIPATE} from "../actions/side-A.action";
 
 const INITIATE = "/inititate/";
 
@@ -29,6 +30,18 @@ export class MoscaService {
 
   public informInitiate(link, data: InitiateParams) {
     const topic = INITIATE + link.replace('=', '').replace('=', '');
+    this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
+    return Observable.of(true);
+  }
+
+  public waitForParticipate(link): Observable<InitiateData> {
+    const topic = PARTICIPATE + link.replace('=', '').replace('=', '');
+    this.subscribeToTopic(topic);
+    return this.onMessage(topic).map(msg => JSON.parse(msg.message));
+  }
+
+  public informParticipate(link, data: InitiateParams) {
+    const topic = PARTICIPATE + link.replace('=', '').replace('=', '');
     this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }

@@ -28,7 +28,7 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
   constructor(private store: Store<fromSwap.State>, private router: Router) {
     super();
     this.linkCopied = false;
-    this.$link = this.store.select(sideASelector.getLink);
+    this.$link = this.store.select(sideASelector.getALink);
     this.makeInfoMessage();
   }
 
