@@ -6,6 +6,8 @@ import {
   ParticipateData,
 } from "altcoinio-wallet";
 import {Observable} from "rxjs/Observable";
+import {RedeemData} from "../../../../../wallet/src/atomic-swap";
+import {BtcRedeemParams} from "../../../../../wallet/src/btc/atomic-swap";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {BtcCoinModel} from "../coins/btc-coin.model";
 import {Wallet} from "./wallet";
@@ -38,8 +40,22 @@ export class BtcWallet extends BtcWalletTestNet implements Wallet {
     );
   }
 
+  Redeem(data: RedeemData, btc: BtcCoinModel): Observable<RedeemData> {
+    const redeemParams = this.getRedeemParams(data.secret, data.secretHash);
+    return Observable.fromPromise(
+      super.redeem(
+        redeemParams,
+      ),
+    );
+  }
+
   getInitParams(address: string, amount: number): BtcInitiateParams {
     const wif = ShapeshiftStorage.get("btc-wif");
     return new BtcInitiateParams(7200, wif, address, amount);
+  }
+
+  getRedeemParams(secret: string, hashedsecret: string): BtcRedeemParams {
+    const wif = ShapeshiftStorage.get("btc-wif");
+    return new BtcRedeemParams(wif, secret, hashedsecret, null, null);
   }
 }

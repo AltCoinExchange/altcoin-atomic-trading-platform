@@ -3,10 +3,10 @@ import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {Go} from "../actions/router.action";
-import * as sideA from "../actions/side-A.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
 import {getBLink, getBReceiveCoin} from "../selectors/side-b.selector";
+import {getSwapProcess} from "../selectors/start.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {MoscaService} from "../services/mosca.service";
 import {WalletFactory} from "../models/wallets/wallet";
@@ -107,12 +107,15 @@ export class SideBEffect {
   @Effect()
   $redeem: Observable<Action> = this.actions$
     .ofType(sideB.BREDEEM)
-    .mergeMap(() => {
-        return Observable.empty().map(resp => { // TODO provide implementation
-          return new sideB.BRedeemSuccessAction(resp);
-        }).catch(err => Observable.of(new sideB.BRedeemFailAction(err)));
-      },
-    );
+    .map(toPayload)
+    .withLatestFrom(this.store.select(getSwapProcess))
+    .switchMap(([payload, swapProcess]) => {
+      const wallet = WalletFactory.createWallet(swapProcess.depositCoin.type);
+      return wallet.Redeem(payload, swapProcess.depositCoin).map(resp => {
+        console.log("REDEEM RESPONSE:", resp);
+        return new sideB.BRedeemSuccessAction(resp);
+      }).catch(err => Observable.of(new sideB.BRedeemFailAction(err)));
+    });
 
   @Effect()
   $redeemSuccess: Observable<Action> = this.actions$

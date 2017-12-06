@@ -121,17 +121,25 @@ export class SideAEffect {
   @Effect()
   $informParticipateSuccess: Observable<Action> = this.actions$
     .ofType(sideA.INFORM_PARTICIPATE_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideA.WaitForBRedeemAction(resp);
-      });
+    .map(toPayload)
+    .mergeMap((payload) => {
+        return Observable.of(new sideA.WaitForBRedeemAction(payload));
     });
 
   @Effect()
   $waitForBRedeem: Observable<Action> = this.actions$
     .ofType(sideA.WAIT_FOR_BREDEEM)
-    .mergeMap((link) => {
-      return this.moscaService.waitForBRedeem(link).map(resp => {
+    .map(toPayload)
+    .withLatestFrom(
+      this.store.select(getALink),
+      (payload, alink) => {
+        return {
+          payload,
+          link: alink
+        };
+      })
+    .mergeMap((data) => {
+      return this.moscaService.waitForBRedeem(data.link).map(resp => {
         return new sideA.WaitForBRedeemSuccessAction(resp);
       }).catch(err => Observable.of(new sideB.WaitForParticipateFailAction(err)));
     });

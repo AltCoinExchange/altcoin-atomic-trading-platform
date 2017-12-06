@@ -6,6 +6,8 @@ import {
   ParticipateData,
 } from "altcoinio-wallet";
 import {Observable} from "rxjs/Observable";
+import {RedeemData, RedeemParams} from "../../../../../wallet/src/atomic-swap";
+import {EthRedeemParams} from "../../../../../wallet/src/eth/atomic-swap/eth-redeem-params";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {EthCoinModel} from "../coins/eth-coin.model";
 import {Wallet} from "./wallet";
@@ -37,6 +39,10 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
     return Observable.fromPromise(super.participate(participateParams));
   }
 
+  Redeem(data: RedeemData, coin: EthCoinModel): Observable<RedeemData> {
+    const params = new EthRedeemParams(data.secret, data.secretHash, null);
+    return Observable.fromPromise(super.redeem(params));
+  }
 
   getInitParams(address: string, amount: string): EthInitiateParams {
     return new EthInitiateParams(this.timeout, address, amount.toString());
