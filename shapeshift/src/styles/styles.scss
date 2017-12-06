@@ -32,6 +32,8 @@ body {
      }
 }
 
+button:focus {outline:0;}
+
 input[type='number'] {
   -moz-appearance:textfield;
 }
@@ -98,7 +100,7 @@ a{
     margin: 0px;
     padding: 10px;
     background-color: $main-gray;
-    color: $text-color;
+    color: white;
     text-align: center;
     border: none;
     border-style: none;
@@ -114,6 +116,7 @@ a{
 .input-label{
   color: white;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .label{
@@ -188,8 +191,8 @@ a{
 }
 
 .gradient{
-  background-image: radial-gradient(50% 218%, #2A3141 50%, $background-color 100%);
-  background-image: -webkit-radial-gradient(50% 218%, #2A3141 50%, $background-color 100%);
-  background-image: -o-radial-gradient(50% 218%, #2A3141 50%, $background-color 100%);
-  background-image: -moz-radial-gradient(50% 218%, #2A3141 50%, $background-color 100%);
+  background-image: radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
+  background-image: -webkit-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
+  background-image: -o-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
+  background-image: -moz-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
 }

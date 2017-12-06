@@ -14,6 +14,7 @@ export class SwapIconComponent implements OnInit {
   @Input() toCoin: Coin;
   @Input() swapEnabled: boolean;
   @Output() swapped: EventEmitter<void> = new EventEmitter<void>();
+  @Output() chooseCoins: EventEmitter<Coin> = new EventEmitter<Coin>();
 
   fromCoinAnimationSwapState = 'slideBack';
   toCoinAnimationSwapState = 'slideBack';
@@ -42,6 +43,12 @@ export class SwapIconComponent implements OnInit {
       this.toCoinAnimationSwapState = 'slideBack';
     }
     this.swapped.emit();
+  }
+
+  iconClicked(event, coin){
+    event.stopPropagation();
+    event.preventDefault();
+    this.chooseCoins.emit(coin);
   }
 
 }

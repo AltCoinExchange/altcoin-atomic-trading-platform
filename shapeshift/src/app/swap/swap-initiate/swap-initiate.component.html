@@ -7,7 +7,11 @@
         [toCoin]="depositCoin"
         [swapEnabled]="false">
       </app-swap-icon>
-       <mat-spinner *ngIf="($loading | async)" style="left: 38%;"></mat-spinner>
+      <div class="spinner" *ngIf="($loading | async)">
+        <div class="circle-loader" [ngClass]="{'load-complete' : !($loading | async)}">
+          <div [hidden]="($loading | async)" class="checkmark draw"></div>
+        </div>
+      </div>
       <!-- <div *ngIf="!($loading | async)"> -->
         <div class="swap-amounts" fxLayout="column" fxLayoutAlign="center start">
           <div class="swap-give"

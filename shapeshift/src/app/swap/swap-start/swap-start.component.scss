@@ -1,3 +1,5 @@
+@import '../../../styles/variables';
+
 .swap-start{
     text-align: center;
 
@@ -5,6 +7,35 @@
         margin-top: 15px;
     }
     
+}
+
+.coin-strip{
+    position: absolute;
+    height: 64px;
+    padding: 2px;
+    margin-top: 15px;
+    width: 84%;
+    overflow-x: auto;
+    white-space: nowrap;
+    z-index: 2;
+
+    img{
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+        border-radius: 100px;
+    
+        transition: all 200ms ease-in-out;
+        
+        &:hover {
+          -moz-transform: translate(-2px, -2px);
+          -ms-transform: translate(-2px, -2px);
+          -o-transform: translate(-2px, -2px);
+          -webkit-transform: translate(-2px, -2px);
+          transform: translate(-2px, -2px)
+        } 
+    }
 }
 
 

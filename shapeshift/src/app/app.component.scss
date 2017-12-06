@@ -13,8 +13,8 @@ nav{
   transition: all .2s ease-in-out;
   height: 60px;
   box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.50);
-  -webkit-box-shadow: 1px -2px 4px 0 rgba(0,0,0,0.50);
-  -moz-box-shadow: 1px -2px 4px 0 rgba(0,0,0,0.50);
+  -webkit-box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.50);
+  -moz-box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.50);
   &.nav-up{
     top: -60px;
   }

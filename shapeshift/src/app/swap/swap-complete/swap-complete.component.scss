@@ -1,25 +1,5 @@
 @import '../../../styles/variables';
 
-.swap-steps{
-   margin: auto;
-}
-
-.swap-step{
-    p{
-        display: inline-block;
-        font-size: 15px;
-        color: $progress-bar;
-
-        &.active{
-            color: $main-blue;
-        }
-
-        &.completed{
-            color: $main-green;
-        }
-    }
-}
-
 .form .form-content {
     padding: 8% 12%;
 }

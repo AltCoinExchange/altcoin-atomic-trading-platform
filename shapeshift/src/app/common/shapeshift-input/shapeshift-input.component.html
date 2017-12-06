@@ -1,8 +1,7 @@
 <ng-content></ng-content>
 <div class="input-label">{{label}}</div>
 <div class="input-box">
-  <!-- <div class="input-spacer"></div> -->
-  <input [value]="value" [type]="type" [readonly]="disabled" [(ngModel)]="value" [disabled]="disabled"
+  <input [type]="type" [readonly]="disabled" [(ngModel)]="value" [disabled]="disabled"
          type="number" step="any" placeholder="0.00">
   <!-- <div *ngIf="coin" class="input-value"><p>{{coin.name}}</p></div> -->
 </div>

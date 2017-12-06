@@ -24,7 +24,9 @@ import * as swapSelector from "../../selectors/start.selector";
 export class SwapStartComponent extends AnimationEnabledComponent implements OnInit {
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
-
+  chooseCoins: boolean = false;
+  selectedCoin: Coin;
+  coins: Array<String>;
   $swapProcess: Observable<SwapProcess>;
   $depositCoin: Observable<Coin>;
   $receiveCoin: Observable<Coin>;
@@ -33,9 +35,22 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
 
   constructor(private router: Router, private store: Store<fromSwap.State>) {
     super();
-
-    this.store.dispatch(new swapAction.SetActiveStepAction(1));
     this.infoMsg = "For testnet use only";
+    this.coins = [
+      'assets/icon/eth-icon-o.png', 
+      'assets/icon/btc-icon-o.png', 
+      'assets/icon/ltc-icon-o.png', 
+      'assets/icon/dcr-icon-o.png', 
+      'assets/icon/rep-icon-o.png', 
+      'assets/icon/gnt-icon-o.png', 
+      'assets/icon/gno-icon-o.png',
+      'assets/icon/bat-icon-o.png',
+      'assets/icon/ant-icon-o.png',
+      'assets/icon/eos-icon-o.png',
+      'assets/icon/salt-icon-o.png'
+    ];
+  
+    this.store.dispatch(new swapAction.SetActiveStepAction(1));
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
     this.$receiveCoin = this.store.select(swapSelector.getReceiveCoin);
@@ -84,5 +99,16 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
 
   onDepositChange(depositamount: number) {
     this.store.dispatch(new swapAction.SetDepositAmountAction(depositamount));
+  }
+
+  toggleCoinStrip(coin: Coin){
+    this.selectedCoin = coin;
+    this.chooseCoins = !this.chooseCoins;
+  }
+
+  closeCoinStrip(event, coinImg){
+    event.stopPropagation();
+    event.preventDefault();
+    this.chooseCoins = false;
   }
 }

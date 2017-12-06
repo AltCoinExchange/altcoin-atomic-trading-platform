@@ -2,9 +2,8 @@
 
 .mat-raised-button{
     width: 100%;
-    background: $text-color !important;
     border: none;
-    height: 60px;
+    height: 48px;
     cursor: pointer;
     color: white;
     text-transform: uppercase;
@@ -15,4 +14,20 @@
     border-radius: 11px;
     -webkit-border-radius: 11px;
     -moz-border-radius: 11px;
+
+    background-image: linear-gradient(180deg, #47525F 0%, $main-gray 100%);
+    background-image: -webkit-linear-gradient(180deg, #47525F 0%, $main-gray 100%);
+    background-image: -o-linear-gradient(180deg, #47525F 0%, $main-gray 100%);
+    background-image: -moz-linear-gradient(180deg, #47525F 0%, $main-gray 100%);
+
+    transition: all 200ms ease-in-out;
+    
+    &:hover {
+        -moz-transform: translate(-2px, -2px);
+        -ms-transform: translate(-2px, -2px);
+        -o-transform: translate(-2px, -2px);
+        -webkit-transform: translate(-2px, -2px);
+        transform: translate(-2px, -2px)
+    }
+    
 }

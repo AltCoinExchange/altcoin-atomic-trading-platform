@@ -1,113 +1,79 @@
-<div class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
-    <div class="wallet-card">
-        <img class="coin-icon" src="assets/icon/eth-icon-o.png" alt="">
-        <div *ngIf="($ethLoading | async)">
-            <div class="spinner">
-                <div class="circle-loader">
-                </div>
-            </div>
-        </div>
-        <div *ngIf="!($ethLoading | async)">
-            <div class="coin-name">Ethereum</div>
-            <div class="coin-balance">{{ ($ethBalance | async)?.balance }}</div>
-            <div class="coin-usd">0 USD</div>
-        </div>
-    </div>
-    <div class="wallet-card">
-        <img class="coin-icon" src="assets/icon/btc-icon-o.png" alt="">
-        <div *ngIf="($btcLoading | async)">
-            <div class="spinner">
-                <div class="circle-loader">
-                </div>
-            </div>
-        </div>
-        <div *ngIf="!($btcLoading | async)">
-            <div class="coin-name">Bitcoin</div>
-            <div class="coin-balance">{{ ($btcBalance | async)?.balance }}</div>
-            <div class="coin-usd">0 USD</div>
-        </div>
-    </div>
-    <div class="wallet-card">3</div>
-    <div class="wallet-card">4</div>
-    <div class="wallet-card">5</div>
-    <div class="wallet-card">6</div>
-    <div class="wallet-card">7</div>
-    <div class="wallet-card">8</div>
-    <div class="wallet-card">9</div>
-    <div class="wallet-card">10</div>
-</div>
 <div fxLayout="row" fxLayoutAlign="center stretch">
     <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
         <div class="message-box">
-        <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+            <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
         </div>
-        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
-            <div class="form" fxFlex="45%">
-                <div class="form-header">
-                    <img class="header-icon" src="assets/icon/eth-icon-o.png" alt="">
-                    <p>Ethereum</p>
-                </div>
-                <div *ngIf="!($ethLoading | async)" class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
-                    <div class="row" fxFlex="1">
-                        <p class="label blue">Address</p>
-                        <div class="input-box">
-                            <input class="url-copy" value="{{ ($ethBalance | async)?.address }}" id="ethAddress"/>
-                            <p class="copy-icon">
-                                <a (click)="copyEthAddress($event)">
-                                    <i class="material-icons">content_copy</i>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row" fxFlex="1">
-                        <p class="label blue">Balance</p>
-                        <p class="label green">{{ ($ethBalance | async)?.balance }}</p>
-                    </div>
-                    <div class="row">
-                        <p class="label blue">Faucet</p>
-                        <p class="label"><a target="_blank" href="https://faucet.rinkeby.io/">ETH FAUCET</a></p>
-                    </div>
-                </div>
-                <div *ngIf="($ethLoading | async)" class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
-                    <div class="spinner">
-                        <div class="circle-loader">
-                        </div>
+    </div>
+</div>
+<div class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
+    <a href="" *ngFor="let wallet of wallets"  (click)="selectWalletCard($event, wallet)">
+        <div class="wallet-card" [class.active]="selectedWalletId == wallet.id">
+            <img class="coin-icon" [src]="wallet.icon"  alt="">
+            <div *ngIf="(wallet.$loading | async)">
+                <div class="spinner">
+                    <div class="circle-loader">
                     </div>
                 </div>
             </div>
-            <div class="form" fxFlex="45%">
-                <div class="form-header">
-                    <img class="header-icon" src="assets/icon/btc-icon-o.png" alt="">
-                    <p>Bitcoin</p>
-                </div>
-                <div *ngIf="!($btcLoading | async)" class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
-                    <div class="row" fxFlex="1">
-                        <p class="label blue">Address</p>
-                        <div class="input-box">
-                            <input class="url-copy" value="{{ ($btcBalance | async)?.address }}" id="btcAddress"/>
-                            <p class="copy-icon">
-                                <a (click)="copyBtcAddress($event)">
-                                    <i class="material-icons">content_copy</i>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row" fxFlex="1">
-                        <p class="label blue">Balance</p>
-                        <p class="label green">{{ ($btcBalance | async)?.balance }}</p>
-                    </div>
-                    <div class="row" fxFlex="1">
-                        <p class="label blue">Faucet</p>
-                        <p class="label"><a target="_blank" href="https://testnet.coinfaucet.eu/en/">BTC FAUCET</a></p>  
-                    </div>   
-                </div>
-                <div *ngIf="($btcLoading | async)" class="form-content" fxLayout="column" fxLayoutAlign="center stretch">
-                    <div class="spinner">
-                        <div class="circle-loader">
-                        </div>
-                    </div>
+            <div *ngIf="!(wallet.$loading | async)">
+                <div class="coin-name">{{wallet.fullName}}</div>
+                <div class="coin-balance">{{ (((wallet.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{wallet.name}}</div>
+                <div class="coin-usd">{{wallet.usd}} USD</div>
+            </div>
+        </div>
+    </a>
+</div>
+<div class="options-slide gradient" fxLayout="row" fxLayoutAlign="center center">
+    <button *ngFor="let option of walletOptions" 
+        class="wallet-option" 
+        (click)="selectWalletOption(option)"
+        [class.active]="selectedOptionId == option.id">{{option.name}}</button>
+</div>
+<div *ngIf="selectedOptionId == 0" class="wallet-content gradient">
+    <div fxLayout="row" fxLayoutAlign="center stretch">
+        <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
+            <div class="input-label">Amount</div>
+            <div class="input-box"  type="number">
+                <input [value]="sendAmount | number : '1.2-18'" type="number"/>
+            </div>
+            <div class="input-label">Address</div>
+            <div class="input-box">
+                <input/>
+            </div>
+            <div class="input-label">Network fee</div>
+            <div class="input-box">
+                <input readonly value="0.00011901"/>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end end" fxLayoutAlign.xs="center stretch">
+                <div fxFlex="25" fxFlex.xs="1" class="start-button">
+                    <app-shapeshift-button>Send</app-shapeshift-button> 
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="selectedOptionId == 1" class="wallet-content gradient">
+    <div fxLayout="row" fxLayoutAlign="center stretch">
+        <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
+            <div class="input-label">Address</div>
+            <div class="input-box">
+                <input readonly value="{{ ($btcBalance | async)?.address }}" id="btcAddress"/>
+                <p class="copy-icon">
+                    <a (click)="copyBtcAddress($event)">
+                        <i class="material-icons">content_copy</i>
+                    </a>
+                </p>
+            </div>
+            <div class="qr-code-image">
+                <img src="assets/icon/qr.png" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="selectedOptionId == 2" class="wallet-content gradient">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
+            No transactions
         </div>
     </div>
 </div>
