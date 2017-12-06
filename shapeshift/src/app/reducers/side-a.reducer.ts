@@ -30,10 +30,22 @@ export function reducer(state = initialState, action: sideA.Actions): State {
       console.log("REDUCER sideA.PARTICIPATE", state);
       return {
         ...state,
-        link: action.payload.link,
         status: {
           ...state.status,
           participated: SwapSpinners.Active,
+        },
+        loading: true,
+        receiveCoin: action.payload.coin,
+        depositCoin: action.payload.depositCoin,
+      };
+    }
+    case sideA.INFORM_PARTICIPATE: {
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          participated: SwapSpinners.Completed,
+          redeemed: SwapSpinners.Active,
         },
         loading: true,
         receiveCoin: action.payload.coin,
@@ -72,7 +84,10 @@ export function reducer(state = initialState, action: sideA.Actions): State {
           ...state.status,
           participated: SwapSpinners.Completed,
           redeeming: SwapSpinners.Active,
-        }
+        },
+        loading: true,
+        receiveCoin: action.payload.coin,
+        depositCoin: action.payload.depositCoin
       };
     }
 

@@ -71,10 +71,15 @@ export class EthAtomicSwap implements IAtomicSwap {
       ...extendedParams,
     };
 
-    return await this.engine.callFunction("redeem", [secret, hashedSecret], params, 1).then((resp) => {
-      // TODO map the fields to ethRedeemData
-      return new EthRedeemData();
-    });
+    // tslint:disable-next-line
+    console.log("ETH REDEEM PARAMS: ", redeemParams);
+
+    const resp: any = await this.engine.callFunction("redeem", [secret, hashedSecret], params, 1);
+
+    // tslint:disable-next-line
+    console.log("ETH REDEEM RESPONSE: ", resp);
+
+    return new EthRedeemData();
   }
 
   public async extractSecret(extractSecretParams: EthExtractSecretParams): Promise<EthExtractSecretData> {

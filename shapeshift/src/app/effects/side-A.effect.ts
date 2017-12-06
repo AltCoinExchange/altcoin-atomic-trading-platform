@@ -7,7 +7,7 @@ import * as sideA from "../actions/side-A.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
 import {getADepositCoin, getALink} from "../selectors/side-a.selector";
-import {getSwapProcess} from "../selectors/start.selector";
+import {getInitateLink, getSwapProcess} from "../selectors/start.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
@@ -95,17 +95,19 @@ export class SideAEffect {
       this.store.select(getALink),
       this.store.select(getADepositCoin),
       this.store.select(getWalletState),
-      (payload, alink, aDepositCoin, walletState) => {
+      this.store.select(getSwapProcess),
+      (payload, alink, aDepositCoin, walletState, process) => {
         return {
           payload,
           link: alink,
-          depositCoin: aDepositCoin,
           wallet: walletState,
+          process
         };
       }).mergeMap((data) => {
         // TODO payload contains SECRET ------- TODO please correct this
         console.log("TODO payload contains SECRET ------- TODO please correct this");
-        const address = data.wallet[data.depositCoin.name].address;
+        console.log(data);
+        const address = data.wallet[data.process.depositCoin.name].address;
         data.payload = {
           ...data.payload,
           address,
