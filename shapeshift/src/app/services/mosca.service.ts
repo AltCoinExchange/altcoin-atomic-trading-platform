@@ -6,6 +6,7 @@ import {Subject} from "rxjs/Subject";
 import {InitiateData, InitiateParams} from "altcoinio-wallet";
 import {isString} from "util";
 import {PARTICIPATE} from "../actions/side-A.action";
+import {BREDEEM} from "../actions/side-B.action";
 
 const INITIATE = "/inititate/";
 
@@ -42,6 +43,18 @@ export class MoscaService {
 
   public informParticipate(link, data: InitiateParams) {
     const topic = PARTICIPATE + link.replace('=', '').replace('=', '');
+    this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
+    return Observable.of(true);
+  }
+
+  public waitForBRedeem(link): Observable<InitiateData> {
+    const topic = BREDEEM + link.replace('=', '').replace('=', '');
+    this.subscribeToTopic(topic);
+    return this.onMessage(topic).map(msg => JSON.parse(msg.message));
+  }
+
+  public informBRedeem(link, data: InitiateParams) {
+    const topic = BREDEEM + link.replace('=', '').replace('=', '');
     this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }
