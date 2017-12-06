@@ -4,8 +4,10 @@ import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {Go} from "../actions/router.action";
 import * as sideA from "../actions/side-A.action";
+import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
-import {getSwapProcess} from "../selectors/start.selector";
+import {getADepositCoin, getALink} from "../selectors/side-a.selector";
+import {getInitateLink, getSwapProcess} from "../selectors/start.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
@@ -67,6 +69,7 @@ export class SideAEffect {
     .switchMap(([payload, swapProcess]) => {
       const wallet = WalletFactory.createWallet(swapProcess.depositCoin.type);
       return wallet.Participate(payload, swapProcess.depositCoin).map(resp => {
+        console.log("PARTICIPATE RESPONSE:", resp);
         return new sideA.ParticipateSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.ParticipateFailAction(err)));
     });
@@ -74,20 +77,46 @@ export class SideAEffect {
   @Effect()
   $participateSuccess: Observable<Action> = this.actions$
     .ofType(sideA.PARTICIPATE_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideA.InformParticipateAction(resp);
-      });
+    .map(toPayload)
+    .mergeMap((payload) => {
+      return Observable.from([
+        new Go({
+          path: ["/a/complete"],
+        }),
+        new sideA.InformParticipateAction(payload),
+      ]);
     });
 
   @Effect()
   $informParticipate: Observable<Action> = this.actions$
     .ofType(sideA.INFORM_PARTICIPATE)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideA.InformParticipateSuccessAction(resp);
-      }).catch(err => Observable.of(new sideA.InformParticipateFailAction(err)));
-    });
+    .map(toPayload)
+    .withLatestFrom(
+      this.store.select(getALink),
+      this.store.select(getADepositCoin),
+      this.store.select(getWalletState),
+      this.store.select(getSwapProcess),
+      (payload, alink, aDepositCoin, walletState, process) => {
+        return {
+          payload,
+          link: alink,
+          wallet: walletState,
+          process
+        };
+      }).mergeMap((data) => {
+        // TODO payload contains SECRET ------- TODO please correct this
+        console.log("TODO payload contains SECRET ------- TODO please correct this");
+        console.log(data);
+        const address = data.wallet[data.process.depositCoin.name].address;
+        data.payload = {
+          ...data.payload,
+          address,
+        };
+        return this.moscaService.informParticipate(data.link, data.payload).map(() => {
+          return new sideA.InformParticipateSuccessAction(data.payload);
+        }).catch(err => Observable.of(new sideB.InformInitiateFailAction(err)));
+      },
+    );
 
   @Effect()
   $informParticipateSuccess: Observable<Action> = this.actions$
@@ -101,10 +130,10 @@ export class SideAEffect {
   @Effect()
   $waitForBRedeem: Observable<Action> = this.actions$
     .ofType(sideA.WAIT_FOR_BREDEEM)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
+    .mergeMap((link) => {
+      return this.moscaService.waitForBRedeem(link).map(resp => {
         return new sideA.WaitForBRedeemSuccessAction(resp);
-      }).catch(err => Observable.of(new sideA.WaitForBRedeemFailAction(err)));
+      }).catch(err => Observable.of(new sideB.WaitForParticipateFailAction(err)));
     });
 
   @Effect()

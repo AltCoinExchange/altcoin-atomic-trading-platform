@@ -48,14 +48,17 @@ export class EthAtomicSwap implements IAtomicSwap {
       value: this.engine.toWei(partParams.amount, "ether"),
     };
 
-    const participateResult = this.engine
-      .callFunction("participate", [refundTime, secretHash, address], params).then((resp: any) => {
-        return new EthParticipateData(resp.blockHash, resp.blockNumber, resp.contractAddress,
-          resp.cumulativeGasUsed, resp.from, resp.gasUsed, resp.logsBloom, resp.status,
-          resp.to, resp.transactionHash, resp.transactionIndex);
-      });
+    // tslint:disable-next-line
+    console.log("ETH PARTICIPATE PARAMS: ", partParams);
 
-    return await participateResult;
+    const resp: any = await this.engine.callFunction("participate", [refundTime, secretHash, address], params);
+
+    // tslint:disable-next-line
+    console.log("ETH PARTICIPATE RESPONSE: ", resp);
+
+    return new EthParticipateData(resp.blockHash, resp.blockNumber, resp.contractAddress,
+        resp.cumulativeGasUsed, resp.from, resp.gasUsed, resp.logsBloom, resp.status,
+        resp.to, resp.transactionHash, resp.transactionIndex);
   }
 
   public async redeem(redeemParams: EthRedeemParams): Promise<EthRedeemData> {
@@ -68,10 +71,15 @@ export class EthAtomicSwap implements IAtomicSwap {
       ...extendedParams,
     };
 
-    return await this.engine.callFunction("redeem", [secret, hashedSecret], params, 1).then((resp) => {
-      // TODO map the fields to ethRedeemData
-      return new EthRedeemData();
-    });
+    // tslint:disable-next-line
+    console.log("ETH REDEEM PARAMS: ", redeemParams);
+
+    const resp: any = await this.engine.callFunction("redeem", [secret, hashedSecret], params, 1);
+
+    // tslint:disable-next-line
+    console.log("ETH REDEEM RESPONSE: ", resp);
+
+    return new EthRedeemData();
   }
 
   public async extractSecret(extractSecretParams: EthExtractSecretParams): Promise<EthExtractSecretData> {

@@ -83,12 +83,12 @@ export class SideBEffect {
   @Effect()
   $waitForParticipate: Observable<Action> = this.actions$
     .ofType(sideB.WAIT_FOR_PARTICIPATE)
-    .mergeMap(() => {
-        return Observable.empty().map(resp => { // TODO provide implementation
-          return new sideB.WaitForParticipateSuccessAction(resp);
-        }).catch(err => Observable.of(new sideB.WaitForParticipateFailAction(err)));
-      },
-    );
+    .map(toPayload)
+    .mergeMap((link) => {
+      return this.moscaService.waitForParticipate(link).map(resp => {
+        return new sideB.WaitForParticipateSuccessAction(resp);
+      }).catch(err => Observable.of(new sideB.WaitForParticipateFailAction(err)));
+    });
 
   @Effect()
   $waitForParticipateSuccess: Observable<Action> = this.actions$

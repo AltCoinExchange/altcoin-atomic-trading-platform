@@ -22,6 +22,8 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
   }
 
   Participate(data: InitiateData, coin: EthCoinModel): Observable<ParticipateData> {
+    // tslint:disable-next-line
+    console.log("PARTICIPATING ETH:... ", InitiateData);
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     const keystore = super.recover(xprivKey);
     this.login(keystore, xprivKey);

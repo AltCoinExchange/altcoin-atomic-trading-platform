@@ -17,6 +17,8 @@ export class BtcWallet extends BtcWalletTestNet implements Wallet {
   }
 
   Participate(data: InitiateData, btc: BtcCoinModel): Observable<ParticipateData> {
+    // tslint:disable-next-line
+    console.log("PARTICIPATING BTC:... ", InitiateData);
     const btcParticipateParams = new BtcParticipateParams();
     btcParticipateParams.address = (<any>data).address;
     btcParticipateParams.secretHash = data.secretHash;
