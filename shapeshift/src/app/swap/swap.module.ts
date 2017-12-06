@@ -19,10 +19,16 @@ import {SwapParticipateComponent} from "./swap-participate/swap-participate.comp
 import {SwapStartComponent} from "./swap-start/swap-start.component";
 import {TransferLinkComponent} from "./transfer-link/transfer-link.component";
 import {FormsModule} from '@angular/forms';
+import { PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'angular2-perfect-scrollbar';
+
+const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+};
 
 @NgModule({
   imports: [
     CommonModule,
+    PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
     RouterModule.forChild([
       {
         path: "", component: SwapContainerComponent, children: [

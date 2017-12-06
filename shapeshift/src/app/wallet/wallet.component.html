@@ -5,7 +5,7 @@
         </div>
     </div>
 </div>
-<div class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
+<perfect-scrollbar class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
     <a href="" *ngFor="let wallet of wallets"  (click)="selectWalletCard($event, wallet)">
         <div class="wallet-card" [class.active]="selectedWalletId == wallet.id">
             <img class="coin-icon" [src]="wallet.icon"  alt="">
@@ -22,13 +22,14 @@
             </div>
         </div>
     </a>
-</div>
-<div class="options-slide gradient" fxLayout="row" fxLayoutAlign="center center">
+</perfect-scrollbar>
+
+<perfect-scrollbar class="options-slide gradient" fxLayout="row" fxLayoutAlign="center center">
     <button *ngFor="let option of walletOptions" 
         class="wallet-option" 
         (click)="selectWalletOption(option)"
         [class.active]="selectedOptionId == option.id">{{option.name}}</button>
-</div>
+</perfect-scrollbar>
 <div *ngIf="selectedOptionId == 0" class="wallet-content gradient">
     <div fxLayout="row" fxLayoutAlign="center stretch">
         <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
