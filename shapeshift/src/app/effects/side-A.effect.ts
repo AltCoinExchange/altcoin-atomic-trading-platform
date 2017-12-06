@@ -69,6 +69,7 @@ export class SideAEffect {
     .switchMap(([payload, swapProcess]) => {
       const wallet = WalletFactory.createWallet(swapProcess.depositCoin.type);
       return wallet.Participate(payload, swapProcess.depositCoin).map(resp => {
+        console.log("PARTICIPATE RESPONSE:", resp);
         return new sideA.ParticipateSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.ParticipateFailAction(err)));
     });
