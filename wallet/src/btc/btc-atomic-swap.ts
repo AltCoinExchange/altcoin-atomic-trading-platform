@@ -161,7 +161,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
 
     const res = await this.publishTx(redeemTx.toString());
 
-    return new BtcRedeemData(redeemTx.toString(), res);
+    return new BtcRedeemData(params.secret, params.hashedSecret, redeemTx.toString(), res);
   }
 
   /**

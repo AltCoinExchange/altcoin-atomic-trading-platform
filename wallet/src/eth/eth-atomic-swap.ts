@@ -79,7 +79,7 @@ export class EthAtomicSwap implements IAtomicSwap {
     // tslint:disable-next-line
     console.log("ETH REDEEM RESPONSE: ", resp);
 
-    return new EthRedeemData();
+    return new EthRedeemData(secret, hashedSecret);
   }
 
   public async extractSecret(extractSecretParams: EthExtractSecretParams): Promise<EthExtractSecretData> {
