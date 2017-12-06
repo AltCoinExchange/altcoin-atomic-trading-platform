@@ -113,7 +113,7 @@ export class SideAEffect {
           address,
         };
         return this.moscaService.informParticipate(data.link, data.payload).map(() => {
-          return new sideB.InformInitiateSuccessAction(data.payload);
+          return new sideA.InformParticipateSuccessAction(data.payload);
         }).catch(err => Observable.of(new sideB.InformInitiateFailAction(err)));
       },
     );
