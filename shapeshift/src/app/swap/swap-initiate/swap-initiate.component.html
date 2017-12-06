@@ -12,30 +12,26 @@
           <div [hidden]="($loading | async)" class="checkmark draw"></div>
         </div>
       </div>
-      <!-- <div *ngIf="!($loading | async)"> -->
-        <div class="swap-amounts" fxLayout="column" fxLayoutAlign="center start">
-          <div class="swap-give"
-            fxLayout.gt-xs="row"
-            fxLayoutAlign.gt-xs="space-between center"
-            fxLayout.xs="column"
-            fxLayoutAlign.xs="center flex-start">
-            <div><p class="label">You are giving</p></div>
-            <div><p class="label red big-font">{{receiveCoin.amount}} {{receiveCoin.name}}</p></div>
-          </div>
-          <div class="swap-receive"
-            fxLayout.gt-xs="row"
-            fxLayoutAlign.gt-xs="space-between center"
-            fxLayout.xs="column"
-            fxLayoutAlign.xs="center flex-start">
-            <p class="label">You are getting</p>
-            <p class="label green big-font">{{depositCoin.amount}} {{depositCoin.name}}</p>
-          </div>
+      <div class="swap-inputs" fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="33" fxFlex.xs="1">
+          <app-shapeshift-input [label]="'You are giving'" [coin]="depositCoin"
+              [(ngModel)]="depositCoin.amount" readonly disabled>
+          </app-shapeshift-input>
         </div>
+        <div fxFlex="33" fxFlex.xs="1">
+        </div>
+        <div fxFlex="33" fxFlex.xs="1">
+            <app-shapeshift-input [label]="'You are getting'" [coin]="receiveCoin"
+            [(ngModel)]="receiveCoin.amount" readonly disabled>
+            </app-shapeshift-input>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="center stretch">
+        <div fxFlex="25" fxFlex.xs="1" class="start-button">
+          <app-shapeshift-button (click)="startInitiate()">Agree</app-shapeshift-button> 
+        </div>
+      </div>
         <!-- <redeem-address [coin]="depositCoin"></redeem-address> -->
-        <app-shapeshift-button (click)="startInitiate()">
-          Agree
-        </app-shapeshift-button>
-      <!-- </div> -->
     </div>
     <div class="message-box">
     <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>

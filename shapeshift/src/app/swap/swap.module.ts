@@ -18,6 +18,7 @@ import {SwapInitiateComponent} from "./swap-initiate/swap-initiate.component";
 import {SwapParticipateComponent} from "./swap-participate/swap-participate.component";
 import {SwapStartComponent} from "./swap-start/swap-start.component";
 import {TransferLinkComponent} from "./transfer-link/transfer-link.component";
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import {TransferLinkComponent} from "./transfer-link/transfer-link.component";
     SwapInitiatePreviewModule,
     MatProgressSpinnerModule,
     MatButtonModule,
+    FormsModule
   ],
   declarations: [
     SwapIconComponent,
