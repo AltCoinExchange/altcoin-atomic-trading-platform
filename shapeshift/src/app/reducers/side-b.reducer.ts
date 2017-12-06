@@ -51,6 +51,28 @@ export function reducer(state = initialState, action: sideB.Actions): State {
         loading: false,
       };
     }
+    case sideB.WAIT_FOR_PARTICIPATE: {
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          initiated: SwapSpinners.Completed,
+          participated: SwapSpinners.Active,
+        },
+        loading: false,
+      };
+    }
+    case sideB.WAIT_FOR_PARTICIPATE_SUCCESS: {
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          participated: SwapSpinners.Completed,
+          redeeming: SwapSpinners.Active,
+        },
+        loading: false,
+      };
+    }
 
     default: {
       return state;

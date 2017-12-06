@@ -3,6 +3,7 @@ import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {Go} from "../actions/router.action";
+import * as sideA from "../actions/side-A.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
 import {getBLink, getBReceiveCoin} from "../selectors/side-b.selector";
@@ -74,18 +75,24 @@ export class SideBEffect {
   @Effect()
   $informInitiateSuccess: Observable<Action> = this.actions$
     .ofType(sideB.INFORM_INITIATE_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideB.WaitForParticipateAction(resp);
-      });
+    .map(toPayload)
+    .mergeMap((payload) => {
+      return Observable.of(new sideB.WaitForParticipateAction(payload));
     });
 
   @Effect()
   $waitForParticipate: Observable<Action> = this.actions$
     .ofType(sideB.WAIT_FOR_PARTICIPATE)
     .map(toPayload)
-    .mergeMap((link) => {
-      return this.moscaService.waitForParticipate(link).map(resp => {
+    .withLatestFrom(this.store.select(getBLink),
+      (payload, blink) => {
+      return {
+        payload,
+        link: blink
+      };
+    })
+    .mergeMap((data) => {
+      return this.moscaService.waitForParticipate(data.link).map(resp => {
         return new sideB.WaitForParticipateSuccessAction(resp);
       }).catch(err => Observable.of(new sideB.WaitForParticipateFailAction(err)));
     });
@@ -93,10 +100,8 @@ export class SideBEffect {
   @Effect()
   $waitForParticipateSuccess: Observable<Action> = this.actions$
     .ofType(sideB.WAIT_FOR_PARTICIPATE_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideB.BRedeemAction(resp);
-      });
+    .mergeMap((payload) => {
+      return Observable.of(new sideB.BRedeemAction(payload));
     });
 
   @Effect()
