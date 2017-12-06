@@ -1,10 +1,10 @@
 <div class="swap-start form">
         <div class="swap-start form-content">
-                <div [hidden]="!chooseCoins" class="coin-strip">
+                <perfect-scrollbar [hidden]="!chooseCoins" class="coin-strip">
                         <a *ngFor="let coinImg of coins"  href="" (click)="closeCoinStrip($event, coinImg)">
                                 <img [style.opacity]="(selectedCoin && coinImg == selectedCoin.iconOutline)  ? '1' : '0.5'" [src]="coinImg" alt="">
                         </a>
-                </div>
+                </perfect-scrollbar >
                 <!-- <div class="small-font">1 BTC = 23.55863 ETH</div> -->
                 <app-swap-icon [style.visibility]="!chooseCoins ? 'visible' : 'hidden'"
                 [fromCoin]="$depositCoin | async" 
