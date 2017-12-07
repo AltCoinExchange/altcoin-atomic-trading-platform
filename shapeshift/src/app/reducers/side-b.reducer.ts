@@ -3,6 +3,8 @@ import {Coin} from "../models/coins/coin.model";
 import {SwapSpinners} from "../models/swap-spinners.enum";
 
 export interface State {
+  contractBin: any;
+  contractTx: any;
   secret: string,
   hashedSecret: string,
   link: string;
@@ -15,6 +17,8 @@ export interface State {
 export const initialState: State = {
   secret: undefined,
   hashedSecret: undefined,
+  contractBin: undefined,
+  contractTx: undefined,
   link: undefined,
   loading: false,
   status: {
@@ -52,7 +56,9 @@ export function reducer(state = initialState, action: sideB.Actions): State {
           ...state.status
         },
         secret: action.payload.secret,
-        hashedSecret: action.payload.secretHash
+        hashedSecret: action.payload.secretHash,
+        contractBin: action.payload.contractBin ? action.payload.contractBin : null,
+        contractTx: action.payload.contractTx ? action.payload.contractTx : null
       };
     }
     case sideB.INFORM_INITIATE_SUCCESS: {
@@ -88,6 +94,16 @@ export function reducer(state = initialState, action: sideB.Actions): State {
         loading: false,
       };
     }
+    case sideB.BREDEEM_SUCCESS: {
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          redeeming: SwapSpinners.Completed,
+        },
+        loading: false,
+      };
+    }
 
     default: {
       return state;
@@ -103,3 +119,5 @@ export const getBReceiveCoin = (state: State) => state.receiveCoin;
 export const getBDepositCoin = (state: State) => state.depositCoin;
 export const getBSecret = (state: State) => state.secret;
 export const getBHashedSecret = (state: State) => state.hashedSecret;
+export const getBContractBin = (state: State) => state.contractBin;
+export const getBContractTx = (state: State) => state.contractTx;

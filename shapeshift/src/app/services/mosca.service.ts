@@ -5,7 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import {InitiateData, InitiateParams} from "altcoinio-wallet";
 import {isString} from "util";
-import {PARTICIPATE} from "../actions/side-A.action";
+import {AREDEEM, PARTICIPATE} from "../actions/side-A.action";
 import {BREDEEM} from "../actions/side-B.action";
 
 const INITIATE = "/inititate/";

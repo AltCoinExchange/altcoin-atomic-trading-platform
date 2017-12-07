@@ -6,7 +6,10 @@ import {RedeemData} from "../../../../wallet/src/atomic-swap";
 import {Go} from "../actions/router.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
-import {getBLink, getBReceiveCoin, getBHashedSecret, getBSecret, getBDepositCoin} from "../selectors/side-b.selector";
+import {
+  getBLink, getBReceiveCoin, getBHashedSecret, getBSecret, getBDepositCoin,
+  getBContractBin, getBContractTx,
+} from "../selectors/side-b.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {MoscaService} from "../services/mosca.service";
 import {WalletFactory} from "../models/wallets/wallet";
@@ -114,19 +117,23 @@ export class SideBEffect {
       this.store.select(getBHashedSecret),
       this.store.select(getWalletState),
       this.store.select(getBDepositCoin),
-      (payload, secret, hashedSecret, walletState, depositCoin) => {
+      this.store.select(getBContractBin),
+      this.store.select(getBContractTx),
+      (payload, secret, hashedSecret, walletState, depositCoin, contractBin, contractTx) => {
         return {
           payload,
           secret,
           hashedSecret,
           walletState,
-          depositCoin
+          depositCoin,
+          contractBin,
+          contractTx
         };
       }).mergeMap((data) => {
 
       console.log("REDEEM B SIDE:", data);
       const wallet = WalletFactory.createWallet(data.depositCoin.type);
-      return wallet.Redeem(new RedeemData(data.secret, data.hashedSecret), data.depositCoin).map(resp => {
+      return wallet.Redeem(new RedeemData(data.secret, data.hashedSecret, data.contractBin, data.contractTx), data.depositCoin).map(resp => {
         console.log("REDEEM RESPONSE:", resp);
         return new sideB.BRedeemSuccessAction(resp);
       }).catch(err => Observable.of(new sideB.BRedeemFailAction(err)));
@@ -135,11 +142,31 @@ export class SideBEffect {
   @Effect()
   $redeemSuccess: Observable<Action> = this.actions$
     .ofType(sideB.BREDEEM_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideB.InformRedeemedAction(resp);
-      });
-    });
+    .map(toPayload)
+    .withLatestFrom(
+      this.store.select(getBLink),
+      this.store.select(getBReceiveCoin),
+      this.store.select(getWalletState),
+      (payload, blink, bReceiveCoin, walletState) => {
+        return {
+          payload,
+          link: blink,
+          receiveCoin: bReceiveCoin,
+          wallet: walletState
+        };
+      })
+    .mergeMap((data) => {
+        const address = data.wallet[data.receiveCoin.name].address;
+        data.payload = {
+          ...data.payload,
+          address,
+          secret: data.payload.secret,
+        };
+        return this.moscaService.informBRedeem(data.link, data.payload).map(() => {
+          return new sideB.InformRedeemedAction(data.payload);
+        }).catch(err => Observable.of(new sideB.InformInitiateFailAction(err)));
+      },
+    );
 
   @Effect()
   $informRedeemed: Observable<Action> = this.actions$

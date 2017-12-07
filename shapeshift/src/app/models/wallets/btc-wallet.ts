@@ -41,7 +41,7 @@ export class BtcWallet extends BtcWalletTestNet implements Wallet {
   }
 
   Redeem(data: RedeemData, btc: BtcCoinModel): Observable<RedeemData> {
-    const redeemParams = this.getRedeemParams(data.secret, data.secretHash);
+    const redeemParams = this.getRedeemParams(data.secret, data.secretHash, data.contractBin, data.contractTx);
     return Observable.fromPromise(
       super.redeem(
         redeemParams,
@@ -54,8 +54,8 @@ export class BtcWallet extends BtcWalletTestNet implements Wallet {
     return new BtcInitiateParams(7200, wif, address, amount);
   }
 
-  getRedeemParams(secret: string, hashedsecret: string): BtcRedeemParams {
+  getRedeemParams(secret: string, hashedsecret: string, contractBin, contractTx): BtcRedeemParams {
     const wif = ShapeshiftStorage.get("btc-wif");
-    return new BtcRedeemParams(wif, secret, hashedsecret, null, null);
+    return new BtcRedeemParams(wif, secret, hashedsecret, contractBin, contractTx);
   }
 }
