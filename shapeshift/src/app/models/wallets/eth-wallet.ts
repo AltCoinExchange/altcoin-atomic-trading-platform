@@ -30,7 +30,7 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
 
     const secretHash = data.secretHash;
     const participateParams = new EthParticipateParams(this.timeout,
-      secretHash.indexOf("0x") === -1 ? "0x" + secretHash : secretHash,
+      this.oxify(secretHash),
       data.address,
       coin.amount.toString(), xprivKey);
 
@@ -39,12 +39,16 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
 
   Redeem(data: RedeemData, coin: EthCoinModel): Observable<RedeemData> {
     this.init();
-    const params = new EthRedeemParams(data.secret, data.secretHash, null);
-    return Observable.fromPromise(super.redeem(params));
+    const params = new EthRedeemParams(this.oxify(data.secret), this.oxify(data.secretHash), null);
+    return Observable.fromPromise(this.redeem(params));
   }
 
   getInitParams(address: string, amount: string): EthInitiateParams {
     return new EthInitiateParams(this.timeout, address, amount.toString());
+  }
+
+  oxify(param: string): string {
+    return param.indexOf("0x") === -1 ? "0x" + param : param
   }
 
   private init(): string {

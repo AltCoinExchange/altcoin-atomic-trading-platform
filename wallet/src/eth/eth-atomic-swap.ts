@@ -68,13 +68,12 @@ export class EthAtomicSwap implements IAtomicSwap {
 
     const params = {
       from: this.appConfiguration.defaultWallet,
-      ...extendedParams,
     };
 
     // tslint:disable-next-line
-    console.log("ETH REDEEM PARAMS: ", redeemParams);
+    console.log("ETH REDEEM PARAMS: ", redeemParams, this);
 
-    const resp: any = await this.engine.callFunction("redeem", [secret, hashedSecret], params, 1);
+    const resp: any = await this.engine.callFunction("redeem", [secret, hashedSecret], params);
 
     // tslint:disable-next-line
     console.log("ETH REDEEM RESPONSE: ", resp);
