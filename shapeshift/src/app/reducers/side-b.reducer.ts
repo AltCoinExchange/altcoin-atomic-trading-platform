@@ -3,6 +3,8 @@ import {Coin} from "../models/coins/coin.model";
 import {SwapSpinners} from "../models/swap-spinners.enum";
 
 export interface State {
+  secret: string,
+  hashedSecret: string,
   link: string;
   status: any;
   loading: boolean;
@@ -11,6 +13,8 @@ export interface State {
 }
 
 export const initialState: State = {
+  secret: undefined,
+  hashedSecret: undefined,
   link: undefined,
   loading: false,
   status: {
@@ -38,6 +42,14 @@ export function reducer(state = initialState, action: sideB.Actions): State {
         loading: true,
         receiveCoin: action.payload.depositCoin,
         depositCoin: action.payload.coin,
+      };
+    }
+    case sideB.INITIATE_SUCCESS: {
+      console.log('INITIATE', action.payload);
+      return {
+        ...state,
+        secret: action.payload.secret,
+        hashedSecret: action.payload.secretHash
       };
     }
     case sideB.INFORM_INITIATE_SUCCESS: {
@@ -86,3 +98,5 @@ export const getBStatus = (state: State) => state.status;
 export const getBLoading = (state: State) => state.loading;
 export const getBReceiveCoin = (state: State) => state.receiveCoin;
 export const getBDepositCoin = (state: State) => state.depositCoin;
+export const getBSecret = (state: State) => state.secret;
+export const getBHashedSecret = (state: State) => state.hashedSecret;

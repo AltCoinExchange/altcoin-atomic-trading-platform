@@ -2,11 +2,11 @@ import {Injectable} from "@angular/core";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
+import {RedeemData} from "../../../../wallet/src/atomic-swap";
 import {Go} from "../actions/router.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
-import {getBLink, getBReceiveCoin} from "../selectors/side-b.selector";
-import {getSwapProcess} from "../selectors/start.selector";
+import {getBLink, getBReceiveCoin, getBHashedSecret, getBSecret, getBDepositCoin} from "../selectors/side-b.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {MoscaService} from "../services/mosca.service";
 import {WalletFactory} from "../models/wallets/wallet";
@@ -100,6 +100,7 @@ export class SideBEffect {
   @Effect()
   $waitForParticipateSuccess: Observable<Action> = this.actions$
     .ofType(sideB.WAIT_FOR_PARTICIPATE_SUCCESS)
+    .map(toPayload)
     .mergeMap((payload) => {
       return Observable.of(new sideB.BRedeemAction(payload));
     });
@@ -108,10 +109,24 @@ export class SideBEffect {
   $redeem: Observable<Action> = this.actions$
     .ofType(sideB.BREDEEM)
     .map(toPayload)
-    .withLatestFrom(this.store.select(getSwapProcess))
-    .switchMap(([payload, swapProcess]) => {
-      const wallet = WalletFactory.createWallet(swapProcess.depositCoin.type);
-      return wallet.Redeem(payload, swapProcess.depositCoin).map(resp => {
+    .withLatestFrom(
+      this.store.select(getBSecret),
+      this.store.select(getBHashedSecret),
+      this.store.select(getWalletState),
+      this.store.select(getBDepositCoin),
+      (payload, secret, hashedSecret, walletState, depositCoin) => {
+        return {
+          payload,
+          secret,
+          hashedSecret,
+          walletState,
+          depositCoin
+        };
+      }).mergeMap((data) => {
+
+      console.log("REDEEM B SIDE:", data);
+      const wallet = WalletFactory.createWallet(data.depositCoin.type);
+      return wallet.Redeem(new RedeemData(data.secret, data.hashedSecret), data.depositCoin).map(resp => {
         console.log("REDEEM RESPONSE:", resp);
         return new sideB.BRedeemSuccessAction(resp);
       }).catch(err => Observable.of(new sideB.BRedeemFailAction(err)));

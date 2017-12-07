@@ -13,3 +13,7 @@ export const getBReceiveCoin = createSelector(getSideBState,
   fromSideB.getBReceiveCoin);
 export const getBDepositCoin = createSelector(getSideBState,
   fromSideB.getBDepositCoin);
+export const getBSecret = createSelector(getSideBState,
+  fromSideB.getBSecret);
+export const getBHashedSecret = createSelector(getSideBState,
+  fromSideB.getBHashedSecret);

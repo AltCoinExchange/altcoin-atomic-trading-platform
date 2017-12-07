@@ -3,6 +3,8 @@ import {Coin} from "../models/coins/coin.model";
 import {SwapSpinners} from "../models/swap-spinners.enum";
 
 export interface State {
+  secret: string,
+  hashedSecret: string,
   link: string;
   status: any;
   loading: boolean;
@@ -11,6 +13,8 @@ export interface State {
 }
 
 export const initialState: State = {
+  secret: undefined,
+  hashedSecret: undefined,
   link: undefined,
   loading: false,
   status: {

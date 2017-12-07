@@ -79,6 +79,9 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
     const contract = new Script(params.contractBin);
     const pushes = BtcContractBuilder.extractAtomicSwapContract(params.contractBin);
 
+    // tslint:disable-next-line
+    console.log("BTC REDEEM PARAMS: ", params);
+
     if (!pushes) {
       throw new Error("contract is not an atomic swap script recognized by this tool");
     }
