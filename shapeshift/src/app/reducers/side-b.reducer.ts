@@ -48,6 +48,9 @@ export function reducer(state = initialState, action: sideB.Actions): State {
       console.log('INITIATE', action.payload);
       return {
         ...state,
+        status: {
+          ...state.status
+        },
         secret: action.payload.secret,
         hashedSecret: action.payload.secretHash
       };

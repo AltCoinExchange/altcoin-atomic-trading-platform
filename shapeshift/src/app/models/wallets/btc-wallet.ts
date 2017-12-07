@@ -4,7 +4,7 @@ import {
   BtcWalletTestNet,
   InitiateData,
   ParticipateData,
-} from "altcoinio-wallet";
+} from "../../../../../wallet/src";
 import {Observable} from "rxjs/Observable";
 import {RedeemData} from "../../../../../wallet/src/atomic-swap";
 import {BtcRedeemParams} from "../../../../../wallet/src/btc/atomic-swap";

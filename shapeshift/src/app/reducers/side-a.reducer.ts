@@ -59,6 +59,9 @@ export function reducer(state = initialState, action: sideA.Actions): State {
     case sideA.GENERATE_LINK_SUCCESS: {
       return {
         ...state,
+        status: {
+          ...state.status
+        },
         link: action.payload,
       };
     }
@@ -78,7 +81,9 @@ export function reducer(state = initialState, action: sideA.Actions): State {
           ...state.status,
           initiated: SwapSpinners.Completed,
           participated: SwapSpinners.Active,
-        }
+        },
+        secret: action.payload.secret,
+        hashedSecret: action.payload.hashedSecret
       };
     }
     case sideA.PARTICIPATE_SUCCESS: {

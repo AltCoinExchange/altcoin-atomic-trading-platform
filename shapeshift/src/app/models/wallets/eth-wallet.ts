@@ -4,7 +4,7 @@ import {
   EthWalletTestnet,
   InitiateData,
   ParticipateData,
-} from "altcoinio-wallet";
+} from "../../../../../wallet/src";
 import {Observable} from "rxjs/Observable";
 import {RedeemData, RedeemParams} from "../../../../../wallet/src/atomic-swap";
 import {EthRedeemParams} from "../../../../../wallet/src/eth/atomic-swap/eth-redeem-params";
@@ -26,9 +26,7 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
   Participate(data: InitiateData, coin: EthCoinModel): Observable<ParticipateData> {
     // tslint:disable-next-line
     console.log("PARTICIPATING ETH:... ", InitiateData);
-    const xprivKey = ShapeshiftStorage.get("btcprivkey");
-    const keystore = super.recover(xprivKey);
-    this.login(keystore, xprivKey);
+    const xprivKey = this.init();
 
     const secretHash = data.secretHash;
     const participateParams = new EthParticipateParams(this.timeout,
@@ -40,11 +38,19 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
   }
 
   Redeem(data: RedeemData, coin: EthCoinModel): Observable<RedeemData> {
+    this.init();
     const params = new EthRedeemParams(data.secret, data.secretHash, null);
     return Observable.fromPromise(super.redeem(params));
   }
 
   getInitParams(address: string, amount: string): EthInitiateParams {
     return new EthInitiateParams(this.timeout, address, amount.toString());
+  }
+
+  private init(): string {
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    const keystore = super.recover(xprivKey);
+    this.login(keystore, xprivKey);
+    return xprivKey;
   }
 }

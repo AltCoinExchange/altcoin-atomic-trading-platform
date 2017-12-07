@@ -49,6 +49,7 @@ export class SideAEffect {
     .map(toPayload)
     .mergeMap((link) => {
       return this.moscaService.waitForInitiate(link).map(resp => {
+        console.log("INITIATE DATA RECEIVED: ", resp);
         return new sideA.WaitForInitiateSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.WaitForInitiateFailAction(err)));
     });
