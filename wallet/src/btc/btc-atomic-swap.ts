@@ -133,7 +133,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
     const feePerKb = await this.getFeePerKb();
     const redeemSerializeSize = Util.EstimateRedeemSerializeSize(contract, redeemTx.outputs);
 
-    const fee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize);
+    const fee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000;
 
     const amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
 
