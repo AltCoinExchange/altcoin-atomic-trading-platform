@@ -5,11 +5,4 @@ export interface SwapProcess {
   depositCoin: Coin;
   receiveCoin: Coin;
   activeStep: number;
-
-  status: {
-    initiated: SwapSpinners;
-    participated: SwapSpinners;
-    redeeming: SwapSpinners;
-    done: SwapSpinners;
-  }
 }

@@ -7,7 +7,7 @@ export class EthCoinModel implements Coin {
   readonly icon: string = "assets/icon/eth-icon.png";
   iconOutline: string = "assets/icon/eth-icon-o.png";
   readonly fullName: string = "Ethereum";
-  amount: number;
+  amount: number = 0;
 
   constructor() {
   }

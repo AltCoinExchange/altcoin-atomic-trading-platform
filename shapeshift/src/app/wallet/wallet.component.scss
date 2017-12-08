@@ -108,6 +108,14 @@
     }
 }
 
+@media only screen and (min-width: 510px) {
+    .options-slide{
+        width: fit-content;
+        margin: 0 auto;
+        margin-bottom: 3%;
+    }
+}
+
 .wallet-content{
     padding: 20px;
     margin-bottom: 3%;

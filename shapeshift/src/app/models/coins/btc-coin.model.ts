@@ -7,7 +7,7 @@ export class BtcCoinModel implements Coin {
   readonly icon: string = "assets/icon/btc-icon.png";
   iconOutline: string = "assets/icon/btc-icon-o.png";
   readonly fullName: string = "Bitcoin";
-  amount: number;
+  amount: number = 0;
 
   constructor() {
   }

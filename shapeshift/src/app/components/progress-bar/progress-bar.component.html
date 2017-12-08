@@ -1,16 +1,3 @@
-<div class="row bs-wizard" style="border-bottom:0;">
-
-    <div *ngFor="let step of steps" class="bs-wizard-step"
-        [class.active]="step.value == ($activeStep | async)"
-        [class.complete]="step.value < ($activeStep | async)"
-        [class.disabled]="step.value > ($activeStep | async)">
-        <div class="text-center bs-wizard-stepnum">
-           <p class="label" [class.active]="step.value == ($activeStep | async)">{{step.title}}</p> 
-        </div>
-        <div class="progress">
-        <div class="progress-bar"></div>
-        </div>
-        <a href="#" class="bs-wizard-dot"></a>
-    </div>
-
+<div class="progress">
+    <div class="progress-bar"></div>
 </div>

@@ -24,12 +24,15 @@
     </a>
 </perfect-scrollbar>
 
-<perfect-scrollbar class="options-slide gradient" fxLayout="row" fxLayoutAlign="center center">
-    <button *ngFor="let option of walletOptions" 
-        class="wallet-option" 
-        (click)="selectWalletOption(option)"
-        [class.active]="selectedOptionId == option.id">{{option.name}}</button>
-</perfect-scrollbar>
+<div class="gradient">
+    <perfect-scrollbar class="options-slide" fxLayout="row" fxLayoutAlign="start center">
+        <button *ngFor="let option of walletOptions" 
+            class="wallet-option" 
+            (click)="selectWalletOption(option)"
+            [class.active]="selectedOptionId == option.id">{{option.name}}</button>
+    </perfect-scrollbar>
+</div>
+
 <div *ngIf="selectedOptionId == 0" class="wallet-content gradient">
     <div fxLayout="row" fxLayoutAlign="center stretch">
         <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">

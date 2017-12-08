@@ -18,10 +18,10 @@ import * as swapSelector from "../../selectors/start.selector";
   templateUrl: "./swap-start.component.html",
   styleUrls: ["./swap-start.component.scss"],
   animations: [flyInOutAnimation, fadeInAnimation],
-  preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false
 })
 export class SwapStartComponent extends AnimationEnabledComponent implements OnInit {
+  scrollbarConfig: Object = { suppressScrollY: true };
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
   chooseCoins: boolean = false;

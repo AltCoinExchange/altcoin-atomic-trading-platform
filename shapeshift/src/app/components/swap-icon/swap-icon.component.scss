@@ -17,7 +17,7 @@
     box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
     border-radius: 100px;
 
-    transition: translate 200ms ease-in-out;
+    transition: transform 200ms ease-in-out;
 
     &:hover {
       -moz-transform: translate(-2px, -2px);

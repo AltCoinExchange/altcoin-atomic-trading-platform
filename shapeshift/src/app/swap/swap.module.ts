@@ -4,6 +4,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatButtonModule, MatProgressSpinnerModule} from "@angular/material";
 import {RouterModule} from "@angular/router";
 import {ShapeShiftCommonModule} from "../common/common.module";
+import {ProgressStepsComponent} from "../components/progress-steps/progress-steps.component";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar.component";
 import {SwapIconComponent} from "../components/swap-icon/swap-icon.component";
 import {SwapInitiatePreviewModule} from "../components/swap-initiate-preview/swap-initiate-preview.module";
@@ -59,6 +60,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SwapStartComponent,
     TransferLinkComponent,
     SwapInitiateComponent,
+    ProgressStepsComponent,
     ProgressBarComponent,
     SwapParticipateComponent,
     SwapCompleteComponent,

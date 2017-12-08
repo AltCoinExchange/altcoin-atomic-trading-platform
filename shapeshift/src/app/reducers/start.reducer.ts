@@ -4,7 +4,6 @@ import {BtcCoinModel} from "../models/coins/btc-coin.model";
 import {Coin} from "../models/coins/coin.model";
 import {EthCoinModel} from "../models/coins/eth-coin.model";
 import {SwapProcess} from "../models/swap-process.model";
-import {SwapSpinners} from "../models/swap-spinners.enum";
 
 export interface State {
   swapProcess: SwapProcess;
@@ -16,12 +15,6 @@ export const initialState: State = {
     depositCoin: new EthCoinModel(),
     receiveCoin: new BtcCoinModel(),
     activeStep: 1,
-    status: {
-      initiated: SwapSpinners.Waiting,
-      participated: SwapSpinners.Waiting,
-      redeeming: SwapSpinners.Waiting,
-      done: SwapSpinners.Waiting,
-    },
   } as SwapProcess,
   link: undefined,
 };
@@ -82,60 +75,7 @@ export function reducer(state = initialState, action: swap.Actions): State {
       };
       return newState;
     }
-    // case swap.COMPLETE_SWAP: {
-    //   return {
-    //     ...state,
-    //     swapProcess: {
-    //       ...state.swapProcess,
-    //       activeStep: 3,
-    //     },
-    //   };
-    // }
-    // case swap.INFORM_INITIATED:
-    // case swap.WAIT_FOR_INITIATE_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     swapProcess: {
-    //       ...state.swapProcess,
-    //       status: {
-    //         ...state.swapProcess.status,
-    //         initiated: SwapSpinners.Completed,
-    //         participated: SwapSpinners.Active,
-    //       }
-    //     }
-    //   }
-    // }
-    //
-    // case swap.WAIT_FOR_PARTICIPATE_SUCCESS:
-    // case swap.INFORM_PARTICIPATED: {
-    //   return {
-    //     ...state,
-    //     swapProcess: {
-    //       ...state.swapProcess,
-    //       status: {
-    //         ...state.swapProcess.status,
-    //         initiated: SwapSpinners.Completed,
-    //         participated: SwapSpinners.Completed,
-    //         redeeming: SwapSpinners.Active,
-    //       }
-    //     }
-    //   }
-    // }
-    // case swap.REDEEM_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     swapProcess: {
-    //       ...state.swapProcess,
-    //       status: {
-    //         ...state.swapProcess.status,
-    //         initiated: SwapSpinners.Completed,
-    //         participated: SwapSpinners.Completed,
-    //         redeeming: SwapSpinners.Completed,
-    //         done: SwapSpinners.Completed,
-    //       }
-    //     }
-    //   }
-    // }
+
     default: {
       return state;
     }
@@ -147,4 +87,3 @@ export const getDepositCoin = (state: State) => state.swapProcess.depositCoin;
 export const getReceiveCoin = (state: State) => state.swapProcess.receiveCoin;
 export const getLink = (state: State) => state.link;
 export const getActiveStep = (state: State) => state.swapProcess.activeStep;
-export const getSwapStatus = (state: State) => state.swapProcess.status;
