@@ -109,7 +109,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
       return;
     }
 
-    const PK = PrivateKey.fromWIF(params.secret);
+    const PK = PrivateKey.fromWIF(params.privKey);
     const newRawAddr = PK.toPublicKey().toAddress(this.configuration.network);
     const redeemToAddr = new Address(newRawAddr);
 
@@ -133,13 +133,13 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
     const feePerKb = await this.getFeePerKb();
     const redeemSerializeSize = Util.EstimateRedeemSerializeSize(contract, redeemTx.outputs);
 
-    const fee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000;
+    const fee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize);
 
     const amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
 
     output = Transaction.Output({
       script: outScript,
-      satoshis: amount,
+      satoshis: Math.round(amount),
     });
 
     redeemTx.removeOutput(0);

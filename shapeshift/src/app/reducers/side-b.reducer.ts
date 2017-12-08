@@ -57,8 +57,8 @@ export function reducer(state = initialState, action: sideB.Actions): State {
         },
         secret: action.payload.secret,
         hashedSecret: action.payload.secretHash,
-        contractBin: action.payload.contractBin ? action.payload.contractBin : null,
-        contractTx: action.payload.contractTx ? action.payload.contractTx : null
+        contractTx: action.payload.contractTxHex ? action.payload.contractTxHex : null,
+        contractBin: action.payload.contractHex ? action.payload.contractHex : null
       };
     }
     case sideB.INFORM_INITIATE_SUCCESS: {

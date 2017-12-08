@@ -43,6 +43,15 @@ export function reducer(state = initialState, action: sideA.Actions): State {
         depositCoin: action.payload.depositCoin,
       };
     }
+    case sideA.GENERATE_LINK_SUCCESS: {
+      return {
+        ...state,
+        status: {
+          ...state.status
+        },
+        link: action.payload,
+      };
+    }
     case sideA.PARTICIPATE: {
       // tslint:disable-next-line
       console.log("REDUCER sideA.PARTICIPATE", state);
@@ -52,10 +61,14 @@ export function reducer(state = initialState, action: sideA.Actions): State {
           ...state.status,
           participated: SwapSpinners.Active,
         },
+        contractBin: action.payload.contractHex ? action.payload.contractHex : null,
+        contractTx: action.payload.contractTx ? action.payload.contractTx : null,
         loading: true
       };
     }
     case sideA.INFORM_PARTICIPATE: {
+      // tslint:disable-next-line
+      console.log("REDUCER sideA.INFORM_PARTICIPATE", action.payload);
       return {
         ...state,
         status: {
@@ -63,16 +76,9 @@ export function reducer(state = initialState, action: sideA.Actions): State {
           participated: SwapSpinners.Completed,
           redeemed: SwapSpinners.Active,
         },
+        contractBin: action.payload.contractHex ? action.payload.contractHex : null,
+        contractTx: action.payload.contractTx ? action.payload.contractTx : null,
         loading: true
-      };
-    }
-    case sideA.GENERATE_LINK_SUCCESS: {
-      return {
-        ...state,
-        status: {
-          ...state.status
-        },
-        link: action.payload,
       };
     }
     case sideA.WAIT_FOR_INITIATE: {
@@ -93,9 +99,7 @@ export function reducer(state = initialState, action: sideA.Actions): State {
           participated: SwapSpinners.Active,
         },
         secret: action.payload.secret,
-        hashedSecret: action.payload.hashedSecret,
-        contractBin: action.payload.contractBin ? action.payload.contractBin : null,
-        contractTx: action.payload.contractTx ? action.payload.contractTx : null
+        hashedSecret: action.payload.hashedSecret
       };
     }
     case sideA.PARTICIPATE_SUCCESS: {
