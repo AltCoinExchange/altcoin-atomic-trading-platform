@@ -2,11 +2,16 @@ import {Injectable} from "@angular/core";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
+import {RedeemData} from "../../../../wallet/src/atomic-swap";
 import {Go} from "../actions/router.action";
 import * as sideA from "../actions/side-A.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
-import {getADepositCoin, getALink} from "../selectors/side-a.selector";
+import {getADepositCoin, getAHashedSecret, getALink, getASecret} from "../selectors/side-a.selector";
+import {
+  getBContractBin, getBContractTx, getBDepositCoin, getBHashedSecret,
+  getBSecret,
+} from "../selectors/side-b.selector";
 import {getInitateLink, getSwapProcess} from "../selectors/start.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {LinkService} from "../services/link.service";
@@ -49,6 +54,7 @@ export class SideAEffect {
     .map(toPayload)
     .mergeMap((link) => {
       return this.moscaService.waitForInitiate(link).map(resp => {
+        console.log("INITIATE DATA RECEIVED: ", resp);
         return new sideA.WaitForInitiateSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.WaitForInitiateFailAction(err)));
     });
@@ -121,18 +127,26 @@ export class SideAEffect {
   @Effect()
   $informParticipateSuccess: Observable<Action> = this.actions$
     .ofType(sideA.INFORM_PARTICIPATE_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideA.WaitForBRedeemAction(resp);
-      });
+    .map(toPayload)
+    .mergeMap((payload) => {
+        return Observable.of(new sideA.WaitForBRedeemAction(payload));
     });
 
   @Effect()
   $waitForBRedeem: Observable<Action> = this.actions$
     .ofType(sideA.WAIT_FOR_BREDEEM)
-    .mergeMap((link) => {
-      return this.moscaService.waitForBRedeem(link).map(resp => {
-        return new sideA.WaitForBRedeemSuccessAction(resp);
+    .map(toPayload)
+    .withLatestFrom(
+      this.store.select(getALink),
+      (payload, alink) => {
+        return {
+          payload,
+          link: alink
+        };
+      })
+    .mergeMap((data) => {
+      return this.moscaService.waitForBRedeem(data.link).map(resp => {
+        return new sideA.ARedeemAction(resp); // TODO: Extract secret
       }).catch(err => Observable.of(new sideB.WaitForParticipateFailAction(err)));
     });
 
@@ -166,15 +180,48 @@ export class SideAEffect {
   @Effect()
   $redeemA: Observable<Action> = this.actions$
     .ofType(sideA.AREDEEM)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
+    .map(toPayload)
+    .withLatestFrom(
+      this.store.select(getASecret),
+      this.store.select(getAHashedSecret),
+      this.store.select(getWalletState),
+      this.store.select(getADepositCoin),
+      this.store.select(getSwapProcess),
+      this.store.select(getBContractBin),
+      this.store.select(getBContractTx),
+      (payload, secret, hashedSecret, walletState, depositCoin, swapProcess, contractBin, contractTx) => {
+        return {
+          payload,
+          secret,
+          hashedSecret,
+          walletState,
+          depositCoin,
+          swapProcess,
+          contractBin,
+          contractTx
+        };
+      }).mergeMap((data) => {
+
+      console.log("REDEEM A SIDE:", data);
+      const wallet = WalletFactory.createWallet(data.swapProcess.depositCoin.type);
+      return wallet.Redeem(new RedeemData(data.secret, data.hashedSecret, data.contractBin, data.contractTx), data.swapProcess.depositCoin).map(resp => {
+        console.log("REDEEM RESPONSE:", resp);
         return new sideA.ARedeemSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.ARedeemFailAction(err)));
     });
 
   @Effect()
-  $redeemASuccess: Observable<Action> = this.actions$
+  $AredeemSuccess: Observable<Action> = this.actions$
     .ofType(sideA.AREDEEM_SUCCESS)
+    .mergeMap(() => {
+      return Observable.empty().map(resp => { // TODO provide implementation
+        return new sideA.ADoneAction(resp);
+      });
+    });
+
+  @Effect()
+  $AredeemFail: Observable<Action> = this.actions$
+    .ofType(sideA.AREDEEM_FAIL)
     .mergeMap(() => {
       return Observable.empty().map(resp => { // TODO provide implementation
         return new sideA.ADoneAction(resp);

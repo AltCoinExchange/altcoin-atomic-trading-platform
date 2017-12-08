@@ -79,6 +79,9 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
     const contract = new Script(params.contractBin);
     const pushes = BtcContractBuilder.extractAtomicSwapContract(params.contractBin);
 
+    // tslint:disable-next-line
+    console.log("BTC REDEEM PARAMS: ", params);
+
     if (!pushes) {
       throw new Error("contract is not an atomic swap script recognized by this tool");
     }
@@ -106,7 +109,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
       return;
     }
 
-    const PK = PrivateKey.fromWIF(params.secret);
+    const PK = PrivateKey.fromWIF(params.privKey);
     const newRawAddr = PK.toPublicKey().toAddress(this.configuration.network);
     const redeemToAddr = new Address(newRawAddr);
 
@@ -136,7 +139,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
 
     output = Transaction.Output({
       script: outScript,
-      satoshis: amount,
+      satoshis: Math.round(amount),
     });
 
     redeemTx.removeOutput(0);
@@ -161,7 +164,7 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
 
     const res = await this.publishTx(redeemTx.toString());
 
-    return new BtcRedeemData(redeemTx.toString(), res);
+    return new BtcRedeemData(params.secret, params.hashedSecret, redeemTx.toString(), res);
   }
 
   /**

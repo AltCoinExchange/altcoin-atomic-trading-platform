@@ -1,5 +1,6 @@
 import {InitiateData, ParticipateData} from "altcoinio-wallet";
 import {Observable} from "rxjs/Observable";
+import {RedeemData} from "../../../../../wallet/src/atomic-swap";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {Coin} from "../coins/coin.model";
 import {Coins} from "../coins/coins.enum";
@@ -11,6 +12,8 @@ export interface Wallet {
   Initiate(address: string, coin: Coin): Observable<InitiateData>;
 
   Participate(data: InitiateData, coin: Coin): Observable<ParticipateData>;
+
+  Redeem(data: RedeemData, coin: Coin): Observable<RedeemData>;
 }
 
 export class WalletFactory {

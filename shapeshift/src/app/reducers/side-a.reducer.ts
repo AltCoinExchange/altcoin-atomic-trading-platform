@@ -3,6 +3,10 @@ import {Coin} from "../models/coins/coin.model";
 import {SwapSpinners} from "../models/swap-spinners.enum";
 
 export interface State {
+  contractBin: any;
+  contractTx: any;
+  secret: string,
+  hashedSecret: string,
   link: string;
   status: any;
   loading: boolean;
@@ -11,6 +15,10 @@ export interface State {
 }
 
 export const initialState: State = {
+  secret: undefined,
+  hashedSecret: undefined,
+  contractBin: undefined,
+  contractTx: undefined,
   link: undefined,
   loading: false,
   status: {
@@ -25,6 +33,25 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: sideA.Actions): State {
   switch (action.type) {
+    case sideA.GENERATE_LINK: {
+      return {
+        ...state,
+        status: {
+          ...state.status
+        },
+        receiveCoin: action.payload.coin,
+        depositCoin: action.payload.depositCoin,
+      };
+    }
+    case sideA.GENERATE_LINK_SUCCESS: {
+      return {
+        ...state,
+        status: {
+          ...state.status
+        },
+        link: action.payload,
+      };
+    }
     case sideA.PARTICIPATE: {
       // tslint:disable-next-line
       console.log("REDUCER sideA.PARTICIPATE", state);
@@ -34,12 +61,14 @@ export function reducer(state = initialState, action: sideA.Actions): State {
           ...state.status,
           participated: SwapSpinners.Active,
         },
-        loading: true,
-        receiveCoin: action.payload.coin,
-        depositCoin: action.payload.depositCoin,
+        contractBin: action.payload.contractHex ? action.payload.contractHex : null,
+        contractTx: action.payload.contractTx ? action.payload.contractTx : null,
+        loading: true
       };
     }
     case sideA.INFORM_PARTICIPATE: {
+      // tslint:disable-next-line
+      console.log("REDUCER sideA.INFORM_PARTICIPATE", action.payload);
       return {
         ...state,
         status: {
@@ -47,15 +76,9 @@ export function reducer(state = initialState, action: sideA.Actions): State {
           participated: SwapSpinners.Completed,
           redeemed: SwapSpinners.Active,
         },
-        loading: true,
-        receiveCoin: action.payload.coin,
-        depositCoin: action.payload.depositCoin,
-      };
-    }
-    case sideA.GENERATE_LINK_SUCCESS: {
-      return {
-        ...state,
-        link: action.payload,
+        contractBin: action.payload.contractHex ? action.payload.contractHex : null,
+        contractTx: action.payload.contractTx ? action.payload.contractTx : null,
+        loading: true
       };
     }
     case sideA.WAIT_FOR_INITIATE: {
@@ -74,7 +97,9 @@ export function reducer(state = initialState, action: sideA.Actions): State {
           ...state.status,
           initiated: SwapSpinners.Completed,
           participated: SwapSpinners.Active,
-        }
+        },
+        secret: action.payload.secret,
+        hashedSecret: action.payload.hashedSecret
       };
     }
     case sideA.PARTICIPATE_SUCCESS: {
@@ -103,3 +128,7 @@ export const getAStatus = (state: State) => state.status;
 export const getALoading = (state: State) => state.loading;
 export const getAReceiveCoin = (state: State) => state.receiveCoin;
 export const getADepositCoin = (state: State) => state.depositCoin;
+export const getASecret = (state: State) => state.secret;
+export const getAHashedSecret = (state: State) => state.hashedSecret;
+export const getAContractBin = (state: State) => state.contractBin;
+export const getAContractTx = (state: State) => state.contractTx;
