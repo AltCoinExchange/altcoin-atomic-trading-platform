@@ -115,6 +115,19 @@ export function reducer(state = initialState, action: sideA.Actions): State {
         depositCoin: action.payload.depositCoin
       };
     }
+    case sideA.AREDEEM_SUCCESS: {
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          redeeming: SwapSpinners.Completed,
+          done: SwapSpinners.Completed
+        },
+        loading: true,
+        receiveCoin: action.payload.coin,
+        depositCoin: action.payload.depositCoin
+      };
+    }
 
     default: {
       return state;

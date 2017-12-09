@@ -168,7 +168,7 @@ export class BtcTransaction {
     refundTx.addOutput(output);
     const feePerKb = await this.getFeePerKb(); // Does not retrieve fee per kb
     const redeemSerializeSize = Util.EstimateRefundSerializeSize(contract, refundTx.outputs);
-    const refundFee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize); // * 100000000;
+    const refundFee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000;
 
     const amount = ctTx.outputs[ctTxOutIdx].satoshis - refundFee;
     if (amount && amount < 0) {
@@ -215,7 +215,11 @@ export class BtcTransaction {
   public async publishTx(tx: any) {
     return new Promise((resolve, reject) => {
       this.rpc.sendRawTransaction(tx, (a, b) => {
-        resolve(b.result);
+        if (a) {
+          reject(new Error(JSON.stringify(a)));
+        } else {
+          resolve(b.result);
+        }
       });
     });
   }

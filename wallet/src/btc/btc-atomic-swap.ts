@@ -155,14 +155,19 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
 
     const inputIndex = 0;
     const {sig, pubKey} = await BtcContractBuilder.createSig(redeemTx, inputIndex, contract,
-      recipientAddress, params.secret);
+      recipientAddress, params.privKey);
 
     const script = BtcContractBuilder.redeemP2SHContract(contract.toHex(), sig.toTxFormat(),
-      pubKey.toString(), params.hashedSecret);
+      pubKey.toString(), params.secret);
 
     redeemTx.inputs[0].setScript(script);
+    let res: any = null;
 
-    const res = await this.publishTx(redeemTx.toString());
+    try {
+      res = await this.publishTx(redeemTx.toString());
+    } catch (e) {
+      throw e;
+    }
 
     return new BtcRedeemData(params.secret, params.hashedSecret, redeemTx.toString(), res);
   }

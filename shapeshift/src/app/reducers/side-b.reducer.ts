@@ -100,6 +100,7 @@ export function reducer(state = initialState, action: sideB.Actions): State {
         status: {
           ...state.status,
           redeeming: SwapSpinners.Completed,
+          done: SwapSpinners.Completed,
         },
         loading: false,
       };

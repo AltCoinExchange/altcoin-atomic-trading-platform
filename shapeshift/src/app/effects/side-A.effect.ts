@@ -204,7 +204,7 @@ export class SideAEffect {
 
       console.log("REDEEM A SIDE:", data);
       const wallet = WalletFactory.createWallet(data.swapProcess.depositCoin.type);
-      return wallet.Redeem(new RedeemData(data.secret, data.hashedSecret, data.contractBin, data.contractTx), data.swapProcess.depositCoin).map(resp => {
+      return wallet.Redeem(new RedeemData(data.payload.secret, data.payload.secretHash, data.contractBin, data.contractTx), data.swapProcess.depositCoin).map(resp => {
         console.log("REDEEM RESPONSE:", resp);
         return new sideA.ARedeemSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.ARedeemFailAction(err)));
@@ -213,10 +213,9 @@ export class SideAEffect {
   @Effect()
   $AredeemSuccess: Observable<Action> = this.actions$
     .ofType(sideA.AREDEEM_SUCCESS)
-    .mergeMap(() => {
-      return Observable.empty().map(resp => { // TODO provide implementation
-        return new sideA.ADoneAction(resp);
-      });
+    .map(toPayload)
+    .mergeMap((payload) => {
+      return Observable.of(new sideA.ADoneAction(payload));
     });
 
   @Effect()
