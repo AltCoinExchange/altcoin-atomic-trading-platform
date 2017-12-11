@@ -13,7 +13,18 @@ export class EthEngine {
     this.web3 = new Web3(wsProvider);
     this.web3.defaultAccount = configuration.defaultWallet;
 
-    this.contract = new this.web3.eth.Contract(abiConfiguration, configuration.contractAddress);
+    if (abiConfiguration) {
+      this.contract = new this.web3.eth.Contract(abiConfiguration, configuration.contractAddress);
+    }
+  }
+
+  /**
+   * Create new contract from abi and address
+   * @param {string} contractAddress
+   * @param abi
+   */
+  public createContract(contractAddress: string, abi: any) {
+    this.contract = new this.web3.eth.Contract(abi, contractAddress);
   }
 
   public createAccount(password): IEthAccount {

@@ -1,13 +1,17 @@
 import "reflect-metadata";
 import "../util/abiutil";
+import {EthEngine} from "../eth-engine";
 
 // TODO: Extends engine to invoke contract functions
-export class ERC20 {
+export class ERC20 extends EthEngine {
 
   className: string;
+  contractAddress: string;
 
-  public constructor(className: string) {
+  public constructor(className: string, contractAddress: string, private config) {
+    super(null, config, null);
     this.className = className;
+    this.contractAddress = contractAddress;
   }
 
   /**
@@ -19,14 +23,22 @@ export class ERC20 {
 
   }
 
+  @abiParams("Augur", "totalSupply", {"": AbiType.UINT256}, "")
   public totalSupply(): number {
     return 0;
   }
 
   @abiParams("Augur", "balanceOf", {"balance": AbiType.UINT256}, "")
-  public balanceOf(owner: string): number {
+  public async balanceOf(owner: string): Promise<number> {
     const abi = getAbiParams(this, "balanceOf");
-    return 0;
+    this.createContract(this.contractAddress, abi);
+
+    const params = {
+      from: this.config.defaultWallet
+    };
+
+    const result: any = await this.callFunction("balanceOf", [], params);
+    return parseInt(result.balance);
   }
 
   @abiParams("Augur", "transfer", {"": AbiType.BOOL}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
