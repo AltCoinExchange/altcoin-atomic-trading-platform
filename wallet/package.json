@@ -60,6 +60,7 @@
   "dependencies": {
     "@types/bitcoinjs-lib": "^3.0.5",
     "axios": "^0.17.1",
+    "bip39": "^2.4.0",
     "bitcoinjs-lib": "^3.3.1",
     "bitcore": "^4.1.1",
     "bitcore-mnemonic": "^1.5.0",
