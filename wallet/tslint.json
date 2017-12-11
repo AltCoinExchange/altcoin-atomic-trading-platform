@@ -5,6 +5,7 @@
 		"object-literal-sort-keys": false,
 		"quotemark": true,
 		"max-classes-per-file": [7],
-		"radix": false
+		"radix": false,
+		"member-ordering": false
 	}
 }
