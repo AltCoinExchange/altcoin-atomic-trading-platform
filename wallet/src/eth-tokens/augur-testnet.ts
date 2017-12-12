@@ -1,15 +1,12 @@
 import {ERC20} from "../eth/tokens/ERC20";
-import * as AppConfig from "../config/config-eth";
-
 /**
  * Augur token interface
  */
 import {EthEngine} from "../eth/eth-engine";
 import {AugurConfig} from "../config/tokens/augur";
 
-export class AugurToken extends ERC20 {
-  engine: EthEngine;
-  constructor() {
-    super("Augur", AugurConfig.contracts[2].LegacyReputationToken, AppConfig.EthConfiguration.hosts[0]);
+export class AugurTokenTestnet extends ERC20 {
+  constructor(ethEngine: EthEngine) {
+    super("Augur", AugurConfig.contracts[2].LegacyReputationToken, ethEngine);
   }
 }

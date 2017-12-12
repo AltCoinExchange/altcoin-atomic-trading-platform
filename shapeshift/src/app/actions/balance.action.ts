@@ -39,10 +39,30 @@ export class GetBtcBalanceSuccessAction implements Action {
   }
 }
 
+export const GET_REP_BALANCE = 'GET_REP_BALANCE';
+export const GET_REP_BALANCE_SUCCESS = 'GET_REP_BALANCE_SUCCESS';
+
+export class GetRepBalanceAction implements Action {
+  readonly type = GET_REP_BALANCE;
+
+  constructor(public payload?) {
+
+  }
+}
+
+export class GetRepBalanceSuccessAction implements Action {
+  readonly type = GET_REP_BALANCE_SUCCESS;
+
+  constructor(public payload: any) {
+
+  }
+}
 
 export type Actions =
   GetEthBalanceAction
   | GetEthBalanceSuccessAction
   | GetBtcBalanceAction
   | GetBtcBalanceSuccessAction
+  | GetRepBalanceAction
+  | GetRepBalanceSuccessAction
   ;

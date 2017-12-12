@@ -1,13 +1,22 @@
-export enum AbiType {
-  NONE = "",
-  UINT = "uint",
-  UINT256 = "uint256",
-  ADDRESS = "address",
-  BOOL = "bool",
-  BYTES32 = "bytes32"
-}
+export module AbiUtil {
 
-export const abiParams = (returnType: any, ...params) => {
+  export enum AbiType {
+    uint = 0,
+    uint256 = 1,
+    address = 2,
+    bool = 3,
+    bytes32 = 4,
+  }
+
+  // DUH! Do not include reflect-metadata module
+  declare abstract class Reflect {
+    public static getMetadata(metadataKey:any, target:Object, targetKey:string | symbol):any;
+    public static getOwnMetadata(metadataKey: any, target: Object, targetKey: string | symbol): any;
+    public static getOwnMetadata(metadataKey: any, target: Object): any;
+    public static defineMetadata(metadataKey: any, metadataValue: any, target: Object, targetKey?: string | symbol): void;
+  }
+
+  export const abiParams = (returnType: any, ...params) => {
     return (target: any, functionName: string, descriptor: PropertyDescriptor) => {
       let root = {} as any;
       root.inputs = [];
@@ -21,7 +30,7 @@ export const abiParams = (returnType: any, ...params) => {
         params.forEach((v) => {
           for (let ret in v) {
             if (v.hasOwnProperty(ret)) {
-              root.inputs.push({"name": ret, "type": v[ret].toString()});
+              root.inputs.push({"name": ret, "type": AbiType[v[ret]]});
             }
           }
         });
@@ -29,7 +38,7 @@ export const abiParams = (returnType: any, ...params) => {
 
       for (let ret in returnType) {
         if (returnType.hasOwnProperty(ret)) {
-          root.outputs.push({"name": ret, "type": returnType[ret].toString()});
+          root.outputs.push({"name": ret, "type": AbiType[returnType[ret]]});
         }
       }
 
@@ -40,8 +49,7 @@ export const abiParams = (returnType: any, ...params) => {
     };
   };
 
-export class AbiUtil {
-  public static getAbiParams(target: any, propertyKey: string) {
-    return Reflect.getMetadata("abiParams", target, propertyKey);
-  }
+   export const getAbiParams = (target: any, propertyKey: string) => {
+      return Reflect.getMetadata("abiParams", target, propertyKey);
+   }
 }

@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
 
     console.log(codes);
     const btcWallet = this.generateBtcWallet(codes);
-
     this.generateEthWallet(btcWallet.xprivkey);
 
     this.store.dispatch(new quoteAction.LoadQuoteAction());
@@ -83,7 +82,9 @@ export class AppComponent implements OnInit {
       keystore: recovered,
       address: recovered.address,
     };
+
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
+    //this.store.dispatch(new walletAction.SetRepWalletAction(ethWallet));
   }
 
   private hideHeaderOnScroll() {

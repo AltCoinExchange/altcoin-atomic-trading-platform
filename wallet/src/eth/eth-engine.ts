@@ -15,7 +15,7 @@ export class EthEngine {
   protected web3: any;
   private contract: Contract;
 
-  constructor(private abiConfiguration, private configuration, private bin) {
+  constructor(private abiConfiguration, public configuration, private bin) {
     const wsProvider = new Web3.providers.WebsocketProvider(configuration.wshost);
     this.web3 = new Web3(wsProvider);
     this.web3.defaultAccount = configuration.defaultWallet;

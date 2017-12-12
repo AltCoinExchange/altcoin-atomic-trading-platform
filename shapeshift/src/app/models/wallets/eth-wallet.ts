@@ -7,7 +7,9 @@ import {
 } from "../../../../../wallet/src";
 import {Observable} from "rxjs/Observable";
 import {RedeemData, RedeemParams} from "../../../../../wallet/src/atomic-swap";
+import {AugurTokenTestnet} from "../../../../../wallet/src/eth-tokens/augur-testnet";
 import {EthRedeemParams} from "../../../../../wallet/src/eth/atomic-swap/eth-redeem-params";
+import {ERC20} from "../../../../../wallet/src/eth/tokens/ERC20";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {EthCoinModel} from "../coins/eth-coin.model";
 import {Wallet} from "./wallet";
@@ -51,10 +53,15 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
     return param.indexOf("0x") === -1 ? "0x" + param : param
   }
 
-  private init(): string {
+  public init(): string {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     const keystore = super.recover(xprivKey);
     this.login(keystore, xprivKey);
     return xprivKey;
+  }
+
+  public getERC20Token(): ERC20 {
+    this.init();
+    return new AugurTokenTestnet(this.engine);
   }
 }

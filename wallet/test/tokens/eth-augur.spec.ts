@@ -1,22 +1,26 @@
 // 7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 10, 2000000
 
 import "jest";
-import {AugurToken} from "../../src/eth-tokens/augur-testnet";
+import {AugurTokenTestnet} from "../../src/eth-tokens/augur-testnet";
+import {EthEngine} from "../../src/eth/eth-engine";
+import * as AppConfig from "../../src/config/config-eth";
+
 
 describe("EthAugurBalance", () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
   it("Should pass sanity", () => {
-    expect(typeof AugurToken).toBe("function");
+    expect(typeof AugurTokenTestnet).toBe("function");
   });
 
   it("Should pass Augur (ERC20) balanceOf", async () => {
     expect.assertions(1);
 
-    const erc20Token = new AugurToken();
+    const ethEngine = new EthEngine(null, AppConfig.EthConfiguration.hosts[0], null);
+    const erc20Token = new AugurTokenTestnet(ethEngine);
 
-    const newAccount = erc20Token.createAccount("customPassword");
+    const newAccount = ethEngine.createAccount("customPassword");
     const store = newAccount.keystore;
-    erc20Token.login(store, "customPassword");
+    ethEngine.login(store, "customPassword");
 
     try {
       const balance = await erc20Token.balanceOf("0x6c4d7a11fb699bb020e46f315d8cb87ef2c0f8c8");

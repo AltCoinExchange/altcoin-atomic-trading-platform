@@ -33,6 +33,25 @@ export class BalanceEffect {
     );
 
   @Effect()
+  getBalance: Observable<Action> = this.actions$
+    .ofType(balanceAction.GET_REP_BALANCE)
+    .withLatestFrom(this.store.select(getWalletState))
+    .flatMap(([, wallet]) => {
+        const eth = new EthCoinModel();
+        const address = wallet[eth.name].address;
+        const ethwallet = new EthWallet();
+        const token = ethwallet.getERC20Token();
+        return Observable.fromPromise(token.balanceOf(address)).map(balance => {
+        //return Observable.fromPromise(repToken.balanceOf(address)).map(balance => {
+          const result = {
+            address, balance,
+          };
+          return new balanceAction.GetRepBalanceSuccessAction(result);
+        });
+      },
+    );
+
+  @Effect()
   getBtcBalance: Observable<Action> = this.actions$
     .ofType(balanceAction.GET_BTC_BALANCE)
     .withLatestFrom(this.store.select(walletSelector.getWalletState))

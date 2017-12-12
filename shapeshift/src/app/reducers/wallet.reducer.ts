@@ -4,11 +4,13 @@ import {ShapeshiftStorage} from "../common/shapeshift-storage";
 export interface State {
   BTC: any;
   ETH: any;
+  REP: any;
 }
 
 export const initialState: State = {
   BTC: undefined,
   ETH: undefined,
+  REP: undefined,
 };
 
 export function reducer(state = initialState, action: walletAction.Actions) {
@@ -27,6 +29,12 @@ export function reducer(state = initialState, action: walletAction.Actions) {
       return {
         ...state,
         ETH: action.payload,
+      };
+    }
+    case walletAction.SET_REP_WALLET: {
+      return {
+        ...state,
+        REP: action.payload,
       };
     }
     default: {
