@@ -19,7 +19,7 @@ export class ERC20 extends EthEngine {
   }
 
   @abiParams({"balance": AbiType.UINT256})
-  public async balanceOf(owner: string): Promise<number> {
+  public async balanceOf(owner: string): Promise<any> {
 
     const abi = AbiUtil.getAbiParams(this, "balanceOf");
 
@@ -28,28 +28,56 @@ export class ERC20 extends EthEngine {
     };
 
     const result: any = await this.callFunction("balanceOf", [], params, EthConfirmation.STATIC, abi, this.contractAddress);
-    return parseInt(result);
+    return result;
   }
 
   @abiParams({"": AbiType.BOOL}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
-  public transfer(to: string, value: number): boolean {
-    return true;
+  public async transfer(to: string, value: number): Promise<any> {
+    const abi = AbiUtil.getAbiParams(this, "transfer");
+
+    const configParams = {
+      from: this.config.defaultWallet
+    };
+
+    const result: any = await this.callFunction("transfer", [to, value], configParams, EthConfirmation.STATIC, abi, this.contractAddress);
+    return result;
   }
 
   @abiParams({"": AbiType.BOOL},
     {"_from": AbiType.UINT256}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
-  public transferFrom(from: string, to: string, value: number): boolean {
-    return true;
+  public async transferFrom(from: string, to: string, value: number): Promise<any> {
+    const abi = AbiUtil.getAbiParams(this, "transferFrom");
+
+    const configParams = {
+      from: this.config.defaultWallet
+    };
+
+    const result: any = await this.callFunction("transferFrom", [from, to, value], configParams, EthConfirmation.STATIC, abi, this.contractAddress);
+    return result;
   }
 
   @abiParams({"": AbiType.BOOL}, {"_spender": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
-  public approve(spender: string, value: number): boolean {
-    return true;
+  public async approve(spender: string, value: number): Promise<any> {
+    const abi = AbiUtil.getAbiParams(this, "approve");
+
+    const configParams = {
+      from: this.config.defaultWallet
+    };
+
+    const result: any = await this.callFunction("approve", [spender, value], configParams, EthConfirmation.STATIC, abi, this.contractAddress);
+    return result;
   }
 
   @abiParams({"": AbiType.UINT256}, {"_owner": AbiType.ADDRESS}, {"_spender": AbiType.ADDRESS})
-  public allowance(owner: string, spender: string): number {
-    return 0;
+  public async allowance(owner: string, spender: string): Promise<any> {
+    const abi = AbiUtil.getAbiParams(this, "allowance");
+
+    const configParams = {
+      from: this.config.defaultWallet
+    };
+
+    const result: any = await this.callFunction("allowance", [owner, spender], configParams, EthConfirmation.STATIC, abi, this.contractAddress);
+    return result;
   }
 
   // TODO: Add events
