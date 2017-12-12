@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import "../util/abiutil";
+import {AtomicSwapAbi} from "../../config/abi/atomicswap";
+import {AbiUtil, AbiType, abiParams} from "../../config/abi/util/abiutil";
 import {EthEngine} from "../eth-engine";
 
 // TODO: Extends engine to invoke contract functions
@@ -23,41 +24,41 @@ export class ERC20 extends EthEngine {
 
   }
 
-  @abiParams("Augur", "totalSupply", {"": AbiType.UINT256}, "")
+  @abiParams("Augur", {"": AbiType.UINT256})
   public totalSupply(): number {
     return 0;
   }
 
-  @abiParams("Augur", "balanceOf", {"balance": AbiType.UINT256}, "")
+  @abiParams("Augur", {"balance": AbiType.UINT256})
   public async balanceOf(owner: string): Promise<number> {
-    const abi = getAbiParams(this, "balanceOf");
-    this.createContract(this.contractAddress, abi);
+
+    const abi = AbiUtil.getAbiParams(this, "balanceOf");
 
     const params = {
       from: this.config.defaultWallet
     };
 
-    const result: any = await this.callFunction("balanceOf", [], params);
-    return parseInt(result.balance);
+    const result: any = await this.callFunction("balanceOf", [], params, 2, abi, this.contractAddress);
+    return parseInt(result);
   }
 
-  @abiParams("Augur", "transfer", {"": AbiType.BOOL}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
+  @abiParams("Augur", {"": AbiType.BOOL}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
   public transfer(to: string, value: number): boolean {
     return true;
   }
 
-  @abiParams("Augur", "transferFrom", {"": AbiType.BOOL},
+  @abiParams("Augur", {"": AbiType.BOOL},
     {"_from": AbiType.UINT256}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
   public transferFrom(from: string, to: string, value: number): boolean {
     return true;
   }
 
-  @abiParams("Augur", "approve", {"": AbiType.BOOL}, {"_spender": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
+  @abiParams("Augur", {"": AbiType.BOOL}, {"_spender": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
   public approve(spender: string, value: number): boolean {
     return true;
   }
 
-  @abiParams("Augur", "allowance", {"": AbiType.UINT256}, {"_owner": AbiType.ADDRESS}, {"_spender": AbiType.ADDRESS})
+  @abiParams("Augur", {"": AbiType.UINT256}, {"_owner": AbiType.ADDRESS}, {"_spender": AbiType.ADDRESS})
   public allowance(owner: string, spender: string): number {
     return 0;
   }

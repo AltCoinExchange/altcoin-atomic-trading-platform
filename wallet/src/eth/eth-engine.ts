@@ -18,15 +18,6 @@ export class EthEngine {
     }
   }
 
-  /**
-   * Create new contract from abi and address
-   * @param {string} contractAddress
-   * @param abi
-   */
-  public createContract(contractAddress: string, abi: any) {
-    this.contract = new this.web3.eth.Contract(abi, contractAddress);
-  }
-
   public createAccount(password): IEthAccount {
     const accounts = this.web3.eth.accounts;
     const acc = accounts.create();
@@ -83,6 +74,10 @@ export class EthEngine {
     return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
   }
 
+  public async getContractCode(contractAddress) {
+    return await this.web3.eth.getCode(contractAddress);
+  }
+
   /**
    * Call contract function
    * @param name
@@ -91,12 +86,30 @@ export class EthEngine {
    * @param generalParams
    * @param confirmation
    */
-  public async callFunction(name, params, generalParams, confirmation?) {
+  public async callFunction(name, params, generalParams, confirmation?, abi?, contractAddress?) {
     confirmation = confirmation === undefined ? 0 : confirmation;
-    const contract = new this.web3.eth.Contract(this.abiConfiguration, this.configuration.contractAddress);
 
-    if (generalParams.gas === undefined) {
-      const ets = await this.web3.eth.estimateGas({data: this.bin.code, to: this.abiConfiguration.defaultWallet});
+    let contract = null;
+    let code = null;
+    let defaultWallet = null;
+    const payable: boolean = this.isMethodPayable(name, abi === undefined ? this.abiConfiguration : abi);
+
+    if (abi && contractAddress) {
+      // Get contract code if the function is payable, otherwise skip gas fee
+      if (payable) {
+        code = await this.getContractCode(contractAddress);
+      }
+      contract = new this.web3.eth.Contract(abi, contractAddress);
+      defaultWallet = this.configuration.defaultWallet;
+    } else {
+      defaultWallet = this.abiConfiguration.defaultWallet;
+      code = this.bin.code;
+      contract = new this.web3.eth.Contract(this.abiConfiguration, this.configuration.contractAddress);
+    }
+
+    // We do not need to estimate gas if function is not payable
+    if (generalParams.gas === undefined && payable) {
+      const ets = await this.web3.eth.estimateGas({data: code, to: defaultWallet});
       generalParams.gas = ets;
       generalParams.gasLimit = ets * 2;
     }
@@ -120,7 +133,11 @@ export class EthEngine {
           });
         } else if (confirmation === 2) {
           method.call(generalParams, (err, result) => {
-            resolve(result);
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
           }).catch((err) => {
             reject(err);
           });
@@ -139,5 +156,14 @@ export class EthEngine {
 
   public toWei(amount, conversion) {
     return this.web3.utils.toWei(amount, conversion);
+  }
+
+  public isMethodPayable(name: string, abi: any[]): boolean {
+    for (const i in abi) {
+      if (abi[i].name === name) {
+        return abi[i].payable;
+      }
+    }
+    return false;
   }
 }

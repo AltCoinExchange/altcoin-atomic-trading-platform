@@ -1,4 +1,4 @@
-enum AbiType {
+export enum AbiType {
   NONE = "",
   UINT = "uint",
   UINT256 = "uint256",
@@ -7,34 +7,35 @@ enum AbiType {
   BYTES32 = "bytes32"
 }
 
-function abiParams(className: string, functionName: string, returnType: any, ...params) {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor): any {
+export const abiParams = (className: string, returnType: any, ...params) => {
+    return (target: any, functionName: string, descriptor: PropertyDescriptor) => {
+      let root = {} as any;
+      root.inputs = [];
+      root.constant = false;
+      root.outputs = [];
+      root.name = functionName;
+      root.type = "function";
+      root.payable = false; // TODO: Add as optional parameter later if needed
+      root.stateMutability = "nonpayable"; // TODO Fix if needed
+      if (params) {
+        params.forEach((v, k) => root.inputs.push({"name": k, "type": v.toString()}));
+      }
 
-    let root = {} as any;
-    root.inputs = [];
-    root.constant = false;
-    root.outputs = [];
-    root.name = functionName;
-    root.type = "function";
-    root.payable = false;
-    root.stateMutability = "nonpayable"; // TODO Fix if needed
-    params.forEach((v, k) => root.inputs.push({"name": k, "type": v.toString()}));
-    returnType.forEach((v, k) => root.outputs.push({"name": k, "type": v.toString()}));
+      for (let ret in returnType) {
+        if (returnType.hasOwnProperty(ret)) {
+          root.outputs.push({"name": ret, "type": returnType[ret].toString()});
+        }
+      }
 
-    let rootData = {} as any;
-    rootData[className] = [];
-    rootData.push(root);
+      let rootData = [];
+      rootData.push(root);
 
-    return Reflect.metadata("abiParams_" + functionName, rootData);
+      Reflect.defineMetadata("abiParams", rootData, target, functionName);
+    };
   };
-}
 
-function getAbiParams(target: any, propertyKey: string) {
-  return Reflect.getMetadata("abiParams" + propertyKey, target, propertyKey);
-}
-
-function returns(name: string, v: AbiType) {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    descriptor.value = new Map<string, AbiType>().set(name, v);
-  };
+export class AbiUtil {
+  public static getAbiParams(target: any, propertyKey: string) {
+    return Reflect.getMetadata("abiParams", target, propertyKey);
+  }
 }
