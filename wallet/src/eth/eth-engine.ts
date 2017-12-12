@@ -1,8 +1,15 @@
+import {switchAll} from "rxjs/operators";
 import * as Web3 from "web3/src";
 import {Account, Contract} from "web3/types";
 import {IEthAccount} from "./eth-account";
 
 const walletN = 256;
+
+export enum EthConfirmation {
+  RECEIPT = 0,
+  CONFIRMATION = 1,
+  STATIC = 2,
+}
 
 export class EthEngine {
   protected web3: any;
@@ -13,7 +20,9 @@ export class EthEngine {
     this.web3 = new Web3(wsProvider);
     this.web3.defaultAccount = configuration.defaultWallet;
 
-    this.contract = new this.web3.eth.Contract(abiConfiguration, configuration.contractAddress);
+    if (abiConfiguration) {
+      this.contract = new this.web3.eth.Contract(abiConfiguration, configuration.contractAddress);
+    }
   }
 
   public createAccount(password): IEthAccount {
@@ -72,6 +81,10 @@ export class EthEngine {
     return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
   }
 
+  public async getContractCode(contractAddress) {
+    return await this.web3.eth.getCode(contractAddress);
+  }
+
   /**
    * Call contract function
    * @param name
@@ -80,12 +93,30 @@ export class EthEngine {
    * @param generalParams
    * @param confirmation
    */
-  public async callFunction(name, params, generalParams, confirmation?) {
+  public async callFunction(name, params, generalParams, confirmation?: EthConfirmation, abi?, contractAddress?) {
     confirmation = confirmation === undefined ? 0 : confirmation;
-    const contract = new this.web3.eth.Contract(this.abiConfiguration, this.configuration.contractAddress);
 
-    if (generalParams.gas === undefined) {
-      const ets = await this.web3.eth.estimateGas({data: this.bin.code, to: this.abiConfiguration.defaultWallet});
+    let contract = null;
+    let code = null;
+    let defaultWallet = null;
+    const payable: boolean = this.isMethodPayable(name, abi === undefined ? this.abiConfiguration : abi);
+
+    if (abi && contractAddress) {
+      // Get contract code if the function is payable, otherwise skip gas fee
+      if (payable) {
+        code = await this.getContractCode(contractAddress);
+      }
+      contract = new this.web3.eth.Contract(abi, contractAddress);
+      defaultWallet = this.configuration.defaultWallet;
+    } else {
+      defaultWallet = this.abiConfiguration.defaultWallet;
+      code = this.bin.code;
+      contract = new this.web3.eth.Contract(this.abiConfiguration, this.configuration.contractAddress);
+    }
+
+    // We do not need to estimate gas if function is not payable
+    if (generalParams.gas === undefined && payable) {
+      const ets = await this.web3.eth.estimateGas({data: code, to: defaultWallet});
       generalParams.gas = ets;
       generalParams.gasLimit = ets * 2;
     }
@@ -93,26 +124,34 @@ export class EthEngine {
     return new Promise((resolve, reject) => {
       try {
         const method = contract.methods[name](...params);
-
-        if (confirmation === 0) {
-          method.send(generalParams).on("receipt", (rec) => {
-            resolve(rec);
-          }).catch((err) => {
-            reject(err);
-          });
-        } else if (confirmation === 1) {
-          method.send(generalParams).on("confirmation", (confNumber, receipt) => {
-            receipt.confNumber = confNumber;
-            resolve(receipt);
-          }).catch((err) => {
-            reject(err);
-          });
-        } else if (confirmation === 2) {
-          method.call(generalParams, (err, result) => {
-            resolve(result);
-          }).catch((err) => {
-            reject(err);
-          });
+        switch (confirmation) {
+          case EthConfirmation.RECEIPT: {
+            method.send(generalParams).on("receipt", (rec) => {
+              resolve(rec);
+            }).catch((err) => {
+              reject(err);
+            });
+            break;
+          }
+          case EthConfirmation.CONFIRMATION: {
+            method.send(generalParams).on("confirmation", (confNumber, receipt) => {
+              receipt.confNumber = confNumber;
+              resolve(receipt);
+            }).catch((err) => {
+              reject(err);
+            });
+            break;
+          }
+          case EthConfirmation.STATIC: {
+            method.call(generalParams, (err, result) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(result);
+              }
+            });
+            break;
+          }
         }
       } catch (e) {
         reject(e);
@@ -128,5 +167,14 @@ export class EthEngine {
 
   public toWei(amount, conversion) {
     return this.web3.utils.toWei(amount, conversion);
+  }
+
+  public isMethodPayable(name: string, abi: any[]): boolean {
+    for (const i in abi) {
+      if (abi[i].name === name) {
+        return abi[i].payable;
+      }
+    }
+    return false;
   }
 }
