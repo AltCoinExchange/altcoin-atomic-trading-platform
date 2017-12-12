@@ -7,7 +7,7 @@ export enum AbiType {
   BYTES32 = "bytes32"
 }
 
-export const abiParams = (className: string, returnType: any, ...params) => {
+export const abiParams = (returnType: any, ...params) => {
     return (target: any, functionName: string, descriptor: PropertyDescriptor) => {
       let root = {} as any;
       root.inputs = [];

@@ -13,12 +13,12 @@ export class ERC20 extends EthEngine {
     this.contractAddress = contractAddress;
   }
 
-  @abiParams("Augur", {"": AbiType.UINT256})
+  @abiParams({"": AbiType.UINT256})
   public totalSupply(): number {
     return 0;
   }
 
-  @abiParams("Augur", {"balance": AbiType.UINT256})
+  @abiParams({"balance": AbiType.UINT256})
   public async balanceOf(owner: string): Promise<number> {
 
     const abi = AbiUtil.getAbiParams(this, "balanceOf");
@@ -31,23 +31,23 @@ export class ERC20 extends EthEngine {
     return parseInt(result);
   }
 
-  @abiParams("Augur", {"": AbiType.BOOL}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
+  @abiParams({"": AbiType.BOOL}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
   public transfer(to: string, value: number): boolean {
     return true;
   }
 
-  @abiParams("Augur", {"": AbiType.BOOL},
+  @abiParams({"": AbiType.BOOL},
     {"_from": AbiType.UINT256}, {"_to": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
   public transferFrom(from: string, to: string, value: number): boolean {
     return true;
   }
 
-  @abiParams("Augur", {"": AbiType.BOOL}, {"_spender": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
+  @abiParams({"": AbiType.BOOL}, {"_spender": AbiType.ADDRESS}, {"_value": AbiType.UINT256})
   public approve(spender: string, value: number): boolean {
     return true;
   }
 
-  @abiParams("Augur", {"": AbiType.UINT256}, {"_owner": AbiType.ADDRESS}, {"_spender": AbiType.ADDRESS})
+  @abiParams({"": AbiType.UINT256}, {"_owner": AbiType.ADDRESS}, {"_spender": AbiType.ADDRESS})
   public allowance(owner: string, spender: string): number {
     return 0;
   }
