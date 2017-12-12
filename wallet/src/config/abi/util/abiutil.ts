@@ -18,7 +18,13 @@ export const abiParams = (returnType: any, ...params) => {
       root.payable = false; // TODO: Add as optional parameter later if needed
       root.stateMutability = "nonpayable"; // TODO Fix if needed
       if (params) {
-        params.forEach((v, k) => root.inputs.push({"name": k, "type": v.toString()}));
+        params.forEach((v) => {
+          for (let ret in v) {
+            if (v.hasOwnProperty(ret)) {
+              root.inputs.push({"name": ret, "type": v[ret].toString()});
+            }
+          }
+        });
       }
 
       for (let ret in returnType) {
