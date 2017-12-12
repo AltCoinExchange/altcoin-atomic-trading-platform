@@ -2,6 +2,9 @@
 
 .input-box{
     position: relative;
+    input{
+        text-align: right;
+    }
 }
 
 .input-label{
@@ -10,7 +13,7 @@
 
 .coin-symbol{
     position: absolute;
-    right: 0;
+    left: 0;
     padding: 0 10px;
     top: 35%;
     background: $main-gray;
