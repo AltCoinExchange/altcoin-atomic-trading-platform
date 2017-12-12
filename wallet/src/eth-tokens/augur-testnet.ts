@@ -10,6 +10,6 @@ import {AugurConfig} from "../config/tokens/augur";
 export class AugurToken extends ERC20 {
   engine: EthEngine;
   constructor() {
-    super("Augur", AugurConfig.contracts[0].Augur, AppConfig.EthConfiguration.hosts[0]);
+    super("Augur", AugurConfig.contracts[2].LegacyReputationToken, AppConfig.EthConfiguration.hosts[0]);
   }
 }
