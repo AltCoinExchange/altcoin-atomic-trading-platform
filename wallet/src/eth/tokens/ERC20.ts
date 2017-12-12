@@ -18,16 +18,16 @@ export class ERC20 extends EthEngine {
     return 0;
   }
 
-  @abiParams({"balance": AbiType.UINT256})
+  @abiParams({"balance": AbiType.UINT256}, {"_owner": AbiType.ADDRESS})
   public async balanceOf(owner: string): Promise<any> {
 
     const abi = AbiUtil.getAbiParams(this, "balanceOf");
 
-    const params = {
+    const generalParams = {
       from: this.config.defaultWallet
     };
 
-    const result: any = await this.callFunction("balanceOf", [], params, EthConfirmation.STATIC, abi, this.contractAddress);
+    const result: any = await this.callFunction("balanceOf", [owner], generalParams, EthConfirmation.STATIC, abi, this.contractAddress);
     return result;
   }
 

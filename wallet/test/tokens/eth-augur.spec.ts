@@ -19,8 +19,8 @@ describe("EthAugurBalance", () => {
     erc20Token.login(store, "customPassword");
 
     try {
-      const balance = await erc20Token.balanceOf("0x96f86556909b3493e0c252dda93f25f125c85144");
-      expect(balance).toEqual("0");
+      const balance = await erc20Token.balanceOf("0x6c4d7a11fb699bb020e46f315d8cb87ef2c0f8c8");
+      expect(balance).toEqual("500");
     } catch (e) {
       expect(e.message).toEqual(0);
     }
