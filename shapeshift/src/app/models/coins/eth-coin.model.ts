@@ -4,9 +4,8 @@ import {Coins} from "./coins.enum";
 export class EthCoinModel implements Coin {
   readonly type: Coins = Coins.ETH;
   readonly name: string = Coins[Coins.ETH].toString();
-  readonly icon: string = "assets/icon/eth-icon.png";
-  iconOutline: string = "assets/icon/eth-icon-o.png";
   readonly fullName: string = "Ethereum";
+  readonly icon: string = "assets/icon/eth-icon-o.png";
   amount: number = 0;
 
   constructor() {

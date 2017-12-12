@@ -8,8 +8,7 @@ import {Coins} from "./coins.enum";
 export class DcrCoinModel extends DcrWalletTestNet implements Coin {
   readonly type = Coins.BTC;
   readonly name: string = Coins[Coins.DCR].toString();
-  readonly icon: string = "assets/icon/btc-icon.png";
-  readonly iconOutline: string = "assets/icon/btc-icon-o.png";
+  readonly icon: string = "assets/icon/btc-icon-0.png";
   readonly fullName: string = "Bitcoin";
   amount: number;
 

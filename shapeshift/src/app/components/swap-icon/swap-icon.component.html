@@ -2,7 +2,7 @@
   <div fxLayout="column" fxFlex="33">
     <div class="swap-icon" [@coinSwaps]="toCoinAnimationSwapState">
       <a href="" (click)="iconClicked($event, firstCoin)">
-          <img [src]="firstCoin.iconOutline" alt="">
+          <img [src]="firstCoin.icon" alt="">
       </a>
     </div>
   </div>
@@ -27,7 +27,7 @@
   <div fxLayout="column" fxFlex="33">
     <div class="swap-icon" [@coinSwaps]="fromCoinAnimationSwapState">
       <a href="" (click)="iconClicked($event, secondCoin)">
-        <img [src]="secondCoin.iconOutline" alt="">
+        <img [src]="secondCoin.icon" alt="">
       </a>
     </div>
   </div>

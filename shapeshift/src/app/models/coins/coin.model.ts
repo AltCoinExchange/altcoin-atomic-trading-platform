@@ -5,9 +5,8 @@ import {EthCoinModel} from "./eth-coin.model";
 export abstract class Coin {
   readonly type: Coins;
   readonly name: string;
-  readonly icon: string;
-  readonly iconOutline: string;
   readonly fullName: string;
+  readonly icon: string;
   amount: number;
 
   abstract update(coin: Coin): Coin;

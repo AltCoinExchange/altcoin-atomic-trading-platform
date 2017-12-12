@@ -1,5 +1,17 @@
 @import '../../../styles/variables';
 
+.input-box{
+    position: relative;
+}
+
 .input-label{
     text-align: center;
+}
+
+.coin-symbol{
+    position: absolute;
+    right: 0;
+    padding: 0 10px;
+    top: 35%;
+    background: $main-gray;
 }

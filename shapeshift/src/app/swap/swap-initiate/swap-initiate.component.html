@@ -14,15 +14,15 @@
       </div>
       <div class="swap-inputs" fxLayout="row" fxLayout.xs="column">
         <div fxFlex="33" fxFlex.xs="1">
-          <app-shapeshift-input [label]="'You are giving'" [coin]="depositCoin"
-              [(ngModel)]="depositCoin.amount" readonly disabled>
+          <app-shapeshift-input [label]="'You are giving'" [coin]="receiveCoin"
+              [(ngModel)]="receiveCoin.amount" readonly disabled>
           </app-shapeshift-input>
         </div>
         <div fxFlex="33" fxFlex.xs="1">
         </div>
         <div fxFlex="33" fxFlex.xs="1">
-            <app-shapeshift-input [label]="'You are getting'" [coin]="receiveCoin"
-            [(ngModel)]="receiveCoin.amount" readonly disabled>
+            <app-shapeshift-input [label]="'You are getting'" [coin]="depositCoin"
+            [(ngModel)]="depositCoin.amount" readonly disabled>
             </app-shapeshift-input>
         </div>
       </div>

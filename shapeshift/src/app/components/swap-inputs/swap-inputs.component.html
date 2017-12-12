@@ -1,17 +1,15 @@
 <div class="swap-inputs" fxLayout="row" fxLayout.xs="column">
   <div fxFlex="33" fxFlex.xs="1">
     <app-shapeshift-input [label]="'You are exchanging'" [coin]="depositCoin"
-        (ngModelChange)="updateDepositCoinAmount($event)"
-        [(ngModel)]="depositCoin.amount">
+      [ngModel]="depositCoin.amount" (ngModelChange)="updateDepositCoinAmount($event)">
     </app-shapeshift-input>
   </div>
   <div fxFlex="33" fxFlex.xs="1">
   </div>
   <div fxFlex="33" fxFlex.xs="1">
-      <div class="input-label">You are getting</div>
-      <div class="input-box">
-        <input [value]="receiveQuote" readonly disabled type="number" step="any">
-      </div>
+    <app-shapeshift-input [label]="'You are getting'" [coin]="receiveCoin" 
+      [ngModel]="receiveQuote" disabled>
+    </app-shapeshift-input>
   </div>
 </div>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="center stretch">
