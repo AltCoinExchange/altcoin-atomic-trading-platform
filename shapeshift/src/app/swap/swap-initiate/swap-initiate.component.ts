@@ -5,7 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {Subscription} from "rxjs/Subscription";
 import {Go} from "../../actions/router.action";
 import * as sideBAction from "../../actions/side-B.action";
-import * as startAction from "../../actions/start.action";
+import * as swapAction from "../../actions/start.action";
 import {fadeInAnimation, flyInOutAnimation} from "../../animations/animations";
 import {AnimationEnabledComponent} from "../../common/animation.component";
 import {disAssembleLink} from "../../common/link-util";
@@ -44,7 +44,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     this.$loading = this.store.select(getBLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);
 
-    this.store.dispatch(new startAction.SetActiveStepAction(2)); // step 1?
+    this.store.dispatch(new swapAction.SetActiveStepAction(2)); // step 1?
   }
 
   ngOnDestroy() {

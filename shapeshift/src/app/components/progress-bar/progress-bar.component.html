@@ -1,3 +1,10 @@
-<div class="progress">
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="input-label">Please wait until the swap is complete</div>
+    <div *ngIf="progress == undefined" class="input-label blink">INITIATING</div>
+    <div *ngIf="progress == SwapProgress.Initiated" class="input-label blink">PARTICIPATING</div>
+    <div *ngIf="progress == SwapProgress.Participated" class="input-label blink">REDEEMING</div>
+    <div *ngIf="progress == SwapProgress.Redeemed" class="input-label">DONE</div>
+</div>
+<div class="progress" [class.initiated]="progress == SwapProgress.Initiated">
     <div class="progress-bar"></div>
 </div>

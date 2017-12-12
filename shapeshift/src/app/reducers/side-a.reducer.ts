@@ -1,14 +1,14 @@
 import * as sideA from "../actions/side-A.action";
 import {Coin} from "../models/coins/coin.model";
-import {SwapSpinners} from "../models/swap-spinners.enum";
+import {SwapProgress} from "../models/swap-progress.enum";
 
 export interface State {
   contractBin: any;
   contractTx: any;
-  secret: string,
-  hashedSecret: string,
+  secret: string;
+  hashedSecret: string;
   link: string;
-  status: any;
+  progress: SwapProgress,
   loading: boolean;
   receiveCoin: Coin;
   depositCoin: Coin;
@@ -21,12 +21,7 @@ export const initialState: State = {
   contractTx: undefined,
   link: undefined,
   loading: false,
-  status: {
-    initiated: SwapSpinners.Waiting,
-    participated: SwapSpinners.Waiting,
-    redeeming: SwapSpinners.Waiting,
-    done: SwapSpinners.Waiting,
-  },
+  progress: undefined,
   receiveCoin: undefined,
   depositCoin: undefined,
 };
@@ -36,9 +31,6 @@ export function reducer(state = initialState, action: sideA.Actions): State {
     case sideA.GENERATE_LINK: {
       return {
         ...state,
-        status: {
-          ...state.status
-        },
         receiveCoin: action.payload.coin,
         depositCoin: action.payload.depositCoin,
       };
@@ -46,9 +38,6 @@ export function reducer(state = initialState, action: sideA.Actions): State {
     case sideA.GENERATE_LINK_SUCCESS: {
       return {
         ...state,
-        status: {
-          ...state.status
-        },
         link: action.payload,
       };
     }
@@ -57,10 +46,6 @@ export function reducer(state = initialState, action: sideA.Actions): State {
       console.log("REDUCER sideA.PARTICIPATE", state);
       return {
         ...state,
-        status: {
-          ...state.status,
-          participated: SwapSpinners.Active,
-        },
         contractBin: action.payload.contractHex ? action.payload.contractHex : null,
         contractTx: action.payload.contractTx ? action.payload.contractTx : null,
         loading: true
@@ -71,11 +56,7 @@ export function reducer(state = initialState, action: sideA.Actions): State {
       console.log("REDUCER sideA.INFORM_PARTICIPATE", action.payload);
       return {
         ...state,
-        status: {
-          ...state.status,
-          participated: SwapSpinners.Completed,
-          redeemed: SwapSpinners.Active,
-        },
+        progress: SwapProgress.Participated,
         contractBin: action.payload.contractHex ? action.payload.contractHex : null,
         contractTx: action.payload.contractTx ? action.payload.contractTx : null,
         loading: true
@@ -84,20 +65,12 @@ export function reducer(state = initialState, action: sideA.Actions): State {
     case sideA.WAIT_FOR_INITIATE: {
       return {
         ...state,
-        status: {
-          ...state.status,
-          initiated: SwapSpinners.Active,
-        }
       };
     }
     case sideA.WAIT_FOR_INITIATE_SUCCESS : {
       return {
         ...state,
-        status: {
-          ...state.status,
-          initiated: SwapSpinners.Completed,
-          participated: SwapSpinners.Active,
-        },
+        progress: SwapProgress.Initiated,
         secret: action.payload.secret,
         hashedSecret: action.payload.hashedSecret
       };
@@ -105,11 +78,7 @@ export function reducer(state = initialState, action: sideA.Actions): State {
     case sideA.PARTICIPATE_SUCCESS: {
       return {
         ...state,
-        status: {
-          ...state.status,
-          participated: SwapSpinners.Completed,
-          redeeming: SwapSpinners.Active,
-        },
+        progress: SwapProgress.Participated,
         loading: true,
         receiveCoin: action.payload.coin,
         depositCoin: action.payload.depositCoin
@@ -118,11 +87,7 @@ export function reducer(state = initialState, action: sideA.Actions): State {
     case sideA.AREDEEM_SUCCESS: {
       return {
         ...state,
-        status: {
-          ...state.status,
-          redeeming: SwapSpinners.Completed,
-          done: SwapSpinners.Completed
-        },
+        progress: SwapProgress.Redeemed,
         loading: true,
         receiveCoin: action.payload.coin,
         depositCoin: action.payload.depositCoin
@@ -137,7 +102,7 @@ export function reducer(state = initialState, action: sideA.Actions): State {
 }
 
 export const getALink = (state: State) => state.link;
-export const getAStatus = (state: State) => state.status;
+export const getAProgress = (state: State) => state.progress;
 export const getALoading = (state: State) => state.loading;
 export const getAReceiveCoin = (state: State) => state.receiveCoin;
 export const getADepositCoin = (state: State) => state.depositCoin;

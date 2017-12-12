@@ -6,10 +6,8 @@ export const getSideAState = createFeatureSelector<fromSideA.State>("sideA");
 
 export const getALink = createSelector(getSideAState,
   fromSideA.getALink);
-
-export const getAStatus = createSelector(getSideAState,
-  fromSideA.getAStatus);
-
+export const getAProgress = createSelector(getSideAState,
+  fromSideA.getAProgress);
 export const getALoading = createSelector(getSideAState,
   fromSideA.getALoading);
 export const getAReceiveCoin = createSelector(getSideAState,

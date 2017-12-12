@@ -9,6 +9,7 @@ import {AnimationEnabledComponent} from "../../common/animation.component";
 import {MessageTypes} from "../../models/message-types.enum";
 import * as fromSwap from "../../reducers/start.reducer";
 import * as sideASelector from "../../selectors/side-a.selector";
+import * as swapAction from "../../actions/start.action";
 
 @Component({
   selector: "app-transfer-link",
@@ -27,6 +28,7 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
 
   constructor(private store: Store<fromSwap.State>, private router: Router) {
     super();
+    this.store.dispatch(new swapAction.SetActiveStepAction(2));
     this.linkCopied = false;
     this.$link = this.store.select(sideASelector.getALink);
     this.makeInfoMessage();

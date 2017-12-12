@@ -1,9 +1,7 @@
 import * as swap from "../actions/start.action";
-import {ShapeshiftStorage} from "../common/shapeshift-storage";
 import {BtcCoinModel} from "../models/coins/btc-coin.model";
 import {Coin} from "../models/coins/coin.model";
 import {EthCoinModel} from "../models/coins/eth-coin.model";
-import {SwapSpinners} from "../models/swap-spinners.enum";
 import {SwapProcess} from "../models/swap-process.model";
 
 export interface State {
@@ -16,12 +14,6 @@ export const initialState: State = {
     depositCoin: new EthCoinModel(),
     receiveCoin: new BtcCoinModel(),
     activeStep: 1,
-    status: {		
-          initiated: SwapSpinners.Waiting,		
-          participated: SwapSpinners.Waiting,		
-          redeeming: SwapSpinners.Waiting,		
-          done: SwapSpinners.Waiting,		
-        },
   } as SwapProcess,
   link: undefined,
 };
@@ -94,4 +86,3 @@ export const getDepositCoin = (state: State) => state.swapProcess.depositCoin;
 export const getReceiveCoin = (state: State) => state.swapProcess.receiveCoin;
 export const getLink = (state: State) => state.link;
 export const getActiveStep = (state: State) => state.swapProcess.activeStep;
-export const getSwapStatus = (state: State) => state.swapProcess.status;

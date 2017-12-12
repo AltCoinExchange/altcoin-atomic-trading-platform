@@ -1,14 +1,7 @@
 <div class="form">
   <div class="form-content">
-    <div fxLayout="column" fxLayoutAlign="center start" class="swap-steps" fxFlex.gt-xs="50%" fxFlex.xs="100%">
-      <div class="input-label">Please wait until the swap is complete</div>
-      <app-shapeshift-status-spinner [status]="status?.initiated"
-                                     text="INITIATED"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="status?.participated"
-                                     text="PARTICIPATED"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="status?.redeeming"
-                                     text="REDEEMING"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="status?.done" text="DONE"></app-shapeshift-status-spinner>
+    <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="100%">
+      <progress-bar [progress]="progress"></progress-bar>
     </div>
   </div>
 </div>

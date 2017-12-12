@@ -1,14 +1,14 @@
 import * as sideB from "../actions/side-B.action";
 import {Coin} from "../models/coins/coin.model";
-import {SwapSpinners} from "../models/swap-spinners.enum";
+import {SwapProgress} from "../models/swap-progress.enum";
 
 export interface State {
   contractBin: any;
   contractTx: any;
-  secret: string,
-  hashedSecret: string,
+  secret: string;
+  hashedSecret: string;
   link: string;
-  status: any;
+  progress: SwapProgress;
   loading: boolean;
   receiveCoin: Coin;
   depositCoin: Coin;
@@ -21,12 +21,7 @@ export const initialState: State = {
   contractTx: undefined,
   link: undefined,
   loading: false,
-  status: {
-    initiated: SwapSpinners.Waiting,
-    participated: SwapSpinners.Waiting,
-    redeeming: SwapSpinners.Waiting,
-    done: SwapSpinners.Waiting,
-  },
+  progress: undefined,
   receiveCoin: undefined,
   depositCoin: undefined,
 };
@@ -39,10 +34,6 @@ export function reducer(state = initialState, action: sideB.Actions): State {
       return {
         ...state,
         link: action.payload.link,
-        status: {
-          ...state.status,
-          initiated: SwapSpinners.Active,
-        },
         loading: true,
         receiveCoin: action.payload.depositCoin,
         depositCoin: action.payload.coin,
@@ -52,9 +43,6 @@ export function reducer(state = initialState, action: sideB.Actions): State {
       console.log('INITIATE', action.payload);
       return {
         ...state,
-        status: {
-          ...state.status
-        },
         secret: action.payload.secret,
         hashedSecret: action.payload.secretHash,
         contractTx: action.payload.contractTxHex ? action.payload.contractTxHex : null,
@@ -64,44 +52,28 @@ export function reducer(state = initialState, action: sideB.Actions): State {
     case sideB.INFORM_INITIATE_SUCCESS: {
       return {
         ...state,
-        status: {
-          ...state.status,
-          initiated: SwapSpinners.Completed,
-          participated: SwapSpinners.Active,
-        },
+        progress: SwapProgress.Initiated,
         loading: false,
       };
     }
     case sideB.WAIT_FOR_PARTICIPATE: {
       return {
         ...state,
-        status: {
-          ...state.status,
-          initiated: SwapSpinners.Completed,
-          participated: SwapSpinners.Active,
-        },
+        progress: SwapProgress.Initiated,
         loading: false,
       };
     }
     case sideB.WAIT_FOR_PARTICIPATE_SUCCESS: {
       return {
         ...state,
-        status: {
-          ...state.status,
-          participated: SwapSpinners.Completed,
-          redeeming: SwapSpinners.Active,
-        },
+        progress: SwapProgress.Participated,
         loading: false,
       };
     }
     case sideB.BREDEEM_SUCCESS: {
       return {
         ...state,
-        status: {
-          ...state.status,
-          redeeming: SwapSpinners.Completed,
-          done: SwapSpinners.Completed,
-        },
+        progress: SwapProgress.Redeemed,
         loading: false,
       };
     }
@@ -114,7 +86,7 @@ export function reducer(state = initialState, action: sideB.Actions): State {
 }
 
 export const getBLink = (state: State) => state.link;
-export const getBStatus = (state: State) => state.status;
+export const getBProgress = (state: State) => state.progress;
 export const getBLoading = (state: State) => state.loading;
 export const getBReceiveCoin = (state: State) => state.receiveCoin;
 export const getBDepositCoin = (state: State) => state.depositCoin;

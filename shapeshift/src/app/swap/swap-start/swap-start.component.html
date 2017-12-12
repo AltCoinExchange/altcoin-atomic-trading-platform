@@ -1,28 +1,29 @@
 <div class="swap-start form">
-        <div class="swap-start form-content">
-                <perfect-scrollbar [config]="scrollbarConfig" [hidden]="!chooseCoins" class="coin-strip">
-                        <a *ngFor="let coinImg of coins"  href="" (click)="closeCoinStrip($event, coinImg)">
-                                <img [style.opacity]="(selectedCoin && coinImg == selectedCoin.iconOutline)  ? '1' : '0.5'" [src]="coinImg" alt="">
-                        </a>
-                </perfect-scrollbar >
-                <!-- <div class="small-font">1 BTC = 23.55863 ETH</div> -->
-                <app-swap-icon [style.visibility]="!chooseCoins ? 'visible' : 'hidden'"
-                [fromCoin]="$depositCoin | async" 
-                [toCoin]="$receiveCoin | async"
-                [swapEnabled]="true"
-                (swapped)="swapDepositRecieveCoins()"
-                (chooseCoins)="toggleCoinStrip($event)">
-                </app-swap-icon>
-                <app-swap-inputs (swap)="onSwap($event)"
-                        [depositCoin]="($depositCoin | async)"
-                        [receiveCoin]="($receiveCoin | async)"
-                        [receiveQuote]="($quote | async)"
-                        (depositChange)="onDepositChange($event)">
-                </app-swap-inputs>
-                <div class="message-box">
-                <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
-                </div>
-        </div>
+  <div class="swap-start form-content">
+    <perfect-scrollbar [config]="scrollbarConfig" [hidden]="!chooseCoins" class="coin-strip">
+      <a *ngFor="let coinImg of coins" href="" (click)="closeCoinStrip($event, coinImg)">
+        <img [style.opacity]="(selectedCoin && coinImg == selectedCoin.iconOutline)  ? '1' : '0.5'" [src]="coinImg"
+             alt="">
+      </a>
+    </perfect-scrollbar>
+    <!-- <div class="small-font">1 BTC = 23.55863 ETH</div> -->
+    <app-swap-icon [style.visibility]="!chooseCoins ? 'visible' : 'hidden'"
+                   [fromCoin]="$depositCoin | async"
+                   [toCoin]="$receiveCoin | async"
+                   [swapEnabled]="true"
+                   (swapped)="swapDepositRecieveCoins()"
+                   (chooseCoins)="toggleCoinStrip($event)">
+    </app-swap-icon>
+    <app-swap-inputs (swap)="onSwap($event)"
+                     [depositCoin]="($depositCoin | async)"
+                     [receiveCoin]="($receiveCoin | async)"
+                     [receiveQuote]="($quote | async)"
+                     (depositChange)="onDepositChange($event)">
+    </app-swap-inputs>
+    <div class="message-box">
+      <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+    </div>
+  </div>
 </div>
 
 
