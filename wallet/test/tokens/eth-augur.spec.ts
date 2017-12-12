@@ -2,9 +2,6 @@
 
 import "jest";
 import {AugurToken} from "../../src/eth-tokens/augur-testnet";
-import {SecretGenerator} from "../../src/common/hashing";
-import {EthConfiguration} from "../../src/config/config-eth";
-import {EthWalletTestnet} from "../../src/ethtestnet/eth-wallet-testnet";
 
 describe("EthAugurBalance", () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;

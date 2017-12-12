@@ -1,8 +1,15 @@
+import {switchAll} from "rxjs/operators";
 import * as Web3 from "web3/src";
 import {Account, Contract} from "web3/types";
 import {IEthAccount} from "./eth-account";
 
 const walletN = 256;
+
+export enum EthConfirmation {
+  RECEIPT = 0,
+  CONFIRMATION = 1,
+  STATIC = 2,
+}
 
 export class EthEngine {
   protected web3: any;
@@ -86,7 +93,7 @@ export class EthEngine {
    * @param generalParams
    * @param confirmation
    */
-  public async callFunction(name, params, generalParams, confirmation?, abi?, contractAddress?) {
+  public async callFunction(name, params, generalParams, confirmation?: EthConfirmation, abi?, contractAddress?) {
     confirmation = confirmation === undefined ? 0 : confirmation;
 
     let contract = null;
@@ -117,30 +124,34 @@ export class EthEngine {
     return new Promise((resolve, reject) => {
       try {
         const method = contract.methods[name](...params);
-
-        if (confirmation === 0) {
-          method.send(generalParams).on("receipt", (rec) => {
-            resolve(rec);
-          }).catch((err) => {
-            reject(err);
-          });
-        } else if (confirmation === 1) {
-          method.send(generalParams).on("confirmation", (confNumber, receipt) => {
-            receipt.confNumber = confNumber;
-            resolve(receipt);
-          }).catch((err) => {
-            reject(err);
-          });
-        } else if (confirmation === 2) {
-          method.call(generalParams, (err, result) => {
-            if (err) {
+        switch (confirmation) {
+          case EthConfirmation.RECEIPT: {
+            method.send(generalParams).on("receipt", (rec) => {
+              resolve(rec);
+            }).catch((err) => {
               reject(err);
-            } else {
-              resolve(result);
-            }
-          }).catch((err) => {
-            reject(err);
-          });
+            });
+            break;
+          }
+          case EthConfirmation.CONFIRMATION: {
+            method.send(generalParams).on("confirmation", (confNumber, receipt) => {
+              receipt.confNumber = confNumber;
+              resolve(receipt);
+            }).catch((err) => {
+              reject(err);
+            });
+            break;
+          }
+          case EthConfirmation.STATIC: {
+            method.call(generalParams, (err, result) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(result);
+              }
+            });
+            break;
+          }
         }
       } catch (e) {
         reject(e);

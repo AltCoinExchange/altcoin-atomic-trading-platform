@@ -1,9 +1,7 @@
 import "reflect-metadata";
-import {AtomicSwapAbi} from "../../config/abi/atomicswap";
 import {AbiUtil, AbiType, abiParams} from "../../config/abi/util/abiutil";
-import {EthEngine} from "../eth-engine";
+import {EthEngine, EthConfirmation} from "../eth-engine";
 
-// TODO: Extends engine to invoke contract functions
 export class ERC20 extends EthEngine {
 
   className: string;
@@ -13,15 +11,6 @@ export class ERC20 extends EthEngine {
     super(null, config, null);
     this.className = className;
     this.contractAddress = contractAddress;
-  }
-
-  /**
-   * Assemble contract ABI with specific class name
-   * @param {string} className
-   * @returns {any}
-   */
-  public getContractAbi(className: string): any {
-
   }
 
   @abiParams("Augur", {"": AbiType.UINT256})
@@ -38,7 +27,7 @@ export class ERC20 extends EthEngine {
       from: this.config.defaultWallet
     };
 
-    const result: any = await this.callFunction("balanceOf", [], params, 2, abi, this.contractAddress);
+    const result: any = await this.callFunction("balanceOf", [], params, EthConfirmation.STATIC, abi, this.contractAddress);
     return parseInt(result);
   }
 

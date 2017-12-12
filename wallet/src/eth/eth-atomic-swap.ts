@@ -10,7 +10,7 @@ import {EthRedeemData} from "./atomic-swap/eth-redeem-data";
 import {EthRedeemParams} from "./atomic-swap/eth-redeem-params";
 import {EthRefundData} from "./atomic-swap/eth-refund-data";
 import {EthRefundParams} from "./atomic-swap/eth-refund-params";
-import {EthEngine} from "./eth-engine";
+import {EthConfirmation, EthEngine} from "./eth-engine";
 
 export class EthAtomicSwap implements IAtomicSwap {
   public engine: EthEngine;
@@ -90,7 +90,7 @@ export class EthAtomicSwap implements IAtomicSwap {
       ...extendedParams,
     };
 
-    return await this.engine.callFunction("swaps", [hashedSecret], params, 2).then((resp) => {
+    return await this.engine.callFunction("swaps", [hashedSecret], params, EthConfirmation.STATIC).then((resp) => {
       // TODO map the fields to ethExtractSecretData
       const secretData = new EthExtractSecretData();
       return secretData;
