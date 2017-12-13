@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Actions, Effect} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
+import {TOKENS} from "../../../../wallet/src/eth-tokens/token-factory";
 import * as balanceAction from "../actions/balance.action";
 import {BtcCoinModel} from "../models/coins/btc-coin.model";
 import {EthCoinModel} from "../models/coins/eth-coin.model";
@@ -40,7 +41,7 @@ export class BalanceEffect {
         const eth = new EthCoinModel();
         const address = wallet[eth.name].address;
         const ethwallet = new EthWallet();
-        const token = ethwallet.getERC20Token();
+        const token = ethwallet.getERC20Token(TOKENS.AUGUR);
         return Observable.fromPromise(token.balanceOf(address)).map(balance => {
         //return Observable.fromPromise(repToken.balanceOf(address)).map(balance => {
           const result = {

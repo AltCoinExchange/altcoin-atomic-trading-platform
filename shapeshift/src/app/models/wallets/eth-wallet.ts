@@ -8,6 +8,7 @@ import {
 import {Observable} from "rxjs/Observable";
 import {RedeemData, RedeemParams} from "../../../../../wallet/src/atomic-swap";
 import {AugurTokenTestnet} from "../../../../../wallet/src/eth-tokens/augur-testnet";
+import {TokenFactory, TOKENS} from "../../../../../wallet/src/eth-tokens/token-factory";
 import {EthRedeemParams} from "../../../../../wallet/src/eth/atomic-swap/eth-redeem-params";
 import {ERC20} from "../../../../../wallet/src/eth/tokens/ERC20";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
@@ -60,8 +61,8 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
     return xprivKey;
   }
 
-  public getERC20Token(): ERC20 {
+  public getERC20Token(token: TOKENS): ERC20 {
     this.init();
-    return new AugurTokenTestnet(this.engine);
+    return TokenFactory.GetToken(token, this.engine);
   }
 }
