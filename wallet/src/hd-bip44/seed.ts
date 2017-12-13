@@ -1,20 +1,46 @@
 import * as bip39 from "bip39";
+import {HDNode} from "bitcoinjs-lib";
 
 export const generateMnemonic = () => {
   return bip39.generateMnemonic();
 };
+const EXTERNAL_CHAIN = 0;
+const INTERNAL_CHAIN = 1;
 
-export class Seed {
+export abstract class Bip44Wallet<T> {
+  protected abstract coin;
+  private root;
+  private account = 0; // probably we will never change this
+  private interalAddressIndex = 0;
+  private externalAddressIndex = 0;
+
   constructor(mnemonic?: string) {
     if (!mnemonic) {
       mnemonic = generateMnemonic();
     }
-    this._seed = bip39.mnemonicToSeed(mnemonic);
+    const seed = bip39.mnemonicToSeed(mnemonic);
+    this.root = HDNode.fromSeedBuffer(seed);
   }
 
-  private _seed: any; // tslint:disable-line
-
-  get seed(): any {
-    return this._seed;
+  public generateNextInternal(): HDNode {
+    const child = this.root
+      .derivePath(`m/44'/${this.coin}'/${this.account}'/${INTERNAL_CHAIN}/${this.interalAddressIndex++}`);
+    return child;
   }
+
+  public generateNextExternal(): HDNode {
+    const child = this.root
+      .derivePath(`m/44'/${this.coin}'/${this.account}'/${EXTERNAL_CHAIN}/${this.externalAddressIndex++}`);
+    return child;
+  }
+}
+
+export class BitcoinBip44Wallet extends Bip44Wallet<BitcoinBip44Wallet> {
+  protected coin = 0;
+
+}
+
+export class EthBip44Wallet extends Bip44Wallet<EthBip44Wallet> {
+  protected coin = 60;
+
 }
