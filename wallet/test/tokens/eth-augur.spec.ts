@@ -1,5 +1,5 @@
 // 7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 10, 2000000
-
+import "reflect-metadata";
 import "jest";
 import {AugurTokenTestnet} from "../../src/eth-tokens/augur-testnet";
 import {EthEngine} from "../../src/eth/eth-engine";
