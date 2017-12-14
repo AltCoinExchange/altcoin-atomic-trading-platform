@@ -5,7 +5,7 @@
 }
 
 .message-box{
-    margin: 15px 2%;
+    margin: 15px 5%;
 }
 
 .wallet-slide{
@@ -117,8 +117,12 @@
 }
 
 .wallet-content{
+    position: absolute;
+    width: -webkit-calc(100% - 40px);    
+    width: -moz-calc(100% - 40px); 
+    width: calc(100% - 40px);
     padding: 20px;
-    margin-bottom: 3%;
+    margin-bottom: 60px;
     text-align: center;
 }
 

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ShapeshiftInputComponent} from './shapeshift-input/shapeshift-input.component';
+import {CoinInputComponent} from './coin-input/coin-input.component';
 import {ShapeshiftButtonComponent} from './shapeshift-button/shapeshift-button.component';
 import {RedeemAddressComponent} from './redeem-address/redeem-address.component';
 import {InfoMessageComponent} from './info-message/info-message.component';
@@ -15,13 +15,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FormsModule,
   ],
   declarations: [
-    ShapeshiftInputComponent,
+    CoinInputComponent,
     ShapeshiftButtonComponent,
     RedeemAddressComponent,
     InfoMessageComponent
   ],
   exports: [
-    ShapeshiftInputComponent,
+    CoinInputComponent,
     ShapeshiftButtonComponent,
     RedeemAddressComponent,
     InfoMessageComponent

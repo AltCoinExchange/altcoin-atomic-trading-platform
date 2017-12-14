@@ -4,7 +4,7 @@ import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {environment} from "../../../environments/environment";
 import {Go} from "../../actions/router.action";
-import {fadeInAnimation, flyInOutAnimation} from "../../animations/animations";
+import {flyInOutAnimation} from "../../animations/animations";
 import {AnimationEnabledComponent} from "../../common/animation.component";
 import {MessageTypes} from "../../models/message-types.enum";
 import * as fromSwap from "../../reducers/start.reducer";
@@ -15,7 +15,7 @@ import * as swapAction from "../../actions/start.action";
   selector: "app-transfer-link",
   templateUrl: "./transfer-link.component.html",
   styleUrls: ["./transfer-link.component.scss"],
-  animations: [flyInOutAnimation, fadeInAnimation],
+  animations: [flyInOutAnimation],
 })
 export class TransferLinkComponent extends AnimationEnabledComponent implements OnInit {
   $link: Observable<string>;

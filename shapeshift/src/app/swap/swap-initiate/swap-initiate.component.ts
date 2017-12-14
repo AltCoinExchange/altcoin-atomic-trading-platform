@@ -6,7 +6,7 @@ import {Subscription} from "rxjs/Subscription";
 import {Go} from "../../actions/router.action";
 import * as sideBAction from "../../actions/side-B.action";
 import * as swapAction from "../../actions/start.action";
-import {fadeInAnimation, flyInOutAnimation} from "../../animations/animations";
+import {flyInOutAnimation} from "../../animations/animations";
 import {AnimationEnabledComponent} from "../../common/animation.component";
 import {disAssembleLink} from "../../common/link-util";
 import {Coin, CoinFactory} from "../../models/coins/coin.model";
@@ -20,7 +20,7 @@ import * as fromSwap from "../../selectors/swap.selector";
   selector: "app-swap-initiate",
   templateUrl: "./swap-initiate.component.html",
   styleUrls: ["./swap-initiate.component.scss"],
-  animations: [flyInOutAnimation, fadeInAnimation],
+  animations: [flyInOutAnimation],
 })
 export class SwapInitiateComponent extends AnimationEnabledComponent implements OnInit, OnDestroy {
   $errorInitiate: Observable<string>;

@@ -6,7 +6,7 @@
     </div>
 </div>
 <perfect-scrollbar class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
-    <a href="" *ngFor="let wallet of wallets"  (click)="selectWalletCard($event, wallet)">
+    <a href="" *ngFor="let wallet of wallets"  (click)="selectWalletCard($event, wallet)" [@scaleInOut]="scaleInOut">
         <div class="wallet-card" [class.active]="selectedWalletId == wallet.id">
             <img class="coin-icon" [src]="wallet.icon"  alt="">
             <div *ngIf="(wallet.$loading | async)">
@@ -29,11 +29,12 @@
         <button *ngFor="let option of walletOptions" 
             class="wallet-option" 
             (click)="selectWalletOption(option)"
-            [class.active]="selectedOptionId == option.id">{{option.name}}</button>
+            [class.active]="selectedOptionId == option.id"
+            [@scaleInOut]="scaleInOut">{{option.name}}
+        </button>
     </perfect-scrollbar>
 </div>
-
-<div *ngIf="selectedOptionId == 0" class="wallet-content gradient">
+<div *ngIf="selectedOptionId == 0" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
     <div fxLayout="row" fxLayoutAlign="center stretch">
         <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
             <div class="input-label">Amount</div>
@@ -56,7 +57,7 @@
         </div>
     </div>
 </div>
-<div *ngIf="selectedOptionId == 1" class="wallet-content gradient">
+<div *ngIf="selectedOptionId == 1" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
     <div fxLayout="row" fxLayoutAlign="center stretch">
         <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
             <div class="input-label">Address</div>
@@ -74,7 +75,7 @@
         </div>
     </div>
 </div>
-<div *ngIf="selectedOptionId == 2" class="wallet-content gradient">
+<div *ngIf="selectedOptionId == 2" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
     <div fxLayout="row" fxLayoutAlign="center center">
         <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
             No transactions

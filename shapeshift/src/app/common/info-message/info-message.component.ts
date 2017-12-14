@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {fadeInAnimation } from '../../animations/animations';
+import {entranceAnimation } from '../../animations/animations';
 import { MessageTypes } from '../../models/message-types.enum'
 import {Observable} from 'rxjs/Observable';
 
@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
   selector: 'info-message',
   templateUrl: './info-message.component.html',
   styleUrls: ['./info-message.component.scss'],
-  animations: [fadeInAnimation]
+  animations: [entranceAnimation]
 })
 export class InfoMessageComponent implements OnInit {
 
@@ -25,7 +25,7 @@ export class InfoMessageComponent implements OnInit {
       this.animateMsg = 'hidden';
       if(this.message !== undefined && this.message !== null && this.message !== '')
         setTimeout(() => { 
-          this.animateMsg = 'zoomMessage';
+          this.animateMsg = 'entrance';
         },500);
     }
 

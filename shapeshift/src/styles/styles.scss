@@ -83,6 +83,16 @@ a{
   color: $text-color;
 }
 
+.card{
+  background: $main-gray;
+  border-radius: 11px;
+  -webkit-border-radius: 11px;
+  -moz-border-radius: 11px;
+  box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);  
+}
+
 .input-box{
   background: $main-gray;
   border-radius: 11px;
@@ -132,42 +142,8 @@ a{
 }
 
 .form{
-
-  .form-header{
-    background-color: $second-gray;
-    padding: 20px 5px;
-    text-align: center;
-    p{
-        font-size: 100%;
-        margin: 0px;
-    }
-  }
-
   .form-content{
-    padding: 5% 8%;
-  }
-
-  .form-footer{
-    background-color: $second-gray;
-    padding: 10px 0px;
-    p{
-        margin: 0px;
-        text-align: center;
-        font-size: 85%;
-    }
-  }
-
-}
-
-@media only screen and (max-width: 600px) {
-  .form {
-    border-right: none;
-    border-left: none;
-
-    .form-content{
-      padding: 5%;
-    }
-
+    padding: 5%;
   }
 }
 

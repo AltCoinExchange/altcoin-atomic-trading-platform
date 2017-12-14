@@ -6,15 +6,19 @@
     .message-box{
         margin-top: 15px;
     }
+
+    &.form{
+        position: relative;
+    }
     
 }
 
 .coin-strip{
     position: absolute;
-    height: 64px;
-    padding: 2px;
+    height: 60px;
+    padding: 2px 0px;
     margin-top: 15px;
-    width: 84%;
+    width: 90%;
     overflow-x: auto;
     white-space: nowrap;
     z-index: 2;

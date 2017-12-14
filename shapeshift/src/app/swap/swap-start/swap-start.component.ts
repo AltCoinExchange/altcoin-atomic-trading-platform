@@ -4,7 +4,7 @@ import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import * as sideA from "../../actions/side-A.action";
 import * as swapAction from "../../actions/start.action";
-import {fadeInAnimation, flyInOutAnimation} from "../../animations/animations";
+import {flyInOutAnimation} from "../../animations/animations";
 import {AnimationEnabledComponent} from "../../common/animation.component";
 import {Coin} from "../../models/coins/coin.model";
 import {MessageTypes} from "../../models/message-types.enum";
@@ -17,7 +17,7 @@ import * as swapSelector from "../../selectors/start.selector";
   selector: "app-swap-start",
   templateUrl: "./swap-start.component.html",
   styleUrls: ["./swap-start.component.scss"],
-  animations: [flyInOutAnimation, fadeInAnimation],
+  animations: [flyInOutAnimation],
   preserveWhitespaces: false
 })
 export class SwapStartComponent extends AnimationEnabledComponent implements OnInit {
@@ -65,7 +65,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
         const depositAmount = coin.amount;
         const depositQuotes = q.get(coin.name);
         const receiveQuotes = q.get(receive.name);
-
+        console.log('deposit amount', depositAmount, 'deposit quote', depositQuotes, 'receive quotes', receiveQuotes);
         const number = ((depositAmount * depositQuotes.price) / receiveQuotes.price);
         const price = +number.toFixed(8);
         if (isNaN(number)) {
@@ -79,12 +79,6 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   ngOnInit() {
   }
 
-  doSubmit() {
-    this.formFlyOut();
-    setTimeout(() => {
-      this.router.navigate(["/insufficient-amount"]);
-    }, 500);
-  }
 
   swapDepositRecieveCoins() {
     this.store.dispatch(new swapAction.SwapDepositReceiveCoinsAction());

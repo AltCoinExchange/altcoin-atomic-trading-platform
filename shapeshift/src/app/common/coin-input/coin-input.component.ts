@@ -5,20 +5,21 @@ import {ValueAccessorBase} from '../value-accessor-base';
 
 
 @Component({
-  selector: 'app-shapeshift-input',
-  templateUrl: './shapeshift-input.component.html',
-  styleUrls: ['./shapeshift-input.component.scss'],
+  selector: 'coin-input',
+  templateUrl: './coin-input.component.html',
+  styleUrls: ['./coin-input.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: ShapeshiftInputComponent,
+      useExisting: CoinInputComponent,
       multi: true,
     },
   ],
 })
-export class ShapeshiftInputComponent extends ValueAccessorBase<Number> implements OnInit {
+export class CoinInputComponent extends ValueAccessorBase<Number> implements OnInit {
   @Input() coin: Coin;
   @Input() disabled: boolean = false;
+  @Input() usd: boolean = false;
   @Input() type = 'number';
   @Input() value;
   @Input() label: String;

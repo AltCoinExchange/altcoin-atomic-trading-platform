@@ -10,7 +10,6 @@ import {SwapIconComponent} from "../components/swap-icon/swap-icon.component";
 import {SwapInitiatePreviewModule} from "../components/swap-initiate-preview/swap-initiate-preview.module";
 import {SwapInitiatedModule} from "../components/swap-initiated/swap-initiated.module";
 import {SwapInputsModule} from "../components/swap-inputs/swap-inputs.module";
-import {QrCodeComponent} from "./qr-code/qr-code.component";
 import {SideAContainerComponent} from "./side-a-container/side-a.component";
 import {SideBContainerComponent} from "./side-b-container/side-b.component";
 import {SwapCompleteComponent} from "./swap-complete/swap-complete.component";
@@ -35,7 +34,6 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         path: "", component: SwapContainerComponent, children: [
         {path: "", redirectTo: "swap", pathMatch: "full"},
         {path: "swap", component: SwapStartComponent},
-        {path: "insufficient-amount", component: QrCodeComponent},
         {path: "transfer", component: TransferLinkComponent},
         {path: "a/complete", component: SideAContainerComponent},
         {path: "b/complete", component: SideBContainerComponent},
@@ -55,7 +53,6 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   declarations: [
     SwapIconComponent,
-    QrCodeComponent,
     SwapContainerComponent,
     SwapStartComponent,
     TransferLinkComponent,

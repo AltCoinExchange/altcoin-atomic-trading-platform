@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
     const navbarHeight = 60;
     setInterval(() => {
       if (this.didScroll) {
-        const st = document.documentElement.scrollTop;
+        const st = window.scrollY;
         if (Math.abs(lastScrollTop - st) <= delta) {
           return;
         }

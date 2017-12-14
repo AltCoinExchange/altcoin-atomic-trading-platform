@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, HostBinding} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {GetBtcBalanceAction, GetEthBalanceAction, GetRepBalanceAction} from "../actions/balance.action";
@@ -8,13 +8,17 @@ import {WalletRecord} from "../reducers/balance.reducer";
 import {
   getBTCBalance, getBtcLoading, getETHBalance, getEthLoading, getREPBalance, getRepLoading,
 } from "../selectors/balance.selector";
+import {scaleInOutAnimation, fadeInOutAnimation} from "../animations/animations";
 
 @Component({
   selector: "app-wallet",
   templateUrl: "./wallet.component.html",
   styleUrls: ["./wallet.component.scss"],
+  animations: [scaleInOutAnimation, fadeInOutAnimation]
 })
 export class WalletComponent implements OnInit {
+  scaleInOut: string = 'scaleInOut';
+  fadeInOut: string = 'fadeInOut';
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
   wallets: Array<any>;
