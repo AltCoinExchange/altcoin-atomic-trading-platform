@@ -40,22 +40,6 @@
     border-radius: 11px;
     -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
-
-    &.initiated ~ .progress-bar{
-        width: 34%;
-        animation: participating 60s linear;
-        animation-fill-mode: forwards;
-    }
-
-    &.participated ~ .progress-bar{
-        width: 66%;
-        animation: redeeming 60s linear;
-        animation-fill-mode: forwards;
-    }
-
-    &.redeemed ~ .progress-bar{
-        width: 100%;
-    }
 }
   
 .progress-bar {
@@ -79,4 +63,21 @@
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
     animation: initiating 60s linear;
     animation-fill-mode: forwards;
+
+    &.initiated{
+        width: 34%;
+        animation: participating 60s linear;
+        animation-fill-mode: forwards;
+    }
+
+    &.participated{
+        width: 66%;
+        animation: redeeming 60s linear;
+        animation-fill-mode: forwards;
+    }
+
+    &.redeemed{
+        width: 100%;
+        animation-fill-mode: forwards;
+    }
 }

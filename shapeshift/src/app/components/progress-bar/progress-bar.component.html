@@ -5,6 +5,10 @@
     <div *ngIf="progress == SwapProgress.Participated" class="input-label blink">REDEEMING</div>
     <div *ngIf="progress == SwapProgress.Redeemed" class="input-label">DONE</div>
 </div>
-<div class="progress" [class.initiated]="progress == SwapProgress.Initiated">
-    <div class="progress-bar"></div>
+<div class="progress" >
+    <div class="progress-bar"
+        [class.initiated]="progress == SwapProgress.Initiated" 
+        [class.participated]="progress == SwapProgress.Participated"
+        [class.redeemed]="progress == SwapProgress.Redeemed">
+    </div>
 </div>
