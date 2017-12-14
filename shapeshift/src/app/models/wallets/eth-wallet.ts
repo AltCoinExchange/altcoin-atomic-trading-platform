@@ -62,7 +62,6 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
   }
 
   public getERC20Token(token: TOKENS): ERC20 {
-    this.init();
     return TokenFactory.GetToken(token, this.engine);
   }
 }

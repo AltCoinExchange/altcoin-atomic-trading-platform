@@ -11,6 +11,8 @@ import {AppState} from "../reducers/app.state";
 import * as walletSelector from "../selectors/wallets.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {BtcWallet} from "../models/wallets/btc-wallet";
+import {WalletFactory} from "../models/wallets/wallet";
+import {Coins} from "../models/coins/coins.enum";
 
 
 @Injectable()
@@ -58,10 +60,8 @@ export class BalanceEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getWalletState))
     .flatMap(([payload, wallet]) => {
-        const eth = new EthCoinModel();
-        const address = wallet[eth.name].address;
-        const ethwallet = new EthWallet();
-        const token = ethwallet.getERC20Token(payload.token);
+        const address = wallet[this.eth.name].address;
+        const token = this.ethwallet.getERC20Token(payload.token);
         return Observable.fromPromise(token.balanceOf(address)).map(balance => {
           const result = {
             address, balance, name: payload.name
@@ -85,7 +85,12 @@ export class BalanceEffect {
       },
     );
 
+  eth;
+  ethwallet;
+
   constructor(private store: Store<AppState>,
               private actions$: Actions) {
+    this.eth = new EthCoinModel();
+    this.ethwallet = WalletFactory.createWallet(Coins.ETH);
   }
 }
