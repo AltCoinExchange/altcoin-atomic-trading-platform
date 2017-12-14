@@ -1,12 +1,12 @@
 import {ERC20} from "../eth/tokens/ERC20";
 /**
- * Augur token interface
+ * BAT token interface
  */
 import {EthEngine} from "../eth/eth-engine";
 import {TokenConfig} from "../config/tokens/tokenconfig";
 
-export class AugurTokenTestnet extends ERC20 {
+export class BatTokenTestnet extends ERC20 {
   constructor(ethEngine: EthEngine) {
-    super(TokenConfig.Augur.contractAddress, ethEngine);
+    super(TokenConfig.Bat.contractAddress, ethEngine);
   }
 }

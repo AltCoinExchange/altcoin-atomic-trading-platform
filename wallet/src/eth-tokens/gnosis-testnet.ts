@@ -1,12 +1,12 @@
 import {ERC20} from "../eth/tokens/ERC20";
 /**
- * Augur token interface
+ * GNOSIS token interface
  */
 import {EthEngine} from "../eth/eth-engine";
 import {TokenConfig} from "../config/tokens/tokenconfig";
 
-export class AugurTokenTestnet extends ERC20 {
+export class GnosisTokenTestnet extends ERC20 {
   constructor(ethEngine: EthEngine) {
-    super(TokenConfig.Augur.contractAddress, ethEngine);
+    super(TokenConfig.Gnosis.contractAddress, ethEngine);
   }
 }

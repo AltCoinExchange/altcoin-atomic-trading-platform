@@ -7,11 +7,9 @@ import getAbiParams = AbiUtil.getAbiParams;
 export class ERC20 {
 
   ethEngine: EthEngine;
-  className: string;
   contractAddress: string;
 
-  public constructor(className: string, contractAddress: string, ethEngine: EthEngine) {
-    this.className = className;
+  public constructor(contractAddress: string, ethEngine: EthEngine) {
     this.contractAddress = contractAddress;
     this.ethEngine = ethEngine;
   }
