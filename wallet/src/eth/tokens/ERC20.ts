@@ -1,3 +1,4 @@
+/* tslint:disable */
 import {AbiUtil} from "../../config/abi/util/abiutil";
 import {EthEngine, EthConfirmation} from "../eth-engine";
 import abiParams = AbiUtil.abiParams;
