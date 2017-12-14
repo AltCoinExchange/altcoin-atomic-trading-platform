@@ -12,6 +12,12 @@ export const getREPBalance = createSelector(getBalanceState,
 export const getBTCBalance = createSelector(getBalanceState,
   fromBalance.getBTCBalance);
 
+export const getTokenBalanceAugur = createSelector(getBalanceState,
+  fromBalance.getTokenBalanceAugur);
+
+export const getTokenBalanceGolem = createSelector(getBalanceState,
+  fromBalance.getTokenBalanceGolem);
+
 export const getBtcLoading = createSelector(getBalanceState,
   fromBalance.getBtcLoading);
 
@@ -20,3 +26,9 @@ export const getEthLoading = createSelector(getBalanceState,
 
 export const getRepLoading = createSelector(getBalanceState,
   fromBalance.getRepLoading);
+
+export const getTokenLoadingAugur = createSelector(getBalanceState,
+  fromBalance.getTokenLoadingAugur);
+
+export const getTokenLoadingGolem = createSelector(getBalanceState,
+  fromBalance.getTokenLoadingGolem);

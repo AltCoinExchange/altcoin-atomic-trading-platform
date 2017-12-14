@@ -26,8 +26,8 @@
 
 <div class="gradient">
     <perfect-scrollbar class="options-slide" fxLayout="row" fxLayoutAlign="start center">
-        <button *ngFor="let option of walletOptions" 
-            class="wallet-option" 
+        <button *ngFor="let option of walletOptions"
+            class="wallet-option"
             (click)="selectWalletOption(option)"
             [class.active]="selectedOptionId == option.id">{{option.name}}</button>
     </perfect-scrollbar>
@@ -50,7 +50,7 @@
             </div>
             <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end end" fxLayoutAlign.xs="center stretch">
                 <div fxFlex="25" fxFlex.xs="1" class="start-button">
-                    <app-shapeshift-button>Send</app-shapeshift-button> 
+                    <app-shapeshift-button>Send</app-shapeshift-button>
                 </div>
             </div>
         </div>

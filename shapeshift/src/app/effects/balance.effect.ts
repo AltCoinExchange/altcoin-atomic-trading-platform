@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Actions, Effect} from "@ngrx/effects";
+import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {TOKENS} from "../../../../wallet/src/eth-tokens/token-factory";
@@ -43,11 +43,30 @@ export class BalanceEffect {
         const ethwallet = new EthWallet();
         const token = ethwallet.getERC20Token(TOKENS.AUGUR);
         return Observable.fromPromise(token.balanceOf(address)).map(balance => {
-        //return Observable.fromPromise(repToken.balanceOf(address)).map(balance => {
+          //return Observable.fromPromise(repToken.balanceOf(address)).map(balance => {
           const result = {
             address, balance,
           };
           return new balanceAction.GetRepBalanceSuccessAction(result);
+        });
+      },
+    );
+
+  @Effect()
+  getTokenBalance: Observable<Action> = this.actions$
+    .ofType(balanceAction.GET_TOKEN_BALANCE)
+    .map(toPayload)
+    .withLatestFrom(this.store.select(getWalletState))
+    .flatMap(([payload, wallet]) => {
+        const eth = new EthCoinModel();
+        const address = wallet[eth.name].address;
+        const ethwallet = new EthWallet();
+        const token = ethwallet.getERC20Token(payload.token);
+        return Observable.fromPromise(token.balanceOf(address)).map(balance => {
+          const result = {
+            address, balance, name: payload.name
+          };
+          return new balanceAction.GetTokenBalanceSuccessAction(result);
         });
       },
     );

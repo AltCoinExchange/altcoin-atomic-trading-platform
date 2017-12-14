@@ -1,12 +1,18 @@
 import {Component, OnInit} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
-import {GetBtcBalanceAction, GetEthBalanceAction, GetRepBalanceAction} from "../actions/balance.action";
+import {TOKENS} from "../../../../wallet/src/eth-tokens/token-factory";
+import {
+  GetBtcBalanceAction, GetEthBalanceAction, GetRepBalanceAction,
+  GetTokenBalanceAction
+} from "../actions/balance.action";
 import {MessageTypes} from "../models/message-types.enum";
 import {AppState} from "../reducers/app.state";
 import {WalletRecord} from "../reducers/balance.reducer";
 import {
-  getBTCBalance, getBtcLoading, getETHBalance, getEthLoading, getREPBalance, getRepLoading,
+  getBTCBalance, getBtcLoading, getETHBalance, getEthLoading, getREPBalance, getTokenBalanceAugur, getTokenBalanceGolem,
+  getTokenLoadingAugur,
+  getTokenLoadingGolem,
 } from "../selectors/balance.selector";
 
 @Component({
@@ -24,25 +30,39 @@ export class WalletComponent implements OnInit {
   sendAmount: Number = 0.00;
   $ethLoading: Observable<boolean>;
   $btcLoading: Observable<boolean>;
-  $repLoading: Observable<boolean>;
+  //$repLoading: Observable<boolean>;
+  $tokenAugurLoading: Observable<boolean>;
+  $tokenGolemLoading: Observable<boolean>;
+  $tokenBalanceAugur: Observable<WalletRecord>;
+  $tokenBalanceGolem: Observable<WalletRecord>;
   $ethBalance: Observable<WalletRecord>;
   $btcBalance: Observable<WalletRecord>;
-  $repBalance: Observable<WalletRecord>;
+  //$repBalance: Observable<WalletRecord>;
 
   constructor(private store: Store<AppState>) {
     this.infoMsg = "This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.";
 
     this.store.dispatch(new GetEthBalanceAction());
     this.store.dispatch(new GetBtcBalanceAction());
-    this.store.dispatch(new GetRepBalanceAction());
+    //this.store.dispatch(new GetRepBalanceAction());
 
-    this.$ethLoading = this.store.select(getEthLoading);
+    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.GOLEM, name: "golem" }));
+    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.AUGUR, name: "augur" }));
+
+    // this.$ethLoading = this.store.select(getETHBalance).flatMap((e) => { return Observable.of(e.loading)});
+    // this.$btcLoading = this.store.select(getBTCBalance).flatMap((e) => { return Observable.of(e.loading)});
+
     this.$btcLoading = this.store.select(getBtcLoading);
-    this.$repLoading = this.store.select(getRepLoading);
+    this.$ethLoading = this.store.select(getEthLoading);
+    this.$tokenAugurLoading = this.store.select(getTokenLoadingAugur);
+    this.$tokenGolemLoading = this.store.select(getTokenLoadingGolem);
 
     this.$ethBalance = this.store.select(getETHBalance);
     this.$btcBalance = this.store.select(getBTCBalance);
-    this.$repBalance = this.store.select(getREPBalance);
+    //this.$repBalance = this.store.select(getREPBalance);
+    this.$tokenBalanceAugur = this.store.select(getTokenBalanceAugur);
+    this.$tokenBalanceGolem = this.store.select(getTokenBalanceGolem);
+
 
     this.walletOptions = [{id: 0, name: 'SEND'},{ id: 1, name: 'RECEIVE'},{ id: 2, name: 'TRANSACTIONS'}];
     this.wallets=[
@@ -50,8 +70,8 @@ export class WalletComponent implements OnInit {
       { id: 1, icon: 'assets/icon/btc-icon-o.png', name: 'BTC', fullName: 'Bitcoin', $balance: this.$btcBalance, usd: 0, $loading: this.$btcLoading },
       { id: 2, icon: 'assets/icon/ltc-icon-o.png', name: 'LTC', fullName: 'Litecoin', usd: 0, $loading: this.$ethLoading },
       { id: 3, icon: 'assets/icon/dcr-icon-o.png', name: 'DCR', fullName: 'Decred', usd: 0, $loading: this.$ethLoading },
-      { id: 4, icon: 'assets/icon/rep-icon-o.png', name: 'REP', fullName: 'Augur', $balance: this.$repBalance, usd: 0, $loading: this.$repLoading },
-      { id: 5, icon: 'assets/icon/gnt-icon-o.png', name: 'GNT', fullName: 'Golem', usd: 0, $loading: this.$ethLoading },
+      { id: 4, icon: 'assets/icon/rep-icon-o.png', name: 'REP', fullName: 'Augur', $balance: this.$tokenBalanceAugur, usd: 0, $loading: this.$tokenAugurLoading },
+      { id: 5, icon: 'assets/icon/gnt-icon-o.png', name: 'GNT', fullName: 'Golem', $balance: this.$tokenBalanceGolem, usd: 0, $loading: this.$tokenGolemLoading },
       { id: 6, icon: 'assets/icon/gno-icon-o.png', name: 'GNO', fullName: 'Gnosis', usd: 0, $loading: this.$ethLoading },
       { id: 7, icon: 'assets/icon/bat-icon-o.png', name: 'BAT', fullName: 'BAT', usd: 0, $loading: this.$ethLoading },
       { id: 8, icon: 'assets/icon/ant-icon-o.png', name: 'ANT', fullName: 'Aragon', usd: 0, $loading: this.$ethLoading },
