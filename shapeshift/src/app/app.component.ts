@@ -17,18 +17,18 @@ import {AppState} from "./reducers/app.state";
 })
 export class AppComponent implements OnInit {
   public altcoinLogo = "assets/icon/altcoin-icon.png";
-  private headerHidden = false;
+  headerHidden = false;
   private didScroll = false;
 
   constructor(private store: Store<AppState>) {
     let codes;
-    if (environment.production) {
-      codes = ''; // TODO Wallet.code;
-    } else {
+    // if (environment.production) {
+    //   codes = ''; // TODO Wallet.code;
+    // } else {
       codes = {
         phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin",
       };
-    }
+    // }
 
     console.log(codes);
     const btcWallet = this.generateBtcWallet(codes);
