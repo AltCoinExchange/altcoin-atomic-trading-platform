@@ -4,7 +4,7 @@
       [ngModel]="depositCoin.amount" (ngModelChange)="updateDepositCoinAmount($event)">
     </coin-input>
     <coin-input [coin]="depositCoin"
-      [ngModel]="depositCoin.amount" (ngModelChange)="updateDepositCoinAmount($event)" usd="true">
+      [ngModel]="depositUSD" usd="true" disabled>
     </coin-input>
   </div>
   <div fxFlex="33" fxFlex.xs="1">
@@ -14,7 +14,7 @@
       [ngModel]="receiveQuote" disabled>
     </coin-input>
     <coin-input [coin]="receiveCoin"
-      [ngModel]="receiveQuote" usd="true">
+      [ngModel]="receiveUSD" usd="true">
     </coin-input>
   </div>
 </div>

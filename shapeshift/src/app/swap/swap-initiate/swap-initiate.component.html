@@ -18,7 +18,7 @@
               [(ngModel)]="receiveCoin.amount" disabled>
           </coin-input>
           <coin-input [coin]="receiveCoin"
-            [ngModel]="receiveCoin.amount" usd="true" disabled>
+            [ngModel]="($depositUSD | async)" usd="true" disabled>
           </coin-input>
         </div>
         <div fxFlex="33" fxFlex.xs="1">
@@ -28,7 +28,7 @@
             [(ngModel)]="depositCoin.amount" disabled>
             </coin-input>
             <coin-input [coin]="depositCoin"
-            [ngModel]="depositCoin.amount" usd="true" disabled>
+            [ngModel]="($receiveUSD | async)" usd="true" disabled>
           </coin-input>
         </div>
       </div>

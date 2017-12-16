@@ -3,11 +3,11 @@ import {Coins} from "./coins.enum";
 import { Observable } from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
-export class BtcCoinModel implements Coin {
-  readonly type = Coins.BTC;
-  readonly name: string = Coins[Coins.BTC].toString();
-  readonly fullName: string = "Bitcoin";
-  readonly icon: string = "assets/icon/btc-icon.png";
+export class BtmCoinModel implements Coin {
+  readonly type: Coins = Coins.BTM;
+  readonly name: string = Coins[Coins.BTM].toString();
+  readonly fullName: string = "Bytom";
+  readonly icon: string = "assets/icon/btm-icon.png";
   amount: number = 0;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
@@ -15,8 +15,8 @@ export class BtcCoinModel implements Coin {
   constructor() {
   }
 
-  update(coin: BtcCoinModel): BtcCoinModel {
-    const model = new BtcCoinModel();
+  update(coin: BtmCoinModel): BtmCoinModel {
+    const model = new BtmCoinModel();
     model.amount = coin ? coin.amount : 0;
     return model;
   }

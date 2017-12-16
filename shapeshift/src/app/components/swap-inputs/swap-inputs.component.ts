@@ -8,7 +8,9 @@ import {Coin} from '../../models/coins/coin.model';
 })
 export class SwapInputsComponent implements OnInit {
   @Input() depositCoin;
+  @Input() depositUSD;
   @Input() receiveCoin;
+  @Input() receiveUSD;
 
   @Input() receiveQuote;
   @Output() swap: EventEmitter<{ depositCoin: Coin, receiveCoin: Coin }> = new EventEmitter();

@@ -15,6 +15,7 @@ import {MessageTypes} from "../../models/message-types.enum";
 import {AppState} from "../../reducers/app.state";
 import {getBLoading} from "../../selectors/side-b.selector";
 import * as fromSwap from "../../selectors/swap.selector";
+import * as quoteSelector from "../../selectors/quote.selector";
 
 @Component({
   selector: "app-swap-initiate",
@@ -31,6 +32,8 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
   messageTypes: typeof MessageTypes = MessageTypes;
   depositCoin: Coin;
   receiveCoin: Coin;
+  $depositUSD: Observable<number>;
+  $receiveUSD: Observable<number>;
   private routeSub: Subscription;
   private offerTime: Date;
   private address: string;
@@ -44,7 +47,41 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     this.$loading = this.store.select(getBLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);
 
-    this.store.dispatch(new swapAction.SetActiveStepAction(2)); // step 1?
+    this.store.dispatch(new swapAction.SetActiveStepAction(2));
+
+    const quotes = this.store.select(quoteSelector.getQuotes);
+    console.log('hehe')
+    this.$depositUSD = Observable.combineLatest(quotes, (q) => {
+      if (!q) {
+        return undefined;
+      }
+      const depositAmount = this.depositCoin.amount;
+      const depositQuotes = q.get(this.depositCoin.name);
+      const number = depositAmount * depositQuotes.price;
+      const price = +number.toFixed(2);
+      console.log('price is', price)
+      if (isNaN(number)) {
+        return 0;
+      }
+      return price;
+    });
+
+    //mock receive usd  value with 1% fee
+    this.$receiveUSD = Observable.combineLatest(quotes, (q) => {
+      if (!q) {
+        return undefined;
+      }
+      const depositAmount = this.depositCoin.amount;
+      const depositQuotes = q.get(this.depositCoin.name);
+      var number = depositAmount * depositQuotes.price;
+      number = number - (0.01 * number);
+      const price = +number.toFixed(2);
+      console.log('price is', price)
+      if (isNaN(number)) {
+        return 0;
+      }
+      return price;
+    });
   }
 
   ngOnDestroy() {

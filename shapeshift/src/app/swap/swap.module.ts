@@ -49,7 +49,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SwapInitiatePreviewModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
   ],
   declarations: [
     SwapIconComponent,

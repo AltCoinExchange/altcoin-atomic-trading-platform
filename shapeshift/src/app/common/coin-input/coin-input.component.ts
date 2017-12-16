@@ -23,7 +23,8 @@ export class CoinInputComponent extends ValueAccessorBase<Number> implements OnI
   @Input() type = 'number';
   @Input() value;
   @Input() label: String;
-
+  @Input() alignLabel: string = 'center';
+  
   constructor() {
     super();
   }

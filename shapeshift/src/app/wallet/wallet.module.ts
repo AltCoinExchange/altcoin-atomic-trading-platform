@@ -7,6 +7,7 @@ import {ShapeShiftCommonModule} from '../common/common.module';
 import {MatProgressSpinnerModule} from "@angular/material";
 import { PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'angular2-perfect-scrollbar';
+import { FormsModule } from '@angular/forms';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
@@ -15,7 +16,6 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   imports: [
     CommonModule,
     PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
-    ShapeShiftCommonModule,
     FlexLayoutModule,
     RouterModule.forChild([
       {
@@ -23,6 +23,8 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       }
     ]),
     MatProgressSpinnerModule,
+    ShapeShiftCommonModule,
+    FormsModule
   ],
   declarations: [
     WalletComponent

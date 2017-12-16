@@ -1,16 +1,19 @@
-import {Observable} from "rxjs/Observable";
 import {BtcInitiateParams, BtcParticipateParams, BtcWalletTestNet, InitiateData, ParticipateData} from "altcoinio-wallet";
 import {DcrWalletTestNet} from "../../../../../wallet/src/dcrtestnet";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
+import {Observable} from "rxjs/Observable";
+import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class DcrCoinModel extends DcrWalletTestNet implements Coin {
-  readonly type = Coins.BTC;
+  readonly type = Coins.DCR;
   readonly name: string = Coins[Coins.DCR].toString();
-  readonly icon: string = "assets/icon/btc-icon-0.png";
-  readonly fullName: string = "Bitcoin";
-  amount: number;
+  readonly icon: string = "assets/icon/dcr-icon.png";
+  readonly fullName: string = "Decred";
+  amount: number = 0;
+  $balance: Observable<WalletRecord>;
+  $amountUSD: Observable<number>;
 
   constructor() {
     super();

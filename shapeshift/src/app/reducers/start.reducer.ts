@@ -21,6 +21,8 @@ export const initialState: State = {
 export function reducer(state = initialState, action: swap.Actions): State {
   switch (action.type) {
     case swap.SWAP_DEPOSIT_RECEIVE_COINS: {
+      state.swapProcess.depositCoin.amount = 0;
+      state.swapProcess.receiveCoin.amount = 0;
       const temp = state.swapProcess.depositCoin;
       return {
         ...state,
@@ -28,6 +30,24 @@ export function reducer(state = initialState, action: swap.Actions): State {
           ...state.swapProcess,
           depositCoin: state.swapProcess.receiveCoin,
           receiveCoin: temp,
+        },
+      };
+    }
+    case swap.SET_DEPOSIT_COIN: {
+      return {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          depositCoin: action.payload,
+        },
+      };
+    }
+    case swap.SET_RECEIVE_COIN: {
+      return {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          receiveCoin: action.payload,
         },
       };
     }

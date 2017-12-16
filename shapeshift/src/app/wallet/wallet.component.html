@@ -6,19 +6,19 @@
     </div>
 </div>
 <perfect-scrollbar class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
-    <a href="" *ngFor="let wallet of wallets"  (click)="selectWalletCard($event, wallet)" [@scaleInOut]="scaleInOut">
-        <div class="wallet-card" [class.active]="selectedWalletId == wallet.id">
-            <img class="coin-icon" [src]="wallet.icon"  alt="">
-            <div *ngIf="(wallet.$loading | async)">
+    <a href="" *ngFor="let coin of allCoins"  (click)="selectCoinCard($event, coin)" [@scaleInOut]="scaleInOut">
+        <div class="wallet-card" [class.active]="selectedCoin == coin">
+            <img class="coin-icon" [src]="coin.icon"  alt="">
+            <div *ngIf="(coin.$balance | async)?.loading">
                 <div class="spinner">
                     <div class="circle-loader">
                     </div>
                 </div>
             </div>
-            <div *ngIf="!(wallet.$loading | async)">
-                <div class="coin-name">{{wallet.fullName}}</div>
-                <div class="coin-balance">{{ (((wallet.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{wallet.name}}</div>
-                <div class="coin-usd">{{wallet.usd}} USD</div>
+            <div *ngIf="!(coin.$balance | async)?.loading">
+                <div class="coin-name">{{coin.fullName}}</div>
+                <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}</div>
+                <div class="coin-usd">{{ coin.$amountUSD | async }} USD</div>
             </div>
         </div>
     </a>
@@ -26,29 +26,39 @@
 
 <div class="gradient">
     <perfect-scrollbar class="options-slide" fxLayout="row" fxLayoutAlign="start center">
-        <button *ngFor="let option of walletOptions"
+        <button
             class="wallet-option"
-            (click)="selectWalletOption(option)"
-            [class.active]="selectedOptionId == option.id"
-            [@scaleInOut]="scaleInOut">{{option.name}}
+            (click)="selectWalletOption(walletOptions.Send)"
+            [class.active]="selectedOption == walletOptions.Send"
+            [@scaleInOut]="scaleInOut">SEND
+        </button>
+        <button
+            class="wallet-option"
+            (click)="selectWalletOption(walletOptions.Receive)"
+            [class.active]="selectedOption == walletOptions.Receive"
+            [@scaleInOut]="scaleInOut">RECEIVE
+        </button>
+        <button
+            class="wallet-option"
+            (click)="selectWalletOption(walletOptions.Transactions)"
+            [class.active]="selectedOption == walletOptions.Transactions"
+            [@scaleInOut]="scaleInOut">TRANSACTIONS
         </button>
     </perfect-scrollbar>
 </div>
-<div *ngIf="selectedOptionId == 0" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
+<div *ngIf="selectedOption == walletOptions.Send" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
     <div fxLayout="row" fxLayoutAlign="center stretch">
         <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
-            <div class="input-label">Amount</div>
-            <div class="input-box"  type="number">
-                <input [value]="sendAmount | number : '1.2-18'" type="number"/>
-            </div>
             <div class="input-label">Address</div>
-            <div class="input-box">
-                <input/>
+                <div class="input-box">
+                    <input/>
             </div>
-            <div class="input-label">Network fee</div>
-            <div class="input-box">
-                <input readonly value="0.00011901"/>
-            </div>
+            <coin-input [label]="'Amount'" [alignLabel]="'left'" [coin]="selectedCoin"
+                [(ngModel)]="selectedCoin.amount">
+            </coin-input>
+            <coin-input [label]="'Network fee'" [alignLabel]="'left'" [coin]="selectedCoin"
+                [(ngModel)]="randomValue" disabled>
+            </coin-input>
             <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end end" fxLayoutAlign.xs="center stretch">
                 <div fxFlex="25" fxFlex.xs="1" class="start-button">
                     <app-shapeshift-button>Send</app-shapeshift-button>
@@ -57,12 +67,12 @@
         </div>
     </div>
 </div>
-<div *ngIf="selectedOptionId == 1" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
+<div *ngIf="selectedOption == walletOptions.Receive" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
     <div fxLayout="row" fxLayoutAlign="center stretch">
         <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
             <div class="input-label">Address</div>
             <div class="input-box">
-                <input readonly value="{{ ($btcBalance | async)?.address }}" id="btcAddress"/>
+                <input readonly value="{{ (selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address }}" id="btcAddress"/>
                 <p class="copy-icon">
                     <a (click)="copyBtcAddress($event)">
                         <i class="material-icons">content_copy</i>
@@ -75,7 +85,7 @@
         </div>
     </div>
 </div>
-<div *ngIf="selectedOptionId == 2" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
+<div *ngIf="selectedOption == walletOptions.Transactions" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
     <div fxLayout="row" fxLayoutAlign="center center">
         <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
             No transactions

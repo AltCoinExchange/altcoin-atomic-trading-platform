@@ -14,7 +14,8 @@ export class SwapIconComponent implements OnInit {
   @Input() toCoin: Coin;
   @Input() swapEnabled: boolean;
   @Output() swapped: EventEmitter<void> = new EventEmitter<void>();
-  @Output() chooseCoins: EventEmitter<Coin> = new EventEmitter<Coin>();
+  @Output() chooseDepositCoin: EventEmitter<Coin> = new EventEmitter<Coin>();
+  @Output() chooseReceiveCoin: EventEmitter<Coin> = new EventEmitter<Coin>();
 
   fromCoinAnimationSwapState = 'slideBack';
   toCoinAnimationSwapState = 'slideBack';
@@ -28,6 +29,15 @@ export class SwapIconComponent implements OnInit {
   ngOnInit() {
     this.firstCoin = this.fromCoin;
     this.secondCoin = this.toCoin;
+  }
+
+  ngOnChanges(changes){
+    if(typeof changes.fromCoin !== 'undefined' && typeof changes.toCoin == 'undefined'){
+      this.firstCoin = changes.fromCoin.currentValue;
+    }
+    if(typeof changes.toCoin !== 'undefined' && typeof changes.fromCoin == 'undefined'){
+      this.secondCoin = changes.toCoin.currentValue;
+    }
   }
 
   animateCoinSwap(event) {
@@ -48,7 +58,16 @@ export class SwapIconComponent implements OnInit {
   iconClicked(event, coin){
     event.stopPropagation();
     event.preventDefault();
-    this.chooseCoins.emit(coin);
+    if(coin.name == this.fromCoin.name){
+      console.log('change deposit')
+      this.chooseDepositCoin.emit(this.fromCoin);
+      
+    }
+    else if(coin.name == this.toCoin.name){
+      console.log('change receive')
+      this.chooseReceiveCoin.emit(this.toCoin); 
+    }
+      
   }
 
 }

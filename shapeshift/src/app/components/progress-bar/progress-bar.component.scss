@@ -43,7 +43,6 @@
 }
   
 .progress-bar {
-    width: 4%;
     height: 16px;
     border-radius: 11px;
     background-color: $main-green;
@@ -51,18 +50,18 @@
     background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
     background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
-    -webkit-transition: 0.4s linear;
-    -moz-transition: 0.4s linear;
-    -o-transition: 0.4s linear;
-    transition: 0.4s linear;
-    -webkit-transition-property: width;
-    -moz-transition-property: width;
-    -o-transition-property: width;
-    transition-property: width;
+    -webkit-transition: width 0.4s linear;
+    -moz-transition: width 0.4s linear;
+    -o-transition: width 0.4s linear;
+    transition: width 0.4s linear;
     -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
-    animation: initiating 60s linear;
-    animation-fill-mode: forwards;
+
+    &.start{
+        width: 4%;
+        animation: initiating 60s 5s linear;
+        animation-fill-mode: forwards;
+    }
 
     &.initiated{
         width: 34%;
@@ -78,6 +77,5 @@
 
     &.redeemed{
         width: 100%;
-        animation-fill-mode: forwards;
     }
 }

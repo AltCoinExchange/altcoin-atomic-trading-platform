@@ -27,6 +27,9 @@ import {
   getTokenLoadingGolem,
   getTokenLoadingSalt,
 } from "../selectors/balance.selector";
+import {Coin, CoinFactory} from "../models/coins/coin.model";
+import { WalletOptions } from './wallet-options.enum';
+import * as quoteSelector from "../selectors/quote.selector";
 
 @Component({
   selector: "app-wallet",
@@ -39,20 +42,11 @@ export class WalletComponent implements OnInit {
   fadeInOut = "fadeInOut";
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
-  wallets: Array<any>;
-  walletOptions: Array<any>;
-  selectedWalletId: Number = 0;
-  selectedOptionId: Number = 1;
+  walletOptions: typeof WalletOptions = WalletOptions;
+  allCoins: Array<Coin>;
+  selectedCoin: Coin;
+  selectedOption: WalletOptions = WalletOptions.Receive;
   sendAmount: Number = 0.00;
-  $ethLoading: Observable<boolean>;
-  $btcLoading: Observable<boolean>;
-  $tokenAugurLoading: Observable<boolean>;
-  $tokenGolemLoading: Observable<boolean>;
-  $tokenEosLoading: Observable<boolean>;
-  $tokenSaltLoading: Observable<boolean>;
-  $tokenBatLoading: Observable<boolean>;
-  $tokenGnosisLoading: Observable<boolean>;
-  $tokenAragonLoading: Observable<boolean>;
   $tokenBalanceAugur: Observable<WalletRecord>;
   $tokenBalanceGolem: Observable<WalletRecord>;
   $tokenBalanceAragon: Observable<WalletRecord>;
@@ -62,20 +56,14 @@ export class WalletComponent implements OnInit {
   $tokenBalanceGnosis: Observable<WalletRecord>;
   $ethBalance: Observable<WalletRecord>;
   $btcBalance: Observable<WalletRecord>;
-
+  randomValue: number = 0.001;
+  elementType : 'url';
+  value : string = 'Techiediaries';
+  
   constructor(private store: Store<AppState>) {
     this.infoMsg = "This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.";
-
-    this.$btcLoading = this.store.select(getBtcLoading);
-    this.$ethLoading = this.store.select(getEthLoading);
-    this.$tokenAugurLoading = this.store.select(getTokenLoadingAugur);
-    this.$tokenGolemLoading = this.store.select(getTokenLoadingGolem);
-    this.$tokenAragonLoading = this.store.select(getTokenLoadingAragon);
-    this.$tokenBatLoading = this.store.select(getTokenLoadingBat);
-    this.$tokenEosLoading = this.store.select(getTokenLoadingEos);
-    this.$tokenGnosisLoading = this.store.select(getTokenLoadingGnosis);
-    this.$tokenSaltLoading = this.store.select(getTokenLoadingSalt);
-
+    const quotes = this.store.select(quoteSelector.getQuotes);
+    
     this.$ethBalance = this.store.select(getETHBalance);
     this.$btcBalance = this.store.select(getBTCBalance);
     this.$tokenBalanceAugur = this.store.select(getTokenBalanceAugur);
@@ -86,107 +74,69 @@ export class WalletComponent implements OnInit {
     this.$tokenBalanceGnosis = this.store.select(getTokenBalanceGnosis);
     this.$tokenBalanceSalt = this.store.select(getTokenBalanceSalt);
 
+    this.allCoins = CoinFactory.createAllCoins();
+    this.allCoins.forEach((coin) => {
+      switch(coin.name){
+        case 'ETH':
+          coin.$balance = this.$ethBalance;
+          break;
+        case 'BTC':
+          coin.$balance = this.$btcBalance;
+          this.selectedCoin = coin;
+          break;
+        case 'LTC':
+          coin.$balance = this.$tokenBalanceAragon;
+          break;
+        case 'DCR':
+          coin.$balance = this.$tokenBalanceAragon;
+          break;
+        case 'REP':
+          coin.$balance = this.$tokenBalanceAugur;
+          break;
+        case 'GNT':
+          coin.$balance = this.$tokenBalanceGolem;
+          break;
+        case 'GNO':
+          coin.$balance = this.$tokenBalanceGnosis;
+          break;
+        case 'BAT':
+          coin.$balance = this.$tokenBalanceBat;
+          break;
+        case 'ANT':
+          coin.$balance = this.$tokenBalanceAragon;
+          break;
+        case 'EOS':
+          coin.$balance = this.$tokenBalanceEos;
+          break;
+        case 'SALT':
+          coin.$balance = this.$tokenBalanceSalt;
+          break;
+        default:
+          coin.$balance = this.$tokenBalanceSalt;
+      }
+      
+    });
 
-    this.walletOptions = [{id: 0, name: "SEND"}, {id: 1, name: "RECEIVE"}, {id: 2, name: "TRANSACTIONS"}];
-    this.wallets = [
-      {
-        id: 0,
-        icon: "assets/icon/eth-icon-o.png",
-        name: "ETH",
-        fullName: "Ethereum",
-        $balance: this.$ethBalance,
-        usd: 0,
-        $loading: this.$ethLoading,
-      },
-      {
-        id: 1,
-        icon: "assets/icon/btc-icon-o.png",
-        name: "BTC",
-        fullName: "Bitcoin",
-        $balance: this.$btcBalance,
-        usd: 0,
-        $loading: this.$btcLoading,
-      },
-      {
-        id: 2,
-        icon: "assets/icon/ltc-icon-o.png",
-        name: "LTC",
-        fullName: "Litecoin",
-        usd: 0,
-        $loading: this.$ethLoading,
-      },
-      {id: 3, icon: "assets/icon/dcr-icon-o.png", name: "DCR", fullName: "Decred", usd: 0, $loading: this.$ethLoading},
-      {
-        id: 4,
-        icon: "assets/icon/rep-icon-o.png",
-        name: "REP",
-        fullName: "Augur",
-        $balance: this.$tokenBalanceAugur,
-        usd: 0,
-        $loading: this.$tokenAugurLoading,
-      },
-      {
-        id: 5,
-        icon: "assets/icon/gnt-icon-o.png",
-        name: "GNT",
-        fullName: "Golem",
-        $balance: this.$tokenBalanceGolem,
-        usd: 0,
-        $loading: this.$tokenGolemLoading,
-      },
-      {
-        id: 6,
-        icon: "assets/icon/gno-icon-o.png",
-        name: "GNO",
-        fullName: "Gnosis",
-        $balance: this.$tokenBalanceGnosis,
-        usd: 0,
-        $loading: this.$tokenGnosisLoading,
-      },
-      {
-        id: 7,
-        icon: "assets/icon/bat-icon-o.png",
-        name: "BAT",
-        fullName: "BAT",
-        $balance: this.$tokenBalanceBat,
-        usd: 0,
-        $loading: this.$tokenBatLoading,
-      },
-      {
-        id: 8,
-        icon: "assets/icon/ant-icon-o.png",
-        name: "ANT",
-        fullName: "Aragon",
-        $balance: this.$tokenBalanceAragon,
-        usd: 0,
-        $loading: this.$tokenAragonLoading,
-      },
-      {
-        id: 9,
-        icon: "assets/icon/eos-icon-o.png",
-        name: "EOS",
-        fullName: "EOS",
-        $balance: this.$tokenBalanceEos,
-        usd: 0,
-        $loading: this.$tokenEosLoading,
-      },
-      {
-        id: 10,
-        icon: "assets/icon/salt-icon-o.png",
-        name: "SALT",
-        fullName: "SALT",
-        $balance: this.$tokenBalanceSalt,
-        usd: 0,
-        $loading: this.$tokenSaltLoading,
-      },
-    ];
+    this.allCoins.forEach((coin) => {
+      coin.$amountUSD = Observable.combineLatest(quotes, coin.$balance, (q, coinBalance) =>{
+        if(!q || !coinBalance)
+          return undefined;
+        const balance = Number(coinBalance.balance);
+        const coinQuote = q.get(coin.name);
+        const number = balance * coinQuote.price;
+        const price = +number.toFixed(2);
+        if (isNaN(number)) {
+          return 0;
+        }
+        return price;
+        });
+    })
   }
 
   ngOnInit() {
 
     this.store.dispatch(new GetEthBalanceAction());
     this.store.dispatch(new GetBtcBalanceAction());
-
     this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.GOLEM, name: "golem" }));
     this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.AUGUR, name: "augur" }));
     this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.ARAGON, name: "aragon" }));
@@ -210,13 +160,13 @@ export class WalletComponent implements OnInit {
   }
 
   selectWalletOption(walletOption) {
-    this.selectedOptionId = walletOption.id;
+    this.selectedOption = walletOption;
   }
 
-  selectWalletCard(event, wallet) {
+  selectCoinCard(event, coin) {
     event.stopPropagation();
     event.preventDefault();
-    this.selectedWalletId = wallet.id;
+    this.selectedCoin = coin;
   }
 
 }

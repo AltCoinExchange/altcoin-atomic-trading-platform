@@ -3,11 +3,11 @@ import {Coins} from "./coins.enum";
 import {Observable} from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
-export class RepCoinModel implements Coin {
-  readonly type: Coins = Coins.REP;
-  readonly name: string = Coins[Coins.REP].toString();
-  readonly fullName: string = "Augur";
-  readonly icon: string = "assets/icon/rep-icon.png";
+export class GnoCoinModel implements Coin {
+  readonly type: Coins = Coins.GNO;
+  readonly name: string = Coins[Coins.GNO].toString();
+  readonly fullName: string = "Gnosis";
+  readonly icon: string = "assets/icon/gno-icon.png";
   amount: number = 0;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
@@ -15,8 +15,8 @@ export class RepCoinModel implements Coin {
   constructor() {
   }
 
-  update(coin: RepCoinModel): RepCoinModel {
-    const model = new RepCoinModel();
+  update(coin: GnoCoinModel): GnoCoinModel {
+    const model = new GnoCoinModel();
     model.amount = coin ? coin.amount : 0;
     return model;
   }
