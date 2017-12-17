@@ -354,8 +354,25 @@ export class BtcTransaction {
 
   }
 
+  /**
+   * Get raw change address
+   * Unfortunately this is not working normal so far therefore it will be fallback to BlockCypher
+   * @returns {Promise<null>}
+   */
+  public async getTransactionList(address: string, count: number = 99999, skip: number = 0) {
+    const result = await this.callRPCProc("listtransactions", ['"*"', count, skip]);
+    if (result.data.result.length === 0) {
+      return await this.getTransactionsFromBlockCypher(address);
+    }
+  }
+
   private async getFeeFromBlockCypher() {
     const res = await axios.get("https://api.blockcypher.com/v1/btc/test3");
     return res.data.result.medium_fee_per_kb;
+  }
+
+  private async getTransactionsFromBlockCypher(address: string) {
+    const res = await axios.get(`https://api.blockcypher.com/v1/btc/test3/addrs/${address}/full?limit=50`);
+    return res.data;
   }
 }

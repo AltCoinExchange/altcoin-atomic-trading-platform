@@ -40,6 +40,20 @@ describe("BtcAtomicSwap", () => {
     }
   });
 
+  it("Should list transactions for specific account", async () => {
+    expect.assertions(1);
+
+    try {
+      const wallet = new BtcWalletTestNet();
+      wallet.recover(regenerateWallet);
+      const result: any = await wallet.getTransactionList("mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ");
+      console.log(result);
+      expect(result.txs.length).toBeGreaterThan(0);
+    } catch (e) {
+      expect(e.message).toEqual("");
+    }
+  });
+
   it("Should pass redeem", async () => {
     expect.assertions(1);
 
