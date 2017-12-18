@@ -165,9 +165,14 @@ export class EthEngine {
   }
 
   public recoverAccount(privateKey, password?) {
-    if (!privateKey || !password) {
+    if (!privateKey) {
       return;
     }
+
+    if (password === undefined) {
+      password = "";
+    }
+
     const accounts = this.web3.eth.accounts;
     const acc = accounts.privateKeyToAccount(this.web3.utils.asciiToHex(privateKey));
     return acc.encrypt(privateKey, password);

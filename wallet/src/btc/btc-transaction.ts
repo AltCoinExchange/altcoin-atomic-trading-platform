@@ -360,7 +360,7 @@ export class BtcTransaction {
    * @returns {Promise<null>}
    */
   public async getTransactionList(address: string, count: number = 99999, skip: number = 0) {
-    const result = await this.callRPCProc("listtransactions", ['"*"', count, skip]);
+    const result = await this.callRPCProc("listtransactions", ["*", count, skip]);
     if (result.data.result.length === 0) {
       return await this.getTransactionsFromBlockCypher(address);
     }
