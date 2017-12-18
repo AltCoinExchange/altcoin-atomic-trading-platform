@@ -72,7 +72,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
         }
         const depositAmount = coin.amount;
         const depositQuotes = q.get(coin.name);
-        console.log('deposit quotes', depositQuotes);
+        //console.log('deposit quotes', depositQuotes);
         const number = depositAmount * depositQuotes.price;
         const price = +number.toFixed(2);
         if (isNaN(number)) {
@@ -82,7 +82,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
       },
     );
 
-    //mock receive usd  value with 1% fee
+    //mock receive usd value with 1% fee
     this.$receiveUSD = Observable.combineLatest(
       this.$depositCoin, this.$receiveCoin, quotes, (coin, receive, q) => {
         if (!q) {
@@ -122,18 +122,18 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   }
 
   changeDepositCoin(coin: Coin){
-    this.toggleCoinStrip(coin);
+    this.openCoinStrip(coin);
     this.coinToChange = 'deposit';
   }
 
   changeReceiveCoin(coin: Coin){
-    this.toggleCoinStrip(coin)
+    this.openCoinStrip(coin)
     this.coinToChange = 'receive';
   }
 
-  toggleCoinStrip(coin : Coin){
+  openCoinStrip(coin : Coin){
     this.selectedCoin = coin;
-    this.chooseCoins = !this.chooseCoins;
+    this.chooseCoins = true;
   }
 
   closeCoinStrip(event, coin){
