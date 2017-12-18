@@ -185,7 +185,7 @@ export class EthEngine {
   public isMethodPayable(name: string, abi: any[]): boolean {
     for (const i in abi) {
       if (abi[i].name === name) {
-        return abi[i].payable;
+        return !abi[i].constant;
       }
     }
     return false;
