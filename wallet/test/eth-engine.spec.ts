@@ -23,7 +23,7 @@ describe("EthEngine", () => {
     const privKey = "tprv8ZgxMBicQKsPdxZqLMWLFLxJiYwSnP92WVXzkb3meDwix5nxQtNd21AHzn3UvmJAqEqGoYzR7vtZk8hrujhZVGBh1MMED8JnsNja8gEopYM";
 
     const ethEngine = new EthEngine(AtomicSwapAbi, EthConfiguration.hosts[0], AtomicSwapBin);
-    const recovered = ethEngine.recoverAccount(privKey, "customPassword");
+    const recovered = ethEngine.recoverAccount(privKey, "");
     ethEngine.login(recovered, privKey);
     const result = await ethEngine.scanBlockRange();
     const g = 1;
