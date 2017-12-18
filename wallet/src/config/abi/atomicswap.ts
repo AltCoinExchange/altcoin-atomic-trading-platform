@@ -47,7 +47,7 @@ export const AtomicSwapAbi = [
     ],
     name: "redeem",
     outputs: [],
-    payable: false,
+    payable: true,
     type: "function",
   },
   {
