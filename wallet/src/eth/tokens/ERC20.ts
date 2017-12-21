@@ -15,12 +15,12 @@ export class ERC20 {
     this.ethEngine = ethEngine;
   }
 
-  @abiParams({"": AbiType.uint256})
+  @abiParams({}, {"": AbiType.uint256})
   public totalSupply(): number {
     return 0;
   }
 
-  @abiParams({"balance": AbiType.uint256}, {"_owner": AbiType.address})
+  @abiParams({}, {"balance": AbiType.uint256}, {"_owner": AbiType.address})
   public async balanceOf(owner: string): Promise<any> {
 
     const abi = getAbiParams(this, "balanceOf");
@@ -33,7 +33,7 @@ export class ERC20 {
     return result;
   }
 
-  @abiParams({"": AbiType.bool}, {"_to": AbiType.address}, {"_value": AbiType.uint256})
+  @abiParams({}, {"": AbiType.bool}, {"_to": AbiType.address}, {"_value": AbiType.uint256})
   public async transfer(to: string, value: number): Promise<any> {
     const abi = getAbiParams(this, "transfer");
 
@@ -45,7 +45,7 @@ export class ERC20 {
     return result;
   }
 
-  @abiParams({"": AbiType.bool},
+  @abiParams({}, {"": AbiType.bool},
     {"_from": AbiType.uint256}, {"_to": AbiType.address}, {"_value": AbiType.uint256})
   public async transferFrom(from: string, to: string, value: number): Promise<any> {
     const abi = getAbiParams(this, "transferFrom");
@@ -58,7 +58,7 @@ export class ERC20 {
     return result;
   }
 
-  @abiParams({"": AbiType.bool}, {"_spender": AbiType.address}, {"_value": AbiType.uint256})
+  @abiParams({}, {"": AbiType.bool}, {"_spender": AbiType.address}, {"_value": AbiType.uint256})
   public async approve(spender: string, value: number): Promise<any> {
     const abi = getAbiParams(this, "approve");
 
@@ -70,7 +70,7 @@ export class ERC20 {
     return result;
   }
 
-  @abiParams({"": AbiType.uint256}, {"_owner": AbiType.address}, {"_spender": AbiType.address})
+  @abiParams({}, {"": AbiType.uint256}, {"_owner": AbiType.address}, {"_spender": AbiType.address})
   public async allowance(owner: string, spender: string): Promise<any> {
     const abi = getAbiParams(this, "allowance");
 
