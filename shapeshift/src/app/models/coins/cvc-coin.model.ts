@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class CvcCoinModel implements Coin {
+  readonly derive = undefined;
   readonly type: Coins = Coins.CVC;
   readonly name: string = Coins[Coins.CVC].toString();
   readonly fullName: string = "Civic";

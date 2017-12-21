@@ -5,6 +5,7 @@ import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class BatCoinModel implements Coin {
   readonly type: Coins = Coins.BAT;
+  readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.BAT].toString();
   readonly fullName: string = "BAT";
   readonly icon: string = "assets/icon/bat-icon.png";

@@ -22,6 +22,7 @@ import {BtmCoinModel} from "./btm-coin.model";
 import {DentCoinModel} from "./dent-coin.model";
 
 export abstract class Coin {
+  readonly derive: string;
   readonly type: Coins;
   readonly name: string;
   readonly fullName: string;
@@ -42,6 +43,9 @@ export class CoinFactory {
       case Coins.ETH: {
         return new EthCoinModel();
       }
+      case Coins.REP: {
+        return new RepCoinModel();
+      }
       default: {
         throw new Error();
       }
@@ -49,9 +53,9 @@ export class CoinFactory {
   }
   static createAllCoins(): Coin[] {
     return [
-      new BtcCoinModel(), 
-      new EthCoinModel(), 
-      new RepCoinModel(), 
+      new BtcCoinModel(),
+      new EthCoinModel(),
+      new RepCoinModel(),
       new DcrCoinModel(),
       new AntCoinModel(),
       new BatCoinModel(),

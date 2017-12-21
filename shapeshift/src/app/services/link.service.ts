@@ -8,7 +8,9 @@ import {BigchainDbService} from './bigchain-db.service';
 export class LinkService {
 
   public generateLink(coins, wallet): Observable<string> {
-    const address = wallet[coins.receiveCoin.name].address;
+    const address = wallet[
+      coins.receiveCoin.derive === undefined ? coins.receiveCoin.name : coins.receiveCoin.derive
+      ].address;
     const link = assembleLink(
       coins.depositCoin.name,
       coins.depositCoin.amount,

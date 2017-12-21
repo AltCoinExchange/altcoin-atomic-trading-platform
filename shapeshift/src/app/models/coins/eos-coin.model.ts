@@ -5,6 +5,7 @@ import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class EosCoinModel implements Coin {
   readonly type: Coins = Coins.EOS;
+  readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.EOS].toString();
   readonly fullName: string = "EOS";
   readonly icon: string = "assets/icon/eos-icon.png";

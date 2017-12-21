@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class EthCoinModel implements Coin {
+  readonly derive: undefined;
   readonly type: Coins = Coins.ETH;
   readonly name: string = Coins[Coins.ETH].toString();
   readonly fullName: string = "Ethereum";

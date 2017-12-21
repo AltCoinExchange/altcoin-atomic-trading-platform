@@ -7,13 +7,12 @@ import {
 } from "../../../../../wallet/src";
 import {Observable} from "rxjs/Observable";
 import {RedeemData, RedeemParams} from "../../../../../wallet/src/atomic-swap";
-import {AugurTokenTestnet} from "../../../../../wallet/src/eth-tokens/augur-testnet";
 import {TokenFactory, TOKENS} from "../../../../../wallet/src/eth-tokens/token-factory";
 import {EthRedeemParams} from "../../../../../wallet/src/eth/atomic-swap/eth-redeem-params";
-import {ERC20} from "../../../../../wallet/src/eth/tokens/ERC20";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {EthCoinModel} from "../coins/eth-coin.model";
 import {Wallet} from "./wallet";
+import {TokenAtomicSwap} from "../../../../../wallet/src/eth/tokens/token-atomic-swap";
 
 export class EthWallet extends EthWalletTestnet implements Wallet {
   readonly timeout: number = 7200;
@@ -61,7 +60,7 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
     return xprivKey;
   }
 
-  public getERC20Token(token: TOKENS): ERC20 {
+  public getERC20Token(token: TOKENS): TokenAtomicSwap {
     return TokenFactory.GetToken(token, this.engine);
   }
 }

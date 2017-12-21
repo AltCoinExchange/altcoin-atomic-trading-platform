@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class SntCoinModel implements Coin {
+  readonly derive = undefined;
   readonly type: Coins = Coins.SNT;
   readonly name: string = Coins[Coins.SNT].toString();
   readonly fullName: string = "Status Network";

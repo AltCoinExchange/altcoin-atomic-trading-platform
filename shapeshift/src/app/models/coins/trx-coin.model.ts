@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class TrxCoinModel implements Coin {
+  readonly derive = undefined;
   readonly type: Coins = Coins.TRX;
   readonly name: string = Coins[Coins.TRX].toString();
   readonly fullName: string = "Tron";

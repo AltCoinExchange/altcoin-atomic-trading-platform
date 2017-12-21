@@ -5,6 +5,7 @@ import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class GnoCoinModel implements Coin {
   readonly type: Coins = Coins.GNO;
+  readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.GNO].toString();
   readonly fullName: string = "Gnosis";
   readonly icon: string = "assets/icon/gno-icon.png";
