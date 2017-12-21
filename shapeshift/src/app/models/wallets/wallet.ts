@@ -7,6 +7,7 @@ import {Coins} from "../coins/coins.enum";
 import {BtcWallet} from "./btc-wallet";
 import {EthWallet} from "./eth-wallet";
 import {TOKENS} from "../../../../../wallet/src/eth-tokens/token-factory";
+import {EthTokenWallet} from "./eth-token-wallet";
 
 export interface Wallet {
 
@@ -31,11 +32,11 @@ export class WalletFactory {
         return ethCoinModel;
       }
       case Coins.REP: {
-        const ethCoinModel = new EthWallet();
+        const ethCoinModel = new EthTokenWallet(TOKENS.AUGUR);
         const xprivKey = ShapeshiftStorage.get("btcprivkey");
         const keystore = ethCoinModel.recover(xprivKey);
-        ethCoinModel.login(keystore, xprivKey); // TODO: modify wallet to support tokens over same interface
-        // return ethCoinModel.getERC20Token(TOKENS.AUGUR);
+        ethCoinModel.login(keystore, xprivKey);
+        return ethCoinModel;
       }
       default: {
         throw new Error();
