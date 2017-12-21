@@ -63,7 +63,7 @@ export class SideBEffect {
     .mergeMap((data) => {
         // TODO payload contains SECRET ------- TODO please correct this
         console.log("TODO payload contains SECRET ------- TODO please correct this");
-        const address = data.wallet[data.receiveCoin.name].address;
+        const address = data.wallet[data.receiveCoin.derive === undefined ? data.receiveCoin.name : data.receiveCoin.derive].address;
         data.payload = {
           ...data.payload,
           address,
@@ -156,7 +156,7 @@ export class SideBEffect {
         };
       })
     .mergeMap((data) => {
-        const address = data.wallet[data.receiveCoin.name].address;
+        const address = data.wallet[data.receiveCoin.derive === undefined ? data.receiveCoin.name : data.receiveCoin.derive].address;
         data.payload = {
           ...data.payload,
           address,

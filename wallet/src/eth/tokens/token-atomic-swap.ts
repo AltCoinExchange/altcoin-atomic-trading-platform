@@ -28,7 +28,10 @@ export class TokenAtomicSwap extends ERC20 {
     };
 
     // tslint:disable-next-line
-    console.log("ETH TOKEN INITIATE PARAMS: ", partParams);
+    console.log("ETH TOKEN PARTICIPATE PARAMS: ", partParams);
+
+    const approveResult = this.approve(TokenConfig.AtomicSwap.contractAddress, this.ethEngine.toWei(partParams.amount, "ether"));
+//    const transferResult = this.transfer(TokenConfig.AtomicSwap.contractAddress, this.ethEngine.toWei(partParams.amount, "ether"));
 
     const resp: any = await this.ethEngine.callFunction("participate",
       [partParams.secretHash, partParams.address, this.contractAddress, this.ethEngine.toWei(partParams.amount, "ether")],
@@ -57,6 +60,9 @@ export class TokenAtomicSwap extends ERC20 {
 
     // tslint:disable-next-line
     console.log("ETH TOKEN INITIATE PARAMS: ", initParams);
+
+    const approveResult = this.approve(TokenConfig.AtomicSwap.contractAddress, this.ethEngine.toWei(initParams.amount, "ether"));
+//    const transferResult = this.transfer(TokenConfig.AtomicSwap.contractAddress, this.ethEngine.toWei(initParams.amount, "ether"));
 
     const result: any = await this.ethEngine.callFunction("initiate",
       [secretHash, initParams.address, this.contractAddress, this.ethEngine.toWei(initParams.amount, "ether")], generalParams,

@@ -113,7 +113,7 @@ export class SideAEffect {
         // TODO payload contains SECRET ------- TODO please correct this
         console.log("TODO payload contains SECRET ------- TODO please correct this");
         console.log(data);
-        const address = data.wallet[data.process.depositCoin.name].address;
+        const address = data.wallet[data.process.depositCoin.derive === undefined ?  data.process.depositCoin.name : data.process.depositCoin.derive].address;
         data.payload = {
           ...data.payload,
           address,
