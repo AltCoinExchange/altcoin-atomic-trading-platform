@@ -58,7 +58,7 @@ export class WalletComponent implements OnInit {
   filteredCoins: Array<Coin>;
   search;
 
-  inMyPossesion: boolean = localStorage.getItem('show_posession') ? localStorage.getItem('show_posession') === "true" : false;
+  inMyPossesion: boolean = localStorage.getItem('show_posession') ? localStorage.getItem('show_posession') === 'true' : false;
 
   constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
     this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
@@ -163,8 +163,7 @@ export class WalletComponent implements OnInit {
 
     const coinEl = document.querySelector('#' + coin.name);
     const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
-    // perfectNativeElement.scrollTo(coinEl.getBoundingClientRect().left + perfectNativeElement.scrollHeight, 0);
-    perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft;
+    perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft - 10;
   }
 
   filterCoin(val: string) {
@@ -182,6 +181,13 @@ export class WalletComponent implements OnInit {
     });
 
     dialogRef.afterClosed().filter(res => !!res).subscribe(result => {
+      if (result.amount === 0) {
+        this.inMyPossesion = false;
+        setTimeout(() => {
+          this.selectCoinCard(result);
+        });
+        return;
+      }
       this.selectCoinCard(result);
     });
   }

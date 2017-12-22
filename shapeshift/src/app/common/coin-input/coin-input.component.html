@@ -1,7 +1,7 @@
 <ng-content></ng-content>
 <div class="input-label" [style.text-align]="alignLabel">{{label}}</div>
 <div class="input-box">
-  <input [type]="type" [disabled]="disabled" [readonly]="disabled" [ngModel]="value" (ngModelChange)="value=$event" step="any" [class.usd]="usd">
+  <input [type]="type" [disabled]="disabled" placeholder="0" [readonly]="disabled" [ngModel]="value" (ngModelChange)="value=$event" step="any" [class.usd]="usd">
   <div *ngIf="!usd" class="input-label coin-symbol">{{coin.name}}</div>
   <div *ngIf="usd" class="input-label coin-symbol usd">USD</div>
 </div>
