@@ -101,18 +101,13 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
         return price;
       }
     );
-
-    this.$depositUSD.subscribe(deposit => {
-      console.log('deposit', deposit);
-    });
-
-    this.$receiveUSD.subscribe(receive => {
-      console.log('receive', receive);
-    });
-
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+
   }
 
 
