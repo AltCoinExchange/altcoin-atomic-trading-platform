@@ -140,14 +140,8 @@ export class WalletComponent implements OnInit {
 
   }
 
-  copyEthAddress(event) {
-    const copyText = <HTMLInputElement>document.getElementById('ethAddress');
-    copyText.select();
-    document.execCommand('Copy');
-  }
-
-  copyBtcAddress(event) {
-    const copyText = <HTMLInputElement>document.getElementById('btcAddress');
+  copyReceiveAddress(event) {
+    const copyText = <HTMLInputElement>document.getElementById('coinAddress');
     copyText.select();
     document.execCommand('Copy');
   }
@@ -158,11 +152,9 @@ export class WalletComponent implements OnInit {
 
   selectCoinCard(coin) {
     this.selectedCoin = coin;
-
     const coinEl = document.querySelector('#' + coin.name);
     const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
-    // perfectNativeElement.scrollTo(coinEl.getBoundingClientRect().left + perfectNativeElement.scrollHeight, 0);
-    perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft;
+    perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft - 10;
   }
 
   filterCoin(val: string) {
