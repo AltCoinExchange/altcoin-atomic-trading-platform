@@ -77,18 +77,12 @@ export class WalletComponent implements OnInit {
     this.allCoins = CoinFactory.createAllCoins();
     this.allCoins.forEach((coin) => {
       switch(coin.name){
-        case 'ETH':
-          coin.$balance = this.$ethBalance;
-          break;
         case 'BTC':
           coin.$balance = this.$btcBalance;
           this.selectedCoin = coin;
           break;
-        case 'LTC':
-          coin.$balance = this.$tokenBalanceAragon;
-          break;
-        case 'DCR':
-          coin.$balance = this.$tokenBalanceAragon;
+        case 'ETH':
+          coin.$balance = this.$ethBalance;
           break;
         case 'REP':
           coin.$balance = this.$tokenBalanceAugur;
