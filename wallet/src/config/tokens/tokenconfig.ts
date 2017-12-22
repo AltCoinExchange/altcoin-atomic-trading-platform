@@ -2,7 +2,7 @@
 export const TokenConfig = {
   AtomicSwap: {
     code: "",
-    contractAddress: "0x89b291018Dcf3F7B7E002d8E7bd1aF45fFe7E912"
+    contractAddress: "0x9e514dc95f72d2a382b565d161ef8bc9d1d32a9d"
   },
   Augur: {
     code: "",
