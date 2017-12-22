@@ -1,45 +1,36 @@
-import {Component, OnInit} from "@angular/core";
-import {Store} from "@ngrx/store";
-import {Observable} from "rxjs/Observable";
-import {TOKENS} from "../../../../wallet/src/eth-tokens/token-factory";
-import {GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction} from "../actions/balance.action";
-import {fadeInOutAnimation, scaleInOutAnimation} from "../animations/animations";
-import {MessageTypes} from "../models/message-types.enum";
-import {AppState} from "../reducers/app.state";
-import {WalletRecord} from "../reducers/balance.reducer";
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { TOKENS } from '../../../../wallet/src/eth-tokens/token-factory';
+import { GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction } from '../actions/balance.action';
+import { fadeInOutAnimation, scaleInOutAnimation } from '../animations/animations';
+import { Coin, CoinFactory } from '../models/coins/coin.model';
+import { MessageTypes } from '../models/message-types.enum';
+import { AppState } from '../reducers/app.state';
+import { WalletRecord } from '../reducers/balance.reducer';
 import {
   getBTCBalance,
-  getBtcLoading,
   getETHBalance,
-  getEthLoading,
   getTokenBalanceAragon,
   getTokenBalanceAugur,
   getTokenBalanceBat,
   getTokenBalanceEos,
   getTokenBalanceGnosis,
   getTokenBalanceGolem,
-  getTokenBalanceSalt,
-  getTokenLoadingAragon,
-  getTokenLoadingAugur,
-  getTokenLoadingBat,
-  getTokenLoadingEos,
-  getTokenLoadingGnosis,
-  getTokenLoadingGolem,
-  getTokenLoadingSalt,
-} from "../selectors/balance.selector";
-import {Coin, CoinFactory} from "../models/coins/coin.model";
+  getTokenBalanceSalt
+} from '../selectors/balance.selector';
+import * as quoteSelector from '../selectors/quote.selector';
 import { WalletOptions } from './wallet-options.enum';
-import * as quoteSelector from "../selectors/quote.selector";
 
 @Component({
-  selector: "app-wallet",
-  templateUrl: "./wallet.component.html",
-  styleUrls: ["./wallet.component.scss"],
-  animations: [scaleInOutAnimation, fadeInOutAnimation],
+  selector: 'app-wallet',
+  templateUrl: './wallet.component.html',
+  styleUrls: ['./wallet.component.scss'],
+  animations: [scaleInOutAnimation, fadeInOutAnimation]
 })
 export class WalletComponent implements OnInit {
-  scaleInOut = "scaleInOut";
-  fadeInOut = "fadeInOut";
+  scaleInOut = 'scaleInOut';
+  fadeInOut = 'fadeInOut';
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
   walletOptions: typeof WalletOptions = WalletOptions;
@@ -57,13 +48,16 @@ export class WalletComponent implements OnInit {
   $ethBalance: Observable<WalletRecord>;
   $btcBalance: Observable<WalletRecord>;
   randomValue: number = 0.001;
-  elementType : 'url';
-  value : string = 'Techiediaries';
-  
+  elementType: 'url';
+  value: string = 'Techiediaries';
+
+  filteredCoins: Array<Coin>;
+  search;
+
   constructor(private store: Store<AppState>) {
-    this.infoMsg = "This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.";
+    this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
     const quotes = this.store.select(quoteSelector.getQuotes);
-    
+
     this.$ethBalance = this.store.select(getETHBalance);
     this.$btcBalance = this.store.select(getBTCBalance);
     this.$tokenBalanceAugur = this.store.select(getTokenBalanceAugur);
@@ -76,7 +70,7 @@ export class WalletComponent implements OnInit {
 
     this.allCoins = CoinFactory.createAllCoins();
     this.allCoins.forEach((coin) => {
-      switch(coin.name){
+      switch (coin.name) {
         case 'ETH':
           coin.$balance = this.$ethBalance;
           break;
@@ -114,12 +108,12 @@ export class WalletComponent implements OnInit {
         default:
           coin.$balance = this.$tokenBalanceSalt;
       }
-      
+
     });
 
     this.allCoins.forEach((coin) => {
-      coin.$amountUSD = Observable.combineLatest(quotes, coin.$balance, (q, coinBalance) =>{
-        if(!q || !coinBalance)
+      coin.$amountUSD = Observable.combineLatest(quotes, coin.$balance, (q, coinBalance) => {
+        if (!q || !coinBalance)
           return undefined;
         const balance = Number(coinBalance.balance);
         const coinQuote = q.get(coin.name);
@@ -129,34 +123,36 @@ export class WalletComponent implements OnInit {
           return 0;
         }
         return price;
-        });
-    })
+      });
+    });
+
+    this.filteredCoins = [...this.allCoins];
   }
 
   ngOnInit() {
 
     this.store.dispatch(new GetEthBalanceAction());
     this.store.dispatch(new GetBtcBalanceAction());
-    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.GOLEM, name: "golem" }));
-    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.AUGUR, name: "augur" }));
-    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.ARAGON, name: "aragon" }));
-    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.BAT, name: "bat" }));
-    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.EOS, name: "eos" }));
-    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.GNOSIS, name: "gnosis" }));
-    this.store.dispatch(new GetTokenBalanceAction({ token: TOKENS.SALT, name: "salt" }));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: 'golem'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.AUGUR, name: 'augur'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ARAGON, name: 'aragon'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BAT, name: 'bat'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: 'eos'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: 'gnosis'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: 'salt'}));
 
   }
 
   copyEthAddress(event) {
-    const copyText = <HTMLInputElement>document.getElementById("ethAddress");
+    const copyText = <HTMLInputElement>document.getElementById('ethAddress');
     copyText.select();
-    document.execCommand("Copy");
+    document.execCommand('Copy');
   }
 
   copyBtcAddress(event) {
-    const copyText = <HTMLInputElement>document.getElementById("btcAddress");
+    const copyText = <HTMLInputElement>document.getElementById('btcAddress');
     copyText.select();
-    document.execCommand("Copy");
+    document.execCommand('Copy');
   }
 
   selectWalletOption(walletOption) {
@@ -169,4 +165,11 @@ export class WalletComponent implements OnInit {
     this.selectedCoin = coin;
   }
 
+  filterCoin(val: string) {
+    this.filteredCoins = [...this.allCoins].filter(coin => {
+      return coin.name.toLowerCase().indexOf(val.toLowerCase()) !== -1 ||
+        val.toLowerCase().indexOf(coin.name.toLowerCase()) !== -1 ||
+        coin.fullName.toLowerCase().indexOf(val) !== -1;
+    });
+  }
 }

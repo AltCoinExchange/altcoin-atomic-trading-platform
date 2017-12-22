@@ -29,7 +29,7 @@ export const coinSwapsAnimation =
 export const scaleInOutAnimation =
   trigger('scaleInOut', [
     transition('void => scaleInOut', [
-      animate('1500ms ease-in-out', keyframes([
+      animate('1000ms ease-in-out', keyframes([
         style({opacity: 0, transform: 'scale(0)', offset: 0}),
         style({opacity: 0.5, transform: 'scale(1.1)', offset: 0.6}),
         style({opacity: 0.7, transform: 'scale(0.9)', offset: 0.8}),
