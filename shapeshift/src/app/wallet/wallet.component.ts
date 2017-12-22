@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -31,6 +31,8 @@ import { WalletOptions } from './wallet-options.enum';
   animations: [scaleInOutAnimation, fadeInOutAnimation]
 })
 export class WalletComponent implements OnInit {
+  @ViewChild('perfectScrollbar') perfectScrollbar;
+
   scaleInOut = 'scaleInOut';
   fadeInOut = 'fadeInOut';
   infoMsg: string;
@@ -56,7 +58,7 @@ export class WalletComponent implements OnInit {
   filteredCoins: Array<Coin>;
   search;
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
     this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
     const quotes = this.store.select(quoteSelector.getQuotes);
 
@@ -132,7 +134,6 @@ export class WalletComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.store.dispatch(new GetEthBalanceAction());
     this.store.dispatch(new GetBtcBalanceAction());
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: 'golem'}));
@@ -161,10 +162,13 @@ export class WalletComponent implements OnInit {
     this.selectedOption = walletOption;
   }
 
-  selectCoinCard(event, coin) {
-    event.stopPropagation();
-    event.preventDefault();
+  selectCoinCard(coin) {
     this.selectedCoin = coin;
+
+    const coinEl = document.querySelector('#' + coin.name);
+    const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
+    // perfectNativeElement.scrollTo(coinEl.getBoundingClientRect().left + perfectNativeElement.scrollHeight, 0);
+    perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft;
   }
 
   filterCoin(val: string) {
@@ -176,13 +180,13 @@ export class WalletComponent implements OnInit {
   }
 
   showAllCoins() {
-    let dialogRef = this.dialog.open(AllCoinsDialogComponent, {
+    const dialogRef = this.dialog.open(AllCoinsDialogComponent, {
       panelClass: 'allCoinsDialog',
       data: {coins: this.allCoins}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.selectedCoin = result;
+      this.selectCoinCard(result);
     });
   }
 }

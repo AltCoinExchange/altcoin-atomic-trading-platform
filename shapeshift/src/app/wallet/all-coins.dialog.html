@@ -5,7 +5,8 @@
   </button>
 </div>
 <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
-  <mat-card *ngFor="let coin of data.coins" (click)="dialogRef.close(coin)" fxLayout="column" fxFlex="calc(33% - 5px)" fxFlex.xs="100"
+  <mat-card *ngFor="let coin of data.coins" (click)="dialogRef.close(coin)" fxLayout="column" fxFlex="calc(33% - 5px)"
+            fxFlex.xs="100"
             fxFlex.sm="100" style="text-align: center;">
     <div [class.active]="selectedCoin == coin">
       <img class="coin-icon" [src]="coin.icon" alt="">
@@ -22,8 +23,4 @@
       </div>
     </div>
   </mat-card>
-  <div >
-
-  </div>
-
 </div>

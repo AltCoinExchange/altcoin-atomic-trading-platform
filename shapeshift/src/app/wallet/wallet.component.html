@@ -17,8 +17,8 @@
 </div>
 
 
-<perfect-scrollbar class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
-    <a href="" *ngFor="let coin of filteredCoins"  (click)="selectCoinCard($event, coin)" [@scaleInOut]="scaleInOut">
+<perfect-scrollbar #perfectScrollbar class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
+    <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name" [@scaleInOut]="scaleInOut">
         <div class="wallet-card" [class.active]="selectedCoin == coin">
             <img class="coin-icon" [src]="coin.icon"  alt="">
             <div *ngIf="(coin.$balance | async)?.loading">
