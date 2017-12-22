@@ -21,14 +21,12 @@ export const initialState: State = {
 export function reducer(state = initialState, action: swap.Actions): State {
   switch (action.type) {
     case swap.SWAP_DEPOSIT_RECEIVE_COINS: {
-      state.swapProcess.depositCoin.amount = 0;
-      state.swapProcess.receiveCoin.amount = 0;
       const temp = state.swapProcess.depositCoin;
       return {
         ...state,
         swapProcess: {
           ...state.swapProcess,
-          depositCoin: state.swapProcess.receiveCoin,
+          depositCoin: state.swapProcess.receiveCoin.update(temp),
           receiveCoin: temp,
         },
       };
