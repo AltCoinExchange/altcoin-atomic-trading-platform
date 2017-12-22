@@ -4,6 +4,8 @@ import "jest";
 import {AugurTokenTestnet} from "../../src/eth-tokens/augur-testnet";
 import {EthEngine} from "../../src/eth/eth-engine";
 import * as AppConfig from "../../src/config/config-eth";
+import {EthInitiateParams} from "../../src/eth/atomic-swap";
+import {EthWalletTestnet} from "../../src/ethtestnet/eth-wallet-testnet";
 
 
 describe("EthAugurBalance", () => {
@@ -18,12 +20,13 @@ describe("EthAugurBalance", () => {
     const ethEngine = new EthEngine(null, AppConfig.EthConfiguration.hosts[0], null);
     const erc20Token = new AugurTokenTestnet(ethEngine);
 
-    const newAccount = ethEngine.createAccount("customPassword");
-    const store = newAccount.keystore;
-    ethEngine.login(store, "customPassword");
+    const privKey = "tprv8ZgxMBicQKsPdxZqLMWLFLxJiYwSnP92WVXzkb3meDwix5nxQtNd21AHzn3UvmJAqEqGoYzR7vtZk8hrujhZVGBh1MMED8JnsNja8gEopYM";
+    const ks = ethEngine.recoverAccount(privKey);
+    ethEngine.login(ks, privKey);
 
     try {
       const balance = await erc20Token.balanceOf("0x6c4d7a11fb699bb020e46f315d8cb87ef2c0f8c8");
+      const result = await erc20Token.initiate(new EthInitiateParams(7200, "0x6c4d7a11fb699bb020e46f315d8cb87ef2c0f8c8", 1.12));
       expect(balance).toEqual("500");
     } catch (e) {
       expect(e.message).toEqual(0);
