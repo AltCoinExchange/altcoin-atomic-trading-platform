@@ -90,7 +90,7 @@ a{
   -moz-border-radius: 11px;
   box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
   -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
-  -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);  
+  -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
 }
 
 .input-box{
@@ -100,7 +100,7 @@ a{
   -moz-border-radius: 11px;
   box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
   -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
-  -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);  
+  -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
   margin-bottom: 15px;
   display: flex;
 
@@ -171,4 +171,18 @@ a{
   background-image: -webkit-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
   background-image: -o-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
   background-image: -moz-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
+}
+
+
+.mat-input-placeholder {
+  color: #9cabbd;
+}
+
+mat-dialog-container {
+  max-width: 100% !important;
+}
+
+.allCoinsDialog {
+  width: 90%;
+  height:80%;
 }

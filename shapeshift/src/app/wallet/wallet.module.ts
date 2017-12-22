@@ -1,16 +1,18 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
-import {WalletComponent} from './wallet.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {ShapeShiftCommonModule} from '../common/common.module';
-import {MatProgressSpinnerModule} from "@angular/material";
-import { PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'angular2-perfect-scrollbar';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
+import {
+  MatCardModule, MatDialogModule, MatIconModule, MatInputModule,
+  MatProgressSpinnerModule
+} from '@angular/material';
+import { RouterModule } from '@angular/router';
+import { PerfectScrollbarConfigInterface, PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
+import { ShapeShiftCommonModule } from '../common/common.module';
+import { AllCoinsDialogComponent } from './all-coins.dialog';
+import { WalletComponent } from './wallet.component';
 
-const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-};
+const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
 @NgModule({
   imports: [
@@ -24,11 +26,19 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ]),
     MatProgressSpinnerModule,
     ShapeShiftCommonModule,
-    FormsModule
+    FormsModule,
+    MatInputModule,
+    MatIconModule,
+    MatDialogModule,
+    MatCardModule,
   ],
   declarations: [
-    WalletComponent
+    WalletComponent,
+    AllCoinsDialogComponent
   ],
+  entryComponents: [
+    AllCoinsDialogComponent
+  ]
 })
 export class WalletModule {
 }

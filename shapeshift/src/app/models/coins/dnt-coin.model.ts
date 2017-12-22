@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class DntCoinModel implements Coin {
+  readonly derive = undefined;
   readonly type: Coins = Coins.DNT;
   readonly name: string = Coins[Coins.DNT].toString();
   readonly fullName: string = "district0x";

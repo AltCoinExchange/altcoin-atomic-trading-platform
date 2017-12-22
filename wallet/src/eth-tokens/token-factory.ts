@@ -1,4 +1,3 @@
-import {ERC20} from "../eth/tokens/ERC20";
 /**
  * Augur token interface
  */
@@ -10,6 +9,7 @@ import {EosTokenTestnet} from "./eos-testnet";
 import {GnosisTokenTestnet} from "./gnosis-testnet";
 import {GolemTokenTestnet} from "./golem-testnet";
 import {SaltTokenTestnet} from "./salt-testnet";
+import {TokenAtomicSwap} from "../eth/tokens/token-atomic-swap";
 
 export enum TOKENS {
   AUGUR = 1,
@@ -22,7 +22,7 @@ export enum TOKENS {
 }
 
 export class TokenFactory {
-  public static GetToken(token: TOKENS, engine: EthEngine): ERC20 {
+  public static GetToken(token: TOKENS, engine: EthEngine): TokenAtomicSwap {
     switch (token) {
       case TOKENS.GOLEM: {
         return new GolemTokenTestnet(engine);

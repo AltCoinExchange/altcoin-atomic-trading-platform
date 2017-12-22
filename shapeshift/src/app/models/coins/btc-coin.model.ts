@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class BtcCoinModel implements Coin {
+  readonly derive: undefined;
   readonly type = Coins.BTC;
   readonly name: string = Coins[Coins.BTC].toString();
   readonly fullName: string = "Bitcoin";

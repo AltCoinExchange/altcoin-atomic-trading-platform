@@ -14,15 +14,19 @@ import {EthCoinModel} from "../coins/eth-coin.model";
 import {Wallet} from "./wallet";
 import {TokenAtomicSwap} from "../../../../../wallet/src/eth/tokens/token-atomic-swap";
 
-export class EthWallet extends EthWalletTestnet implements Wallet {
+export class EthTokenWallet extends EthWalletTestnet implements Wallet {
   readonly timeout: number = 7200;
+  public token: TOKENS;
 
-  constructor() {
+  constructor(token: TOKENS) {
     super();
+    this.token = token;
   }
 
   Initiate(address: string, coin: EthCoinModel): Observable<InitiateData> {
-    return Observable.fromPromise(super.initiate(this.getInitParams(address, coin.amount.toString())));
+    const token = this.getERC20Token(this.token);
+    const initParams = this.getInitParams(address, coin.amount.toString());
+    return Observable.fromPromise(token.initiate(initParams));
   }
 
   Participate(data: InitiateData, coin: EthCoinModel): Observable<ParticipateData> {
@@ -30,19 +34,22 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
     console.log("PARTICIPATING ETH:... ", InitiateData);
     const xprivKey = this.init();
 
+    const token = this.getERC20Token(this.token);
+
     const secretHash = data.secretHash;
     const participateParams = new EthParticipateParams(this.timeout,
       this.oxify(secretHash),
       data.address,
       coin.amount.toString(), xprivKey);
 
-    return Observable.fromPromise(super.participate(participateParams));
+    return Observable.fromPromise(token.participate(participateParams));
   }
 
   Redeem(data: RedeemData, coin: EthCoinModel): Observable<RedeemData> {
     this.init();
     const params = new EthRedeemParams(this.oxify(data.secret), this.oxify(data.secretHash), null);
-    return Observable.fromPromise(this.redeem(params));
+    const token = this.getERC20Token(this.token);
+    return Observable.fromPromise(token.redeem(params));
   }
 
   getInitParams(address: string, amount: string): EthInitiateParams {

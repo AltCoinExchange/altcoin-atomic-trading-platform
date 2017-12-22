@@ -5,6 +5,7 @@ import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class GntCoinModel implements Coin {
   readonly type: Coins = Coins.GNT;
+  readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.GNT].toString();
   readonly fullName: string = "Golem";
   readonly icon: string = "assets/icon/gnt-icon.png";

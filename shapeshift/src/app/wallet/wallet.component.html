@@ -5,8 +5,20 @@
         </div>
     </div>
 </div>
+<div fxLayout="row" fxLayoutAlign="center stretch">
+  <div fxFlex="100">
+    <mat-form-field style="width: 100%;">
+      <input placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
+      <button class="input-button" mat-button matSuffix mat-icon-button (click)="showAllCoins()">
+        <mat-icon>view_module</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+
+
 <perfect-scrollbar class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
-    <a href="" *ngFor="let coin of allCoins"  (click)="selectCoinCard($event, coin)" [@scaleInOut]="scaleInOut">
+    <a href="" *ngFor="let coin of filteredCoins"  (click)="selectCoinCard($event, coin)" [@scaleInOut]="scaleInOut">
         <div class="wallet-card" [class.active]="selectedCoin == coin">
             <img class="coin-icon" [src]="coin.icon"  alt="">
             <div *ngIf="(coin.$balance | async)?.loading">
@@ -22,6 +34,7 @@
             </div>
         </div>
     </a>
+  <a *ngIf="filteredCoins.length === 0">Not found</a>
 </perfect-scrollbar>
 
 <div class="gradient">

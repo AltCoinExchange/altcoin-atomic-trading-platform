@@ -1,5 +1,13 @@
 @import '../../styles/variables';
 
+.input-button {
+  width: 45px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #9cabbd;
+}
+
 .input-box{
     margin-bottom: 20px;
 }
@@ -14,7 +22,7 @@
     padding: 20px;
     overflow-x: auto;
     white-space: nowrap;
-    
+
     .wallet-card{
         position: relative;
         height: 70px;
@@ -118,8 +126,8 @@
 
 .wallet-content{
     position: absolute;
-    width: -webkit-calc(100% - 40px);    
-    width: -moz-calc(100% - 40px); 
+    width: -webkit-calc(100% - 40px);
+    width: -moz-calc(100% - 40px);
     width: calc(100% - 40px);
     padding: 20px;
     margin-bottom: 60px;
@@ -131,7 +139,7 @@
     width: 200px;
     height: 200px;
     margin: auto;
-    margin-top: 30px; 
+    margin-top: 30px;
     padding: 30px;
     box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
     border-radius: 11px;

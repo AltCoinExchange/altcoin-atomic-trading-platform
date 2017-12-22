@@ -9,6 +9,7 @@ export module AbiUtil {
     address = 2,
     bool = 3,
     bytes32 = 4,
+    bytes20 = 5
   }
 
   // DUH! Do not include reflect-metadata module
@@ -19,16 +20,16 @@ export module AbiUtil {
     public static defineMetadata(metadataKey: any, metadataValue: any, target: Object, targetKey?: string | symbol): void;
   }
 
-  export const abiParams = (returnType: any, ...params) => {
+  export const abiParams = (functionData: any, returnType: any, ...params) => {
     return (target: any, functionName: string, descriptor: PropertyDescriptor) => {
       let root = {} as any;
       root.inputs = [];
-      root.constant = false;
+      root.constant = functionData.constant === undefined ? false : functionData.constant;
       root.outputs = [];
       root.name = functionName;
-      root.type = "function";
-      root.payable = false; // TODO: Add as optional parameter later if needed
-      root.stateMutability = "nonpayable"; // TODO Fix if needed
+      root.type = functionData.type === undefined ? "function" : functionData.type;
+      root.payable =  functionData.payable === undefined ? false : functionData.payable;
+      root.stateMutability = functionData.stateMutability === undefined ?  "nonpayable" : functionData.stateMutability;
       if (params) {
         params.forEach((v) => {
           for (let ret in v) {

@@ -6,6 +6,8 @@ import {Coin} from "../coins/coin.model";
 import {Coins} from "../coins/coins.enum";
 import {BtcWallet} from "./btc-wallet";
 import {EthWallet} from "./eth-wallet";
+import {TOKENS} from "../../../../../wallet/src/eth-tokens/token-factory";
+import {EthTokenWallet} from "./eth-token-wallet";
 
 export interface Wallet {
 
@@ -24,6 +26,13 @@ export class WalletFactory {
       }
       case Coins.ETH: {
         const ethCoinModel = new EthWallet();
+        const xprivKey = ShapeshiftStorage.get("btcprivkey");
+        const keystore = ethCoinModel.recover(xprivKey);
+        ethCoinModel.login(keystore, xprivKey);
+        return ethCoinModel;
+      }
+      case Coins.REP: {
+        const ethCoinModel = new EthTokenWallet(TOKENS.AUGUR);
         const xprivKey = ShapeshiftStorage.get("btcprivkey");
         const keystore = ethCoinModel.recover(xprivKey);
         ethCoinModel.login(keystore, xprivKey);

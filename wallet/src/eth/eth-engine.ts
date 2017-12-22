@@ -2,6 +2,7 @@ import {switchAll} from "rxjs/operators";
 import * as Web3 from "web3/src";
 import {Account, Contract} from "web3/types";
 import {IEthAccount} from "./eth-account";
+import axios, {AxiosResponse} from "axios";
 
 const walletN = 256;
 
@@ -185,10 +186,29 @@ export class EthEngine {
   public isMethodPayable(name: string, abi: any[]): boolean {
     for (const i in abi) {
       if (abi[i].name === name) {
-        return !abi[i].constant;
+        return abi[i].stateMutability !== "nonpayable";
       }
     }
     return false;
+  }
+
+  /**
+   * Get raw change address
+   * Unfortunately this is not working normal so far therefore it will be fallback to BlockCypher
+   * @returns {Promise<null>}
+   */
+  public async getTransactionList(address: string) {
+    return await this.getTransactionsFromBlockCypher(address);
+  }
+
+  private async getFeeFromBlockCypher() {
+    const res = await axios.get("https://api.blockcypher.com/v1/btc/test3");
+    return res.data.result.medium_fee_per_kb;
+  }
+
+  private async getTransactionsFromBlockCypher(address: string, limit: string = "50") {
+    const res = await axios.get(`https://api.blockcypher.com/v1/beth/test/addrs/${address}/full?limit=${limit}`);
+    return res.data;
   }
 
   /**

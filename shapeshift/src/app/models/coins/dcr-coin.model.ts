@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
 
 export class DcrCoinModel extends DcrWalletTestNet implements Coin {
+  readonly derive = undefined;
   readonly type = Coins.DCR;
   readonly name: string = Coins[Coins.DCR].toString();
   readonly icon: string = "assets/icon/dcr-icon.png";
