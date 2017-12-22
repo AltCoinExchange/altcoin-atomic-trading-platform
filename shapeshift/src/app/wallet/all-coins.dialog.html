@@ -1,5 +1,12 @@
-<div fxLayout="row" fxLayoutWrap>
-  <div *ngFor="let coin of data.coins" fxLayout="column" fxFlex="33"  fxFlex.xs="100" fxFlex.sm="100" style="text-align: center">
+<div fxLayout="row">
+  <button style="position: relative;left: 95%;margin-bottom: 20px;  background-color: transparent;
+  border: none; cursor: pointer;" matDialogClose mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+  <mat-card *ngFor="let coin of data.coins" (click)="dialogRef.close(coin)" fxLayout="column" fxFlex="calc(33% - 5px)" fxFlex.xs="100"
+            fxFlex.sm="100" style="text-align: center;">
     <div [class.active]="selectedCoin == coin">
       <img class="coin-icon" [src]="coin.icon" alt="">
       <div *ngIf="(coin.$balance | async)?.loading">
@@ -14,6 +21,9 @@
         <div class="coin-usd">{{ coin.$amountUSD | async }} USD</div>
       </div>
     </div>
+  </mat-card>
+  <div >
+
   </div>
 
 </div>

@@ -180,5 +180,9 @@ export class WalletComponent implements OnInit {
       panelClass: 'allCoinsDialog',
       data: {coins: this.allCoins}
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedCoin = result;
+    });
   }
 }
