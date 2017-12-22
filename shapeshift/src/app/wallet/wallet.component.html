@@ -16,10 +16,13 @@
   </div>
 </div>
 
+<mat-checkbox [ngModel]="inMyPossesion" (ngModelChange)="onPossesionModeChange($event)">Show only those in my posession</mat-checkbox>
 
 <perfect-scrollbar #perfectScrollbar class="wallet-slide gradient" fxLayout="row" fxLayoutAlign="start center">
     <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name" [@scaleInOut]="scaleInOut">
-        <div class="wallet-card" [class.active]="selectedCoin == coin">
+        <div class="wallet-card" [class.active]="selectedCoin == coin"
+             *ngIf="(inMyPossesion && (coin.$balance | async)?.balance > 0) ||
+             (!inMyPossesion && (coin.$balance | async)?.balance >= 0)">
             <img class="coin-icon" [src]="coin.icon"  alt="">
             <div *ngIf="(coin.$balance | async)?.loading">
                 <div class="spinner">

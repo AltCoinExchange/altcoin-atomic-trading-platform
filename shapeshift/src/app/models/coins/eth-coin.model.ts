@@ -9,7 +9,7 @@ export class EthCoinModel implements Coin {
   readonly name: string = Coins[Coins.ETH].toString();
   readonly fullName: string = "Ethereum";
   readonly icon: string = "assets/icon/eth-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 
