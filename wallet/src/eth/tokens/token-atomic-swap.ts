@@ -30,11 +30,12 @@ export class TokenAtomicSwap extends ERC20 {
     // tslint:disable-next-line
     console.log("ETH TOKEN PARTICIPATE PARAMS: ", partParams);
 
-    const approveResult = await this.approve(TokenConfig.AtomicSwap.contractAddress, partParams.amount);
+    const amount = parseFloat(partParams.amount);
+    const approveResult = await this.approve(TokenConfig.AtomicSwap.contractAddress, amount);
 //    const transferResult = this.transfer(TokenConfig.AtomicSwap.contractAddress, this.ethEngine.toWei(partParams.amount, "ether"));
 
     const resp: any = await this.ethEngine.callFunction("participate",
-      [partParams.secretHash, partParams.address, this.contractAddress, partParams.amount],
+      [partParams.secretHash, partParams.address, this.contractAddress, amount],
       generalParams, EthConfirmation.RECEIPT,
       abi, TokenConfig.AtomicSwap.contractAddress);
 
@@ -61,11 +62,12 @@ export class TokenAtomicSwap extends ERC20 {
     // tslint:disable-next-line
     console.log("ETH TOKEN INITIATE PARAMS: ", initParams);
 
-    const approveResult = await this.approve(TokenConfig.AtomicSwap.contractAddress, initParams.amount);
+    const amount = parseFloat(initParams.amount);
+    const approveResult = await this.approve(TokenConfig.AtomicSwap.contractAddress, amount);
 //    const transferResult = this.transfer(TokenConfig.AtomicSwap.contractAddress, this.ethEngine.toWei(initParams.amount, "ether"));
 
     const result: any = await this.ethEngine.callFunction("initiate",
-      [secretHash, initParams.address, this.contractAddress, initParams.amount], generalParams,
+      [secretHash, initParams.address, this.contractAddress, amount], generalParams,
       EthConfirmation.RECEIPT, abi, TokenConfig.AtomicSwap.contractAddress).then((resp: any) => {
       // tslint:disable-next-line
       console.log("ETH TOKEN INITIATE RESPONSE: ", resp);
