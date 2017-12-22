@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayoutWrap>
+  <div *ngFor="let coin of data.coins" fxLayout="column" fxFlex="33"  fxFlex.xs="100" fxFlex.sm="100" style="text-align: center">
+    <div [class.active]="selectedCoin == coin">
+      <img class="coin-icon" [src]="coin.icon" alt="">
+      <div *ngIf="(coin.$balance | async)?.loading">
+        <div class="spinner">
+          <div class="circle-loader">
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!(coin.$balance | async)?.loading">
+        <div class="coin-name">{{coin.fullName}}</div>
+        <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}</div>
+        <div class="coin-usd">{{ coin.$amountUSD | async }} USD</div>
+      </div>
+    </div>
+  </div>
+
+</div>

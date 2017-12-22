@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { TOKENS } from '../../../../wallet/src/eth-tokens/token-factory';
@@ -20,6 +21,7 @@ import {
   getTokenBalanceSalt
 } from '../selectors/balance.selector';
 import * as quoteSelector from '../selectors/quote.selector';
+import { AllCoinsDialogComponent } from './all-coins.dialog';
 import { WalletOptions } from './wallet-options.enum';
 
 @Component({
@@ -54,7 +56,7 @@ export class WalletComponent implements OnInit {
   filteredCoins: Array<Coin>;
   search;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog) {
     this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
     const quotes = this.store.select(quoteSelector.getQuotes);
 
@@ -170,6 +172,13 @@ export class WalletComponent implements OnInit {
       return coin.name.toLowerCase().indexOf(val.toLowerCase()) !== -1 ||
         val.toLowerCase().indexOf(coin.name.toLowerCase()) !== -1 ||
         coin.fullName.toLowerCase().indexOf(val) !== -1;
+    });
+  }
+
+  showAllCoins() {
+    let dialogRef = this.dialog.open(AllCoinsDialogComponent, {
+      panelClass: 'allCoinsDialog',
+      data: {coins: this.allCoins}
     });
   }
 }

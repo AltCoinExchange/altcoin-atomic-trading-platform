@@ -6,10 +6,10 @@
     </div>
 </div>
 <div fxLayout="row" fxLayoutAlign="center stretch">
-  <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
+  <div fxFlex="100">
     <mat-form-field style="width: 100%;">
       <input placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
-      <button class="input-button" mat-button matSuffix mat-icon-button>
+      <button class="input-button" mat-button matSuffix mat-icon-button (click)="showAllCoins()">
         <mat-icon>view_module</mat-icon>
       </button>
     </mat-form-field>
