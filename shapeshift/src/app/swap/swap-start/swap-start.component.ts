@@ -1,30 +1,30 @@
-import {ChangeDetectionStrategy, Component, HostBinding, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
-import {Observable} from "rxjs/Observable";
-import * as sideA from "../../actions/side-A.action";
-import * as swapAction from "../../actions/start.action";
-import {flyInOutAnimation} from "../../animations/animations";
-import {AnimationEnabledComponent} from "../../common/animation.component";
-import {Coin, CoinFactory} from "../../models/coins/coin.model";
-import {MessageTypes} from "../../models/message-types.enum";
-import {SwapProcess} from "../../models/swap-process.model";
-import * as fromSwap from "../../reducers/start.reducer";
-import * as quoteSelector from "../../selectors/quote.selector";
-import * as swapSelector from "../../selectors/start.selector";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import * as sideA from '../../actions/side-A.action';
+import * as swapAction from '../../actions/start.action';
+import { flyInOutAnimation } from '../../animations/animations';
+import { AnimationEnabledComponent } from '../../common/animation.component';
+import { Coin, CoinFactory } from '../../models/coins/coin.model';
+import { MessageTypes } from '../../models/message-types.enum';
+import { SwapProcess } from '../../models/swap-process.model';
+import * as fromSwap from '../../reducers/start.reducer';
+import * as quoteSelector from '../../selectors/quote.selector';
+import * as swapSelector from '../../selectors/start.selector';
 
 @Component({
-  selector: "app-swap-start",
-  templateUrl: "./swap-start.component.html",
-  styleUrls: ["./swap-start.component.scss"],
+  selector: 'app-swap-start',
+  templateUrl: './swap-start.component.html',
+  styleUrls: ['./swap-start.component.scss'],
   animations: [flyInOutAnimation],
   preserveWhitespaces: false
 })
 export class SwapStartComponent extends AnimationEnabledComponent implements OnInit {
-  scrollbarConfig: Object = { suppressScrollY: true };
+  scrollbarConfig: Object = {suppressScrollY: true};
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
-  chooseCoins: boolean = false;
+  chooseCoins = false;
   selectedCoin: Coin;
   coinToChange: string;
   coins: Array<Coin>;
@@ -38,9 +38,9 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
 
   constructor(private router: Router, private store: Store<fromSwap.State>) {
     super();
-    this.infoMsg = "For testnet use only";
+    this.infoMsg = 'For testnet use only';
     this.coins = CoinFactory.createAllCoins();
-  
+
     this.store.dispatch(new swapAction.SetActiveStepAction(1));
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
@@ -62,9 +62,9 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
           return 0;
         }
         return price;
-      },
+      }
     );
-    
+
     this.$depositUSD = Observable.combineLatest(
       this.$depositCoin, this.$receiveCoin, quotes, (coin, receive, q) => {
         if (!q) {
@@ -72,33 +72,43 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
         }
         const depositAmount = coin.amount;
         const depositQuotes = q.get(coin.name);
-        //console.log('deposit quotes', depositQuotes);
+        // console.log('deposit quotes', depositQuotes);
         const number = depositAmount * depositQuotes.price;
         const price = +number.toFixed(2);
         if (isNaN(number)) {
           return 0;
         }
         return price;
-      },
+      }
     );
 
-    //mock receive usd value with 1% fee
+    // mock receive usd value with 1% fee
     this.$receiveUSD = Observable.combineLatest(
-      this.$depositCoin, this.$receiveCoin, quotes, (coin, receive, q) => {
+      this.$quote, this.$receiveCoin, quotes, (receiveCoinVal, receive, q) => {
         if (!q) {
           return undefined;
         }
-        const depositAmount = coin.amount;
-        const depositQuotes = q.get(coin.name);
-        var number = depositAmount * depositQuotes.price;
-        number = number - (0.01 * number);
+
+        const depositAmount = receiveCoinVal;
+        const depositQuotes = q.get(receive.name);
+
+        let number = depositAmount * depositQuotes.price;
+        number = number - (0.01 * number); // TODO artifical fee ??
         const price = +number.toFixed(2);
         if (isNaN(number)) {
           return 0;
         }
         return price;
-      },
+      }
     );
+
+    this.$depositUSD.subscribe(deposit => {
+      console.log('deposit', deposit);
+    });
+
+    this.$receiveUSD.subscribe(receive => {
+      console.log('receive', receive);
+    });
 
   }
 
@@ -121,26 +131,26 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     this.store.dispatch(new swapAction.SetDepositAmountAction(depositamount));
   }
 
-  changeDepositCoin(coin: Coin){
+  changeDepositCoin(coin: Coin) {
     this.openCoinStrip(coin);
     this.coinToChange = 'deposit';
   }
 
-  changeReceiveCoin(coin: Coin){
-    this.openCoinStrip(coin)
+  changeReceiveCoin(coin: Coin) {
+    this.openCoinStrip(coin);
     this.coinToChange = 'receive';
   }
 
-  openCoinStrip(coin : Coin){
+  openCoinStrip(coin: Coin) {
     this.selectedCoin = coin;
     this.chooseCoins = true;
   }
 
-  closeCoinStrip(event, coin){
+  closeCoinStrip(event, coin) {
     event.stopPropagation();
     event.preventDefault();
     this.chooseCoins = false;
-    if(this.coinToChange == 'deposit')
+    if (this.coinToChange == 'deposit')
       this.store.dispatch(new swapAction.setDepositCoinAction(coin));
     else
       this.store.dispatch(new swapAction.setReceiveCoinAction(coin));
