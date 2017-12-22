@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import {
-  MatCardModule, MatDialogModule, MatIconModule, MatInputModule,
+  MatCardModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule,
   MatProgressSpinnerModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -31,6 +31,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
     MatIconModule,
     MatDialogModule,
     MatCardModule,
+    MatCheckboxModule
   ],
   declarations: [
     WalletComponent,

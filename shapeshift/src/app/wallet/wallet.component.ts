@@ -58,6 +58,8 @@ export class WalletComponent implements OnInit {
   filteredCoins: Array<Coin>;
   search;
 
+  inMyPossesion: boolean = localStorage.getItem('show_posession') ? localStorage.getItem('show_posession') === "true" : false;
+
   constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
     this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
     const quotes = this.store.select(quoteSelector.getQuotes);
@@ -74,7 +76,7 @@ export class WalletComponent implements OnInit {
 
     this.allCoins = CoinFactory.createAllCoins();
     this.allCoins.forEach((coin) => {
-      switch(coin.name){
+      switch (coin.name) {
         case 'BTC':
           coin.$balance = this.$btcBalance;
           this.selectedCoin = coin;
@@ -179,8 +181,13 @@ export class WalletComponent implements OnInit {
       data: {coins: this.allCoins}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().filter(res => !!res).subscribe(result => {
       this.selectCoinCard(result);
     });
+  }
+
+  onPossesionModeChange(val: boolean) {
+    localStorage.setItem('show_posession', JSON.stringify(val));
+    this.inMyPossesion = val;
   }
 }
