@@ -21,6 +21,7 @@ export const getEthLoading = createSelector(getBalanceState,
 export const getRepLoading = createSelector(getBalanceState,
   fromBalance.getRepLoading);
 
+export const getTokenBalances = createSelector(getBalanceState, fromBalance.getTokenBalances);
 export const getTokenBalanceAugur = createSelector(getBalanceState, fromBalance.getTokenBalanceAugur);
 export const getTokenBalanceGolem = createSelector(getBalanceState, fromBalance.getTokenBalanceGolem);
 export const getTokenBalanceGnosis = createSelector(getBalanceState, fromBalance.getTokenBalanceGnosis);

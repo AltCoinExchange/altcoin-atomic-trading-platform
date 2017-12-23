@@ -6,7 +6,6 @@ import { TOKENS } from '../../../../wallet/src/eth-tokens/token-factory';
 import { GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction } from '../actions/balance.action';
 import { fadeInOutAnimation, scaleInOutAnimation } from '../animations/animations';
 import { Coin, CoinFactory } from '../models/coins/coin.model';
-import { Coins } from '../models/coins/coins.enum';
 import { MessageTypes } from '../models/message-types.enum';
 import { AppState } from '../reducers/app.state';
 import { WalletRecord } from '../reducers/balance.reducer';
@@ -18,7 +17,7 @@ import {
   getTokenBalanceBat,
   getTokenBalanceEos,
   getTokenBalanceGnosis,
-  getTokenBalanceGolem,
+  getTokenBalanceGolem, getTokenBalances,
   getTokenBalanceSalt
 } from '../selectors/balance.selector';
 import * as quoteSelector from '../selectors/quote.selector';
@@ -77,6 +76,9 @@ export class WalletComponent implements OnInit {
     this.$tokenBalanceEos = this.store.select(getTokenBalanceEos);
     this.$tokenBalanceGnosis = this.store.select(getTokenBalanceGnosis);
     this.$tokenBalanceSalt = this.store.select(getTokenBalanceSalt);
+
+    const tokenBalances = this.store.select(getTokenBalances);
+    console.log(tokenBalances); // todo can be done better
 
     this.allCoins = CoinFactory.createAllCoins();
     this.allCoins.forEach((coin) => {
@@ -146,9 +148,8 @@ export class WalletComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    const btcCoin = this.allCoins.find(coin => coin.type === Coins.BTC);
-    btcCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
-      this.generateQrCode(btcCoin);
+    this.selectedCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
+      this.generateQrCode(this.selectedCoin);
     });
   }
 

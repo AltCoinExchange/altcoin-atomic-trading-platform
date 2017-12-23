@@ -74,4 +74,27 @@ export class CoinFactory {
       new DentCoinModel()
     ];
   }
+  static createAllCoinsForWallet(balances): Coin[] {
+    return [
+      new BtcCoinModel(),
+      new EthCoinModel(),
+      new RepCoinModel(),
+      new DcrCoinModel(),
+      new AntCoinModel(),
+      new BatCoinModel(),
+      new EosCoinModel(),
+      new GnoCoinModel(),
+      new GntCoinModel(),
+      new SaltCoinModel(),
+      new LtcCoinModel(),
+      new CvcCoinModel(),
+      new DntCoinModel(),
+      new SntCoinModel(),
+      new SubCoinModel(),
+      new TrxCoinModel(),
+      new OmgCoinModel(),
+      new BtmCoinModel(),
+      new DentCoinModel()
+    ];
+  }
 }

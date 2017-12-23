@@ -122,6 +122,7 @@ export const getTokenLoadingSalt = (state: State) => state.TOKENS["salt"].loadin
 export const getETHBalance = (state: State) => state.ETH;
 export const getBTCBalance = (state: State) => state.BTC;
 export const getREPBalance = (state: State) => state.REP;
+export const getTokenBalances = (state: State) => state.TOKENS;
 export const getTokenBalanceAugur = (state: State) => state.TOKENS["augur"];
 export const getTokenBalanceGolem = (state: State) => state.TOKENS["golem"];
 export const getTokenBalanceGnosis = (state: State) => state.TOKENS["gnosis"];
