@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
-import {RedeemData} from "../../../../wallet/src/atomic-swap";
+import {RedeemData} from "altcoinio-wallet";
 import {Go} from "../actions/router.action";
 import * as sideA from "../actions/side-A.action";
 import * as sideB from "../actions/side-B.action";

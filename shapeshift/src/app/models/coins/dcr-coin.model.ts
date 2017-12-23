@@ -1,5 +1,4 @@
-import {BtcInitiateParams, BtcParticipateParams, BtcWalletTestNet, InitiateData, ParticipateData} from "altcoinio-wallet";
-import {DcrWalletTestNet} from "../../../../../wallet/src/dcrtestnet";
+import {DcrWalletTestNet, BtcInitiateParams, BtcParticipateParams, BtcWalletTestNet, InitiateData, ParticipateData} from "altcoinio-wallet";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";

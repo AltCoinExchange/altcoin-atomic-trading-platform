@@ -4,15 +4,13 @@ import {
   EthWalletTestnet,
   InitiateData,
   ParticipateData,
-} from "../../../../../wallet/src";
+  RedeemData, RedeemParams,
+  TokenFactory, TOKENS, EthRedeemParams, TokenAtomicSwap
+} from "altcoinio-wallet";
 import {Observable} from "rxjs/Observable";
-import {RedeemData, RedeemParams} from "../../../../../wallet/src/atomic-swap";
-import {TokenFactory, TOKENS} from "../../../../../wallet/src/eth-tokens/token-factory";
-import {EthRedeemParams} from "../../../../../wallet/src/eth/atomic-swap/eth-redeem-params";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {EthCoinModel} from "../coins/eth-coin.model";
 import {Wallet} from "./wallet";
-import {TokenAtomicSwap} from "../../../../../wallet/src/eth/tokens/token-atomic-swap";
 
 export class EthTokenWallet extends EthWalletTestnet implements Wallet {
   readonly timeout: number = 7200;

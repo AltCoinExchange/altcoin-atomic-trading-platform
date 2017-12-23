@@ -1,12 +1,10 @@
-import {InitiateData, ParticipateData} from "altcoinio-wallet";
+import {InitiateData, ParticipateData, RedeemData, TOKENS} from "altcoinio-wallet";
 import {Observable} from "rxjs/Observable";
-import {RedeemData} from "../../../../../wallet/src/atomic-swap";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {Coin} from "../coins/coin.model";
 import {Coins} from "../coins/coins.enum";
 import {BtcWallet} from "./btc-wallet";
 import {EthWallet} from "./eth-wallet";
-import {TOKENS} from "../../../../../wallet/src/eth-tokens/token-factory";
 import {EthTokenWallet} from "./eth-token-wallet";
 
 export interface Wallet {

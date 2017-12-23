@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
-import {TOKENS} from "../../../../wallet/src/eth-tokens/token-factory";
+import {TOKENS} from "altcoinio-wallet";
 import * as balanceAction from "../actions/balance.action";
 import {BtcCoinModel} from "../models/coins/btc-coin.model";
 import {EthCoinModel} from "../models/coins/eth-coin.model";

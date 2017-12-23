@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { TOKENS } from '../../../../wallet/src/eth-tokens/token-factory';
+import { TOKENS } from 'altcoinio-wallet';
 import { GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction } from '../actions/balance.action';
 import { fadeInOutAnimation, scaleInOutAnimation } from '../animations/animations';
 import { Coin, CoinFactory } from '../models/coins/coin.model';

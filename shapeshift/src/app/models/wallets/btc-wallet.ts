@@ -4,10 +4,10 @@ import {
   BtcWalletTestNet,
   InitiateData,
   ParticipateData,
-} from "../../../../../wallet/src";
+  RedeemData,
+  BtcRedeemParams
+} from "altcoinio-wallet";
 import {Observable} from "rxjs/Observable";
-import {RedeemData} from "../../../../../wallet/src/atomic-swap";
-import {BtcRedeemParams} from "../../../../../wallet/src/btc/atomic-swap";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {BtcCoinModel} from "../coins/btc-coin.model";
 import {Wallet} from "./wallet";
