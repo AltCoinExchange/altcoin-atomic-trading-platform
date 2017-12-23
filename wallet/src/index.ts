@@ -5,3 +5,4 @@ export * from "./ethtestnet";
 export * from "./atomic-swap";
 export * from "./common";
 export * from "./btc/atomic-swap";
+export {generateMnemonic} from "./hd-bip44/seed";

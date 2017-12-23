@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {assembleLink} from '../common/link-util';
-import {BigchainDbService} from './bigchain-db.service';
 
 
 @Injectable()

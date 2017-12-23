@@ -14,10 +14,7 @@ export const ROUTES: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(ROUTES, {
-      preloadingStrategy: PreloadAllModules,
-    },
-  )],
+  imports: [RouterModule.forRoot(ROUTES)],
   exports: [
     RouterModule,
   ],

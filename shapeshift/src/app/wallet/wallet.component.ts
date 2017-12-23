@@ -6,6 +6,7 @@ import { TOKENS } from '../../../../wallet/src/eth-tokens/token-factory';
 import { GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction } from '../actions/balance.action';
 import { fadeInOutAnimation, scaleInOutAnimation } from '../animations/animations';
 import { Coin, CoinFactory } from '../models/coins/coin.model';
+import { Coins } from '../models/coins/coins.enum';
 import { MessageTypes } from '../models/message-types.enum';
 import { AppState } from '../reducers/app.state';
 import { WalletRecord } from '../reducers/balance.reducer';
@@ -23,6 +24,8 @@ import {
 import * as quoteSelector from '../selectors/quote.selector';
 import { AllCoinsDialogComponent } from './all-coins.dialog';
 import { WalletOptions } from './wallet-options.enum';
+
+declare const QRCode;
 
 @Component({
   selector: 'app-wallet',
@@ -59,6 +62,7 @@ export class WalletComponent implements OnInit {
   search;
 
   inMyPossesion: boolean = localStorage.getItem('show_posession') ? localStorage.getItem('show_posession') === 'true' : false;
+  qr;
 
   constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
     this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
@@ -139,7 +143,13 @@ export class WalletComponent implements OnInit {
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: 'eos'}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: 'gnosis'}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: 'salt'}));
+  }
 
+  ngAfterViewInit() {
+    const btcCoin = this.allCoins.find(coin => coin.type === Coins.BTC);
+    btcCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
+      this.generateQrCode(btcCoin);
+    });
   }
 
   copyReceiveAddress(event) {
@@ -157,6 +167,7 @@ export class WalletComponent implements OnInit {
     const coinEl = document.querySelector('#' + coin.name);
     const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
     perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft - 10;
+    this.generateQrCode(coin);
   }
 
   filterCoin(val: string) {
@@ -188,5 +199,31 @@ export class WalletComponent implements OnInit {
   onPossesionModeChange(val: boolean) {
     localStorage.setItem('show_posession', JSON.stringify(val));
     this.inMyPossesion = val;
+  }
+
+  private generateQrCode(coin) {
+    const address = Observable.combineLatest(coin.$balance, this.$ethBalance, (c: any, eth) => {
+      let addr;
+      if (c.address) {
+        addr = c.address;
+      } else {
+        addr = eth.address;
+      }
+      return addr;
+    });
+
+    address.first().subscribe(addr => {
+      if (!this.qr) {
+        this.qr = new QRCode(document.getElementById('qrcode'), {
+          text: addr,
+          width: 200,
+          height: 200,
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+      this.qr.makeCode(addr);
+    }).unsubscribe();
   }
 }

@@ -1,34 +1,43 @@
-import {Component, HostListener, OnInit, ViewEncapsulation} from "@angular/core";
-import {Store} from "@ngrx/store";
-import {BtcWalletTestNet, EthWalletTestnet, FreshBitcoinWallet, RegenerateBitcoinWallet} from "altcoinio-wallet";
-import {environment} from "../environments/environment";
-import * as quoteAction from "./actions/quote.action";
-import * as walletAction from "./actions/wallet.action";
-import {ShapeshiftStorage} from "./common/shapeshift-storage";
-import {AppState} from "./reducers/app.state";
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Store } from '@ngrx/store';
+import {
+  BtcWalletTestNet,
+  EthWalletTestnet,
+  FreshBitcoinWallet,
+  generateMnemonic,
+  RegenerateBitcoinWallet
+} from 'altcoinio-wallet';
+import { environment } from '../environments/environment';
+import * as quoteAction from './actions/quote.action';
+import * as walletAction from './actions/wallet.action';
+import { ShapeshiftStorage } from './common/shapeshift-storage';
+import { AppState } from './reducers/app.state';
+
 
 @Component({
-  selector: "app",
+  selector: 'app',
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
-    "./app.component.scss",
+    './app.component.scss'
   ],
-  templateUrl: "./app.component.html",
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  public altcoinLogo = "assets/icon/altcoin-icon.png";
+  public altcoinLogo = 'assets/icon/altcoin-icon.png';
   headerHidden = false;
   private didScroll = false;
 
   constructor(private store: Store<AppState>) {
     let codes;
-    // if (environment.production) {
-    //   codes = ''; // TODO Wallet.code;
-    // } else {
+    if (environment.production) {
       codes = {
-        phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin",
+        phrase: generateMnemonic()
       };
-    // }
+    } else {
+      codes = {
+        phrase: 'away stomach fire police satoshi wire entire awake dilemma average town napkin'
+      };
+    }
 
     console.log(codes);
     const btcWallet = this.generateBtcWallet(codes);
@@ -37,7 +46,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new quoteAction.LoadQuoteAction());
   }
 
-  @HostListener("window:scroll", ["$event"])
+  @HostListener('window:scroll', ['$event'])
   onScrollEvent($event) {
     this.didScroll = true;
   }
@@ -48,7 +57,7 @@ export class AppComponent implements OnInit {
 
 // TODO create fromMnemonic method in wallets
   private generateBtcWallet(codes: any) {
-    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    const xprivKey = ShapeshiftStorage.get('btcprivkey');
     let wallet;
     const btc = new BtcWalletTestNet();
     if (!xprivKey) {
@@ -64,11 +73,11 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,
-      address,
+      address
     }));
     return {
       xprivkey: xkey,
-      WIF,
+      WIF
     };
   }
 
@@ -80,7 +89,7 @@ export class AppComponent implements OnInit {
     const ethWallet = {
       privateKey: xprivKey,
       keystore: recovered,
-      address: recovered.address,
+      address: recovered.address
     };
 
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
