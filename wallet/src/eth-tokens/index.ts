@@ -1,2 +1,2 @@
 export * from "./token-factory";
-export * from "./augur-testnet";
+export * from "./augur";
