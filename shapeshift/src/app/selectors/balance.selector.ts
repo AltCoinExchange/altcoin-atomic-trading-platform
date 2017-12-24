@@ -30,6 +30,15 @@ export const getTokenBalanceAragon = createSelector(getBalanceState, fromBalance
 export const getTokenBalanceEos = createSelector(getBalanceState, fromBalance.getTokenBalanceEos);
 export const getTokenBalanceSalt = createSelector(getBalanceState, fromBalance.getTokenBalanceSalt);
 
+export const getTokenBalanceCivic = createSelector(getBalanceState, fromBalance.getTokenBalanceCivic);
+export const getTokenBalanceOmiseGo = createSelector(getBalanceState, fromBalance.getTokenBalanceOmiseGo);
+export const getTokenBalanceDistrict0x = createSelector(getBalanceState, fromBalance.getTokenBalanceDistrict0x);
+export const getTokenBalanceStatusNetwork = createSelector(getBalanceState, fromBalance.getTokenBalanceStatusNetwork);
+export const getTokenBalanceSubstratum = createSelector(getBalanceState, fromBalance.getTokenBalanceSubstratum);
+export const getTokenBalanceTron = createSelector(getBalanceState, fromBalance.getTokenBalanceTron);
+export const getTokenBalanceBytom = createSelector(getBalanceState, fromBalance.getTokenBalanceBytom);
+export const getTokenBalanceDent = createSelector(getBalanceState, fromBalance.getTokenBalanceDent);
+
 export const getTokenLoadingAugur = createSelector(getBalanceState, fromBalance.getTokenLoadingAugur);
 export const getTokenLoadingGolem = createSelector(getBalanceState, fromBalance.getTokenLoadingGolem);
 export const getTokenLoadingGnosis = createSelector(getBalanceState, fromBalance.getTokenLoadingGnosis);

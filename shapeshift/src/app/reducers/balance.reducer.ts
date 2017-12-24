@@ -130,4 +130,12 @@ export const getTokenBalanceBat = (state: State) => state.TOKENS["bat"];
 export const getTokenBalanceAragon = (state: State) => state.TOKENS["aragon"];
 export const getTokenBalanceEos = (state: State) => state.TOKENS["eos"];
 export const getTokenBalanceSalt = (state: State) => state.TOKENS["salt"];
+export const getTokenBalanceCivic = (state: State) => state.TOKENS["cvc"];
+export const getTokenBalanceOmiseGo = (state: State) => state.TOKENS["omg"];
+export const getTokenBalanceDistrict0x = (state: State) => state.TOKENS["dnt"];
+export const getTokenBalanceStatusNetwork = (state: State) => state.TOKENS["snt"];
+export const getTokenBalanceSubstratum = (state: State) => state.TOKENS["sub"];
+export const getTokenBalanceTron = (state: State) => state.TOKENS["trx"];
+export const getTokenBalanceBytom = (state: State) => state.TOKENS["btm"];
+export const getTokenBalanceDent = (state: State) => state.TOKENS["dent"];
 

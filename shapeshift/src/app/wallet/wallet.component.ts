@@ -14,11 +14,11 @@ import {
   getETHBalance,
   getTokenBalanceAragon,
   getTokenBalanceAugur,
-  getTokenBalanceBat,
+  getTokenBalanceBat, getTokenBalanceBytom, getTokenBalanceCivic, getTokenBalanceDent, getTokenBalanceDistrict0x,
   getTokenBalanceEos,
   getTokenBalanceGnosis,
-  getTokenBalanceGolem, getTokenBalances,
-  getTokenBalanceSalt
+  getTokenBalanceGolem, getTokenBalanceOmiseGo, getTokenBalances,
+  getTokenBalanceSalt, getTokenBalanceStatusNetwork, getTokenBalanceSubstratum, getTokenBalanceTron
 } from '../selectors/balance.selector';
 import * as quoteSelector from '../selectors/quote.selector';
 import { AllCoinsDialogComponent } from './all-coins.dialog';
@@ -51,6 +51,14 @@ export class WalletComponent implements OnInit {
   $tokenBalanceSalt: Observable<WalletRecord>;
   $tokenBalanceBat: Observable<WalletRecord>;
   $tokenBalanceGnosis: Observable<WalletRecord>;
+  $tokenBalanceCivic: Observable<WalletRecord>;
+  $tokenBalanceDistrict0x: Observable<WalletRecord>;
+  $tokenBalanceStatusNetwork: Observable<WalletRecord>;
+  $tokenBalanceSubstratum: Observable<WalletRecord>;
+  $tokenBalanceTron: Observable<WalletRecord>;
+  $tokenBalanceBytom: Observable<WalletRecord>;
+  $tokenBalanceDent: Observable<WalletRecord>;
+  $tokenBalanceOmiseGo: Observable<WalletRecord>;
   $ethBalance: Observable<WalletRecord>;
   $btcBalance: Observable<WalletRecord>;
   randomValue: number = 0.001;
@@ -76,6 +84,15 @@ export class WalletComponent implements OnInit {
     this.$tokenBalanceEos = this.store.select(getTokenBalanceEos);
     this.$tokenBalanceGnosis = this.store.select(getTokenBalanceGnosis);
     this.$tokenBalanceSalt = this.store.select(getTokenBalanceSalt);
+
+    this.$tokenBalanceCivic = this.store.select(getTokenBalanceCivic);
+    this.$tokenBalanceOmiseGo = this.store.select(getTokenBalanceOmiseGo);
+    this.$tokenBalanceDistrict0x = this.store.select(getTokenBalanceDistrict0x);
+    this.$tokenBalanceStatusNetwork = this.store.select(getTokenBalanceStatusNetwork);
+    this.$tokenBalanceSubstratum = this.store.select(getTokenBalanceSubstratum);
+    this.$tokenBalanceTron = this.store.select(getTokenBalanceTron);
+    this.$tokenBalanceBytom = this.store.select(getTokenBalanceBytom);
+    this.$tokenBalanceDent = this.store.select(getTokenBalanceDent);
 
     const tokenBalances = this.store.select(getTokenBalances);
     console.log(tokenBalances); // todo can be done better
@@ -111,8 +128,32 @@ export class WalletComponent implements OnInit {
         case 'SALT':
           coin.$balance = this.$tokenBalanceSalt;
           break;
+        case 'CVC':
+          coin.$balance = this.$tokenBalanceCivic;
+          break;
+        case 'OMG':
+          coin.$balance = this.$tokenBalanceOmiseGo;
+          break;
+        case 'DNT':
+          coin.$balance = this.$tokenBalanceDistrict0x;
+          break;
+        case 'SNT':
+          coin.$balance = this.$tokenBalanceStatusNetwork;
+          break;
+        case 'SUB':
+          coin.$balance = this.$tokenBalanceSubstratum;
+          break;
+        case 'TRN':
+          coin.$balance = this.$tokenBalanceTron;
+          break;
+        case 'BTM':
+          coin.$balance = this.$tokenBalanceBytom;
+          break;
+        case 'DENT':
+          coin.$balance = this.$tokenBalanceDent;
+          break;
         default:
-          coin.$balance = this.$tokenBalanceSalt;
+          coin.$balance = this.$tokenBalanceDent;
       }
 
     });
@@ -145,6 +186,14 @@ export class WalletComponent implements OnInit {
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: 'eos'}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: 'gnosis'}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: 'salt'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.CIVIC, name: 'civic'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.OMISEGO, name: 'omisego'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DISTRICT0X, name: 'district0x'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STATUSNETWORK, name: 'statusnetwork'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SUBSTRATUM, name: 'substratum'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: 'tron'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: 'bytom'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: 'dent'}));
   }
 
   ngAfterViewInit() {
