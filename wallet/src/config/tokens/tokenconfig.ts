@@ -32,4 +32,36 @@ export const TokenConfig = {
     code: "",
     contractAddress: "0xee5b5fe4f1188375cab2904fcc9219481b7c8276"
   },
+  Civic: {
+    code: "",
+    contractAddress: "0x037d442eb08ab5b11e7f05c1ba338a626d890466"
+  },
+  OmiseGo: {
+    code: "",
+    contractAddress: "0xbdd81013d4a88f963fd99abeb19ba867080d6acb"
+  },
+  District0x: {
+    code: "",
+    contractAddress: "0xf952e2443f44ac1ca69122717c812a27c02aa708"
+  },
+  StatusNetwork: {
+    code: "",
+    contractAddress: "0xa5e92a0ebe3dc49e179a80a5c3678600f100f234"
+  },
+  Substratum: {
+    code: "",
+    contractAddress: "0xe1bdf36d2713477b857b976d069a3432d98dc40b"
+  },
+  Tron: {
+    code: "",
+    contractAddress: "0xe1bdf36d2713477b857b976d069a3432d98dc40b"
+  },
+  Bytom: {
+    code: "",
+    contractAddress: "0xe1bdf36d2713477b857b976d069a3432d98dc40b"
+  },
+  Dent: {
+    code: "",
+    contractAddress: "0x2debb13bcf5526e0cf5e3a4e5049100e3f7c2ae5"
+  },
 };
