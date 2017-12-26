@@ -9,7 +9,7 @@ export class BtmCoinModel implements Coin {
   readonly name: string = Coins[Coins.BTM].toString();
   readonly fullName: string = "Bytom";
   readonly icon: string = "assets/icon/btm-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

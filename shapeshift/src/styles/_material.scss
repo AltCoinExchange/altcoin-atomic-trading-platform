@@ -18,13 +18,18 @@ $custom-typography: mat-typography-config(
     color: $text-color;
 }
 
+.mat-dialog-container{
+    background-color: $background-color;
+}
+
 mat-dialog-container {
     max-width: 100% !important;
 }
 
-.allCoinsDialog {
-    width: 90%;
-    height:80%;
+.mat-card{
+    font-family: 'Montserrat', sans-serif;
+    background-color: $main-gray;
+    color: $text-color;
 }
 
 .mat-focused{

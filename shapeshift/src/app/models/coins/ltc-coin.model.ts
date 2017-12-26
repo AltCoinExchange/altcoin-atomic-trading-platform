@@ -9,7 +9,7 @@ export class LtcCoinModel implements Coin {
   readonly name: string = Coins[Coins.LTC].toString();
   readonly fullName: string = "Litecoin";
   readonly icon: string = "assets/icon/ltc-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

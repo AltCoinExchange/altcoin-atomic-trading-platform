@@ -9,7 +9,7 @@ export class RepCoinModel implements Coin {
   readonly name: string = Coins[Coins.REP].toString();
   readonly fullName: string = "Augur";
   readonly icon: string = "assets/icon/rep-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

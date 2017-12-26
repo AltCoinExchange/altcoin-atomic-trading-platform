@@ -9,7 +9,7 @@ export class TrxCoinModel implements Coin {
   readonly name: string = Coins[Coins.TRX].toString();
   readonly fullName: string = "Tron";
   readonly icon: string = "assets/icon/trx-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

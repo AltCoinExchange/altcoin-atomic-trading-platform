@@ -1,0 +1,31 @@
+@import '../../styles/variables';
+
+.close-button{
+    position: relative;
+    left: 95%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.coin-icon{
+    width: 60px;
+    height: 60px;
+}
+
+.coin-name{
+    color: white;
+    font-size: 125%;
+}
+
+.coin-balance{
+    color: white;
+    font-size: 100%;
+    margin-top: 5px;
+}
+
+.coin-usd{
+    color: $text_color;
+    font-size: 85%;
+}

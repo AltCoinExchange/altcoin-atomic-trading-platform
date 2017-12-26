@@ -3,7 +3,8 @@ import { Component, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-all-coins-dialog',
-  templateUrl: './all-coins.dialog.html'
+  templateUrl: './all-coins.dialog.html',
+  styleUrls: ['./all-coins.dialog.scss'],
 })
 export class AllCoinsDialogComponent {
 

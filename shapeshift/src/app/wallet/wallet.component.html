@@ -37,7 +37,7 @@
                 </div>
             </div>
         </a>
-        <a *ngIf="filteredCoins.length === 0">Not found</a>
+        <a *ngIf="filteredCoins.length === 0" class="no-coins">Not found</a>
     </perfect-scrollbar>
     <div fxLayout="row" fxLayoutAlign="center center" class="hide-coins-box">
         <mat-checkbox [ngModel]="inMyPossesion" (ngModelChange)="onPossesionModeChange($event)">Hide coins with zero balance</mat-checkbox>

@@ -9,7 +9,7 @@ export class DentCoinModel implements Coin {
   readonly name: string = Coins[Coins.DENT].toString();
   readonly fullName: string = "Dent";
   readonly icon: string = "assets/icon/dent-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

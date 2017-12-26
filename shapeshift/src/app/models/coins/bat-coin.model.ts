@@ -9,7 +9,7 @@ export class BatCoinModel implements Coin {
   readonly name: string = Coins[Coins.BAT].toString();
   readonly fullName: string = "BAT";
   readonly icon: string = "assets/icon/bat-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

@@ -9,7 +9,7 @@ export class BtcCoinModel implements Coin {
   readonly name: string = Coins[Coins.BTC].toString();
   readonly fullName: string = "Bitcoin";
   readonly icon: string = "assets/icon/btc-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

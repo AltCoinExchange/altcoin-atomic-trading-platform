@@ -9,7 +9,7 @@ export class EosCoinModel implements Coin {
   readonly name: string = Coins[Coins.EOS].toString();
   readonly fullName: string = "EOS";
   readonly icon: string = "assets/icon/eos-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

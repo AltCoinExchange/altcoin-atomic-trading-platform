@@ -9,7 +9,7 @@ export class DntCoinModel implements Coin {
   readonly name: string = Coins[Coins.DNT].toString();
   readonly fullName: string = "district0x";
   readonly icon: string = "assets/icon/dnt-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

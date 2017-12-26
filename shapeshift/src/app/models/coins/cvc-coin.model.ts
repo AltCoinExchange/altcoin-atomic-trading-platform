@@ -9,7 +9,7 @@ export class CvcCoinModel implements Coin {
   readonly name: string = Coins[Coins.CVC].toString();
   readonly fullName: string = "Civic";
   readonly icon: string = "assets/icon/cvc-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

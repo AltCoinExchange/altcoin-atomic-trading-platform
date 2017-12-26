@@ -9,7 +9,7 @@ export class AntCoinModel implements Coin {
   readonly name: string = Coins[Coins.ANT].toString();
   readonly fullName: string = "Aragon";
   readonly icon: string = "assets/icon/ant-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

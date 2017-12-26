@@ -9,7 +9,7 @@ export class SaltCoinModel implements Coin {
   readonly name: string = Coins[Coins.SALT].toString();
   readonly fullName: string = "SALT";
   readonly icon: string = "assets/icon/salt-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

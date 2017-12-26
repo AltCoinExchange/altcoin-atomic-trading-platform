@@ -233,7 +233,7 @@ export class WalletComponent implements OnInit {
 
   showAllCoins() {
     const dialogRef = this.dialog.open(AllCoinsDialogComponent, {
-      panelClass: 'allCoinsDialog',
+      panelClass: 'all-coins-dialog',
       data: {coins: this.allCoins}
     });
 

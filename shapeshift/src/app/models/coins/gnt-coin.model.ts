@@ -9,7 +9,7 @@ export class GntCoinModel implements Coin {
   readonly name: string = Coins[Coins.GNT].toString();
   readonly fullName: string = "Golem";
   readonly icon: string = "assets/icon/gnt-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

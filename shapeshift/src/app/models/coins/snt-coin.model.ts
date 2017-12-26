@@ -9,7 +9,7 @@ export class SntCoinModel implements Coin {
   readonly name: string = Coins[Coins.SNT].toString();
   readonly fullName: string = "Status Network";
   readonly icon: string = "assets/icon/snt-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

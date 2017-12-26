@@ -9,7 +9,7 @@ export class SubCoinModel implements Coin {
   readonly name: string = Coins[Coins.SUB].toString();
   readonly fullName: string = "Substatum";
   readonly icon: string = "assets/icon/sub-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

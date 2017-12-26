@@ -9,7 +9,7 @@ export class GnoCoinModel implements Coin {
   readonly name: string = Coins[Coins.GNO].toString();
   readonly fullName: string = "Gnosis";
   readonly icon: string = "assets/icon/gno-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

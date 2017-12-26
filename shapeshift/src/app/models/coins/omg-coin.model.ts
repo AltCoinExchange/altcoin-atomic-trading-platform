@@ -9,7 +9,7 @@ export class OmgCoinModel implements Coin {
   readonly name: string = Coins[Coins.OMG].toString();
   readonly fullName: string = "OmiseGO";
   readonly icon: string = "assets/icon/omg-icon.png";
-  amount: number = 0;
+  amount;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 
