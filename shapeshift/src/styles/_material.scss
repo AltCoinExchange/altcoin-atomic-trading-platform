@@ -1,0 +1,49 @@
+@import 'variables';
+@import '~@angular/material/theming';
+
+$custom-typography: mat-typography-config(
+    $font-family: 'Montserrat'
+);
+@include angular-material-typography($custom-typography);
+@include mat-core();
+
+  $primary: mat-palette($mat-blue-grey, 300);
+  $accent: mat-palette($mat-teal, A700);
+
+  $theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);
+
+.mat-input-placeholder {
+    color: $text-color;
+}
+
+mat-dialog-container {
+    max-width: 100% !important;
+}
+
+.allCoinsDialog {
+    width: 90%;
+    height:80%;
+}
+
+.mat-focused{
+    .mat-form-field-placeholder{
+        color: $main-green;
+    }
+}
+
+.mat-form-field-underline{
+    background-color: $text-color;
+}
+
+.mat-form-field-ripple {
+    background-color: $main-green;
+}
+
+.mat-checkbox-frame {
+    border-color: $text-color;
+}
+
+
+

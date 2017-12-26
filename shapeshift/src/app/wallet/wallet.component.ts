@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -209,14 +209,17 @@ export class WalletComponent implements OnInit {
   }
 
   selectWalletOption(walletOption) {
-    this.selectedOption = walletOption;
+    this.selectedOption = undefined;
+    setTimeout(() =>{
+      this.selectedOption = walletOption;
+    }, 500);
   }
 
   selectCoinCard(coin) {
     this.selectedCoin = coin;
     const coinEl = document.querySelector('#' + coin.name);
     const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
-    perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft - 10;
+    perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft - 20;
     this.generateQrCode(coin);
   }
 
@@ -275,5 +278,11 @@ export class WalletComponent implements OnInit {
       }
       this.qr.makeCode(addr);
     }).unsubscribe();
+  }
+
+  wheelOverHorizontallDiv(e){
+    const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
+    perfectNativeElement.scrollLeft -= (e.wheelDelta);
+    e.preventDefault();
   }
 }

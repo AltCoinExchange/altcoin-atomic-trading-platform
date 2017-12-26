@@ -4,6 +4,7 @@
 @import 'loader';
 @import 'tabs';
 @import 'icons';
+@import 'material';
 
 $fa-font-path: "../../node_modules/font-awesome/fonts";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
@@ -171,18 +172,4 @@ a{
   background-image: -webkit-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
   background-image: -o-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
   background-image: -moz-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
-}
-
-
-.mat-input-placeholder {
-  color: #9cabbd;
-}
-
-mat-dialog-container {
-  max-width: 100% !important;
-}
-
-.allCoinsDialog {
-  width: 90%;
-  height:80%;
 }

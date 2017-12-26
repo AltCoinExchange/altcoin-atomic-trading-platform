@@ -25,13 +25,8 @@ main{
   min-height: -webkit-calc(100% - 120px);    
   min-height: -moz-calc(100% - 120px); 
   min-height: calc(100% - 120px);
-  overflow-y: scroll;  
+  overflow: auto;
   padding-top: 60px;
-  display: flex;
-  flex-flow: column;
-  justify-content: flex-start;
-  align-content: center;
-  align-items: stretch;
 
   > * {
     min-height: 100%;

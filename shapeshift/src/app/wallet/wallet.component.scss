@@ -5,7 +5,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  color: #9cabbd;
+  color: $text-color;
 }
 
 .input-box{
@@ -16,14 +16,26 @@
     margin: 15px 5%;
 }
 
+.search-box{
+    margin: 0 5%;
+    padding-top: 10px;
+    width: 90%;
+}
+
+.hide-coins-box{
+    margin-bottom: 3%;
+    padding: 15px 0px;
+}
+
 .wallet-slide{
     width: 100%;
-    margin-bottom: 3%;
     padding: 20px;
     overflow-x: auto;
     white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
 
     .wallet-card{
+        display: inline-block;
         position: relative;
         height: 70px;
         min-width: 150px;
@@ -125,7 +137,6 @@
 }
 
 .wallet-content{
-    position: absolute;
     width: -webkit-calc(100% - 40px);
     width: -moz-calc(100% - 40px);
     width: calc(100% - 40px);
