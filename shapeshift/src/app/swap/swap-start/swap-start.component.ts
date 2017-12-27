@@ -12,6 +12,8 @@ import { SwapProcess } from '../../models/swap-process.model';
 import * as fromSwap from '../../reducers/start.reducer';
 import * as quoteSelector from '../../selectors/quote.selector';
 import * as swapSelector from '../../selectors/start.selector';
+import { MatDialog } from '@angular/material';
+import { AllCoinsDialogComponent } from '../../common/coins-dialog/all-coins.dialog';
 
 @Component({
   selector: 'app-swap-start',
@@ -24,7 +26,6 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   scrollbarConfig: Object = {suppressScrollY: true};
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
-  chooseCoins = false;
   selectedCoin: Coin;
   coinToChange: string;
   coins: Array<Coin>;
@@ -36,7 +37,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   $depositUSD: Observable<number>;
   $receiveUSD: Observable<number>;
 
-  constructor(private router: Router, private store: Store<fromSwap.State>) {
+  constructor(private router: Router, private store: Store<fromSwap.State>,  public dialog: MatDialog) {
     super();
     this.infoMsg = 'For testnet use only';
     this.coins = CoinFactory.createAllCoins();
@@ -127,27 +128,37 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   }
 
   changeDepositCoin(coin: Coin) {
-    this.openCoinStrip(coin);
+    this.showAllCoins(coin);
     this.coinToChange = 'deposit';
   }
 
   changeReceiveCoin(coin: Coin) {
-    this.openCoinStrip(coin);
+    this.showAllCoins(coin);
     this.coinToChange = 'receive';
   }
 
-  openCoinStrip(coin: Coin) {
-    this.selectedCoin = coin;
-    this.chooseCoins = true;
+  showAllCoins(coin) {
+    const dialogRef = this.dialog.open(AllCoinsDialogComponent, {
+      panelClass: 'all-coins-dialog',
+      data: {coins: this.coins, selectedCoin: coin}
+    });
+
+    dialogRef.afterClosed().filter(res => !!res).subscribe(result => {
+      if (result.amount === 0) {
+        setTimeout(() => {
+           this.chooseCoin(result);
+        });
+        return;
+      }
+      this.chooseCoin(result);
+    });
   }
 
-  closeCoinStrip(event, coin) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.chooseCoins = false;
+  chooseCoin(coin){
     if (this.coinToChange == 'deposit')
       this.store.dispatch(new swapAction.setDepositCoinAction(coin));
     else
       this.store.dispatch(new swapAction.setReceiveCoinAction(coin));
   }
+
 }

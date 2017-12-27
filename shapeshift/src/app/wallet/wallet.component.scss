@@ -1,7 +1,6 @@
 @import '../../styles/variables';
 
 .input-button {
-  width: 45px;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -162,4 +161,8 @@
         width: 200px;
         height: 200px;
     }
+}
+
+.start-button{
+    margin-top: 15px;
 }

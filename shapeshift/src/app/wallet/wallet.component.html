@@ -33,7 +33,7 @@
                 <div *ngIf="!(coin.$balance | async)?.loading">
                     <div class="coin-name">{{coin.fullName}}</div>
                     <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}</div>
-                    <div class="coin-usd">{{ coin.$amountUSD | async }} USD</div>
+                    <div class="coin-usd">{{ (coin.$amountUSD | async) || 0 }} USD</div>
                 </div>
             </div>
         </a>
