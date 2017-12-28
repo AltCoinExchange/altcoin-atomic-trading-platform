@@ -25,6 +25,13 @@ import * as quoteSelector from '../selectors/quote.selector';
 import { AllCoinsDialogComponent } from '../common/coins-dialog/all-coins.dialog';
 import { WalletOptions } from './wallet-options.enum';
 import { Go } from "../actions/router.action";
+import { ShapeshiftStorage } from '../common/shapeshift-storage';
+import {
+  BtcWalletTestNet,
+  EthWalletTestnet,
+  RegenerateBitcoinWallet
+} from 'altcoinio-wallet';
+import * as walletAction from '../actions/wallet.action';
 
 declare const QRCode;
 
@@ -74,37 +81,69 @@ export class WalletComponent implements OnInit {
   qr;
 
   constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2, private router: Router) {
-    this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
-    this.allCoins = CoinFactory.createAllCoins();
-    this.getTokenBalances();
-    this.getTokenAmountUSD();
-    this.filteredCoins = [...this.allCoins];
+    const xprivKey = ShapeshiftStorage.get('btcprivkey');
+    if(!xprivKey){
+      this.store.dispatch(new Go({
+        path: ["/wallet/empty"],
+      }));
+    }
+    else{
+      this.generateWalletsFromPrivKey();
+      this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
+      this.allCoins = CoinFactory.createAllCoins();
+      this.getTokenBalances();
+      this.getTokenAmountUSD();
+      this.filteredCoins = [...this.allCoins];
+    }
+    
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetEthBalanceAction());
-    this.store.dispatch(new GetBtcBalanceAction());
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: 'golem'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.AUGUR, name: 'augur'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ARAGON, name: 'aragon'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BAT, name: 'bat'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: 'eos'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: 'gnosis'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: 'salt'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.CIVIC, name: 'civic'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.OMISEGO, name: 'omisego'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DISTRICT0X, name: 'district0x'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STATUSNETWORK, name: 'statusnetwork'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SUBSTRATUM, name: 'substratum'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: 'tron'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: 'bytom'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: 'dent'}));
+  
   }
 
   ngAfterViewInit() {
     this.selectedCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
       this.generateQrCode(this.selectedCoin);
     });
+  }
+
+  generateWalletsFromPrivKey(){
+    const btcWallet = this.generateBtcWallet();
+    this.generateEthWallet(btcWallet.xprivkey);
+  }
+
+  private generateBtcWallet() {
+    const xprivKey = ShapeshiftStorage.get('btcprivkey');
+    const btc = new BtcWalletTestNet();
+    let wallet = new RegenerateBitcoinWallet(xprivKey);
+    btc.recover(wallet);
+    const WIF = btc.WIF;
+    const address = btc.generateAddressFromWif(WIF);
+    const xkey = btc.hdPrivateKey.xprivkey;
+    this.store.dispatch(new walletAction.SetBtcWalletAction({
+      xprivkey: xkey,
+      WIF,
+      address
+    }));
+    return {
+      xprivkey: xkey,
+      WIF
+    };
+  }
+
+  private generateEthWallet(xprivKey) {
+    const eth = new EthWalletTestnet();
+
+    const recovered = eth.recover(xprivKey);
+    eth.login(recovered, xprivKey);
+    const ethWallet = {
+      privateKey: xprivKey,
+      keystore: recovered,
+      address: recovered.address
+    };
+
+    this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
   }
 
   copyReceiveAddress(event) {
@@ -193,6 +232,24 @@ export class WalletComponent implements OnInit {
 
   getTokenBalances(){
 
+    this.store.dispatch(new GetEthBalanceAction());
+    this.store.dispatch(new GetBtcBalanceAction());
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: 'golem'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.AUGUR, name: 'augur'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ARAGON, name: 'aragon'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BAT, name: 'bat'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: 'eos'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: 'gnosis'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: 'salt'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.CIVIC, name: 'civic'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.OMISEGO, name: 'omisego'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DISTRICT0X, name: 'district0x'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STATUSNETWORK, name: 'statusnetwork'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SUBSTRATUM, name: 'substratum'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: 'tron'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: 'bytom'}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: 'dent'}));
+
     const quotes = this.store.select(quoteSelector.getQuotes);
 
     this.$ethBalance = this.store.select(getETHBalance);
@@ -215,7 +272,7 @@ export class WalletComponent implements OnInit {
     this.$tokenBalanceDent = this.store.select(getTokenBalanceDent);
 
     const tokenBalances = this.store.select(getTokenBalances);
-    console.log(tokenBalances); // todo can be done better
+    //console.log(tokenBalances); // todo can be done better
 
     this.allCoins.forEach((coin) => {
       switch (coin.name) {

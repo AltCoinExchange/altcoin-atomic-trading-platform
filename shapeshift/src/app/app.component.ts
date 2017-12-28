@@ -1,16 +1,6 @@
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  BtcWalletTestNet,
-  EthWalletTestnet,
-  FreshBitcoinWallet,
-  generateMnemonic,
-  RegenerateBitcoinWallet
-} from 'altcoinio-wallet';
-import { environment } from '../environments/environment';
 import * as quoteAction from './actions/quote.action';
-import * as walletAction from './actions/wallet.action';
-import { ShapeshiftStorage } from './common/shapeshift-storage';
 import { AppState } from './reducers/app.state';
 
 
@@ -28,21 +18,6 @@ export class AppComponent implements OnInit {
   private didScroll = false;
 
   constructor(private store: Store<AppState>) {
-    let codes;
-    if (environment.production) {
-      codes = {
-        phrase: generateMnemonic()
-      };
-    } else {
-      codes = {
-        phrase: 'away stomach fire police satoshi wire entire awake dilemma average town napkin'
-      };
-    }
-
-    console.log(codes);
-    const btcWallet = this.generateBtcWallet(codes);
-    this.generateEthWallet(btcWallet.xprivkey);
-
     this.store.dispatch(new quoteAction.LoadQuoteAction());
   }
 
@@ -53,47 +28,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.hideHeaderOnScroll();
-  }
-
-// TODO create fromMnemonic method in wallets
-  private generateBtcWallet(codes: any) {
-    const xprivKey = ShapeshiftStorage.get('btcprivkey');
-    let wallet;
-    const btc = new BtcWalletTestNet();
-    if (!xprivKey) {
-      wallet = new FreshBitcoinWallet(codes.phrase);
-      btc.create(wallet);
-    } else {
-      wallet = new RegenerateBitcoinWallet(xprivKey);
-      btc.recover(wallet);
-    }
-    const WIF = btc.WIF;
-    const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
-    this.store.dispatch(new walletAction.SetBtcWalletAction({
-      xprivkey: xkey,
-      WIF,
-      address
-    }));
-    return {
-      xprivkey: xkey,
-      WIF
-    };
-  }
-
-  private generateEthWallet(xprivKey) {
-    const eth = new EthWalletTestnet();
-
-    const recovered = eth.recover(xprivKey);
-    eth.login(recovered, xprivKey);
-    const ethWallet = {
-      privateKey: xprivKey,
-      keystore: recovered,
-      address: recovered.address
-    };
-
-    this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
-    //this.store.dispatch(new walletAction.SetRepWalletAction(ethWallet));
   }
 
   private hideHeaderOnScroll() {

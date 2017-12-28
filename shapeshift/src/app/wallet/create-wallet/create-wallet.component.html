@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutWrap fxLayoutAlign="center center" class="container">
     <mat-card *ngIf="cardVisible" fxFlex="30%" fxFlex.md="35%" fxFlex.sm="50%" fxFlex.xs="96%" fxFlex.xl="15%" class="card"
               fxLayout="column" fxLayoutAlign="space-between center" [@scaleInOut]="scaleInOut"> 
-        <div class="card-text">Your twelve word phrase is the only way to restore your wallet. Please write it down on paper and keep it safe.</div>
+        <div class="card-text">This twelve word phrase is the only way to restore your wallet. Please write it down on paper and store it somewhere safe and secure.</div>
         <div class="card-button">
             <app-shapeshift-button (click)="writePhrase()">Write Phrase</app-shapeshift-button> 
         </div>

@@ -3,12 +3,14 @@
               fxLayout="column" fxLayoutAlign="space-between center" [@scaleInOut]="scaleInOut"> 
         <div class="card-text">Write down each word in order</div>
         <div class="word">
-          <div class="card-title">circle</div>
-          <div class="word-count">1 of 12</div>
+          <div *ngFor="let word of words; let i = index">
+              <div *ngIf="i == wordCounter" class="card-title">{{word}}</div>
+              <div *ngIf="i == wordCounter" class="word-count">{{ i + 1}} of 12</div>
+          </div>
         </div>
         <div class="card-button" fxLayout="row" fxLayoutAlign="space-between center">
             <app-shapeshift-button (click)="previousWord()" fxFlex="45%">Previous</app-shapeshift-button> 
-            <app-shapeshift-button (click)="previousWord()" fxFlex="45%">Next</app-shapeshift-button> 
+            <app-shapeshift-button (click)="nextWord()" fxFlex="45%">Next</app-shapeshift-button> 
         </div>
     </mat-card>
 </div>
