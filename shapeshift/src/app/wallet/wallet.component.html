@@ -110,7 +110,8 @@
     <div *ngIf="selectedOption == walletOptions.Transactions" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
         <div fxLayout="row" fxLayoutAlign="center center">
             <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
-                No transactions
+                <a *ngIf="selectedCoin.name == 'BTC'" href="https://live.blockcypher.com/btc-testnet/address/{{(selectedCoin.$balance | async)?.address}}/">Blockcypher</a>
+                <a *ngIf="selectedCoin.name != 'BTC'" href="https://rinkeby.etherscan.io/address/0x{{(selectedCoin.$balance | async)?.address}}">Rinkeby</a>
             </div>
         </div>
     </div>
