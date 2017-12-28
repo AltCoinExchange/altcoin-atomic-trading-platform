@@ -1,0 +1,11 @@
+<mat-list>
+    <span *ngFor="let link of links">
+        <mat-list-item>
+            <a target="noopener" href="{{link.url}}" class="link">
+                <i class="{{link.icon}}" aria-hidden="true"></i>
+                <div class="link-name">{{link.name}}</div>
+            </a>  
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </span>
+</mat-list>

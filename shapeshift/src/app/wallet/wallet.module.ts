@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatCheckboxModule, MatIconModule, MatInputModule, MatProgressSpinnerModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
 import { ShapeShiftCommonModule } from '../common/common.module';
@@ -29,8 +29,6 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
     FormsModule,
     MatInputModule,
     MatIconModule,
-    MatDialogModule,
-    MatCardModule,
     MatCheckboxModule
   ],
   declarations: [
