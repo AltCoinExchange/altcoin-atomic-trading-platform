@@ -1,5 +1,3 @@
-@import '../../../styles/variables';
-
 .container{
     margin: 10% 0 0 0;
 }
@@ -23,10 +21,16 @@
     .card-button{
         width: 80%;
     }
+}
 
-    .word-count{
-        font-size: 85%;
-        color: $text-color;
-        margin-top: 15px;
-    }
+.words{
+    padding: 20px;
+}
+
+.word{
+    padding: 0px 5px;
+}
+
+.message-box{
+    padding-top: 15px;
 }

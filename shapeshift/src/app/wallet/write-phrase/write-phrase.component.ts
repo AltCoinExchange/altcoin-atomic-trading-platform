@@ -56,7 +56,6 @@ export class WritePhraseComponent implements OnInit {
   }
 
   createWallet(){
-    console.log('card visible', this.cardVisible);
     this.cardVisible = false;
     this.createBtcWallet(this.codes);
     setTimeout(() => {

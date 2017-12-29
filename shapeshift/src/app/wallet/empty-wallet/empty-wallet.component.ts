@@ -31,6 +31,11 @@ export class EmptyWalletComponent implements OnInit {
 
   importWallet(){
     this.cardVisible = false;
+    setTimeout(() => {
+      this.store.dispatch(new Go({
+        path: ["/wallet/import"],
+      }));
+    }, 1500);
   }
 
 }

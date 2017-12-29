@@ -7,7 +7,7 @@ export class SubCoinModel implements Coin {
   readonly derive = undefined;
   readonly type: Coins = Coins.SUB;
   readonly name: string = Coins[Coins.SUB].toString();
-  readonly fullName: string = "Substatum";
+  readonly fullName: string = "Substratum";
   readonly icon: string = "assets/icon/sub-icon.png";
   amount;
   $balance: Observable<WalletRecord>;
