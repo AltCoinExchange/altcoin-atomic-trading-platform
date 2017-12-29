@@ -32,6 +32,7 @@ import {
   RegenerateBitcoinWallet
 } from 'altcoinio-wallet';
 import * as walletAction from '../actions/wallet.action';
+import {AccountHelper} from "../common/account-helper";
 
 declare const QRCode;
 
@@ -86,64 +87,25 @@ export class WalletComponent implements OnInit {
       this.store.dispatch(new Go({
         path: ["/wallet/empty"],
       }));
-    }
-    else{
-      this.generateWalletsFromPrivKey();
+    } else {
+      AccountHelper.generateWalletsFromPrivKey(this.store);
       this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
       this.allCoins = CoinFactory.createAllCoins();
       this.getTokenBalances();
       this.getTokenAmountUSD();
       this.filteredCoins = [...this.allCoins];
     }
-    
+
   }
 
   ngOnInit() {
-  
+
   }
 
   ngAfterViewInit() {
     this.selectedCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
       this.generateQrCode(this.selectedCoin);
     });
-  }
-
-  generateWalletsFromPrivKey(){
-    const btcWallet = this.generateBtcWallet();
-    this.generateEthWallet(btcWallet.xprivkey);
-  }
-
-  private generateBtcWallet() {
-    const xprivKey = ShapeshiftStorage.get('btcprivkey');
-    const btc = new BtcWalletTestNet();
-    let wallet = new RegenerateBitcoinWallet(xprivKey);
-    btc.recover(wallet);
-    const WIF = btc.WIF;
-    const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
-    this.store.dispatch(new walletAction.SetBtcWalletAction({
-      xprivkey: xkey,
-      WIF,
-      address
-    }));
-    return {
-      xprivkey: xkey,
-      WIF
-    };
-  }
-
-  private generateEthWallet(xprivKey) {
-    const eth = new EthWalletTestnet();
-
-    const recovered = eth.recover(xprivKey);
-    eth.login(recovered, xprivKey);
-    const ethWallet = {
-      privateKey: xprivKey,
-      keystore: recovered,
-      address: recovered.address
-    };
-
-    this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
   }
 
   copyReceiveAddress(event) {

@@ -14,6 +14,8 @@ import * as quoteSelector from '../../selectors/quote.selector';
 import * as swapSelector from '../../selectors/start.selector';
 import { MatDialog } from '@angular/material';
 import { AllCoinsDialogComponent } from '../../common/coins-dialog/all-coins.dialog';
+import {AccountHelper} from "../../common/account-helper";
+import {AppState} from "../../reducers/app.state";
 
 @Component({
   selector: 'app-swap-start',
@@ -37,10 +39,13 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   $depositUSD: Observable<number>;
   $receiveUSD: Observable<number>;
 
-  constructor(private router: Router, private store: Store<fromSwap.State>,  public dialog: MatDialog) {
+  constructor(private router: Router, private store: Store<AppState>,  public dialog: MatDialog) {
     super();
     this.infoMsg = 'For testnet use only';
     this.coins = CoinFactory.createAllCoins();
+
+    // Login to eth / btc
+    AccountHelper.generateWalletsFromPrivKey(this.store);
 
     this.store.dispatch(new swapAction.SetActiveStepAction(1));
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);

@@ -16,6 +16,7 @@ import {AppState} from "../../reducers/app.state";
 import {getBLoading} from "../../selectors/side-b.selector";
 import * as fromSwap from "../../selectors/swap.selector";
 import * as quoteSelector from "../../selectors/quote.selector";
+import {AccountHelper} from "../../common/account-helper";
 
 @Component({
   selector: "app-swap-initiate",
@@ -41,6 +42,9 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>, private router: Router) {
     super();
+
+    AccountHelper.generateWalletsFromPrivKey(store);
+
     this.parseLink();
     this.infoMsg = "For testnet use only";
     this.$errorInitiate = this.store.select(fromSwap.getInitiateError);
@@ -50,7 +54,6 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     this.store.dispatch(new swapAction.SetActiveStepAction(2));
 
     const quotes = this.store.select(quoteSelector.getQuotes);
-    console.log('hehe')
     this.$depositUSD = Observable.combineLatest(quotes, (q) => {
       if (!q) {
         return undefined;
