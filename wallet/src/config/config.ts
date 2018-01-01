@@ -1,8 +1,8 @@
 export const BtcRpcConfiguration = {
-  protocol: "http",
+  protocol: "https",
   user: "bedrock",
   pass: "bedrock",
-  host: "34.215.58.192",
-  port: "8013",
+  host: "swap.altcoin.io",
+  port: "8014",
   network: "testnet",
 };

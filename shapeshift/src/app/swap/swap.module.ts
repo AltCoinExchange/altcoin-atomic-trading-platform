@@ -20,6 +20,7 @@ import { SwapInitiateComponent } from './swap-initiate/swap-initiate.component';
 import { SwapParticipateComponent } from './swap-participate/swap-participate.component';
 import { SwapStartComponent } from './swap-start/swap-start.component';
 import { TransferLinkComponent } from './transfer-link/transfer-link.component';
+import {AuthGuardService} from "../services/auth-redirect.service";
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -31,7 +32,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
       {
         path: '', component: SwapContainerComponent, children: [
         {path: '', redirectTo: 'swap', pathMatch: 'full'},
-        {path: 'swap', component: SwapStartComponent},
+        {path: 'swap', component: SwapStartComponent, canActivate: [AuthGuardService]},
         {path: 'transfer', component: TransferLinkComponent},
         {path: 'a/complete', component: SideAContainerComponent},
         {path: 'b/complete', component: SideBContainerComponent},
@@ -61,6 +62,9 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
     SwapCompleteComponent,
     SideAContainerComponent,
     SideBContainerComponent
+  ],
+  providers: [
+    AuthGuardService
   ]
 })
 export class SwapModule {

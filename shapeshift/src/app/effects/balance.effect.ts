@@ -90,7 +90,7 @@ export class BalanceEffect {
 
   constructor(private store: Store<AppState>,
               private actions$: Actions) {
-    this.eth = new EthCoinModel();
-    this.ethwallet = WalletFactory.createWallet(Coins.ETH);
+    // this.eth = new EthCoinModel();
+    // this.ethwallet = WalletFactory.createWallet(Coins.ETH);
   }
 }

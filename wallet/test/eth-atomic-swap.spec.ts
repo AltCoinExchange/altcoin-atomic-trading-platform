@@ -15,27 +15,27 @@ describe("EthAtomicSwap", () => {
   it("Should pass sanity", () => {
     expect(typeof EthAtomicSwap).toBe("function");
   });
-  //
-  // it("Should pass ETH initiate", async () => {
-  //   expect.assertions(1);
-  //
-  //   const ethSwap = new EthAtomicSwap(AtomicSwapAbi, EthConfiguration.hosts[0], AtomicSwapBin);
-  //
-  //   const newAccount = ethSwap.engine.createAccount("customPassword");
-  //   const store = newAccount.keystore;
-  //   ethSwap.engine.login(store, "customPassword");
-  //
-  //   const secret = SecretGenerator.generateSecret();
-  //
-  //   try {
-  //     await ethSwap.initiate(
-  //       new EthInitiateParams(7200, EthConfiguration.hosts[1].defaultWallet, "0.001"),
-  //     );
-  //   } catch (e) {
-  //     expect(e.message).toEqual("Returned error: insufficient funds for gas * price + value");
-  //   }
-  //
-  // });
+
+  it("Should pass ETH initiate", async () => {
+    expect.assertions(1);
+
+    const ethSwap = new EthAtomicSwap(AtomicSwapAbi, EthConfiguration.hosts[0], AtomicSwapBin);
+
+    const newAccount = ethSwap.engine.createAccount("customPassword");
+    const store = newAccount.keystore;
+    ethSwap.engine.login(store, "customPassword");
+
+    const secret = SecretGenerator.generateSecret();
+
+    try {
+      await ethSwap.initiate(
+        new EthInitiateParams(7200, EthConfiguration.hosts[1].defaultWallet, "0.001"),
+      );
+    } catch (e) {
+      expect(e.message).toEqual("Returned error: insufficient funds for gas * price + value");
+    }
+
+  });
   //
   // it("Should pass participate", async () => {
   //   expect.assertions(1);
