@@ -13,6 +13,7 @@ import {getWalletState} from "../selectors/wallets.selector";
 import {BtcWallet} from "../models/wallets/btc-wallet";
 import {WalletFactory} from "../models/wallets/wallet";
 import {Coins} from "../models/coins/coins.enum";
+import {ShapeshiftStorage} from "../common/shapeshift-storage";
 
 
 @Injectable()
@@ -90,7 +91,10 @@ export class BalanceEffect {
 
   constructor(private store: Store<AppState>,
               private actions$: Actions) {
-    this.eth = new EthCoinModel();
-    this.ethwallet = WalletFactory.createWallet(Coins.ETH);
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    if (xprivKey) {
+      this.eth = new EthCoinModel();
+      this.ethwallet = WalletFactory.createWallet(Coins.ETH);
+    }
   }
 }
