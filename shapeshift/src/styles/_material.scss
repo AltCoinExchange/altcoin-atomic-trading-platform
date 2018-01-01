@@ -50,11 +50,7 @@ mat-dialog-container {
     border-color: $text-color;
 }
 
-.mat-list-item{
-    font-family: 'Montserrat', sans-serif !important;
-}
-
-.mat-input-element{
+.mat-list-item, .mat-input-element, .mat-button{
     font-family: 'Montserrat', sans-serif !important;
 }
 
