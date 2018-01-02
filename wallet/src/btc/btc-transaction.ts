@@ -330,28 +330,36 @@ export class BtcTransaction {
    * @returns {Promise<any>}
    */
   public async getFeePerKb() {
-    const estimateRawResp = await this.callRPCProc("estimatesmartfee", [6]);
-    // If error then try to get form other sources
-    if (estimateRawResp.data.result.errors) {
-      return this.calculateFee();
-      // return this.getFeeFromBlockCypher();
-      // throw new Error("getFeePerKb: " + estimateRawResp.data.result.errors.toString());
-    } else {
-      return estimateRawResp.data.result.feerate;
-    }
+
+    return 450 * 1000 / 100000000;
+    // const estimateRawResp = await this.callRPCProc("estimatesmartfee", [6]);
+    // // If error then try to get form other sources
+    // if (estimateRawResp.data.result.errors) {
+    //   return await this.calculateFee();
+    //   // return this.getFeeFromBlockCypher();
+    //   // throw new Error("getFeePerKb: " + estimateRawResp.data.result.errors.toString());
+    // } else {
+    //   return estimateRawResp.data.result.feerate;
+    // }
   }
 
   private async calculateFee() {
-    const estimateRawResp = await this.callRPCProc("estimaterawfee", [6]);
-    const res = estimateRawResp.data.result;
-    if (res.medium.fail.startrange !== 0) {
-      return res.medium.fail.startrange;
-    } else if (res.long.fail.startrange !== 0) {
-      return res.long.fail.startrange;
-    } else {
-      return res.short.fail.startrange;
-    }
-
+    const fee = await this.getFeeFromBlockCypher();
+    return fee.high_fee_per_kb / 100000000;
+    // try {
+    //   const estimateRawResp = await this.callRPCProc("estimaterawfee", [6]);
+    //   const res = estimateRawResp.data.result;
+    //   if (res.medium.fail.startrange !== 0) {
+    //     return res.medium.fail.startrange;
+    //   } else if (res.long.fail.startrange !== 0) {
+    //     return res.long.fail.startrange;
+    //   } else {
+    //     return res.short.fail.startrange;
+    //   }
+    // } catch (e) {
+    //   const fee: number = await this.getFeeFromBlockCypher();
+    //   return fee / 100000;
+    // }
   }
 
   /**
@@ -368,7 +376,7 @@ export class BtcTransaction {
 
   private async getFeeFromBlockCypher() {
     const res = await axios.get("https://api.blockcypher.com/v1/btc/test3");
-    return res.data.result.medium_fee_per_kb;
+    return res.data;
   }
 
   private async getTransactionsFromBlockCypher(address: string) {

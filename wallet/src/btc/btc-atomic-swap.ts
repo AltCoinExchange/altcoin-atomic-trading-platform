@@ -27,9 +27,18 @@ const Buffer = bitcore.Buffer;
 
 export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
 
+  private retryTimeout = 10000;
   constructor(btcConfiguration, btcRpcConfiguration) {
     super(btcConfiguration, btcRpcConfiguration);
     this.configuration = btcRpcConfiguration;
+  }
+
+  private async wait(ms: number) {
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        resolve(true);
+      }, ms);
+    });
   }
 
   /**
@@ -38,19 +47,27 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
    * @returns {Promise<BtcInitiateData>}
    */
   public async initiate(params: BtcInitiateParams): Promise<BtcInitiateData> {
-    const secret: SecretResult = SecretGenerator.generateSecret();
-    const lockTime = Util.getUnixTimeFor2Days();
-    // tslint:disable-next-line
-    console.log("BTC INITIATE, BUILDING CONTRACT...");
-    const b = await this.buildContract(params.address, params.amount,
-      lockTime, secret.secretHash, params.privKey);
-    // tslint:disable-next-line
-    console.log("CONTRACT BUILT, PUBLISHING TRANSACTION..");
-    const rawTx = await this.publishTx(b.contractTx.toString());
-    // tslint:disable-next-line
-    console.log("TRANSACTION PUBLISHED, RETURNING..");
-    return new BtcInitiateData(b.contractFee, b.contractP2SH.toString(), b.contract.toHex(), b.contractTx.hash,
-      b.contractTx.toString(), rawTx, secret.secret, secret.secretHash);
+
+    try {
+      const secret: SecretResult = SecretGenerator.generateSecret();
+      const lockTime = Util.getUnixTimeFor2Days();
+      // tslint:disable-next-line
+      console.log("BTC INITIATE, BUILDING CONTRACT...");
+      const b = await this.buildContract(params.address, params.amount,
+        lockTime, secret.secretHash, params.privKey);
+      // tslint:disable-next-line
+      console.log("CONTRACT BUILT, PUBLISHING TRANSACTION..");
+      const rawTx = await this.publishTx(b.contractTx.toString());
+      // tslint:disable-next-line
+      console.log("TRANSACTION PUBLISHED, RETURNING..");
+      return new BtcInitiateData(b.contractFee, b.contractP2SH.toString(), b.contract.toHex(), b.contractTx.hash,
+        b.contractTx.toString(), rawTx, secret.secret, secret.secretHash);
+    } catch (e) {
+      // tslint:disable-next-line
+      console.log("ERROR INVOKING INITIATE: ", params, e);
+      await this.wait(this.retryTimeout);
+      return await this.initiate(params);
+    }
   }
 
   /**
@@ -59,14 +76,19 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
    * @returns {Promise<BtcParticipateData>}
    */
   public async participate(params: BtcParticipateParams): Promise<BtcParticipateData> {
-    const lockTime = Util.getUnixTimeFor2Days();
-    const b = await this.buildContract(params.address, params.amount,
-      lockTime, params.secretHash, params.privateKey);
+    try {
+      const lockTime = Util.getUnixTimeFor2Days();
+      const b = await this.buildContract(params.address, params.amount,
+        lockTime, params.secretHash, params.privateKey);
 
-    const rawTx = await this.publishTx(b.contractTx.toString());
+      const rawTx = await this.publishTx(b.contractTx.toString());
 
-    return new BtcParticipateData(b.contractFee, b.contractP2SH.toString(),
-      b.contract.toHex(), b.contractTx.hash, b.contractTx.toString(), rawTx);
+      return new BtcParticipateData(b.contractFee, b.contractP2SH.toString(),
+        b.contract.toHex(), b.contractTx.hash, b.contractTx.toString(), rawTx);
+    } catch (e) {
+      await this.wait(this.retryTimeout);
+      return await this.participate(params);
+    }
   }
 
   /**
@@ -75,101 +97,107 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
    * @returns {Promise<BtcRedeemData>}
    */
   public async redeem(params: BtcRedeemParams): Promise<BtcRedeemData> {
-    // TODO: change strCt, strCtTx to ct, ctTx
-    const contract = new Script(params.contractBin);
-    const pushes = BtcContractBuilder.extractAtomicSwapContract(params.contractBin);
-
-    // tslint:disable-next-line
-    console.log("BTC REDEEM PARAMS: ", params);
-
-    if (!pushes) {
-      throw new Error("contract is not an atomic swap script recognized by this tool");
-    }
-
-    const ctTx = new Transaction(params.contractTx);
-
-    const recipientAddrString = pushes.recipientHash.replace("0x", "");
-    const recipientAddress = Util.NewAddressPubKeyHash(recipientAddrString, "testnet");
-    const contractP2SH = Util.NewAddressScriptHash(params.contractBin, this.configuration.network);
-
-    let ctTxOutIdx = -1;
-
-    for (let i = 0; i < ctTx.outputs.length; i++) {
-      const scr = new Script(ctTx.outputs[i].script);
-      const address = scr.toAddress(this.configuration.network);
-      const addressHash = address.toJSON().hash;
-
-      if (addressHash === contractP2SH.toJSON().hash) {
-        ctTxOutIdx = i;
-        break;
-      }
-    }
-
-    if (ctTxOutIdx === -1) {
-      return;
-    }
-
-    const PK = PrivateKey.fromWIF(params.privKey);
-    const newRawAddr = PK.toPublicKey().toAddress(this.configuration.network);
-    const redeemToAddr = new Address(newRawAddr);
-
-    // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
-    // TODO: pass redeemToAddr as parametar
-    // const redeemToAddr = new Address('moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq');
-
-    const outScript = Script.buildPublicKeyHashOut(redeemToAddr);
-
-    // https://bitcoin.org/en/developer-examples#offline-signing
-    const redeemTx = new Transaction();
-
-    // TODO: "redeem output value of %v is dust"
-    let output = Transaction.Output({
-      script: outScript,
-      satoshis: 0,
-    });
-
-    redeemTx.addOutput(output);
-
-    const feePerKb = await this.getFeePerKb();
-    const redeemSerializeSize = Util.EstimateRedeemSerializeSize(contract, redeemTx.outputs);
-
-    const fee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000;
-
-    const amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
-
-    output = Transaction.Output({
-      script: outScript,
-      satoshis: Math.round(amount),
-    });
-
-    redeemTx.removeOutput(0);
-    redeemTx.addOutput(output);
-
-    const input = Transaction.Input({
-      prevTxId: ctTx.id,
-      outputIndex: ctTxOutIdx,
-      script: new Script(ctTx.outputs[ctTxOutIdx].script),
-    });
-
-    redeemTx.uncheckedAddInput(input);
-
-    const inputIndex = 0;
-    const {sig, pubKey} = await BtcContractBuilder.createSig(redeemTx, inputIndex, contract,
-      recipientAddress, params.privKey);
-
-    const script = BtcContractBuilder.redeemP2SHContract(contract.toHex(), sig.toTxFormat(),
-      pubKey.toString(), params.secret);
-
-    redeemTx.inputs[0].setScript(script);
-    let res: any = null;
 
     try {
-      res = await this.publishTx(redeemTx.toString());
-    } catch (e) {
-      throw e;
-    }
+      // TODO: change strCt, strCtTx to ct, ctTx
+      const contract = new Script(params.contractBin);
+      const pushes = BtcContractBuilder.extractAtomicSwapContract(params.contractBin);
 
-    return new BtcRedeemData(params.secret, params.hashedSecret, redeemTx.toString(), res);
+      // tslint:disable-next-line
+      console.log("BTC REDEEM PARAMS: ", params);
+
+      if (!pushes) {
+        throw new Error("contract is not an atomic swap script recognized by this tool");
+      }
+
+      const ctTx = new Transaction(params.contractTx);
+
+      const recipientAddrString = pushes.recipientHash.replace("0x", "");
+      const recipientAddress = Util.NewAddressPubKeyHash(recipientAddrString, "testnet");
+      const contractP2SH = Util.NewAddressScriptHash(params.contractBin, this.configuration.network);
+
+      let ctTxOutIdx = -1;
+
+      for (let i = 0; i < ctTx.outputs.length; i++) {
+        const scr = new Script(ctTx.outputs[i].script);
+        const address = scr.toAddress(this.configuration.network);
+        const addressHash = address.toJSON().hash;
+
+        if (addressHash === contractP2SH.toJSON().hash) {
+          ctTxOutIdx = i;
+          break;
+        }
+      }
+
+      if (ctTxOutIdx === -1) {
+        return;
+      }
+
+      const PK = PrivateKey.fromWIF(params.privKey);
+      const newRawAddr = PK.toPublicKey().toAddress(this.configuration.network);
+      const redeemToAddr = new Address(newRawAddr);
+
+      // TODO:  "getrawchangeaddres" + erroe await getChangeAddress()
+      // TODO: pass redeemToAddr as parametar
+      // const redeemToAddr = new Address('moPkgMW7QkDpH8iR5nuDuNB6K7UWFWTtXq');
+
+      const outScript = Script.buildPublicKeyHashOut(redeemToAddr);
+
+      // https://bitcoin.org/en/developer-examples#offline-signing
+      const redeemTx = new Transaction();
+
+      // TODO: "redeem output value of %v is dust"
+      let output = Transaction.Output({
+        script: outScript,
+        satoshis: 0,
+      });
+
+      redeemTx.addOutput(output);
+
+      const feePerKb = await this.getFeePerKb();
+      const redeemSerializeSize = Util.EstimateRedeemSerializeSize(contract, redeemTx.outputs);
+
+      const fee = Util.FeeForSerializeSize(feePerKb, redeemSerializeSize) * 100000000;
+
+      const amount = ctTx.outputs[ctTxOutIdx].satoshis - fee;
+
+      output = Transaction.Output({
+        script: outScript,
+        satoshis: Math.round(amount),
+      });
+
+      redeemTx.removeOutput(0);
+      redeemTx.addOutput(output);
+
+      const input = Transaction.Input({
+        prevTxId: ctTx.id,
+        outputIndex: ctTxOutIdx,
+        script: new Script(ctTx.outputs[ctTxOutIdx].script),
+      });
+
+      redeemTx.uncheckedAddInput(input);
+
+      const inputIndex = 0;
+      const {sig, pubKey} = await BtcContractBuilder.createSig(redeemTx, inputIndex, contract,
+        recipientAddress, params.privKey);
+
+      const script = BtcContractBuilder.redeemP2SHContract(contract.toHex(), sig.toTxFormat(),
+        pubKey.toString(), params.secret);
+
+      redeemTx.inputs[0].setScript(script);
+      let res: any = null;
+
+      try {
+        res = await this.publishTx(redeemTx.toString());
+      } catch (e) {
+        throw e;
+      }
+
+      return new BtcRedeemData(params.secret, params.hashedSecret, redeemTx.toString(), res);
+    } catch (e) {
+      await this.wait(this.retryTimeout);
+      return await this.redeem(params);
+    }
   }
 
   /**
