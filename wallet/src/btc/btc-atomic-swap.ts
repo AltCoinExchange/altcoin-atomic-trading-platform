@@ -86,6 +86,8 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
       return new BtcParticipateData(b.contractFee, b.contractP2SH.toString(),
         b.contract.toHex(), b.contractTx.hash, b.contractTx.toString(), rawTx);
     } catch (e) {
+      // tslint:disable-next-line
+      console.log("ERROR INVOKING PARTICIPATE: ", params, e);
       await this.wait(this.retryTimeout);
       return await this.participate(params);
     }
@@ -195,6 +197,8 @@ export class BtcAtomicSwap extends BtcTransaction implements IAtomicSwap {
 
       return new BtcRedeemData(params.secret, params.hashedSecret, redeemTx.toString(), res);
     } catch (e) {
+      // tslint:disable-next-line
+      console.log("ERROR INVOKING REDEEM: ", params, e);
       await this.wait(this.retryTimeout);
       return await this.redeem(params);
     }

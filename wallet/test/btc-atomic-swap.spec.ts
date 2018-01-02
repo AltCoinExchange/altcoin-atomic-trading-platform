@@ -1,7 +1,7 @@
 // 7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 10, 2000000
 
 import "jest";
-import {BtcRedeemParams} from "../src/btc/atomic-swap";
+import {BtcParticipateParams, BtcRedeemParams} from "../src/btc/atomic-swap";
 
 import {BtcInitiateParams} from "../src/btc/atomic-swap/btc-initiate-params";
 import {FreshBitcoinWallet} from "../src/btc/fresh-btc";
@@ -39,6 +39,30 @@ describe("BtcAtomicSwap", () => {
     }
   });
 
+  it("Should pass participate", async () => {
+    expect.assertions(1);
+
+    // const secret = SecretGenerator.generateSecret();
+
+    try {
+      const wallet = new BtcWalletTestNet();
+      wallet.recover(regenerateWallet);
+
+      const participate = new BtcParticipateParams();
+      participate.address = "n4qSDwEgVjEN3oECNW81CCytgBgEFdbmJ1";
+      participate.amount = "0.001";
+      participate.secretHash = "ca8615345b6e4d222a67f344e771dcb9f16d4b78";
+      participate.refundTime = 7200;
+      participate.privateKey = WIF;
+
+      const result = await wallet.participate(participate);
+      console.log(result);
+      expect(result.fee).toEqual(100000);
+    } catch (e) {
+      expect(e.message).toEqual("insufficent funds");
+    }
+  });
+
   it("Should list transactions for specific account", async () => {
     expect.assertions(1);
 
@@ -66,6 +90,13 @@ describe("BtcAtomicSwap", () => {
     );
 
     const testParams2: BtcRedeemParams = new BtcRedeemParams("cQ63rjfvri2EHn6WvR5F9KGbgaGNRMvb7y9ra8ZuTyQVeteLZ66a",
+      "36f209107fe48529db208e3cbe91eb84f5845948f382ea1ae50345dedc4121e3",
+      "5768c91adf31427e8b17ec73693b728b8d3c0999",
+      "63a61480eab405f2bc73c0b39663c20d9caaa05d270d888876a9144ff94075bfd8e49cd5bad195371a3389be5f1968670470142c5ab17576a9144ff94075bfd8e49cd5bad195371a3389be5f19686888ac",
+      "01000000012cde7c0261d196f0dcfb21b7abb6d7888c17e9b1c76762713a114974e76f3843010000006b483045022100ac002d085a9984de0fbf4149a50973c4f3041642f99cfffeb907e0226959e71d022008932690a94c932dbde1bc7c454a30141fe17030eb1dcdd537ad9d070fcd08d901210263a131db9f54c8bc19c5602cca56c0e156b17430b45a09081ec8405297060908ffffffff02fd8200000000000017a914d70e0b7087c43bb16119219012a19d6dce6016a187eeb19506000000001976a9144ff94075bfd8e49cd5bad195371a3389be5f196888ac00000000",
+    );
+
+    const testParams3: BtcRedeemParams = new BtcRedeemParams("cQ63rjfvri2EHn6WvR5F9KGbgaGNRMvb7y9ra8ZuTyQVeteLZ66a",
       "36f209107fe48529db208e3cbe91eb84f5845948f382ea1ae50345dedc4121e3",
       "5768c91adf31427e8b17ec73693b728b8d3c0999",
       "63a61480eab405f2bc73c0b39663c20d9caaa05d270d888876a9144ff94075bfd8e49cd5bad195371a3389be5f1968670470142c5ab17576a9144ff94075bfd8e49cd5bad195371a3389be5f19686888ac",

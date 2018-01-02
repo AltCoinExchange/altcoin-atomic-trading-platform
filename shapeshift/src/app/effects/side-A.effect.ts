@@ -7,7 +7,10 @@ import {Go} from "../actions/router.action";
 import * as sideA from "../actions/side-A.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
-import {getADepositCoin, getAHashedSecret, getALink, getASecret} from "../selectors/side-a.selector";
+import {
+  getAContractBin, getAContractTx, getADepositCoin, getAHashedSecret, getALink,
+  getASecret
+} from "../selectors/side-a.selector";
 import {
   getBContractBin, getBContractTx, getBDepositCoin, getBHashedSecret,
   getBSecret,
@@ -187,8 +190,8 @@ export class SideAEffect {
       this.store.select(getWalletState),
       this.store.select(getADepositCoin),
       this.store.select(getSwapProcess),
-      this.store.select(getBContractBin),
-      this.store.select(getBContractTx),
+      this.store.select(getAContractBin),
+      this.store.select(getAContractTx),
       (payload, secret, hashedSecret, walletState, depositCoin, swapProcess, contractBin, contractTx) => {
         return {
           payload,

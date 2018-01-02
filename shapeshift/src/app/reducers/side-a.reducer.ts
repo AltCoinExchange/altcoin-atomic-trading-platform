@@ -47,7 +47,7 @@ export function reducer(state = initialState, action: sideA.Actions): State {
       return {
         ...state,
         contractBin: action.payload.contractHex ? action.payload.contractHex : null,
-        contractTx: action.payload.contractTx ? action.payload.contractTx : null,
+        contractTx: action.payload.contractTxHex ? action.payload.contractTxHex : null,
         loading: true
       };
     }
@@ -58,7 +58,7 @@ export function reducer(state = initialState, action: sideA.Actions): State {
         ...state,
         progress: SwapProgress.Participated,
         contractBin: action.payload.contractHex ? action.payload.contractHex : null,
-        contractTx: action.payload.contractTx ? action.payload.contractTx : null,
+        contractTx: action.payload.contractTxHex ? action.payload.contractTxHex : null,
         loading: true
       };
     }
