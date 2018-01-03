@@ -34,6 +34,7 @@ import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
 import {WalletOptions} from "./wallet-options.enum";
 import {Go} from "../actions/router.action";
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
+import {Coins} from "../models/coins/coins.enum";
 
 declare const QRCode;
 
@@ -309,13 +310,18 @@ export class WalletComponent implements OnInit, AfterViewInit {
       const qrcodeElement = document.getElementById("qrcode");
       if (!this.qr && !!qrcodeElement) {
         this.qr = new QRCode(qrcodeElement, {
-          text: addr,
+          text: "bitcoin:" + addr,
           width: 200,
           height: 200,
           colorDark: "#000000",
           colorLight: "#ffffff",
           correctLevel: QRCode.CorrectLevel.H
         });
+      }
+      if (coin.type === Coins.BTC) {
+        addr = "bitcoin:" + addr;
+      } else {
+        addr = "ethereum:" + addr;
       }
       this.qr.makeCode(addr);
     }).unsubscribe();
