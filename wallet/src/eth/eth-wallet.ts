@@ -1,11 +1,11 @@
 import {IEthAccount} from "./eth-account";
 import {EthAtomicSwap} from "./eth-atomic-swap";
 
-export class EthWallet extends EthAtomicSwap {
+export class EthereumWallet extends EthAtomicSwap {
   public walletAddress: string = undefined;
 
-  constructor(abi, eth, bin) {
-    super(abi, eth, bin);
+  constructor(net: string = "testnet") {
+    super(net);
   }
 
   public login(keystore, password) {

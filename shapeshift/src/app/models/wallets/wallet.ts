@@ -8,7 +8,6 @@ import {EthWallet} from "./eth-wallet";
 import {EthTokenWallet} from "./eth-token-wallet";
 
 export interface Wallet {
-
   Initiate(address: string, coin: Coin): Observable<InitiateData>;
 
   Participate(data: InitiateData, coin: Coin): Observable<ParticipateData>;

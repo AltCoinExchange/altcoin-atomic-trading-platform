@@ -1,5 +1,4 @@
 import "jest";
-import {EthWalletTestnet} from "../src/ethtestnet/eth-wallet-testnet";
 
 describe("EthWallet", () => {
   it("Should be pass sanity", () => {

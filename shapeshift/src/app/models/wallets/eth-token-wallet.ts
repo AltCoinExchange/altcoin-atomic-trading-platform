@@ -1,7 +1,7 @@
 import {
   EthInitiateParams,
   EthParticipateParams,
-  EthWalletTestnet,
+  EthereumWallet,
   InitiateData,
   ParticipateData,
   RedeemData, RedeemParams,
@@ -12,7 +12,7 @@ import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {EthCoinModel} from "../coins/eth-coin.model";
 import {Wallet} from "./wallet";
 
-export class EthTokenWallet extends EthWalletTestnet implements Wallet {
+export class EthTokenWallet extends EthereumWallet implements Wallet {
   readonly timeout: number = 7200;
   public token: TOKENS;
 
@@ -55,7 +55,7 @@ export class EthTokenWallet extends EthWalletTestnet implements Wallet {
   }
 
   oxify(param: string): string {
-    return param.indexOf("0x") === -1 ? "0x" + param : param
+    return param.indexOf("0x") === -1 ? "0x" + param : param;
   }
 
   public init(): string {

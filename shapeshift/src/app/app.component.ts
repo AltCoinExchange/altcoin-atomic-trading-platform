@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/cor
 import { Store } from '@ngrx/store';
 import * as quoteAction from './actions/quote.action';
 import { AppState } from './reducers/app.state';
+import {AccountHelper} from "./common/account-helper";
 
 
 @Component({
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {
     this.store.dispatch(new quoteAction.LoadQuoteAction());
+    AccountHelper.generateWalletsFromPrivKey(this.store);
   }
 
   @HostListener('window:scroll', ['$event'])

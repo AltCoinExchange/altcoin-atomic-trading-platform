@@ -1,11 +1,11 @@
-import {BtcWalletTestNet, EthWalletTestnet, RegenerateBitcoinWallet} from "altcoinio-wallet";
+import {BtcWalletTestNet, EthereumWallet, RegenerateBitcoinWallet} from "altcoinio-wallet";
 import * as walletAction from "../actions/wallet.action";
 import {ShapeshiftStorage} from "./shapeshift-storage";
 import {Store} from "@ngrx/store";
 import {AppState} from "../reducers/app.state";
 
 export class AccountHelper {
-  public static generateWalletsFromPrivKey(store: Store<AppState>){
+  public static generateWalletsFromPrivKey(store: Store<AppState>) {
     const btcWallet = this.generateBtcWallet(store);
     this.generateEthWallet(btcWallet.xprivkey, store);
   }
@@ -13,7 +13,7 @@ export class AccountHelper {
   private static generateBtcWallet(store: Store<AppState>) {
     const xprivKey = ShapeshiftStorage.get('btcprivkey');
     const btc = new BtcWalletTestNet();
-    let wallet = new RegenerateBitcoinWallet(xprivKey);
+    const wallet = new RegenerateBitcoinWallet(xprivKey);
     btc.recover(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
@@ -30,7 +30,7 @@ export class AccountHelper {
   }
 
   private static generateEthWallet(xprivKey, store: Store<AppState>) {
-    const eth = new EthWalletTestnet();
+    const eth = new EthereumWallet();
 
     const recovered = eth.recover(xprivKey);
     eth.login(recovered, xprivKey);

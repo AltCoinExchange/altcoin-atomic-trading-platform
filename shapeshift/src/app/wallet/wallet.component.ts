@@ -1,52 +1,55 @@
-import { Component, OnInit, Renderer2, ViewChild, HostListener } from '@angular/core';
+import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from "@angular/core";
 import {Router} from "@angular/router";
-import { MatDialog } from '@angular/material';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { TOKENS } from 'altcoinio-wallet';
-import { GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction } from '../actions/balance.action';
-import { fadeInOutAnimation, scaleInOutAnimation } from '../animations/animations';
-import { Coin, CoinFactory } from '../models/coins/coin.model';
-import { MessageTypes } from '../models/message-types.enum';
-import { AppState } from '../reducers/app.state';
-import { WalletRecord } from '../reducers/balance.reducer';
+import {MatDialog} from "@angular/material";
+import {Store} from "@ngrx/store";
+import {Observable} from "rxjs/Observable";
+import {TOKENS} from "altcoinio-wallet";
+import {GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction} from "../actions/balance.action";
+import {fadeInOutAnimation, scaleInOutAnimation} from "../animations/animations";
+import {Coin, CoinFactory} from "../models/coins/coin.model";
+import {MessageTypes} from "../models/message-types.enum";
+import {AppState} from "../reducers/app.state";
+import {WalletRecord} from "../reducers/balance.reducer";
 import {
   getBTCBalance,
   getETHBalance,
   getTokenBalanceAragon,
   getTokenBalanceAugur,
-  getTokenBalanceBat, getTokenBalanceBytom, getTokenBalanceCivic, getTokenBalanceDent, getTokenBalanceDistrict0x,
+  getTokenBalanceBat,
+  getTokenBalanceBytom,
+  getTokenBalanceCivic,
+  getTokenBalanceDent,
+  getTokenBalanceDistrict0x,
   getTokenBalanceEos,
   getTokenBalanceGnosis,
-  getTokenBalanceGolem, getTokenBalanceOmiseGo, getTokenBalances,
-  getTokenBalanceSalt, getTokenBalanceStatusNetwork, getTokenBalanceSubstratum, getTokenBalanceTron
-} from '../selectors/balance.selector';
-import * as quoteSelector from '../selectors/quote.selector';
-import { AllCoinsDialogComponent } from '../common/coins-dialog/all-coins.dialog';
-import { WalletOptions } from './wallet-options.enum';
-import { Go } from "../actions/router.action";
-import { ShapeshiftStorage } from '../common/shapeshift-storage';
-import {
-  BtcWalletTestNet,
-  EthWalletTestnet,
-  RegenerateBitcoinWallet
-} from 'altcoinio-wallet';
-import * as walletAction from '../actions/wallet.action';
+  getTokenBalanceGolem,
+  getTokenBalanceOmiseGo,
+  getTokenBalances,
+  getTokenBalanceSalt,
+  getTokenBalanceStatusNetwork,
+  getTokenBalanceSubstratum,
+  getTokenBalanceTron
+} from "../selectors/balance.selector";
+import * as quoteSelector from "../selectors/quote.selector";
+import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
+import {WalletOptions} from "./wallet-options.enum";
+import {Go} from "../actions/router.action";
+import {ShapeshiftStorage} from "../common/shapeshift-storage";
 import {AccountHelper} from "../common/account-helper";
 
 declare const QRCode;
 
 @Component({
-  selector: 'app-wallet',
-  templateUrl: './wallet.component.html',
-  styleUrls: ['./wallet.component.scss'],
+  selector: "app-wallet",
+  templateUrl: "./wallet.component.html",
+  styleUrls: ["./wallet.component.scss"],
   animations: [scaleInOutAnimation, fadeInOutAnimation]
 })
-export class WalletComponent implements OnInit {
-  @ViewChild('perfectScrollbar') perfectScrollbar;
+export class WalletComponent implements OnInit, AfterViewInit {
+  @ViewChild("perfectScrollbar") perfectScrollbar;
 
-  scaleInOut = 'scaleInOut';
-  fadeInOut = 'fadeInOut';
+  scaleInOut = "scaleInOut";
+  fadeInOut = "fadeInOut";
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
   walletOptions: typeof WalletOptions = WalletOptions;
@@ -71,31 +74,29 @@ export class WalletComponent implements OnInit {
   $tokenBalanceOmiseGo: Observable<WalletRecord>;
   $ethBalance: Observable<WalletRecord>;
   $btcBalance: Observable<WalletRecord>;
-  randomValue: number = 0.001;
-  elementType: 'url';
-  value: string = 'Techiediaries';
+  randomValue = 0.001;
+  elementType: "url";
+  value = "Techiediaries";
 
   filteredCoins: Array<Coin>;
   search;
 
-  inMyPossesion: boolean = localStorage.getItem('show_posession') ? localStorage.getItem('show_posession') === 'true' : false;
+  inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
   qr;
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2, private router: Router) {
-    const xprivKey = ShapeshiftStorage.get('btcprivkey');
-    if(!xprivKey){
+  constructor(private store: Store<AppState>, public dialog: MatDialog) {
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    if (!xprivKey) {
       this.store.dispatch(new Go({
         path: ["/wallet/empty"],
       }));
     } else {
-      AccountHelper.generateWalletsFromPrivKey(this.store);
-      this.infoMsg = 'This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.';
+      this.infoMsg = "This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.";
       this.allCoins = CoinFactory.createAllCoins();
       this.getTokenBalances();
       this.getTokenAmountUSD();
       this.filteredCoins = [...this.allCoins];
     }
-
   }
 
   ngOnInit() {
@@ -109,21 +110,21 @@ export class WalletComponent implements OnInit {
   }
 
   copyReceiveAddress(event) {
-    const copyText = <HTMLInputElement>document.getElementById('coinAddress');
+    const copyText = <HTMLInputElement>document.getElementById("coinAddress");
     copyText.select();
-    document.execCommand('Copy');
+    document.execCommand("Copy");
   }
 
   selectWalletOption(walletOption) {
     this.selectedOption = undefined;
-    setTimeout(() =>{
+    setTimeout(() => {
       this.selectedOption = walletOption;
     }, 500);
   }
 
   selectCoinCard(coin) {
     this.selectedCoin = coin;
-    const coinEl = document.querySelector('#' + coin.name);
+    const coinEl = document.querySelector("#" + coin.name);
     const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
     perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft - 20;
     this.generateQrCode(coin);
@@ -139,7 +140,7 @@ export class WalletComponent implements OnInit {
 
   showAllCoins() {
     const dialogRef = this.dialog.open(AllCoinsDialogComponent, {
-      panelClass: 'all-coins-dialog',
+      panelClass: "all-coins-dialog",
       data: {coins: this.allCoins}
     });
 
@@ -156,63 +157,35 @@ export class WalletComponent implements OnInit {
   }
 
   onPossesionModeChange(val: boolean) {
-    localStorage.setItem('show_posession', JSON.stringify(val));
+    localStorage.setItem("show_posession", JSON.stringify(val));
     this.inMyPossesion = val;
   }
 
-  private generateQrCode(coin) {
-    const address = Observable.combineLatest(coin.$balance, this.$ethBalance, (c: any, eth) => {
-      let addr;
-      if (c.address) {
-        addr = c.address;
-      } else {
-        addr = eth.address;
-      }
-      return addr;
-    });
-
-    address.first().subscribe(addr => {
-      if (!this.qr) {
-        this.qr = new QRCode(document.getElementById('qrcode'), {
-          text: addr,
-          width: 200,
-          height: 200,
-          colorDark: '#000000',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      }
-      this.qr.makeCode(addr);
-    }).unsubscribe();
-  }
-
-  wheelOverHorizontallDiv(e){
+  wheelOverHorizontallDiv(e) {
     const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
     perfectNativeElement.scrollLeft -= (e.wheelDelta);
     e.preventDefault();
   }
 
-  getTokenBalances(){
+  getTokenBalances() {
 
     this.store.dispatch(new GetEthBalanceAction());
     this.store.dispatch(new GetBtcBalanceAction());
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: 'golem'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.AUGUR, name: 'augur'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ARAGON, name: 'aragon'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BAT, name: 'bat'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: 'eos'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: 'gnosis'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: 'salt'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.CIVIC, name: 'civic'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.OMISEGO, name: 'omisego'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DISTRICT0X, name: 'district0x'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STATUSNETWORK, name: 'statusnetwork'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SUBSTRATUM, name: 'substratum'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: 'tron'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: 'bytom'}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: 'dent'}));
-
-    const quotes = this.store.select(quoteSelector.getQuotes);
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: "golem"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.AUGUR, name: "augur"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ARAGON, name: "aragon"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BAT, name: "bat"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: "eos"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: "gnosis"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: "salt"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.CIVIC, name: "civic"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.OMISEGO, name: "omisego"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DISTRICT0X, name: "district0x"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STATUSNETWORK, name: "statusnetwork"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SUBSTRATUM, name: "substratum"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: "tron"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: "bytom"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: "dent"}));
 
     this.$ethBalance = this.store.select(getETHBalance);
     this.$btcBalance = this.store.select(getBTCBalance);
@@ -238,56 +211,56 @@ export class WalletComponent implements OnInit {
 
     this.allCoins.forEach((coin) => {
       switch (coin.name) {
-        case 'BTC':
+        case "BTC":
           coin.$balance = this.$btcBalance;
           this.selectedCoin = coin;
           break;
-        case 'ETH':
+        case "ETH":
           coin.$balance = this.$ethBalance;
           break;
-        case 'REP':
+        case "REP":
           coin.$balance = this.$tokenBalanceAugur;
           break;
-        case 'GNT':
+        case "GNT":
           coin.$balance = this.$tokenBalanceGolem;
           break;
-        case 'GNO':
+        case "GNO":
           coin.$balance = this.$tokenBalanceGnosis;
           break;
-        case 'BAT':
+        case "BAT":
           coin.$balance = this.$tokenBalanceBat;
           break;
-        case 'ANT':
+        case "ANT":
           coin.$balance = this.$tokenBalanceAragon;
           break;
-        case 'EOS':
+        case "EOS":
           coin.$balance = this.$tokenBalanceEos;
           break;
-        case 'SALT':
+        case "SALT":
           coin.$balance = this.$tokenBalanceSalt;
           break;
-        case 'CVC':
+        case "CVC":
           coin.$balance = this.$tokenBalanceCivic;
           break;
-        case 'OMG':
+        case "OMG":
           coin.$balance = this.$tokenBalanceOmiseGo;
           break;
-        case 'DNT':
+        case "DNT":
           coin.$balance = this.$tokenBalanceDistrict0x;
           break;
-        case 'SNT':
+        case "SNT":
           coin.$balance = this.$tokenBalanceStatusNetwork;
           break;
-        case 'SUB':
+        case "SUB":
           coin.$balance = this.$tokenBalanceSubstratum;
           break;
-        case 'TRN':
+        case "TRN":
           coin.$balance = this.$tokenBalanceTron;
           break;
-        case 'BTM':
+        case "BTM":
           coin.$balance = this.$tokenBalanceBytom;
           break;
-        case 'DENT':
+        case "DENT":
           coin.$balance = this.$tokenBalanceDent;
           break;
         default:
@@ -297,7 +270,7 @@ export class WalletComponent implements OnInit {
     });
   }
 
-  getTokenAmountUSD(){
+  getTokenAmountUSD() {
     const quotes = this.store.select(quoteSelector.getQuotes);
     this.allCoins.forEach((coin) => {
       coin.$amountUSD = Observable.combineLatest(quotes, coin.$balance, (q, coinBalance) => {
@@ -313,6 +286,32 @@ export class WalletComponent implements OnInit {
         return price;
       });
     });
+  }
+
+  private generateQrCode(coin) {
+    const address = Observable.combineLatest(coin.$balance, this.$ethBalance, (c: any, eth) => {
+      let addr;
+      if (c.address) {
+        addr = c.address;
+      } else {
+        addr = eth.address;
+      }
+      return addr;
+    });
+
+    address.first().subscribe(addr => {
+      if (!this.qr) {
+        this.qr = new QRCode(document.getElementById("qrcode"), {
+          text: addr,
+          width: 200,
+          height: 200,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+      this.qr.makeCode(addr);
+    }).unsubscribe();
   }
 
 }

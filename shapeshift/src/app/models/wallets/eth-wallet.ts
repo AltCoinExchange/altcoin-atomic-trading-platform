@@ -1,20 +1,21 @@
 import {
+  EthereumWallet,
   EthInitiateParams,
   EthParticipateParams,
-  EthWalletTestnet,
+  EthRedeemParams,
   InitiateData,
   ParticipateData,
-  RedeemData, RedeemParams,
-  TokenFactory, TOKENS,
-  EthRedeemParams,
-  TokenAtomicSwap
+  RedeemData,
+  TokenAtomicSwap,
+  TokenFactory,
+  TOKENS
 } from "altcoinio-wallet";
 import {Observable} from "rxjs/Observable";
 import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {EthCoinModel} from "../coins/eth-coin.model";
 import {Wallet} from "./wallet";
 
-export class EthWallet extends EthWalletTestnet implements Wallet {
+export class EthWallet extends EthereumWallet implements Wallet {
   readonly timeout: number = 7200;
 
   constructor() {
@@ -42,7 +43,7 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
   Redeem(data: RedeemData, coin: EthCoinModel): Observable<RedeemData> {
     this.init();
     const params = new EthRedeemParams(this.oxify(data.secret), this.oxify(data.secretHash), null);
-    return Observable.fromPromise(this.redeem(params));
+    return Observable.fromPromise(super.redeem(params));
   }
 
   getInitParams(address: string, amount: string): EthInitiateParams {
@@ -50,13 +51,13 @@ export class EthWallet extends EthWalletTestnet implements Wallet {
   }
 
   oxify(param: string): string {
-    return param.indexOf("0x") === -1 ? "0x" + param : param
+    return param.indexOf("0x") === -1 ? "0x" + param : param;
   }
 
   public init(): string {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     const keystore = super.recover(xprivKey);
-    this.login(keystore, xprivKey);
+    super.login(keystore, xprivKey);
     return xprivKey;
   }
 

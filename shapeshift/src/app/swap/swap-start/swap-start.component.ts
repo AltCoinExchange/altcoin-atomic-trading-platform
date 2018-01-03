@@ -39,13 +39,10 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   $depositUSD: Observable<number>;
   $receiveUSD: Observable<number>;
 
-  constructor(private router: Router, private store: Store<AppState>,  public dialog: MatDialog) {
+  constructor(private store: Store<AppState>,  public dialog: MatDialog) {
     super();
     this.infoMsg = 'For testnet use only';
     this.coins = CoinFactory.createAllCoins();
-
-    // Login to eth / btc
-    AccountHelper.generateWalletsFromPrivKey(this.store);
 
     this.store.dispatch(new swapAction.SetActiveStepAction(1));
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
