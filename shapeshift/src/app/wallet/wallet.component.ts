@@ -1,5 +1,4 @@
-import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from "@angular/core";
-import {Router} from "@angular/router";
+import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
@@ -35,7 +34,6 @@ import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
 import {WalletOptions} from "./wallet-options.enum";
 import {Go} from "../actions/router.action";
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
-import {AccountHelper} from "../common/account-helper";
 
 declare const QRCode;
 
@@ -123,17 +121,21 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   selectCoinCard(coin) {
-    this.selectedCoin = coin;
     const coinEl = document.querySelector("#" + coin.name);
+    if (!coin || !coinEl) {
+      return;
+    }
+    this.selectedCoin = coin;
     const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
     perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft - 20;
     this.generateQrCode(coin);
   }
 
   filterCoin(val: string) {
+    val = val.toLowerCase();
     this.filteredCoins = [...this.allCoins].filter(coin => {
-      return coin.name.toLowerCase().indexOf(val.toLowerCase()) !== -1 ||
-        val.toLowerCase().indexOf(coin.name.toLowerCase()) !== -1 ||
+      return coin.name.toLowerCase().indexOf(val) !== -1 ||
+        val.indexOf(coin.name.toLowerCase()) !== -1 ||
         coin.fullName.toLowerCase().indexOf(val) !== -1;
     });
   }
@@ -145,14 +147,18 @@ export class WalletComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().filter(res => !!res).subscribe(result => {
-      if (result.amount === 0) {
-        this.inMyPossesion = false;
-        setTimeout(() => {
-          this.selectCoinCard(result);
-        });
-        return;
-      }
-      this.selectCoinCard(result);
+      result.$balance.subscribe(amount => {
+        console.log(amount);
+        if (amount.balance === "0") {
+          this.inMyPossesion = false;
+          setTimeout(() => {
+            this.selectCoinCard(result);
+          });
+          return;
+        }
+        this.selectCoinCard(result);
+      });
+
     });
   }
 
@@ -300,8 +306,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
     });
 
     address.first().subscribe(addr => {
-      if (!this.qr) {
-        this.qr = new QRCode(document.getElementById("qrcode"), {
+      const qrcodeElement = document.getElementById("qrcode");
+      if (!this.qr && !!qrcodeElement) {
+        this.qr = new QRCode(qrcodeElement, {
           text: addr,
           width: 200,
           height: 200,
