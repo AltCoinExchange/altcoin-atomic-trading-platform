@@ -14,7 +14,10 @@ import {BtcWallet} from "../models/wallets/btc-wallet";
 import {WalletFactory} from "../models/wallets/wallet";
 import {Coins} from "../models/coins/coins.enum";
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
-
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 
 @Injectable()
 export class BalanceEffect {

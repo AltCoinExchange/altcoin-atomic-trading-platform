@@ -8,11 +8,11 @@ export class QuoteService {
   constructor(private http: Http) {
   }
 
-  public getQuote(currency): Observable<Quote[]> {
+  public getQuote(currency): Observable<Quote[] | Quote> {
     return this.fetch(currency);
   }
 
-  public getQuotes(): Observable<Quote[]> {
+  public getQuotes(): Observable<Quote[] | Quote> {
     return this.fetch('', true);
   }
 

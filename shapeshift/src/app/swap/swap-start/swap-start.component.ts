@@ -1,26 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import * as sideA from '../../actions/side-A.action';
-import * as swapAction from '../../actions/start.action';
-import { flyInOutAnimation } from '../../animations/animations';
-import { AnimationEnabledComponent } from '../../common/animation.component';
-import { Coin, CoinFactory } from '../../models/coins/coin.model';
-import { MessageTypes } from '../../models/message-types.enum';
-import { SwapProcess } from '../../models/swap-process.model';
-import * as fromSwap from '../../reducers/start.reducer';
-import * as quoteSelector from '../../selectors/quote.selector';
-import * as swapSelector from '../../selectors/start.selector';
-import { MatDialog } from '@angular/material';
-import { AllCoinsDialogComponent } from '../../common/coins-dialog/all-coins.dialog';
-import {AccountHelper} from "../../common/account-helper";
+import {Component, OnInit} from "@angular/core";
+import {Store} from "@ngrx/store";
+import * as sideA from "../../actions/side-A.action";
+import * as swapAction from "../../actions/start.action";
+import {flyInOutAnimation} from "../../animations/animations";
+import {AnimationEnabledComponent} from "../../common/animation.component";
+import {Coin, CoinFactory} from "../../models/coins/coin.model";
+import {MessageTypes} from "../../models/message-types.enum";
+import {SwapProcess} from "../../models/swap-process.model";
+import * as quoteSelector from "../../selectors/quote.selector";
+import * as swapSelector from "../../selectors/start.selector";
+import {MatDialog} from "@angular/material";
+import {AllCoinsDialogComponent} from "../../common/coins-dialog/all-coins.dialog";
 import {AppState} from "../../reducers/app.state";
+import {Observable} from "rxjs/Observable";
 
 @Component({
-  selector: 'app-swap-start',
-  templateUrl: './swap-start.component.html',
-  styleUrls: ['./swap-start.component.scss'],
+  selector: "app-swap-start",
+  templateUrl: "./swap-start.component.html",
+  styleUrls: ["./swap-start.component.scss"],
   animations: [flyInOutAnimation],
   preserveWhitespaces: false
 })
@@ -39,9 +36,9 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   $depositUSD: Observable<number>;
   $receiveUSD: Observable<number>;
 
-  constructor(private store: Store<AppState>,  public dialog: MatDialog) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog) {
     super();
-    this.infoMsg = 'For testnet use only';
+    this.infoMsg = "For testnet use only";
     this.coins = CoinFactory.createAllCoins();
 
     this.store.dispatch(new swapAction.SetActiveStepAction(1));
@@ -52,13 +49,15 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     const quotes = this.store.select(quoteSelector.getQuotes);
 
     this.$quote = Observable.combineLatest(
-      this.$depositCoin, this.$receiveCoin, quotes, (coin, receive, q) => {
-        if (!q) {
+      this.$depositCoin, this.$receiveCoin, quotes, (coin, receive, qq) => {
+        if (!qq) {
           return undefined;
         }
-        const depositAmount = coin.amount;
-        const depositQuotes = q.get(coin.name);
-        const receiveQuotes = q.get(receive.name);
+
+        const depositAmount = +coin.amount;
+        const depositQuotes = qq.get(coin.name);
+        const receiveQuotes = qq.get(receive.name);
+
         const number = ((depositAmount * depositQuotes.price) / receiveQuotes.price);
         const price = +number.toFixed(8);
         if (isNaN(number)) {
@@ -131,24 +130,24 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
 
   changeDepositCoin(coin: Coin) {
     this.showAllCoins(coin);
-    this.coinToChange = 'deposit';
+    this.coinToChange = "deposit";
   }
 
   changeReceiveCoin(coin: Coin) {
     this.showAllCoins(coin);
-    this.coinToChange = 'receive';
+    this.coinToChange = "receive";
   }
 
   showAllCoins(coin) {
     const dialogRef = this.dialog.open(AllCoinsDialogComponent, {
-      panelClass: 'all-coins-dialog',
+      panelClass: "all-coins-dialog",
       data: {coins: this.coins, selectedCoin: coin}
     });
 
     dialogRef.afterClosed().filter(res => !!res).subscribe(result => {
       if (result.amount === 0) {
         setTimeout(() => {
-           this.chooseCoin(result);
+          this.chooseCoin(result);
         });
         return;
       }
@@ -156,8 +155,8 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     });
   }
 
-  chooseCoin(coin){
-    if (this.coinToChange == 'deposit')
+  chooseCoin(coin) {
+    if (this.coinToChange == "deposit")
       this.store.dispatch(new swapAction.setDepositCoinAction(coin));
     else
       this.store.dispatch(new swapAction.setReceiveCoinAction(coin));

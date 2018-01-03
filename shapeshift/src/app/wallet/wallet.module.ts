@@ -4,20 +4,23 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MatCheckboxModule, MatIconModule, MatInputModule, MatProgressSpinnerModule, MatCardModule, MatDialogModule, MatButtonModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
-import { PerfectScrollbarConfigInterface, PerfectScrollbarModule } from 'angular2-perfect-scrollbar';
 import { ShapeShiftCommonModule } from '../common/common.module';
 import { WalletComponent } from './wallet.component';
 import { EmptyWalletComponent } from './empty-wallet/empty-wallet.component';
 import { CreateWalletComponent } from './create-wallet/create-wallet.component';
 import { WritePhraseComponent } from './write-phrase/write-phrase.component';
 import { ImportWalletComponent } from './import-wallet/import-wallet.component';
-
-const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 
 @NgModule({
   imports: [
     CommonModule,
-    PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
+    PerfectScrollbarModule,
     FlexLayoutModule,
     RouterModule.forChild([
       { path: '', component: WalletComponent},
@@ -43,6 +46,12 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
     CreateWalletComponent,
     WritePhraseComponent,
     ImportWalletComponent,
+  ],
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
   ]
 })
 export class WalletModule {

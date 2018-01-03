@@ -8,7 +8,7 @@ import {Injectable} from "@angular/core";
 export class DexieDbService<T> {
   // extends Dexie {
   // public default: Dexie.Table<T, number>;
-  constructor(name: string = 'default') {
+  constructor() {
     // super(name);
     const db = this;
     // Define tables and indexes

@@ -1,5 +1,5 @@
-import * as quote from '../actions/quote.action';
-import {Quote} from '../models/quote.model';
+import * as quote from "../actions/quote.action";
+import {Quote} from "../models/quote.model";
 
 export interface State {
   quotes: Map<string, Quote>,
@@ -16,7 +16,7 @@ export function reducer(state = initialState, action: quote.Actions): State {
     }
     case quote.LOAD_QUOTE_SUCCESS: {
       const quotesMap = new Map();
-      action.payload.forEach(quote => {
+      (<any>action.payload).forEach(quote => {
         quotesMap.set(quote.short, quote);
       });
       return {

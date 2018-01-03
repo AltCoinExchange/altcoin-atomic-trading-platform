@@ -8,19 +8,17 @@ import * as sideA from "../actions/side-A.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
 import {
-  getAContractBin, getAContractTx, getADepositCoin, getAHashedSecret, getALink,
+  getAContractBin,
+  getAContractTx,
+  getADepositCoin,
+  getAHashedSecret,
+  getALink,
   getASecret
 } from "../selectors/side-a.selector";
-import {
-  getBContractBin, getBContractTx, getBDepositCoin, getBHashedSecret,
-  getBSecret,
-} from "../selectors/side-b.selector";
-import {getInitateLink, getSwapProcess} from "../selectors/start.selector";
+import {getSwapProcess} from "../selectors/start.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
-import {ShapeshiftStorage} from "../common/shapeshift-storage";
-import {CoinFactory} from "../models/coins/coin.model";
 import {WalletFactory} from "../models/wallets/wallet";
 
 @Injectable()
@@ -116,7 +114,7 @@ export class SideAEffect {
         // TODO payload contains SECRET ------- TODO please correct this
         console.log("TODO payload contains SECRET ------- TODO please correct this");
         console.log(data);
-        const address = data.wallet[data.process.depositCoin.derive === undefined ?  data.process.depositCoin.name : data.process.depositCoin.derive].address;
+        const address = data.wallet[data.process.depositCoin.derive === undefined ? data.process.depositCoin.name : data.process.depositCoin.derive].address;
         data.payload = {
           ...data.payload,
           address,
@@ -132,7 +130,7 @@ export class SideAEffect {
     .ofType(sideA.INFORM_PARTICIPATE_SUCCESS)
     .map(toPayload)
     .mergeMap((payload) => {
-        return Observable.of(new sideA.WaitForBRedeemAction(payload));
+      return Observable.of(new sideA.WaitForBRedeemAction(payload));
     });
 
   @Effect()
