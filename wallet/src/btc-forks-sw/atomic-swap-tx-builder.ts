@@ -1,5 +1,5 @@
 import {IAtomicSwap} from "../atomic-swap";
-
+// tslint:disable
 // import * as bitcore from "bitcore";
 // import * as Hashing from "../common/hashing";
 // import {SecretGenerator, SecretResult} from "../common/hashing";
@@ -26,42 +26,43 @@ import {IAtomicSwap} from "../atomic-swap";
 // const Script = bitcore.Script;
 // const Buffer = bitcore.Buffer;
 
-export class atomicSwapTxBuilder implements IAtomicSwap {
-
-  constructor(btcConfiguration, btcRpcConfiguration) {
-    super(btcConfiguration, btcRpcConfiguration);
-    this.configuration = btcRpcConfiguration;
-  }
-
-  public async initiate(params: BtcInitiateParams): Promise<BtcInitiateData> {
-
-    // return new BtcInitiateData(b.contractFee, b.contractP2SH.toString(), b.contract.toHex(), b.contractTx.hash,
-    //   b.contractTx.toString(), rawTx, secret.secret, secret.secretHash);
-  }
-
-  public async participate(params: BtcParticipateParams): Promise<BtcParticipateData> {
-
-
-    // return new BtcParticipateData(b.contractFee, b.contractP2SH.toString(),
-    //   b.contract.toHex(), b.contractTx.hash, b.contractTx.toString(), rawTx);
-  }
-
-  public async redeem(params: BtcRedeemParams): Promise<BtcRedeemData> {
-
-    // return new BtcRedeemData(params.secret, params.hashedSecret, redeemTx.toString(), res);
-  }
-
-
-  public refund(refundParams: BtcRefundParams): Promise<BtcRefundData> {
-    return undefined;
-  }
-
-
-  public async auditContract(ct, tx) {
-
-    // return new BtcAuditContractData(contractSH, contractValue, recipientAddress.toString(),
-    //   refundAddress.toString(), pushes.secretHash.replace("0x", ""), new Date(pushes.lockTime * 1000));
-  }
+export class AtomicSwapTxBuilder {
+    // implements IAtomicSwap {
+  //
+  // constructor(btcConfiguration, btcRpcConfiguration) {
+  //   super(btcConfiguration, btcRpcConfiguration);
+  //   this.configuration = btcRpcConfiguration;
+  // }
+  //
+  // public async initiate(params: BtcInitiateParams): Promise<BtcInitiateData> {
+  //
+  //   // return new BtcInitiateData(b.contractFee, b.contractP2SH.toString(), b.contract.toHex(), b.contractTx.hash,
+  //   //   b.contractTx.toString(), rawTx, secret.secret, secret.secretHash);
+  // }
+  //
+  // public async participate(params: BtcParticipateParams): Promise<BtcParticipateData> {
+  //
+  //
+  //   // return new BtcParticipateData(b.contractFee, b.contractP2SH.toString(),
+  //   //   b.contract.toHex(), b.contractTx.hash, b.contractTx.toString(), rawTx);
+  // }
+  //
+  // public async redeem(params: BtcRedeemParams): Promise<BtcRedeemData> {
+  //
+  //   // return new BtcRedeemData(params.secret, params.hashedSecret, redeemTx.toString(), res);
+  // }
+  //
+  //
+  // public refund(refundParams: BtcRefundParams): Promise<BtcRefundData> {
+  //   return undefined;
+  // }
+  //
+  //
+  // public async auditContract(ct, tx) {
+  //
+  //   // return new BtcAuditContractData(contractSH, contractValue, recipientAddress.toString(),
+  //   //   refundAddress.toString(), pushes.secretHash.replace("0x", ""), new Date(pushes.lockTime * 1000));
+  // }
 
   // public async extractSecret(extractSecretParams: BtcExtractSecretParams): Promise<BtcExtractSecretData> {
   //   const transaction = new Transaction(extractSecretParams.redemptionTx);
