@@ -6,6 +6,7 @@ import {scaleInOutAnimation} from "../../animations/animations";
 import {BtcWalletTestNet, FreshBitcoinWallet} from "altcoinio-wallet";
 import * as walletAction from "../../actions/wallet.action";
 import {MessageTypes} from "../../models/message-types.enum";
+import {AccountHelper} from "../../common/account-helper";
 
 @Component({
   selector: "app-import-wallet",
@@ -16,10 +17,10 @@ import {MessageTypes} from "../../models/message-types.enum";
 export class ImportWalletComponent implements OnInit {
 
   errorMsg: string;
-  hasError: boolean = false;
+  hasError = false;
   messageTypes: typeof MessageTypes = MessageTypes;
   scaleInOut = "scaleInOut";
-  cardVisible: boolean = true;
+  cardVisible = true;
   words;
 
   constructor(private store: Store<AppState>) {
@@ -45,6 +46,7 @@ export class ImportWalletComponent implements OnInit {
         this.store.dispatch(new Go({
           path: ["/wallet"],
         }));
+        AccountHelper.generateWalletsFromPrivKey(this.store);
       }, 1500);
     } catch (err) {
       this.hasError = true;

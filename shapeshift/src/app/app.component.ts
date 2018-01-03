@@ -1,29 +1,33 @@
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as quoteAction from './actions/quote.action';
-import { AppState } from './reducers/app.state';
+import {Component, HostListener, OnInit, ViewEncapsulation} from "@angular/core";
+import {Store} from "@ngrx/store";
+import * as quoteAction from "./actions/quote.action";
+import {AppState} from "./reducers/app.state";
 import {AccountHelper} from "./common/account-helper";
+import {ShapeshiftStorage} from "./common/shapeshift-storage";
 
 
 @Component({
-  selector: 'app',
+  selector: "app",
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
-    './app.component.scss'
+    "./app.component.scss"
   ],
-  templateUrl: './app.component.html'
+  templateUrl: "./app.component.html"
 })
 export class AppComponent implements OnInit {
-  public altcoinLogo = 'assets/icon/altcoin-icon.png';
+  public altcoinLogo = "assets/icon/altcoin-icon.png";
   headerHidden = false;
   private didScroll = false;
 
   constructor(private store: Store<AppState>) {
     this.store.dispatch(new quoteAction.LoadQuoteAction());
-    AccountHelper.generateWalletsFromPrivKey(this.store);
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    if (xprivKey) {
+      AccountHelper.generateWalletsFromPrivKey(this.store);
+    }
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener("window:scroll", ["$event"])
   onScrollEvent($event) {
     this.didScroll = true;
   }
