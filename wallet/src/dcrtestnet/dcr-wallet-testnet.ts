@@ -1,8 +1,7 @@
-import {BtcWallet} from "../btc";
-import {DcrConfiguration} from "../config/config-dcr";
+import {BitcoinWallet} from "../btc";
 
-export class DcrWalletTestNet extends BtcWallet {
-  constructor() {
-    super(DcrConfiguration, DcrConfiguration);
-  }
+export class DcrWalletTestNet extends BitcoinWallet {
+    constructor() {
+        super("testnet");
+    }
 }

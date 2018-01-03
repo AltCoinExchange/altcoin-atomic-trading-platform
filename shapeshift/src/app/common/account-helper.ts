@@ -1,4 +1,4 @@
-import {BtcWalletTestNet, EthereumWallet, RegenerateBitcoinWallet} from "altcoinio-wallet";
+import {BitcoinWallet, EthereumWallet, RegenerateBitcoinWallet} from "altcoinio-wallet";
 import * as walletAction from "../actions/wallet.action";
 import {ShapeshiftStorage} from "./shapeshift-storage";
 import {Store} from "@ngrx/store";
@@ -12,7 +12,7 @@ export class AccountHelper {
 
   private static generateBtcWallet(store: Store<AppState>) {
     const xprivKey = ShapeshiftStorage.get('btcprivkey');
-    const btc = new BtcWalletTestNet();
+    const btc = new BitcoinWallet();
     const wallet = new RegenerateBitcoinWallet(xprivKey);
     btc.recover(wallet);
     const WIF = btc.WIF;

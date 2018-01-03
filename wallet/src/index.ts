@@ -1,5 +1,4 @@
 export * from "./btc/index";
-export * from "./btctestnet";
 export * from "./eth/index";
 export * from "./atomic-swap";
 export * from "./common";

@@ -46,7 +46,7 @@ export class BalanceEffect {
         const ethwallet = new EthWallet();
         const token = ethwallet.getERC20Token(TOKENS.AUGUR);
         return Observable.fromPromise(token.balanceOf(address)).map(balance => {
-          //return Observable.fromPromise(repToken.balanceOf(address)).map(balance => {
+          // return Observable.fromPromise(repToken.balanceOf(address)).map(balance => {
           const result = {
             address, balance,
           };
@@ -54,24 +54,6 @@ export class BalanceEffect {
         });
       },
     );
-
-  @Effect()
-  getTokenBalance: Observable<Action> = this.actions$
-    .ofType(balanceAction.GET_TOKEN_BALANCE)
-    .map(toPayload)
-    .withLatestFrom(this.store.select(getWalletState))
-    .flatMap(([payload, wallet]) => {
-        const address = wallet[this.eth.name].address;
-        const token = this.ethwallet.getERC20Token(payload.token);
-        return Observable.fromPromise(token.balanceOf(address)).map(balance => {
-          const result = {
-            address, balance, name: payload.name
-          };
-          return new balanceAction.GetTokenBalanceSuccessAction(result);
-        });
-      },
-    );
-
   @Effect()
   getBtcBalance: Observable<Action> = this.actions$
     .ofType(balanceAction.GET_BTC_BALANCE)
@@ -85,12 +67,34 @@ export class BalanceEffect {
         });
       },
     );
-
   eth;
   ethwallet;
+  @Effect()
+  getTokenBalance: Observable<Action> = this.actions$
+    .ofType(balanceAction.GET_TOKEN_BALANCE)
+    .map(toPayload)
+    .withLatestFrom(this.store.select(getWalletState))
+    .flatMap(([payload, wallet]) => {
+        if (!this.eth) {
+          this.init();
+        }
+        const address = wallet[this.eth.name].address;
+        const token = this.ethwallet.getERC20Token(payload.token);
+        return Observable.fromPromise(token.balanceOf(address)).map(balance => {
+          const result = {
+            address, balance, name: payload.name
+          };
+          return new balanceAction.GetTokenBalanceSuccessAction(result);
+        });
+      },
+    );
 
   constructor(private store: Store<AppState>,
               private actions$: Actions) {
+    this.init();
+  }
+
+  private init() {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     if (xprivKey) {
       this.eth = new EthCoinModel();

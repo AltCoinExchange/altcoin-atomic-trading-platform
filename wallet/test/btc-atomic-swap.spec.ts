@@ -6,8 +6,8 @@ import {BtcParticipateParams, BtcRedeemParams} from "../src/btc/atomic-swap";
 import {BtcInitiateParams} from "../src/btc/atomic-swap/btc-initiate-params";
 import {FreshBitcoinWallet} from "../src/btc/fresh-btc";
 import {RegenerateBitcoinWallet} from "../src/btc/regenerate-btc";
-import {BtcWalletTestNet} from "../src/btctestnet/btc-wallet-testnet";
 import {SecretGenerator} from "../src/common/hashing";
+import {BitcoinWallet} from "../src/index";
 
 const phrase = "away stomach fire police satoshi wire entire awake dilemma average town napkin";
 const hdPrivateKey = "tprv8ZgxMBicQKsPeTGpn6B6ZpfF6ptrEcpDcjgfyZwWgD3bLawHEnCjLG3rN8yxGQvBQizux6puMGM1zpdn35MsMiPC785yxZs4Mv5tzugdUwx";
@@ -19,7 +19,7 @@ const regenerateWallet = new RegenerateBitcoinWallet(hdPrivateKey);
 describe("BtcAtomicSwap", () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000000;
   it("Should pass sanity", () => {
-    expect(typeof BtcWalletTestNet).toBe("function");
+    expect(typeof BitcoinWallet).toBe("function");
   });
 
   it("Should pass initiate", async () => {
@@ -28,7 +28,7 @@ describe("BtcAtomicSwap", () => {
     // const secret = SecretGenerator.generateSecret();
 
     try {
-      const wallet = new BtcWalletTestNet();
+      const wallet = new BitcoinWallet();
       wallet.recover(regenerateWallet);
       const result = await wallet
         .initiate(new BtcInitiateParams(7200, WIF, "n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.07"));
@@ -45,7 +45,7 @@ describe("BtcAtomicSwap", () => {
     // const secret = SecretGenerator.generateSecret();
 
     try {
-      const wallet = new BtcWalletTestNet();
+      const wallet = new BitcoinWallet();
       wallet.recover(regenerateWallet);
 
       const participate = new BtcParticipateParams();
@@ -67,7 +67,7 @@ describe("BtcAtomicSwap", () => {
     expect.assertions(1);
 
     try {
-      const wallet = new BtcWalletTestNet();
+      const wallet = new BitcoinWallet();
       wallet.recover(regenerateWallet);
       const result: any = await wallet.getTransactionList("mnopGXXKQdt6mXnwHeRcdWNsaksoqKcvwZ");
       console.log(result);
@@ -104,7 +104,7 @@ describe("BtcAtomicSwap", () => {
     );
 
     try {
-      const wallet = new BtcWalletTestNet();
+      const wallet = new BitcoinWallet();
       wallet.recover(regenerateWallet);
       const result = await wallet.redeem(testParams2);
       console.log(result);

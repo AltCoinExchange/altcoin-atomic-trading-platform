@@ -3,7 +3,7 @@ import {Go} from "../../actions/router.action";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers/app.state";
 import {scaleInOutAnimation} from "../../animations/animations";
-import {BtcWalletTestNet, FreshBitcoinWallet, generateMnemonic,} from "altcoinio-wallet";
+import {BitcoinWallet, FreshBitcoinWallet, generateMnemonic,} from "altcoinio-wallet";
 import * as walletAction from "../../actions/wallet.action";
 import {AccountHelper} from "../../common/account-helper";
 
@@ -16,7 +16,7 @@ import {AccountHelper} from "../../common/account-helper";
 export class WritePhraseComponent implements OnInit {
 
   scaleInOut = "scaleInOut";
-  cardVisible: boolean = true;
+  cardVisible = true;
   codes;
   words: Array<string>;
   wordCounter: number;
@@ -66,7 +66,7 @@ export class WritePhraseComponent implements OnInit {
   }
 
   private createBtcWallet(codes: any) {
-    const btc = new BtcWalletTestNet();
+    const btc = new BitcoinWallet();
     const wallet = new FreshBitcoinWallet(codes.phrase);
     btc.create(wallet);
     const WIF = btc.WIF;

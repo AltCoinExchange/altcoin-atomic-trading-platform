@@ -1,7 +1,7 @@
 import {
   BtcInitiateParams,
   BtcParticipateParams,
-  BtcWalletTestNet,
+  BitcoinWallet,
   InitiateData,
   ParticipateData,
   RedeemData,
@@ -12,7 +12,7 @@ import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 import {BtcCoinModel} from "../coins/btc-coin.model";
 import {Wallet} from "./wallet";
 
-export class BtcWallet extends BtcWalletTestNet implements Wallet {
+export class BtcWallet extends BitcoinWallet implements Wallet {
 
   constructor() {
     super();

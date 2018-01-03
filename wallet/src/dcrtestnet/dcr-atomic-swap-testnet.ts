@@ -4,6 +4,6 @@ import {DcrConfiguration} from "../config/config-dcr";
 export class DcrAtomicSwapTestnet extends BtcAtomicSwap {
     constructor(configuration: any) {
         // TODO: Find usage of RPC Configuration
-        super(DcrConfiguration, null);
+        super("testnet");
     }
 }
