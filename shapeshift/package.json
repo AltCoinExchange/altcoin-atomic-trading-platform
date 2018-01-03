@@ -6,10 +6,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build_prod": "ng build --prod --aot && cp src/index.js dist/index.js",
+    "build-prod": "ng build --prod --aot && cp src/index.js dist/index.js",
+    "build-prod-stat": "ng build --prod --aot --stats-json && cp src/index.js dist/index.js",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "bundle-report": "webpack-bundle-analyzer dist/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -72,6 +74,7 @@
     "sass-loader": "^6.0.3",
     "ts-node": "^3.3.0",
     "tslint": "~5.7.0",
-    "typescript": "^2.4.2"
+    "typescript": "^2.4.2",
+    "webpack-bundle-analyzer": "^2.9.1"
   }
 }

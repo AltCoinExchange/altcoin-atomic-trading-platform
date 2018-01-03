@@ -12,18 +12,18 @@ describe("DcrAtomicSwap", () => {
     expect(typeof DcrWalletTestNet).toBe("function");
   });
 
-  it("Should pass initiate", async () => {
-    expect.assertions(1);
-
-    const secret = SecretGenerator.generateSecret();
-
-    try {
-      const wallet = new DcrWalletTestNet();
-      const result = await wallet
-        .initiate(new BtcInitiateParams(7200, secret.secretHash, "n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.001"));
-    } catch (e) {
-      expect(e.message).toEqual("insufficent funds");
-    }
-  });
+  // it("Should pass initiate", async () => {
+  //   expect.assertions(1);
+  //
+  //   const secret = SecretGenerator.generateSecret();
+  //
+  //   try {
+  //     const wallet = new DcrWalletTestNet();
+  //     const result = await wallet
+  //       .initiate(new BtcInitiateParams(7200, secret.secretHash, "n31og5QGuS28dmHpDH6PQD5wmVQ2K2spAG", "0.001"));
+  //   } catch (e) {
+  //     expect(e.message).toEqual("insufficent funds");
+  //   }
+  // });
 
 });

@@ -1,4 +1,3 @@
-import {switchAll} from "rxjs/operators";
 import * as Web3 from "web3/src";
 import {Account, Contract} from "web3/types";
 import {IEthAccount} from "./eth-account";
