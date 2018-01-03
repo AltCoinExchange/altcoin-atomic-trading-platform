@@ -22,7 +22,10 @@ export class SwapInputsComponent implements OnInit {
   ngOnInit() {
   }
 
-  submitSwap() {
+  submitSwap(disabled) {
+    if (disabled) {
+      return;
+    }
     const model = {
       depositCoin: this.depositCoin,
       receiveCoin: this.receiveCoin.update({amount: this.receiveQuote}),

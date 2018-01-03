@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from "@angular/core";
 
 @Component({
   selector: 'app-shapeshift-button',
@@ -6,7 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./shapeshift-button.component.scss'],
 })
 export class ShapeshiftButtonComponent implements OnInit {
-
+  @Input() disabled = false;
   constructor() {
   }
 

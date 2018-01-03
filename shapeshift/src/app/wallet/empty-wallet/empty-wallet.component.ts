@@ -1,26 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { scaleInOutAnimation } from '../../animations/animations'; 
-import { Go } from "../../actions/router.action";
-import { Store } from '@ngrx/store';
-import { AppState } from '../../reducers/app.state';
+import {Component, OnInit} from "@angular/core";
+import {scaleInOutAnimation} from "../../animations/animations";
+import {Go} from "../../actions/router.action";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../reducers/app.state";
 
 @Component({
-  selector: 'app-empty-wallet',
-  templateUrl: './empty-wallet.component.html',
-  styleUrls: ['./empty-wallet.component.scss'],
-  animations: [ scaleInOutAnimation ]
+  selector: "app-empty-wallet",
+  templateUrl: "./empty-wallet.component.html",
+  styleUrls: ["./empty-wallet.component.scss"],
+  animations: [scaleInOutAnimation]
 })
 export class EmptyWalletComponent implements OnInit {
 
-  scaleInOut = 'scaleInOut';
-  cardVisible : boolean = true;
+  scaleInOut = "scaleInOut";
+  cardVisible = true;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {
+  }
 
   ngOnInit() {
   }
 
-  createWallet(){
+  createWallet() {
     this.cardVisible = false;
     setTimeout(() => {
       this.store.dispatch(new Go({
@@ -29,7 +30,7 @@ export class EmptyWalletComponent implements OnInit {
     }, 1500);
   }
 
-  importWallet(){
+  importWallet() {
     this.cardVisible = false;
     setTimeout(() => {
       this.store.dispatch(new Go({

@@ -147,7 +147,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().filter(res => !!res).subscribe(result => {
-      result.$balance.subscribe(amount => {
+      result.$balance.first().filter(data => !!data).subscribe(amount => {
         console.log(amount);
         if (amount.balance === "0") {
           this.inMyPossesion = false;

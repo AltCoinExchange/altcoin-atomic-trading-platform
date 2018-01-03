@@ -1,47 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { Go } from "../../actions/router.action";
-import { Store } from '@ngrx/store';
-import { AppState } from '../../reducers/app.state';
-import { scaleInOutAnimation } from '../../animations/animations'; 
-import {
-  BtcWalletTestNet,
-  FreshBitcoinWallet
-} from 'altcoinio-wallet';
-import * as walletAction from '../../actions/wallet.action';
-import { MessageTypes } from '../../models/message-types.enum';
+import {Component, OnInit} from "@angular/core";
+import {Go} from "../../actions/router.action";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../reducers/app.state";
+import {scaleInOutAnimation} from "../../animations/animations";
+import {BtcWalletTestNet, FreshBitcoinWallet} from "altcoinio-wallet";
+import * as walletAction from "../../actions/wallet.action";
+import {MessageTypes} from "../../models/message-types.enum";
 
 @Component({
-  selector: 'app-import-wallet',
-  templateUrl: './import-wallet.component.html',
-  styleUrls: ['./import-wallet.component.scss'],
-  animations: [ scaleInOutAnimation ]
+  selector: "app-import-wallet",
+  templateUrl: "./import-wallet.component.html",
+  styleUrls: ["./import-wallet.component.scss"],
+  animations: [scaleInOutAnimation]
 })
 export class ImportWalletComponent implements OnInit {
 
   errorMsg: string;
   hasError: boolean = false;
   messageTypes: typeof MessageTypes = MessageTypes;
-  scaleInOut = 'scaleInOut';
-  cardVisible : boolean = true;
+  scaleInOut = "scaleInOut";
+  cardVisible: boolean = true;
   words;
 
-  constructor(private store: Store<AppState>) { 
-    this.words = [{ value: '' }, { value: '' }, { value: '' }, 
-      { value: '' }, { value: '' }, { value: '' }, 
-      { value: '' }, { value: '' }, { value: '' }, 
-      { value: '' }, { value: '' }, { value: '' }];
+  constructor(private store: Store<AppState>) {
+    this.words = [{value: ""}, {value: ""}, {value: ""},
+      {value: ""}, {value: ""}, {value: ""},
+      {value: ""}, {value: ""}, {value: ""},
+      {value: ""}, {value: ""}, {value: ""}];
   }
 
   ngOnInit() {
   }
 
-  importWallet(){
+  importWallet() {
     this.hasError = false;
-    let phrase = this.concatPhrase();
-    let codes = {
+    const phrase = this.concatPhrase();
+    const codes = {
       phrase: phrase
     };
-    try{
+    try {
       this.createBtcWallet(codes);
       this.cardVisible = false;
       setTimeout(() => {
@@ -49,8 +46,7 @@ export class ImportWalletComponent implements OnInit {
           path: ["/wallet"],
         }));
       }, 1500);
-    }
-    catch(err){
+    } catch (err) {
       this.hasError = true;
       this.errorMsg = err.message;
     }
@@ -58,7 +54,7 @@ export class ImportWalletComponent implements OnInit {
 
   private createBtcWallet(codes: any) {
     const btc = new BtcWalletTestNet();
-    let wallet = new FreshBitcoinWallet(codes.phrase);
+    const wallet = new FreshBitcoinWallet(codes.phrase);
     btc.create(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
@@ -70,12 +66,12 @@ export class ImportWalletComponent implements OnInit {
     }));
   }
 
-  private concatPhrase(){
-    let phrase = '';
-    for(let i = 0; i < this.words.length; i++){
+  private concatPhrase() {
+    let phrase = "";
+    for (let i = 0; i < this.words.length; i++) {
       phrase += this.words[i].value;
-      if(i < this.words.length - 1)
-        phrase += ' ';
+      if (i < this.words.length - 1)
+        phrase += " ";
     }
     return phrase;
   }
