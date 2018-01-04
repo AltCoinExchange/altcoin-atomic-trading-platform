@@ -12,7 +12,6 @@
   },
   "scripts": {
     "build": "webpack || echo not ok && babel dist/index.browser.js -o dist/index.browser.js --presets=es2015",
-    "test": "jest",
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
