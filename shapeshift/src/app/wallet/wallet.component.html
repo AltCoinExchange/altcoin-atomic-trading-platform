@@ -10,14 +10,13 @@
     <div fxLayout="row" fxLayoutAlign="center stretch">
         <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
             <mat-form-field class="search-box">
-                <input placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
-                <button style="font-size: 20px;" class="input-button" mat-button matSuffix mat-icon-button (click)="showAllCoins()">
+                <input #inputRef placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
+                <button style="font-size: 20px;" class="input-button" mat-button matSuffix mat-icon-button (click)="inputRef.blur(); showAllCoins($event)">
                     <mat-icon>view_module</mat-icon>
                 </button>
             </mat-form-field>
         </div>
     </div>
-
     <perfect-scrollbar #perfectScrollbar class="wallet-slide" fxLayout="row" fxLayoutAlign="start center" (wheel)="wheelOverHorizontallDiv($event)">
         <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name" [@scaleInOut]="scaleInOut">
             <div class="wallet-card" [class.active]="selectedCoin == coin"
@@ -47,7 +46,7 @@
 
 
 <div class="gradient">
-    <perfect-scrollbar class="options-slide" fxLayout="row" fxLayoutAlign="start center">
+    <div class="options-slide" fxLayout="row" fxLayoutAlign="start center">
         <button
             class="wallet-option"
             (click)="selectWalletOption(walletOptions.Send)"
@@ -66,7 +65,7 @@
             [class.active]="selectedOption == walletOptions.Transactions"
             [@scaleInOut]="scaleInOut">TRANSACTIONS
         </button>
-    </perfect-scrollbar>
+    </div>
 </div>
 <div class="wallet-container">
     <div *ngIf="selectedOption == walletOptions.Send" class="wallet-content gradient" [@fadeInOut]="fadeInOut">

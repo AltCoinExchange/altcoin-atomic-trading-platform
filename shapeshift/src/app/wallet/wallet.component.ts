@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
@@ -83,7 +83,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
   qr;
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     if (!xprivKey) {
       this.store.dispatch(new Go({
@@ -106,6 +106,15 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.selectedCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
       this.generateQrCode(this.selectedCoin);
     });
+
+    if (!document) {
+      return;
+    }
+    const bar = document.querySelector(".ps__rail-x");
+    if (bar) {
+      this.renderer.setStyle(bar, "visibility", "hidden");
+    }
+
   }
 
   copyReceiveAddress(event) {
@@ -140,7 +149,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
     });
   }
 
-  showAllCoins() {
+  showAllCoins(e) {
+    e.preventDefault();
+    e.stopPropagation();
     const dialogRef = this.dialog.open(AllCoinsDialogComponent, {
       panelClass: "all-coins-dialog",
       data: {coins: this.allCoins}
