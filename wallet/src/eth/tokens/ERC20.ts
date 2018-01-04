@@ -82,6 +82,18 @@ export class ERC20 {
     return result;
   }
 
+  @abiParams({},{})
+  public async faucet(): Promise<any> {
+    const abi = getAbiParams(this, "faucet");
+
+    const configParams = {
+      from: this.ethEngine.configuration.defaultWallet
+    };
+
+    const result: any = await this.ethEngine.callFunction("faucet", [], configParams, EthConfirmation.CONFIRMATION, abi, this.contractAddress);
+    return result;
+  }
+
   // TODO: Add events
   // event Transfer(address indexed _from, address indexed _to, uint _value);
   // event Approval(address indexed _owner, address indexed _spender, uint _value);
