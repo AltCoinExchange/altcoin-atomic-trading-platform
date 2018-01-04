@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-find . -name 'node_modules/*.js' -type f -print0 | xargs -0 sed -i '' -e "s/bitcore.versionGuard = function(version) {/bitcore.versionGuard = function(version) { return true;/g"
+
+sed -i bak -e "s/bitcore.versionGuard = function(version) {/bitcore.versionGuard = function(version) { return true;/g" node_modules/bitcore-lib/index.js
+sed -i bak -e "s/bitcore.versionGuard = function(version) {/bitcore.versionGuard = function(version) { return true;/g" node_modules/bitcore-mnemonic/node_modules/bitcore-lib/index.js
