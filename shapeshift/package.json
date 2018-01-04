@@ -7,6 +7,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build-prod": "ng build --prod --aot && cp src/index.js dist/index.js",
+    "build-staging": "ng build --prod --aot --env=staging && cp src/index.js dist/index.js",
     "build-prod-stat": "ng build --prod --aot --stats-json && cp src/index.js dist/index.js",
     "test": "ng test",
     "lint": "ng lint",

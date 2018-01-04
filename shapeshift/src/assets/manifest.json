@@ -8,9 +8,29 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/assets/icon/icon-512x512.png",
+      "src": "/assets/icon/icon-512x512.jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/assets/icon/icon-192x192.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/assets/icon/icon-168x168.jpg",
+      "sizes": "168x168",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/assets/icon/icon-72x72.jpg",
+      "sizes": "72x72",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/assets/icon/icon-48x48.jpg",
+      "sizes": "48x48",
+      "type": "image/jpeg"
     }
   ]
 }
