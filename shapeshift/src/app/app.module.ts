@@ -59,7 +59,8 @@ import {TransactionService} from "./services/transaction.service";
     {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
     LinkService,
     QuoteService,
-    MoscaService
+    MoscaService,
+    TransactionService
   ],
   bootstrap: [AppComponent]
 })
