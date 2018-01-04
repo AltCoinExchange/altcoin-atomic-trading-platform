@@ -11,14 +11,14 @@
         <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
             <mat-form-field class="search-box">
                 <input placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
-                <button class="input-button" mat-button matSuffix mat-icon-button (click)="showAllCoins()">
+                <button style="font-size: 20px;" class="input-button" mat-button matSuffix mat-icon-button (click)="showAllCoins()">
                     <mat-icon>view_module</mat-icon>
                 </button>
             </mat-form-field>
         </div>
-    </div> 
-              
-    <perfect-scrollbar #perfectScrollbar class="wallet-slide" fxLayout="row" fxLayoutAlign="start center" (wheel)="wheelOverHorizontallDiv($event)">    
+    </div>
+
+    <perfect-scrollbar #perfectScrollbar class="wallet-slide" fxLayout="row" fxLayoutAlign="start center" (wheel)="wheelOverHorizontallDiv($event)">
         <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name" [@scaleInOut]="scaleInOut">
             <div class="wallet-card" [class.active]="selectedCoin == coin"
                     *ngIf="(inMyPossesion && (coin.$balance | async)?.balance > 0) ||
@@ -42,7 +42,7 @@
     </perfect-scrollbar>
     <div fxLayout="row" fxLayoutAlign="center center" class="hide-coins-box">
         <mat-checkbox [ngModel]="inMyPossesion" (ngModelChange)="onPossesionModeChange($event)">Hide coins with zero balance</mat-checkbox>
-    </div> 
+    </div>
 </div>
 
 

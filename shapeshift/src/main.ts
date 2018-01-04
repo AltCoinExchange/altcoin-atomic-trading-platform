@@ -24,10 +24,10 @@ if (environment.production) {
   };
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .then(() => {
-    if (environment.production && "serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/ngsw-worker.js");
-    }
-  })
-  .catch(err => console.log(err));
+// platformBrowserDynamic().bootstrapModule(AppModule)
+//   .then(() => {
+//     if (environment.production && "serviceWorker" in navigator) {
+//       navigator.serviceWorker.register("/ngsw-worker.js");
+//     }
+//   })
+//   .catch(err => console.log(err));
