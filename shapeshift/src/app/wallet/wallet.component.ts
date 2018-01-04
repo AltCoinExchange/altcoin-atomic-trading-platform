@@ -127,8 +127,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
       return;
     }
     this.selectedCoin = coin;
-    const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
-    perfectNativeElement.scrollLeft = (<any>coinEl).offsetLeft - 20;
+    this.perfectScrollbar.directiveRef.scrollToX((<any>coinEl).offsetLeft - 20);
     this.generateQrCode(coin);
   }
 
