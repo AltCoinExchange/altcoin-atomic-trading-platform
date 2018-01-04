@@ -24,6 +24,7 @@ import {reducers} from "./reducers/reducers";
 import {LinkService} from "./services/link.service";
 import {MoscaService} from "./services/mosca.service";
 import {QuoteService} from "./services/quote.service";
+import {TransactionService} from "./services/transaction.service";
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import {QuoteService} from "./services/quote.service";
     LinkService,
     QuoteService,
     MoscaService,
+    TransactionService
   ],
   bootstrap: [AppComponent]
 })
