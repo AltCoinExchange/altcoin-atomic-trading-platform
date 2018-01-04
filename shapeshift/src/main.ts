@@ -20,14 +20,21 @@ import {environment} from "./environments/environment";
 
 if (environment.production) {
   enableProdMode();
-  window.console.log = function () {
-  };
+  // window.console.log = function () {
+  // };
 }
 
-// platformBrowserDynamic().bootstrapModule(AppModule)
-//   .then(() => {
-//     if (environment.production && "serviceWorker" in navigator) {
-//       navigator.serviceWorker.register("/ngsw-worker.js");
-//     }
-//   })
-//   .catch(err => console.log(err));
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .then(() => {
+    console.log(environment.production);
+    console.log(navigator);
+    navigator.serviceWorker.register("/ngsw-worker.js").then(resp => {
+      console.log(resp);
+    }).catch(err => {
+      console.log(err);
+    });
+    if (environment.production && "serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/ngsw-worker.js");
+    }
+  })
+  .catch(err => console.log(err));

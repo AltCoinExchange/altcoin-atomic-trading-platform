@@ -58,7 +58,7 @@ import {QuoteService} from "./services/quote.service";
     {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
     LinkService,
     QuoteService,
-    MoscaService
+    MoscaService,
   ],
   bootstrap: [AppComponent]
 })
