@@ -7,7 +7,7 @@ import {TransactionModel} from "../models/transaction.model";
 export class TransactionService {
 
   // TODO: Add https
-  private url = 'https://altcoin.ddns.net:3000/data/transactions:';
+  private url = 'https://service1.altcoin.io:3001/data/transactions:';
 
   constructor(private http: Http) {
   }

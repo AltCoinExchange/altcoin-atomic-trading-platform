@@ -35,6 +35,7 @@ import {WalletOptions} from "./wallet-options.enum";
 import {Go} from "../actions/router.action";
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
 import {Coins} from "../models/coins/coins.enum";
+import {TransactionService} from "../services/transaction.service";
 
 declare const QRCode;
 
@@ -83,7 +84,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
   qr;
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2, private transactionService: TransactionService) {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     if (!xprivKey) {
       this.store.dispatch(new Go({
