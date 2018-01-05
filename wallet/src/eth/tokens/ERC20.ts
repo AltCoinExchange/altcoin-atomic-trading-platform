@@ -82,7 +82,7 @@ export class ERC20 {
     return result;
   }
 
-  @abiParams({},{})
+  @abiParams({stateMutability: "payable"}, {}, {})
   public async faucet(): Promise<any> {
     const abi = getAbiParams(this, "faucet");
 
