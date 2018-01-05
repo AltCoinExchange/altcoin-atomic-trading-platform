@@ -31,6 +31,12 @@ export class WalletReceiveComponent implements OnInit {
     this.generateQrCode();
   }
 
+  copyReceiveAddress(event) {
+    const copyText = <HTMLInputElement>document.getElementById("coinAddress");
+    copyText.select();
+    document.execCommand("Copy");
+  }
+
   private generateQrCode() {
     const qrcodeElement = document.getElementById("qrcode");
     if (!this.qr && !!qrcodeElement) {

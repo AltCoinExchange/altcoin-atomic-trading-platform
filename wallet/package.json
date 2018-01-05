@@ -63,7 +63,6 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "@types/bitcoinjs-lib": "^3.0.5",
     "augur-contracts": "^3.3.10",
     "augur.js": "^4.7.0-18",
     "axios": "^0.17.1",

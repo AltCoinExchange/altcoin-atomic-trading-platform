@@ -114,12 +114,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   }
 
-  copyReceiveAddress(event) {
-    const copyText = <HTMLInputElement>document.getElementById("coinAddress");
-    copyText.select();
-    document.execCommand("Copy");
-  }
-
   selectWalletOption(walletOption) {
     this.selectedOption = undefined;
     setTimeout(() => {
