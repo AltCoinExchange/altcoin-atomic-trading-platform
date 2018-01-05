@@ -1,13 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Coin} from '../../models/coins/coin.model';
-import {NG_VALUE_ACCESSOR,} from '@angular/forms';
-import {ValueAccessorBase} from '../value-accessor-base';
+import {Component, Input, OnInit} from "@angular/core";
+import {Coin} from "../../models/coins/coin.model";
+import {NG_VALUE_ACCESSOR} from "@angular/forms";
+import {ValueAccessorBase} from "../value-accessor-base";
 
 
 @Component({
-  selector: 'coin-input',
-  templateUrl: './coin-input.component.html',
-  styleUrls: ['./coin-input.component.scss'],
+  selector: "coin-input",
+  templateUrl: "./coin-input.component.html",
+  styleUrls: ["./coin-input.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -20,11 +20,11 @@ export class CoinInputComponent extends ValueAccessorBase<Number> implements OnI
   @Input() coin: Coin;
   @Input() disabled: boolean = false;
   @Input() usd: boolean = false;
-  @Input() type = 'number';
+  @Input() type = "number";
   @Input() value;
-  @Input() label: String;
-  @Input() alignLabel: string = 'center';
-  
+  @Input() label: string;
+  @Input() alignLabel: string = "center";
+
   constructor() {
     super();
   }

@@ -2,12 +2,12 @@
   <div class="swap-start form-content">
     <!-- <div class="small-font">1 BTC = 23.55863 ETH</div> -->
     <app-swap-icon
-                   [fromCoin]="$depositCoin | async"
-                   [toCoin]="$receiveCoin | async"
-                   [swapEnabled]="true"
-                   (swapped)="swapDepositRecieveCoins()"
-                   (chooseDepositCoin)="changeDepositCoin($event)"
-                   (chooseReceiveCoin)="changeReceiveCoin($event)">
+      [fromCoin]="$depositCoin | async"
+      [toCoin]="$receiveCoin | async"
+      [swapEnabled]="true"
+      (swapped)="swapDepositRecieveCoins()"
+      (chooseDepositCoin)="changeDepositCoin($event)"
+      (chooseReceiveCoin)="changeReceiveCoin($event)">
     </app-swap-icon>
     <app-swap-inputs (swap)="onSwap($event)"
                      [depositCoin]="($depositCoin | async)"

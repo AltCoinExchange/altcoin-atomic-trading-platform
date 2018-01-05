@@ -54,7 +54,8 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
   }
 
   makeInfoMessage() {
-    this.infoMsg = "Please keep your computer turned on and your internet connection active in order for Atomic Swap to succeed or it will be reverted.";
+    this.infoMsg = "Please keep your computer turned on and your internet connection " +
+      "active in order for Atomic Swap to succeed or it will be reverted.";
   }
 
   ngOnInit() {

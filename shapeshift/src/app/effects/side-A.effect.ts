@@ -30,7 +30,8 @@ export class SideAEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getWalletState))
     .mergeMap(([payload, wallet]) => {
-        return this.linkService.generateLink(payload, wallet).map(resp => {
+      console.log("aaaa");
+      return this.linkService.generateLink(payload, wallet).map(resp => {
           return new sideA.GenerateLinkSuccessAction(resp);
         }).catch(err => Observable.of(new sideA.GenerateLinkFailAction(err)));
       },
