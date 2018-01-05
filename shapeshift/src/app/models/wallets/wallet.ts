@@ -28,15 +28,88 @@ export class WalletFactory {
         ethCoinModel.login(keystore, xprivKey);
         return ethCoinModel;
       }
+      case Coins.SNT:
+      case Coins.DNT:
+      case Coins.CVC:
+      case Coins.EOS:
+      case Coins.GNT:
+      case Coins.SALT:
+      case Coins.TRX:
+      case Coins.SUB:
+      case Coins.OMG:
+      case Coins.ANT:
+      case Coins.GNO:
+      case Coins.BAT:
       case Coins.REP: {
-        const ethCoinModel = new EthTokenWallet(TOKENS.AUGUR);
+        let token: TOKENS = null;
+        switch (coin) {
+          case Coins.BAT: {
+            token = TOKENS.BAT;
+            break;
+          }
+          case Coins.GNO: {
+            token = TOKENS.GNOSIS;
+            break;
+          }
+          case Coins.TRX: {
+            token = TOKENS.TRON;
+            break;
+          }
+          case Coins.ANT: {
+            token = TOKENS.ARAGON;
+            break;
+          }
+          case Coins.OMG: {
+            token = TOKENS.OMISEGO;
+            break;
+          }
+          case Coins.SUB: {
+            token = TOKENS.SUBSTRATUM;
+            break;
+          }
+          case Coins.REP: {
+            token = TOKENS.AUGUR;
+            break;
+          }
+          case Coins.SALT: {
+            token = TOKENS.SALT;
+            break;
+          }
+          case Coins.GNT: {
+            token = TOKENS.GOLEM;
+            break;
+          }
+          case Coins.EOS: {
+            token = TOKENS.EOS;
+            break;
+          }
+          case Coins.CVC: {
+            token = TOKENS.CIVIC;
+            break;
+          }
+          case Coins.DNT: {
+            token = TOKENS.DISTRICT0X;
+            break;
+          }
+          case Coins.SNT: {
+            token = TOKENS.STATUSNETWORK;
+            break;
+          }
+        }
+
+        const ethCoinModel = new EthTokenWallet(token);
         const xprivKey = ShapeshiftStorage.get("btcprivkey");
         const keystore = ethCoinModel.recover(xprivKey);
         ethCoinModel.login(keystore, xprivKey);
         return ethCoinModel;
       }
       default: {
-        throw new Error();
+        // TODO: Fix
+        const ethCoinModel = new EthTokenWallet(TOKENS.AUGUR);
+        const xprivKey = ShapeshiftStorage.get("btcprivkey");
+        const keystore = ethCoinModel.recover(xprivKey);
+        ethCoinModel.login(keystore, xprivKey);
+        return ethCoinModel;
       }
     }
   }
