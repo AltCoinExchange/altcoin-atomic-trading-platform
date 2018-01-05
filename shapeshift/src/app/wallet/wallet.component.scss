@@ -37,6 +37,10 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
 
+    a:first-child{
+        margin-left: 20px;
+    }
+
     .wallet-card{
         display: inline-block;
         position: relative;
@@ -98,7 +102,10 @@
             margin-top: 8px;
             margin-left: 50px;
         }
+
+        
     }
+
 }
 
 .options-slide{
