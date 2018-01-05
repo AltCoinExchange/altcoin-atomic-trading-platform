@@ -10,7 +10,7 @@ export const TokenConfig = {
   },
   Augur: {
     code: "",
-    contractAddress: "0xd5ec3f08533c457c9d094fd7236afa09a1803a85"
+    contractAddress: "0x9a8a7c6e621210930fC9141664Fc26C1F9763cD9"
   },
   Golem: {
     code: "",
@@ -22,7 +22,7 @@ export const TokenConfig = {
   },
   Bat: {
     code: "",
-    contractAddress: "0x0d8775f648430679a709e98d2b0cb6250d2887ef"
+    contractAddress: "0xa68F6F87d792c7574E976e1dBBd6BFb1E79e896e"
   },
   Aragon: {
     code: "",
