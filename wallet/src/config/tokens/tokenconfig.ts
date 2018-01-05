@@ -10,11 +10,11 @@ export const TokenConfig = {
   },
   Golem: {
     code: "",
-    contractAddress: "0x17f3699461888bcaf15199cfd5ee84d7d74848d4"
+    contractAddress: "0xdf849b2dc5222c371a1d01bed80db7e820b8b9ef"
   },
   Gnosis: {
     code: "",
-    contractAddress: "0x6810e776880c02933d47db1b9fc05908e5386b96"
+    contractAddress: "0x16fc24d47faadea9e0fff584b8aa0f6c10fa57f2"
   },
   Bat: {
     code: "",
@@ -22,46 +22,46 @@ export const TokenConfig = {
   },
   Aragon: {
     code: "",
-    contractAddress: "0x0d8775f648430679a709e98d2b0cb6250d2887ef"
+    contractAddress: "0x35114d6332be1dde993fb17ec5bce49b6df4a59f"
   },
   Eos: {
     code: "",
-    contractAddress: "0xfe347f004e0a95c8a276cfb567051b0076fdb6c6"
+    contractAddress: "0x97269fb3516f2b7788c53654f26cf3e084455fa9"
   },
   Salt: {
     code: "",
-    contractAddress: "0xee5b5fe4f1188375cab2904fcc9219481b7c8276"
+    contractAddress: "0xad0c6a909b9281dccf764e33aa630325b9474f2b"
   },
   Civic: {
     code: "",
-    contractAddress: "0x037d442eb08ab5b11e7f05c1ba338a626d890466"
+    contractAddress: "0x23b108040f96ea4438203f72f406ed77a3751df4"
   },
   OmiseGo: {
     code: "",
-    contractAddress: "0xbdd81013d4a88f963fd99abeb19ba867080d6acb"
+    contractAddress: "0x823bdfa3d9b20ee5055ce3013dcad7abb9858e9c"
   },
   District0x: {
     code: "",
-    contractAddress: "0xf952e2443f44ac1ca69122717c812a27c02aa708"
+    contractAddress: "0xaa45686cd61764b28057ce64b8c4d996e213e90c"
   },
   StatusNetwork: {
     code: "",
-    contractAddress: "0xa5e92a0ebe3dc49e179a80a5c3678600f100f234"
+    contractAddress: "0x7ca06cb1c9f580ae692721d2287272d7dd2ceb66"
   },
   Substratum: {
     code: "",
-    contractAddress: "0xe1bdf36d2713477b857b976d069a3432d98dc40b"
+    contractAddress: "0xbe8143c77bf98d157029c683c775b94d197082eb"
   },
   Tron: {
     code: "",
-    contractAddress: "0xe1bdf36d2713477b857b976d069a3432d98dc40b"
+    contractAddress: "0xc91ff79c34000cc2261bbd9a403b457eb19606e2"
   },
   Bytom: {
     code: "",
-    contractAddress: "0xe1bdf36d2713477b857b976d069a3432d98dc40b"
+    contractAddress: "0xc17d4d034b1a3ddb87b2870ed1741539609e7a40"
   },
   Dent: {
     code: "",
-    contractAddress: "0x2debb13bcf5526e0cf5e3a4e5049100e3f7c2ae5"
+    contractAddress: "0x058ee34abac40e592cbc5dc2c303ae917cb7e2de"
   },
 };
