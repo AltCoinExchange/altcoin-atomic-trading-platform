@@ -12,6 +12,7 @@ export class DcrCoinModel implements Coin {
   readonly icon: string = "assets/icon/dcr-icon.png";
   readonly fullName: string = "Decred";
   amount;
+  faucetLoading: boolean = false;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 

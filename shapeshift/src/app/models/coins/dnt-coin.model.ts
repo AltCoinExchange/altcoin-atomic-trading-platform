@@ -2,6 +2,9 @@ import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 import { Observable } from "rxjs/Observable";
 import { WalletRecord } from "../../reducers/balance.reducer";
+import {TOKENS} from "altcoinio-wallet";
+import {EthWallet} from "../wallets/eth-wallet";
+import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 
 export class DntCoinModel implements Coin {
   readonly derive = undefined;
@@ -10,6 +13,7 @@ export class DntCoinModel implements Coin {
   readonly fullName: string = "district0x";
   readonly icon: string = "assets/icon/dnt-icon.png";
   amount;
+  faucetLoading: boolean = false;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
 
@@ -20,5 +24,14 @@ export class DntCoinModel implements Coin {
     const model = new DntCoinModel();
     model.amount = coin ? coin.amount : 0;
     return model;
+  }
+
+  getTokens(){
+    const ethCoinModel = new EthWallet();
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    const keystore = ethCoinModel.recover(xprivKey);
+    ethCoinModel.login(keystore, xprivKey);
+    const token = ethCoinModel.getERC20Token(TOKENS.DISTRICT0X);
+    return token.faucet();
   }
 }

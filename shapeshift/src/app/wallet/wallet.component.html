@@ -25,18 +25,18 @@
            *ngIf="(inMyPossesion && (coin.$balance | async)?.balance > 0) ||
                     (!inMyPossesion && (coin.$balance | async)?.balance >= 0)">
         <img class="coin-icon" [src]="coin.icon" alt="">
-        <div *ngIf="(coin.$balance | async)?.loading">
+        <div *ngIf="(coin.$balance | async)?.loading || coin.faucetLoading">
           <div class="spinner">
             <div class="circle-loader">
             </div>
           </div>
         </div>
-        <div *ngIf="!(coin.$balance | async)?.loading">
+        <div *ngIf="!(coin.$balance | async)?.loading && !coin.faucetLoading">
           <div class="coin-name">{{coin.fullName}}</div>
           <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
           </div>
           <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
-          <a class="faucet-button" mat-button color="accent" (click)="faucet(coin)">Get Tokens</a>
+          <a *ngIf="coin.name != 'BTC' && coin.name != 'ETH'" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
         </div>
       </div>
     </a>

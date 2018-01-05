@@ -28,6 +28,7 @@ export abstract class Coin {
   readonly fullName: string;
   readonly icon: string;
   amount: number;
+  faucetLoading: boolean = false;
   $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
   abstract update(coin: Coin): Coin;
