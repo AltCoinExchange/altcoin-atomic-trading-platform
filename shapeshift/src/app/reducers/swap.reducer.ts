@@ -1,4 +1,3 @@
-import {ShapeshiftStorage} from "../common/shapeshift-storage";
 import {Coin} from "../models/coins/coin.model";
 
 export interface State {

@@ -26,13 +26,12 @@ if (environment.production) {
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .then(() => {
-    navigator.serviceWorker.register("/ngsw-worker.js").then(resp => {
-      console.log(resp);
-    }).catch(err => {
-      console.log(err);
-    });
     if (environment.production && "serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/ngsw-worker.js");
+      navigator.serviceWorker.register("/ngsw-worker.js").then(resp => {
+        console.log(resp);
+      }).catch(err => {
+        console.error(err);
+      });
     }
   })
   .catch(err => console.log(err));

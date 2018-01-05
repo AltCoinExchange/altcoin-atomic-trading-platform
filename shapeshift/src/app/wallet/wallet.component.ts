@@ -34,10 +34,7 @@ import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
 import {WalletOptions} from "./wallet-options.enum";
 import {Go} from "../actions/router.action";
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
-import {Coins} from "../models/coins/coins.enum";
 import {TransactionService} from "../services/transaction.service";
-
-declare const QRCode;
 
 @Component({
   selector: "app-wallet",
@@ -82,7 +79,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
   search;
 
   inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
-  qr;
 
   constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2, private transactionService: TransactionService) {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
@@ -318,23 +314,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
     });
 
     address.first().subscribe(addr => {
-      const qrcodeElement = document.getElementById("qrcode");
-      if (!this.qr && !!qrcodeElement) {
-        this.qr = new QRCode(qrcodeElement, {
-          text: "bitcoin:" + addr,
-          width: 200,
-          height: 200,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      }
-      if (coin.type === Coins.BTC) {
-        addr = "bitcoin:" + addr;
-      } else {
-        addr = "ethereum:" + addr;
-      }
-      this.qr.makeCode(addr);
+
     }).unsubscribe();
   }
 

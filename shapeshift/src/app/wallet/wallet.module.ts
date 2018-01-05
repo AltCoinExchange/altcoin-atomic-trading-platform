@@ -13,6 +13,7 @@ import { ImportWalletComponent } from './import-wallet/import-wallet.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { WalletReceiveComponent } from './wallet-receive/wallet-receive.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
@@ -46,6 +47,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CreateWalletComponent,
     WritePhraseComponent,
     ImportWalletComponent,
+    WalletReceiveComponent,
   ],
   providers: [
     {
