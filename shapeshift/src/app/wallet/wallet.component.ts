@@ -312,4 +312,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
     }).unsubscribe();
   }
 
+  private faucet(coin){
+      // coin.faucet().subscribe(() => {
+      //   console.log('called faucet success');
+      // });
+  }
+
 }

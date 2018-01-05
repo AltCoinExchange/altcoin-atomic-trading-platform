@@ -35,8 +35,8 @@
           <div class="coin-name">{{coin.fullName}}</div>
           <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
           </div>
-          <div class="coin-usd">{{ (coin.$amountUSD | async) || 0 }} USD</div>
-          <a class="faucet-button" mat-button color="accent" href="#">Get Tokens</a>
+          <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
+          <a class="faucet-button" mat-button color="accent" (click)="faucet(coin)">Get Tokens</a>
         </div>
       </div>
     </a>
@@ -103,9 +103,9 @@
   <div *ngIf="selectedOption == walletOptions.Transactions" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
     <div fxLayout="row" fxLayoutAlign="center center">
       <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
-        <a *ngIf="selectedCoin.name == 'BTC'"
+        <a *ngIf="selectedCoin.name == 'BTC'" target="noopener"
            href="https://live.blockcypher.com/btc-testnet/address/{{(selectedCoin.$balance | async)?.address}}/">Blockcypher</a>
-        <a *ngIf="selectedCoin.name != 'BTC'"
+        <a *ngIf="selectedCoin.name != 'BTC'" target="noopener"
            href="https://rinkeby.etherscan.io/address/0x{{(selectedCoin.$balance | async)?.address}}">Rinkeby</a>
       </div>
     </div>
