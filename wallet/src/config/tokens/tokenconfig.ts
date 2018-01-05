@@ -2,11 +2,15 @@
 export const TokenConfig = {
   AtomicSwap: {
     code: "",
-    contractAddress: "0x9e514dc95f72d2a382b565d161ef8bc9d1d32a9d"
+    contractAddress: "0x9fb4da7dac96dfce6b54d86c3d3a363166ee7159"
+  },
+  AtomicSwapSecondParty: {
+    code: "",
+    contractAddress: "0x6e53275452708c775c092c9616e59ebf3aee7638"
   },
   Augur: {
     code: "",
-    contractAddress: "0xd5ec3f08533c457c9d094fd7236afa09a1803a85"
+    contractAddress: "0x9a8a7c6e621210930fC9141664Fc26C1F9763cD9"
   },
   Golem: {
     code: "",
@@ -18,7 +22,7 @@ export const TokenConfig = {
   },
   Bat: {
     code: "",
-    contractAddress: "0x0d8775f648430679a709e98d2b0cb6250d2887ef"
+    contractAddress: "0xa68F6F87d792c7574E976e1dBBd6BFb1E79e896e"
   },
   Aragon: {
     code: "",
