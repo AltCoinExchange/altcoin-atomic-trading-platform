@@ -80,7 +80,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2, private transactionService: TransactionService) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     if (!xprivKey) {
       this.store.dispatch(new Go({

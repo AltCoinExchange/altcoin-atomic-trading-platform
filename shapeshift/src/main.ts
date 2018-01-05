@@ -10,22 +10,25 @@ import "rxjs/add/operator/filter";
 import "rxjs/add/observable/fromPromise";
 import "rxjs/add/observable/combineLatest";
 import "rxjs/add/observable/empty";
-
-
 import {enableProdMode} from "@angular/core";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-
-import {AppModule} from "./app/app.module";
 import {environment} from "./environments/environment";
+import {StartModule} from "./app/start/start.module";
+
+console.log("START");
+const t0 = performance.now();
 
 if (environment.production) {
   enableProdMode();
-  window.console.log = function () {
-  };
+  // window.console.log = function () {
+  // };
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+platformBrowserDynamic().bootstrapModule(StartModule)
   .then(() => {
+    const t1 = performance.now();
+    console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
+
     if (environment.production && "serviceWorker" in navigator) {
       navigator.serviceWorker.register("/ngsw-worker.js").then(resp => {
         console.log(resp);

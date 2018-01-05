@@ -20,6 +20,13 @@ import {SwapStartComponent} from "./swap-start/swap-start.component";
 import {TransferLinkComponent} from "./transfer-link/transfer-link.component";
 import {AuthGuardService} from "../services/auth-redirect.service";
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from "ngx-perfect-scrollbar";
+import {EffectsModule} from "@ngrx/effects";
+import {QuoteEffect} from "../effects/quote.effect";
+import {SideAEffect} from "../effects/side-A.effect";
+import {SideBEffect} from "../effects/side-B.effect";
+import {LinkService} from "../services/link.service";
+import {MoscaService} from "../services/mosca.service";
+import {QuoteService} from "../services/quote.service";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -48,7 +55,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SwapInitiatePreviewModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    EffectsModule.forFeature([
+      QuoteEffect,
+      SideAEffect,
+      SideBEffect
+    ]),
   ],
   declarations: [
     SwapIconComponent,
@@ -67,7 +79,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
+    },
+    LinkService,
+    MoscaService,
+    QuoteService,
   ]
 })
 export class SwapModule {

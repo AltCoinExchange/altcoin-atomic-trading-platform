@@ -43,3 +43,19 @@ export class AccountHelper {
     store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
   }
 }
+
+
+export const generateEthWallet = (xprivKey, store: Store<AppState>) => {
+  const eth = new EthereumWallet();
+
+  const recovered = eth.recover(xprivKey);
+  eth.login(recovered, xprivKey);
+  const ethWallet = {
+    privateKey: xprivKey,
+    keystore: recovered,
+    address: recovered.address
+  };
+
+  store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
+  return eth;
+};
