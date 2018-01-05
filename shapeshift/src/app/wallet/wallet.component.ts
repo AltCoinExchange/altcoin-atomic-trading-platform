@@ -81,6 +81,11 @@ export class WalletComponent implements OnInit, AfterViewInit {
   inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
 
   constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
+    this.allCoins = CoinFactory.createAllCoins();
+    this.filteredCoins = [...this.allCoins];
+  }
+
+  ngOnInit() {
     const xprivKey = ShapeshiftStorage.get("btcprivkey");
     if (!xprivKey) {
       this.store.dispatch(new Go({
@@ -88,15 +93,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
       }));
     } else {
       this.infoMsg = "This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.";
-      this.allCoins = CoinFactory.createAllCoins();
       this.getTokenBalances();
       this.getTokenAmountUSD();
-      this.filteredCoins = [...this.allCoins];
     }
-  }
-
-  ngOnInit() {
-
   }
 
   ngAfterViewInit() {

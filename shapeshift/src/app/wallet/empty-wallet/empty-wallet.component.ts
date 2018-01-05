@@ -8,7 +8,6 @@ import {AppState} from "../../reducers/app.state";
   selector: "app-empty-wallet",
   templateUrl: "./empty-wallet.component.html",
   styleUrls: ["./empty-wallet.component.scss"],
-  animations: [scaleInOutAnimation]
 })
 export class EmptyWalletComponent implements OnInit {
 

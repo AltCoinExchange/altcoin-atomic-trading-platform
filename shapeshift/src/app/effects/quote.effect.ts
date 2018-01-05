@@ -12,7 +12,7 @@ export class QuoteEffect {
   @Effect()
   loadQuotes$: Observable<Action> = this.actions$
     .ofType(quoteAction.LOAD_QUOTE)
-    .mergeMap(() => {
+    .flatMap(() => {
         return this.quoteService.getQuotes()
           .map(quotes => new quoteAction.LoadQuoteSuccessAction(quotes));
       },

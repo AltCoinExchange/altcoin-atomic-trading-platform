@@ -13,6 +13,22 @@
   </div>
 
 </nav>
+<main>
+  <div *ngIf="routerLoading" class="sk-cube-grid">
+    <div class="sk-cube sk-cube1"></div>
+    <div class="sk-cube sk-cube2"></div>
+    <div class="sk-cube sk-cube3"></div>
+    <div class="sk-cube sk-cube4"></div>
+    <div class="sk-cube sk-cube5"></div>
+    <div class="sk-cube sk-cube6"></div>
+    <div class="sk-cube sk-cube7"></div>
+    <div class="sk-cube sk-cube8"></div>
+    <div class="sk-cube sk-cube9"></div>
+  </div>
+
+  <router-outlet>
+  </router-outlet>
+</main>
 <div class="tabs" fxHide="true" fxShow.xs="true">
   <nav mat-tab-nav-bar>
     <a mat-tab-link
@@ -35,9 +51,6 @@
     </a>
   </nav>
 </div>
-<main>
-  <router-outlet></router-outlet>
-</main>
 <footer>
   <ul>
     <li>

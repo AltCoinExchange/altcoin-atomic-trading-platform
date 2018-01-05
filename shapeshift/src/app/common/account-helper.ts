@@ -1,17 +1,24 @@
-import {BitcoinWallet, EthereumWallet, RegenerateBitcoinWallet} from "altcoinio-wallet";
+import {BitcoinWallet, RegenerateBitcoinWallet} from "altcoinio-wallet";
 import * as walletAction from "../actions/wallet.action";
 import {ShapeshiftStorage} from "./shapeshift-storage";
 import {Store} from "@ngrx/store";
 import {AppState} from "../reducers/app.state";
+import {EthWallet} from "../models/wallets/eth-wallet";
 
 export class AccountHelper {
   public static generateWalletsFromPrivKey(store: Store<AppState>) {
     const btcWallet = this.generateBtcWallet(store);
-    this.generateEthWallet(btcWallet.xprivkey, store);
+    const {ethInstance, ethWallet} = this.generateEthWallet(btcWallet.xprivkey);
+    store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
+
+    return {
+      ethInstance,
+      ethWallet
+    };
   }
 
   private static generateBtcWallet(store: Store<AppState>) {
-    const xprivKey = ShapeshiftStorage.get('btcprivkey');
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
     const btc = new BitcoinWallet();
     const wallet = new RegenerateBitcoinWallet(xprivKey);
     btc.recover(wallet);
@@ -29,33 +36,21 @@ export class AccountHelper {
     };
   }
 
-  private static generateEthWallet(xprivKey, store: Store<AppState>) {
-    const eth = new EthereumWallet();
+  private static generateEthWallet(xprivKey) {
+    const eth = new EthWallet();
 
     const recovered = eth.recover(xprivKey);
     eth.login(recovered, xprivKey);
+
     const ethWallet = {
       privateKey: xprivKey,
       keystore: recovered,
       address: recovered.address
     };
 
-    store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
+    return {
+      ethInstance: eth,
+      ethWallet
+    };
   }
 }
-
-
-export const generateEthWallet = (xprivKey, store: Store<AppState>) => {
-  const eth = new EthereumWallet();
-
-  const recovered = eth.recover(xprivKey);
-  eth.login(recovered, xprivKey);
-  const ethWallet = {
-    privateKey: xprivKey,
-    keystore: recovered,
-    address: recovered.address
-  };
-
-  store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
-  return eth;
-};

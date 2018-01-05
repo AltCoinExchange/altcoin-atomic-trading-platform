@@ -1,4 +1,5 @@
 import {Component, HostListener, OnInit} from "@angular/core";
+import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: "app",
@@ -8,9 +9,32 @@ import {Component, HostListener, OnInit} from "@angular/core";
 export class StartComponent implements OnInit {
   public altcoinLogo = "assets/icon/altcoin-icon.png";
   headerHidden = false;
+  routerLoading;
   private didScroll = false;
 
-  constructor() {
+  constructor(private router: Router) {
+    router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        // Show loading indicator
+        this.routerLoading = true;
+      }
+
+      if (event instanceof NavigationEnd) {
+        // Hide loading indicator
+        this.routerLoading = false;
+      }
+
+      if (event instanceof NavigationError) {
+        // Hide loading indicator
+        // Present error to user
+        this.routerLoading = false;
+      }
+      if (event instanceof NavigationCancel) {
+        // Hide loading indicator
+        // Present error to user
+        this.routerLoading = false;
+      }
+    });
   }
 
 

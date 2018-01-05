@@ -6,10 +6,10 @@ export const ROUTES: Routes = [
   {
     path: "", component: AppComponent, children: [
     {
-      path: "", loadChildren: "app/swap/swap.module#SwapModule",
+      path: "wallet/empty", loadChildren: "app/wallet/empty-wallet/empty-wallet.module#EmptyWalletModule", data: {preload: true}
     },
     {
-      path: "wallet", loadChildren: "app/wallet/wallet.module#WalletModule"
+      path: "", loadChildren: "app/core-app.module#CoreAppModule", data: {preload: true}
     },
     {
       path: "links", loadChildren: "app/links/links.module#LinksModule"
