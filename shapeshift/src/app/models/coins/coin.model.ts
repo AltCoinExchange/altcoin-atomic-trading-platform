@@ -46,6 +46,51 @@ export class CoinFactory {
       case Coins.REP: {
         return new RepCoinModel();
       }
+      case Coins.BAT: {
+        return new BatCoinModel();
+      }
+      case Coins.ANT: {
+        return new AntCoinModel();
+      }
+      case Coins.BTM: {
+        return new BtmCoinModel();
+      }
+      case Coins.CVC: {
+        return new CvcCoinModel();
+      }
+      case Coins.DCR: {
+        return new DcrCoinModel();
+      }
+      case Coins.DENT: {
+        return new DentCoinModel();
+      }
+      case Coins.DNT: {
+        return new DntCoinModel();
+      }
+      case Coins.EOS: {
+        return new EosCoinModel();
+      }
+      case Coins.GNO: {
+        return new GnoCoinModel();
+      }
+      case Coins.GNT: {
+        return new GntCoinModel();
+      }
+      case Coins.LTC: {
+        return new LtcCoinModel();
+      }
+      case Coins.OMG: {
+        return new OmgCoinModel();
+      }
+      case Coins.SALT: {
+        return new SaltCoinModel();
+      }
+      case Coins.SUB: {
+        return new SubCoinModel();
+      }
+      case Coins.TRX: {
+        return new TrxCoinModel();
+      }
       default: {
         throw new Error();
       }
