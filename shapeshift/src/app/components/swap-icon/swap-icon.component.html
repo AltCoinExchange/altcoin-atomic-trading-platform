@@ -1,32 +1,34 @@
 <div class="swap-icons" fxLayout="row">
   <div fxLayout="column" fxFlex="33">
     <div class="swap-icon" [@coinSwaps]="toCoinAnimationSwapState">
-      <img [src]="firstCoin.iconOutline" alt="">
+      <a href="" (click)="iconClicked($event, firstCoin)">
+          <img [src]="firstCoin.icon" alt="">
+      </a>
     </div>
   </div>
   <div fxLayout="column" fxFlex="33" fxFlexAlign="center" class="swap-icon arrows">
     <a *ngIf="swapEnabled;else swap_disabled" href="" (click)="animateCoinSwap($event)">
       <div fxShow.gt-xs="true" fxShow.xs="false">
-        <i class="fa fa-angle-left fa-3x" aria-hidden="true"></i>
-        <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
+          <i class="material-icons md-48">swap_horiz</i>
       </div>
       <div fxShow.gt-xs="false" fxShow.xs="true">
-        <i class="fa fa-angle-left fa-2x" aria-hidden="true"></i>
-        <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+          <i class="material-icons md-36">swap_horiz</i>
       </div>
     </a>
     <ng-template #swap_disabled>
       <div fxShow.gt-xs="true" fxShow.xs="false">
-        <i class="fa fa-angle-right fa-3x" aria-hidden="true"></i>
+          <i class="material-icons md-48">swap_horiz</i>
       </div>
       <div fxShow.gt-xs="false" fxShow.xs="true">
-        <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+          <i class="material-icons md-36">swap_horiz</i>
       </div>
     </ng-template>
   </div>
   <div fxLayout="column" fxFlex="33">
     <div class="swap-icon" [@coinSwaps]="fromCoinAnimationSwapState">
-      <img [src]="secondCoin.iconOutline" alt="">
+      <a href="" (click)="iconClicked($event, secondCoin)">
+        <img [src]="secondCoin.icon" alt="">
+      </a>
     </div>
   </div>
 </div>

@@ -6,26 +6,27 @@ nav{
   right: 0;
   left: 0;
   top: 0;
-  z-index: 1030;
+  z-index: 2;
   background-color: $main-gray;
   border: 0;
-  -webkit-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
   height: 60px;
-  box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
+  box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.50);
+  -webkit-box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.50);
+  -moz-box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.50);
+  &.nav-up{
+    top: -60px;
+  }
 }
+
 
 main{
   min-height: -webkit-calc(100% - 120px);    
   min-height: -moz-calc(100% - 120px); 
   min-height: calc(100% - 120px);
-  overflow-y: scroll;  
+  overflow: auto;
   padding-top: 60px;
-  display: flex;
-  flex-flow: column;
-  justify-content: flex-start;
-  align-content: center;
-  align-items: stretch;
 
   > * {
     min-height: 100%;
@@ -55,7 +56,6 @@ a.logo{
     vertical-align: middle;
     display: table;
     text-transform: uppercase;
-    font-weight: 500;
     font-size: 13px;
     li{
       display: table-cell;
@@ -64,11 +64,8 @@ a.logo{
 
       a{
         color: $text-color;
-      }
-
-      &.active{
-        a{
-          color: $main-blue;
+        &.active{
+          color: white;
         }
       }
     }
@@ -79,7 +76,9 @@ footer {
   width: 100%;
   height: 60px;
   background-color: $main-gray;
-
+  box-shadow: 1px -2px 4px 0 rgba(0,0,0,0.50);
+  -webkit-box-shadow: 1px -2px 4px 0 rgba(0,0,0,0.50);
+  -moz-box-shadow: 1px -2px 4px 0 rgba(0,0,0,0.50);
   ul {
     text-align: center;
     width: 220px;

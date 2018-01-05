@@ -1,0 +1,14 @@
+{
+	"extends": "tslint:recommended",
+	"rules": {
+		"ordered-imports": false,
+		"object-literal-sort-keys": false,
+		"quotemark": true,
+		"max-classes-per-file": [7],
+		"radix": false,
+		"member-ordering": false,
+		"object-literal-key-quotes": false,
+		"trailing-comma": false,
+		"eofline": false
+	}
+}

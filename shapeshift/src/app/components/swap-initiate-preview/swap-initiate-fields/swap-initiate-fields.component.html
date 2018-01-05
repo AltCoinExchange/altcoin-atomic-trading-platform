@@ -1,28 +1,28 @@
-<app-shapeshift-input
+<coin-input
   [disabled]="true"
   [type]="text"
   [ngModel]="offerTime">
   <p class="label">Expires in</p>
-</app-shapeshift-input>
+</coin-input>
 
-<app-shapeshift-input
+<coin-input
   [disabled]="true"
   [type]="text"
   [ngModel]="address">
   <p class="label">Address</p>
-</app-shapeshift-input>
+</coin-input>
 
-<app-shapeshift-input
+<coin-input
   [disabled]="true"
   [type]="text"
   [coin]="depositCoin"
   [ngModel]="depositCoin.amount">
   <p class="label">Receive</p>
-</app-shapeshift-input>
+</coin-input>
 
-<app-shapeshift-input
+<coin-input
   [disabled]="true"
   [coin]="receiveCoin"
   [ngModel]="receiveCoin.amount">
   <p class="label">Give</p>
-</app-shapeshift-input>
+</coin-input>

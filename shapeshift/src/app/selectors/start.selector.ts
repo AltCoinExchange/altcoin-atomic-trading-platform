@@ -17,6 +17,3 @@ export const getInitateLink = createSelector(getStartState,
 
 export const getActiveStep = createSelector(getStartState,
   fromStart.getActiveStep);
-
-export const getSwapStatus = createSelector(getStartState,
-  fromStart.getSwapStatus);

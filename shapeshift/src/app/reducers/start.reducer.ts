@@ -1,9 +1,8 @@
-import {SwapProcess} from '../models/swap-process.model';
-import * as swap from '../actions/start.action';
-import {EthCoinModel} from '../models/coins/eth-coin.model';
-import {BtcCoinModel} from '../models/coins/btc-coin.model';
-import {Coin} from '../models/coins/coin.model';
-import {SwapSpinners} from "../models/swap-spinners.enum";
+import * as swap from "../actions/start.action";
+import {BtcCoinModel} from "../models/coins/btc-coin.model";
+import {Coin} from "../models/coins/coin.model";
+import {EthCoinModel} from "../models/coins/eth-coin.model";
+import {SwapProcess} from "../models/swap-process.model";
 
 export interface State {
   swapProcess: SwapProcess;
@@ -15,12 +14,6 @@ export const initialState: State = {
     depositCoin: new EthCoinModel(),
     receiveCoin: new BtcCoinModel(),
     activeStep: 1,
-    status: {
-      initiated: SwapSpinners.Waiting,
-      participated: SwapSpinners.Waiting,
-      redeeming: SwapSpinners.Waiting,
-      done: SwapSpinners.Waiting,
-    }
   } as SwapProcess,
   link: undefined,
 };
@@ -33,8 +26,26 @@ export function reducer(state = initialState, action: swap.Actions): State {
         ...state,
         swapProcess: {
           ...state.swapProcess,
-          depositCoin: state.swapProcess.receiveCoin,
+          depositCoin: state.swapProcess.receiveCoin.update(temp),
           receiveCoin: temp,
+        },
+      };
+    }
+    case swap.SET_DEPOSIT_COIN: {
+      return {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          depositCoin: action.payload,
+        },
+      };
+    }
+    case swap.SET_RECEIVE_COIN: {
+      return {
+        ...state,
+        swapProcess: {
+          ...state.swapProcess,
+          receiveCoin: action.payload,
         },
       };
     }
@@ -58,12 +69,7 @@ export function reducer(state = initialState, action: swap.Actions): State {
         },
       };
     }
-    case swap.SET_LINK: {
-      return {
-        ...state,
-        link: action.payload,
-      };
-    }
+
     case swap.SET_DEPOSIT_AMOUNT: {
       const newState: any = {
         ...state,
@@ -86,60 +92,7 @@ export function reducer(state = initialState, action: swap.Actions): State {
       };
       return newState;
     }
-    case swap.COMPLETE_SWAP: {
-      return {
-        ...state,
-        swapProcess: {
-          ...state.swapProcess,
-          activeStep: 3,
-        },
-      };
-    }
-    case swap.INFORM_INITIATED:
-    case swap.WAIT_FOR_INITIATE_SUCCESS: {
-      return {
-        ...state,
-        swapProcess: {
-          ...state.swapProcess,
-          status: {
-            ...state.swapProcess.status,
-            initiated: SwapSpinners.Completed,
-            participated: SwapSpinners.Active,
-          }
-        }
-      }
-    }
 
-    case swap.WAIT_FOR_PARTICIPATE_SUCCESS:
-    case swap.INFORM_PARTICIPATED: {
-      return {
-        ...state,
-        swapProcess: {
-          ...state.swapProcess,
-          status: {
-            ...state.swapProcess.status,
-            initiated: SwapSpinners.Completed,
-            participated: SwapSpinners.Completed,
-            redeeming: SwapSpinners.Active,
-          }
-        }
-      }
-    }
-    case swap.REDEEM_SUCCESS: {
-      return {
-        ...state,
-        swapProcess: {
-          ...state.swapProcess,
-          status: {
-            ...state.swapProcess.status,
-            initiated: SwapSpinners.Completed,
-            participated: SwapSpinners.Completed,
-            redeeming: SwapSpinners.Completed,
-            done: SwapSpinners.Completed,
-          }
-        }
-      }
-    }
     default: {
       return state;
     }
@@ -151,4 +104,3 @@ export const getDepositCoin = (state: State) => state.swapProcess.depositCoin;
 export const getReceiveCoin = (state: State) => state.swapProcess.receiveCoin;
 export const getLink = (state: State) => state.link;
 export const getActiveStep = (state: State) => state.swapProcess.activeStep;
-export const getSwapStatus = (state: State) => state.swapProcess.status;

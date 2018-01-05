@@ -1,11 +1,11 @@
 <!--{{initiateData | json}}-->
 <h1>Keep for yourself</h1>
-<app-shapeshift-input
+<coin-input
   [disabled]="true"
   [type]="text"
   [ngModel]="initiateData.secret">
   <p class="label">Secret</p>
-</app-shapeshift-input>
+</coin-input>
 
 <h1>To participator</h1>
 <p class="label">Copy this URL and send to second party to participate</p>
@@ -13,7 +13,7 @@
   <input class="url-copy" value="http://altcoin.io/participate/{{participateLink}}"/>
   <p class="input-value">
     <a routerLink="/participate/{{participateLink}}">
-      <i class="fa fa-clone" aria-hidden="true"></i>
+      <i class="material-icons">content_copy</i>
     </a>
   </p>
 </div>

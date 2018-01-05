@@ -1,43 +1,37 @@
-<nav>
+<nav [class.nav-up]="headerHidden">
   <a routerLink="/swap" class="logo">
     <img [src]="altcoinLogo">
   </a>
   <div class="nav-links" fxHide.xs="true">
       <ul>
-        <li><a routerLink="/wallet">Wallet</a></li>
-        <li><a target="_blank" href="https://blog.altcoin.io/">Blog</a></li>
-        <li><a target="_blank" href="https://blog.altcoin.io/worlds-first-atomic-swap-wallet-from-altcoin-io-released-6f1cfc52d1cc">FAQs</a></li>
-        <li><a target="_blank" href="mailto:support@altcoin.io">Contact</a></li>
+        <li><a routerLink="/wallet" routerLinkActive="active" #wallet="routerLinkActive">Wallet</a></li>
+        <li><a routerLink="/swap" routerLinkActive="active" #swap="routerLinkActive">Swap</a></li>
+        <li><a target="noopener" href="https://blog.altcoin.io/">Blog</a></li>
+        <li><a target="noopener" href="https://blog.altcoin.io/atomic-swap-wallet-beta-release-b6e3eef55842">FAQs</a></li>
+        <li><a target="noopener" href="mailto:support@altcoin.io">Contact</a></li>
       </ul>
   </div>
+
 </nav>
-<!-- <div class="mobile-menu" [class.open]="menuOpened">
-  <div class="menu-links" fxLayout="column" fxLayoutAlign="center stretch">
-    <div fxFlex="25%" class="menu-link-item"><a routerLink="/wallet" (click)="closeMenu()">Wallet</a></div>
-    <div fxFlex="25%" class="menu-link-item"><a target="_blank" href="https://blog.altcoin.io/" (click)="closeMenu()">Blog</a></div>
-    <div fxFlex="25%" class="menu-link-item"><a target="_blank" href="https://blog.altcoin.io/worlds-first-atomic-swap-wallet-from-altcoin-io-released-6f1cfc52d1cc" (click)="closeMenu()">FAQs</a></div>
-    <div fxFlex="25%" class="menu-link-item"><a target="_blank" href="mailto:support@altcoin.io" (click)="closeMenu()">Contact</a></div>
-  </div>
-</div> -->
 <div class="tabs" fxHide="true" fxShow.xs="true">
   <nav mat-tab-nav-bar>
+      <a mat-tab-link
+        routerLink="/wallet"
+        routerLinkActive #wallet="routerLinkActive"
+        [active]="wallet.isActive">
+      <i class="material-icons">account_balance_wallet</i>
+    </a>
     <a mat-tab-link
         routerLink="/swap"
         routerLinkActive #swap="routerLinkActive"
         [active]="swap.isActive">
-      Swap
-    </a>
-    <a mat-tab-link
-        routerLink="/wallet"
-        routerLinkActive #wallet="routerLinkActive"
-        [active]="wallet.isActive">
-      Wallet
+      <i class="material-icons md-36">swap_horiz</i>
     </a>
     <a mat-tab-link
         routerLink="/links"
         routerLinkActive #links="routerLinkActive"
         [active]="links.isActive">
-      Links
+      <i class="material-icons">help_outline</i>
     </a>
   </nav>
 </div>
@@ -47,12 +41,12 @@
 <footer>
   <ul>
     <li>
-      <a href="https://t.me/altcoinexchange">
+      <a target="noopener" href="https://t.me/altcoinexchange">
         <i class="fa fa-telegram fa-2x" aria-hidden="true"></i>
       </a>
     </li>
     <li>
-      <a href="https://twitter.com/altcoin_io">
+      <a target="noopener" href="https://twitter.com/altcoin_io">
         <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
       </a>
     </li>

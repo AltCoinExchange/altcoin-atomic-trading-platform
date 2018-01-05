@@ -8,7 +8,9 @@ import {Coin} from '../../models/coins/coin.model';
 })
 export class SwapInputsComponent implements OnInit {
   @Input() depositCoin;
+  @Input() depositUSD;
   @Input() receiveCoin;
+  @Input() receiveUSD;
 
   @Input() receiveQuote;
   @Output() swap: EventEmitter<{ depositCoin: Coin, receiveCoin: Coin }> = new EventEmitter();
@@ -20,8 +22,11 @@ export class SwapInputsComponent implements OnInit {
   ngOnInit() {
   }
 
-  submitSwap() {
-    let model = {
+  submitSwap(disabled) {
+    if (disabled) {
+      return;
+    }
+    const model = {
       depositCoin: this.depositCoin,
       receiveCoin: this.receiveCoin.update({amount: this.receiveQuote}),
     };
@@ -31,9 +36,6 @@ export class SwapInputsComponent implements OnInit {
 
   updateDepositCoinAmount(depositCoinAmount: number) {
     this.depositChange.next(depositCoinAmount);
-    this.depositCoin = {
-      ...this.depositCoin,
-      amount: depositCoinAmount,
-    };
+    this.depositCoin = this.depositCoin.update(depositCoinAmount);
   }
 }

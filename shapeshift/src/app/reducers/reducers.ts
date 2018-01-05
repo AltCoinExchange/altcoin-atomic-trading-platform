@@ -6,6 +6,8 @@ import * as fromWallets from './wallet.reducer';
 import * as fromAudit from './audit.reducer';
 import * as fromQuote from './quote.reducer';
 import * as fromBalance from './balance.reducer';
+import * as fromSideA from './side-a.reducer';
+import * as fromSideB from './side-b.reducer';
 
 export const reducers: ActionReducerMap<AppState> = {
   start: fromStart.reducer,
@@ -14,4 +16,6 @@ export const reducers: ActionReducerMap<AppState> = {
   audit: fromAudit.reducer,
   quote: fromQuote.reducer,
   balance: fromBalance.reducer,
+  sideA: fromSideA.reducer,
+  sideB: fromSideB.reducer,
 };

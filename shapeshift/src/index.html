@@ -2,18 +2,267 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <link rel="manifest" href="assets/manifest.json">
+  <meta name="theme-color" content="#009688">
   <title>Atomic Swap</title>
-  <script src="https://unpkg.com/bigchaindb-driver@0.3.0/dist/browser/bigchaindb-driver.window.min.js"></script>
 
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <style>
+    .sk-cube-grid {
+      width: 40px;
+      height: 40px;
+      margin: 100px auto;
+      background: #9cabbd;
+    }
+
+    .sk-cube-grid .sk-cube {
+      width: 33%;
+      height: 33%;
+      background-color: #1c2431;
+      float: left;
+      -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+      animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+    }
+    .sk-cube-grid .sk-cube1 {
+      -webkit-animation-delay: 0.2s;
+      animation-delay: 0.2s; }
+    .sk-cube-grid .sk-cube2 {
+      -webkit-animation-delay: 0.3s;
+      animation-delay: 0.3s; }
+    .sk-cube-grid .sk-cube3 {
+      -webkit-animation-delay: 0.4s;
+      animation-delay: 0.4s; }
+    .sk-cube-grid .sk-cube4 {
+      -webkit-animation-delay: 0.1s;
+      animation-delay: 0.1s; }
+    .sk-cube-grid .sk-cube5 {
+      -webkit-animation-delay: 0.2s;
+      animation-delay: 0.2s; }
+    .sk-cube-grid .sk-cube6 {
+      -webkit-animation-delay: 0.3s;
+      animation-delay: 0.3s; }
+    .sk-cube-grid .sk-cube7 {
+      -webkit-animation-delay: 0s;
+      animation-delay: 0s; }
+    .sk-cube-grid .sk-cube8 {
+      -webkit-animation-delay: 0.1s;
+      animation-delay: 0.1s; }
+    .sk-cube-grid .sk-cube9 {
+      -webkit-animation-delay: 0.2s;
+      animation-delay: 0.2s; }
+
+    @-webkit-keyframes sk-cubeGridScaleDelay {
+      0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+      } 35% {
+          -webkit-transform: scale3D(0, 0, 1);
+          transform: scale3D(0, 0, 1);
+        }
+    }
+
+    @keyframes sk-cubeGridScaleDelay {
+      0%, 70%, 100% {
+        -webkit-transform: scale3D(1, 1, 1);
+        transform: scale3D(1, 1, 1);
+      } 35% {
+          -webkit-transform: scale3D(0, 0, 1);
+          transform: scale3D(0, 0, 1);
+        }
+    }
+    body {
+      background-color: #1c2431;
+      font-family: Montserrat, sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #9cabbd;
+    }
+
+    nav {
+      position: fixed;
+      padding: 0 15px;
+      right: 0;
+      left: 0;
+      top: 0;
+      z-index: 2;
+      background-color: #2a3141;
+      border: 0;
+      transition: all .2s ease-in-out;
+      height: 60px;
+      box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, .5);
+      -webkit-box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, .5);
+      -moz-box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, .5);
+    }
+
+    .nav-links {
+      height: 100%;
+    }
+
+    .nav-links ul {
+      list-style-type: none;
+      margin: 0;
+      height: 100%;
+      vertical-align: middle;
+      display: table;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .nav-links ul li {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 0 10px;
+    }
+
+    .nav-links ul li a {
+      color: #9cabbd;
+    }
+
+    a.logo {
+      color: #fff !important;
+      font-size: 32px;
+      margin-top: 8px;
+      font-family: Poppins, sans-serif;
+      float: left;
+      cursor: pointer
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a.logo img {
+      height: 35px;
+      margin: 5px 0;
+    }
+
+    .tabs {
+      visibility: hidden;
+    }
+
+    @media (max-width: 600px) {
+      .nav-links {
+        visibility: hidden;
+      }
+
+
+      .tabs {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 2;
+        text-transform: uppercase;
+        font-size: 100%;
+        visibility: visible;
+      }
+
+      .tabs a {
+        color: #9cabbd;
+      }
+
+      .mat-tab-nav-bar {
+        overflow: hidden;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .tabs .mat-tab-nav-bar .mat-tab-links {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .tabs .mat-tab-nav-bar .mat-tab-links .mat-tab-link {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        height: 100%;
+      }
+
+      .mat-tab-link {
+        height: 48px;
+        padding: 0 24px;
+        cursor: pointer;
+        box-sizing: border-box;
+        opacity: .6;
+        text-align: center;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        white-space: nowrap;
+        vertical-align: top;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        font-size: 14px;
+        font-weight: 500;
+        min-width: 72px;
+      }
+
+      .tabs .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+        background-color: #00bfa5;
+      }
+    }
+  </style>
+
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="https://cdn-images-1.medium.com/fit/c/256/256/1*cPF9a9B2ACHbwFQOLlj_iw.png">
+
+  <link rel="icon" type="image/x-icon"
+        href="assets/favicon.ico">
 </head>
 <body>
-  <app>
-  </app>
+<app>
+  <nav>
+    <a class="logo" href="/swap">
+      <img src="assets/icon/altcoin-icon.png">
+    </a>
+    <div class="nav-links" style="display: inline-block;">
+      <ul>
+        <li><a href="/wallet">Wallet</a></li>
+        <li><a href="/swap" class="active">Swap</a></li>
+        <li><a href="https://blog.altcoin.io/" target="noopener">Blog</a></li>
+        <li><a href="https://blog.altcoin.io/worlds-first-atomic-swap-wallet-from-altcoin-io-released-6f1cfc52d1cc"
+               target="noopener">FAQs</a></li>
+        <li><a href="mailto:support@altcoin.io" target="noopener">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="sk-cube-grid">
+    <div class="sk-cube sk-cube1"></div>
+    <div class="sk-cube sk-cube2"></div>
+    <div class="sk-cube sk-cube3"></div>
+    <div class="sk-cube sk-cube4"></div>
+    <div class="sk-cube sk-cube5"></div>
+    <div class="sk-cube sk-cube6"></div>
+    <div class="sk-cube sk-cube7"></div>
+    <div class="sk-cube sk-cube8"></div>
+    <div class="sk-cube sk-cube9"></div>
+  </div>
+  <div class="tabs" style="display: block;">
+    <nav class="mat-tab-nav-bar mat-primary" mat-tab-nav-bar="">
+      <div class="mat-tab-links">
+        <a class="mat-tab-link" aria-disabled="false"
+           tabindex="0" href="/wallet">
+          <i class="material-icons">account_balance_wallet</i>
+        </a>
+        <a class="mat-tab-link mat-tab-label-active" mat-tab-link=""
+           aria-disabled="false" tabindex="0" href="/swap">
+          <i class="material-icons md-36">swap_horiz</i>
+        </a>
+        <a class="mat-tab-link" mat-tab-link="" aria-disabled="false"
+           tabindex="0" href="/links">
+          <i class="material-icons">help_outline</i>
+        </a>
+      </div>
+    </nav>
+  </div>
+</app>
 </body>
 <script>
   (function (i, s, o, g, r, a, m) {

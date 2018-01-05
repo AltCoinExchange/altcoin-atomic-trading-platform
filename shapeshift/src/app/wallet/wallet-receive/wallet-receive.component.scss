@@ -1,0 +1,19 @@
+@import '../../../styles/variables';
+
+.qr-code-image {
+  background: $main-gray;
+  width: 200px;
+  height: 200px;
+  margin: 30px auto auto;
+  padding: 30px;
+  box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  border-radius: 11px;
+  img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+.copy-address{
+  padding: 0px 10px;
+}

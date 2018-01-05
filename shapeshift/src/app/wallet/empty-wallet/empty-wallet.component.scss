@@ -1,0 +1,23 @@
+.container{
+    margin: 10% 0 0 0;
+}
+
+.card{
+    margin: 10px;
+    min-height: 200px;
+    padding: 38px 16px;
+    color: white;
+    text-align: center;
+
+    .card-title{
+        font-size: 125%;
+    }
+
+    .card-text{
+        font-size: 100%;
+    }
+
+    .card-button{
+        width: 80%;
+    }
+}

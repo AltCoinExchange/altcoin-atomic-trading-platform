@@ -17,7 +17,7 @@ export class LoadQuoteAction implements Action {
 export class LoadQuoteSuccessAction implements Action {
   readonly type = LOAD_QUOTE_SUCCESS;
 
-  constructor(public payload: Quote[]) {
+  constructor(public payload: Quote[] | Quote) {
   }
 }
 

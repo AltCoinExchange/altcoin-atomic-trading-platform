@@ -2,8 +2,11 @@ import {Action} from '@ngrx/store';
 import {InformInitiatedDataModel} from "../models/inform-initiated-data.model";
 import {InformParticipatedDataModel} from "../models/inform-participated-data.model";
 import {ParticipateData} from "../models/factory-participated-data";
+import { Coin } from '../models/coins/coin.model';
 
 export const SWAP_DEPOSIT_RECEIVE_COINS = 'SWAP_DEPOSIT_RECEIVE_COINS';
+export const SET_DEPOSIT_COIN = "SET_DEPOSIT_COIN";
+export const SET_RECEIVE_COIN = "SET_RECEIVE_COIN";
 export const START_SWAP = 'START_SWAP';
 export const SET_LINK = 'SET_LINK';
 export const WAIT_FOR_INITIATE = 'WAIT_FOR_INITIATE';
@@ -24,6 +27,22 @@ export const REDEEM_SUCCESS = 'REDEEM_SUCCESS';
 
 export class SwapDepositReceiveCoinsAction implements Action {
   readonly type = SWAP_DEPOSIT_RECEIVE_COINS;
+}
+
+export class setDepositCoinAction implements Action {
+  readonly type = SET_DEPOSIT_COIN;
+
+  constructor(public payload: Coin) {
+    
+  }
+}
+
+export class setReceiveCoinAction implements Action {
+  readonly type = SET_RECEIVE_COIN;
+  
+  constructor(public payload: Coin) {
+    
+  }
 }
 
 export class StartSwapAction implements Action {
@@ -133,6 +152,8 @@ export class RedeemSuccessAction implements Action {
 
 export type Actions =
   SwapDepositReceiveCoinsAction
+  | setDepositCoinAction
+  | setReceiveCoinAction
   | StartSwapAction
   | SetLinkAction
   | SetActiveStepAction

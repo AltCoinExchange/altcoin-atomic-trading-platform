@@ -1,16 +1,15 @@
-<div class="row bs-wizard" style="border-bottom:0;">
-
-    <div *ngFor="let step of steps" class="bs-wizard-step"
-        [class.active]="step.value == ($activeStep | async)"
-        [class.complete]="step.value < ($activeStep | async)"
-        [class.disabled]="step.value > ($activeStep | async)">
-        <div class="text-center bs-wizard-stepnum">
-           <p class="label" [class.active]="step.value == ($activeStep | async)">{{step.title}}</p> 
-        </div>
-        <div class="progress">
-        <div class="progress-bar"></div>
-        </div>
-        <a href="#" class="bs-wizard-dot"></a>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="input-label">Please wait until the swap is complete</div>
+    <div *ngIf="progress == undefined" class="input-label blink">INITIATING</div>
+    <div *ngIf="progress == SwapProgress.Initiated" class="input-label blink">PARTICIPATING</div>
+    <div *ngIf="progress == SwapProgress.Participated" class="input-label blink">REDEEMING</div>
+    <div *ngIf="progress == SwapProgress.Redeemed" class="input-label">DONE</div>
+</div>
+<div class="progress" >
+    <div class="progress-bar"
+        [class.start]="progress == undefined" 
+        [class.initiated]="progress == SwapProgress.Initiated" 
+        [class.participated]="progress == SwapProgress.Participated"
+        [class.redeemed]="progress == SwapProgress.Redeemed">
     </div>
-
 </div>

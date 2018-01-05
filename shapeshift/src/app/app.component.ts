@@ -1,80 +1,55 @@
-import {Component, OnInit, ViewEncapsulation,} from '@angular/core';
-import * as wallet from 'wallet';
-import {Store} from '@ngrx/store';
-import {AppState} from './reducers/app.state';
-import * as walletAction from './actions/wallet.action';
-import * as quoteAction from './actions/quote.action';
-import {BtcWalletModel} from './models/wallets/btc-wallet.model';
-import {EthWalletModel} from "./models/wallets/eth-wallet.model";
+import {Component, HostListener, OnInit, ViewEncapsulation} from "@angular/core";
+import {Store} from "@ngrx/store";
+import * as quoteAction from "./actions/quote.action";
+import {AppState} from "./reducers/app.state";
+import {AccountHelper} from "./common/account-helper";
 import {ShapeshiftStorage} from "./common/shapeshift-storage";
-import {MoscaService} from "./services/mosca.service";
-import {environment} from "../environments/environment";
-
-import {RouterLink} from '@angular/router';
-// import * as mqtt from 'mqtt';
 
 
 @Component({
-  selector: 'app',
+  selector: "app",
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
-    './app.component.scss',
+    "./app.component.scss"
   ],
-  templateUrl: './app.component.html',
+  templateUrl: "./app.component.html"
 })
 export class AppComponent implements OnInit {
-  public altcoinLogo = 'assets/icon/altcoin-icon.png';
+  public altcoinLogo = "assets/icon/altcoin-icon.png";
+  headerHidden = false;
+  private didScroll = false;
 
-  constructor(private store: Store<AppState>, private moscaService: MoscaService) {
-    let codes;
-    if (environment.production) {
-    codes = wallet.Wallet.code;
-    } else {
-      codes = {
-        phrase: "away stomach fire police satoshi wire entire awake dilemma average town napkin"
-      };
-    }
-
-    this.generateBtcWallet(codes);
-    this.generateEthWallet(codes);
-
+  constructor(private store: Store<AppState>) {
     this.store.dispatch(new quoteAction.LoadQuoteAction());
+    const xprivKey = ShapeshiftStorage.get("btcprivkey");
+    if (xprivKey) {
+      AccountHelper.generateWalletsFromPrivKey(this.store);
+    }
+  }
+
+  @HostListener("window:scroll", ["$event"])
+  onScrollEvent($event) {
+    this.didScroll = true;
   }
 
   public ngOnInit() {
-
+    this.hideHeaderOnScroll();
   }
 
-  private generateBtcWallet(codes: any) {
-    const xprivKey = ShapeshiftStorage.get('xprivkey');
-    if (!xprivKey) {
-      const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
-      btc.generateHDPrivateKey();
-
-      const btcWallet = {
-        xprivkey: btc.hdPrivateKey.xprivkey,
-        wif: btc.hdPrivateKey.privateKey.toWIF(),
-      } as BtcWalletModel;
-
-      this.store.dispatch(new walletAction.SetBtcWalletAction(btcWallet));
-    }
+  private hideHeaderOnScroll() {
+    let lastScrollTop = 0;
+    const delta = 5;
+    const navbarHeight = 60;
+    setInterval(() => {
+      if (this.didScroll) {
+        const st = window.scrollY;
+        if (Math.abs(lastScrollTop - st) <= delta) {
+          return;
+        }
+        this.headerHidden = st > lastScrollTop && st > navbarHeight;
+        lastScrollTop = st;
+        this.didScroll = false;
+      }
+    }, 250);
   }
-
-  private generateEthWallet(codes: any) {
-    const ethprivkey = ShapeshiftStorage.get('ethprivkey');
-    if (!ethprivkey) {
-      const btc = new wallet.Wallet.Bitcoin.BtcWallet(codes.phrase);
-      btc.generateHDPrivateKey();
-      const eth = new wallet.Wallet.Ethereum.EthWallet;
-      const privateKey = btc.hdPrivateKey.xprivkey.toString();
-      const ethWallet = {
-        privateKey: privateKey,
-        keystore: eth.recover(privateKey, "")
-      } as EthWalletModel;
-
-      this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
-
-    }
-  }
-
 }

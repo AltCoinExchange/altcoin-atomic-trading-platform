@@ -2,11 +2,12 @@
 
 .info-message{
     color: white;
-    border-radius: 2px;
+    border-radius: 11px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
     text-align: center;
-    font-weight: 400;
     padding: 2px 15px;
-    font-size: 12px;
+    font-size: 100%;
 }
 
 .info{

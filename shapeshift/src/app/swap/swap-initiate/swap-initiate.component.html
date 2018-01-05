@@ -1,7 +1,4 @@
 <div class="swap-initiate form">
-  <div class="swap-initiate form-header">
-    <p>You are exchanging currency</p>
-  </div>
   <div class="swap-initiate form-content">
     <p style="color: red;">{{$errorInitiate | async}}</p>
     <div *ngIf="!($initiateData | async)">
@@ -10,37 +7,40 @@
         [toCoin]="depositCoin"
         [swapEnabled]="false">
       </app-swap-icon>
-      <!-- <mat-spinner *ngIf="($loading | async)" style="left: 38%;"></mat-spinner> -->
-      <!-- <div *ngIf="!($loading | async)"> -->
-        <div class="swap-amounts" fxLayout="column" fxLayoutAlign="center start">
-          <div class="swap-give"
-            fxLayout.gt-xs="row"
-            fxLayoutAlign.gt-xs="space-between center"
-            fxLayout.xs="column"
-            fxLayoutAlign.xs="center flex-start">
-            <div><p class="label">You are giving</p></div>
-            <div><p class="label red big-font">{{receiveCoin.amount}} {{receiveCoin.name}}</p></div>
-          </div>
-          <div class="swap-receive"
-            fxLayout.gt-xs="row"
-            fxLayoutAlign.gt-xs="space-between center"
-            fxLayout.xs="column"
-            fxLayoutAlign.xs="center flex-start">
-            <p class="label">You are getting</p>
-            <p class="label green big-font">{{depositCoin.amount}} {{depositCoin.name}}</p>
-          </div>
+      <div class="spinner" *ngIf="($loading | async)">
+        <div class="circle-loader" [ngClass]="{'load-complete' : !($loading | async)}">
+          <div [hidden]="($loading | async)" class="checkmark draw"></div>
         </div>
+      </div>
+      <div class="swap-inputs" fxLayout="row" fxLayout.xs="column">
+        <div fxFlex="33" fxFlex.xs="1">
+          <coin-input [label]="'You are giving'" [coin]="receiveCoin"
+              [(ngModel)]="receiveCoin.amount" disabled>
+          </coin-input>
+          <coin-input [coin]="receiveCoin"
+            [ngModel]="($depositUSD | async)" usd="true" disabled>
+          </coin-input>
+        </div>
+        <div fxFlex="33" fxFlex.xs="1">
+        </div>
+        <div fxFlex="33" fxFlex.xs="1">
+            <coin-input [label]="'You are getting'" [coin]="depositCoin"
+            [(ngModel)]="depositCoin.amount" disabled>
+            </coin-input>
+            <coin-input [coin]="depositCoin"
+            [ngModel]="($receiveUSD | async)" usd="true" disabled>
+          </coin-input>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="center stretch">
+        <div fxFlex="25" fxFlex.xs="1" class="start-button">
+          <app-shapeshift-button (click)="startInitiate()">Agree</app-shapeshift-button> 
+        </div>
+      </div>
         <!-- <redeem-address [coin]="depositCoin"></redeem-address> -->
-        <app-shapeshift-button (click)="startInitiate()">
-          Agree
-        </app-shapeshift-button>
-        <div class="message-box">
-        <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
-        </div>
-      <!-- </div> -->
     </div>
-  </div>
-  <div class="swap-initiate form-footer">
-          <p>BTC miner fee: 0.0001 BTC</p>
+    <div class="message-box">
+    <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+    </div>
   </div>
 </div>

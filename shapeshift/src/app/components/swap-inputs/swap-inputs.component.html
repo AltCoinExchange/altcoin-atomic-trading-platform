@@ -1,11 +1,29 @@
-<div class="swap-inputs">
-  <app-shapeshift-input [coin]="depositCoin"
-                        (ngModelChange)="updateDepositCoinAmount($event)"
-                        [(ngModel)]="depositCoin.amount">
-  </app-shapeshift-input>
-  <!-- <redeem-address [coin]="receiveCoin"></redeem-address> -->
-  <app-shapeshift-button (click)="submitSwap()">Start</app-shapeshift-button>
-  <div class="swap-receive">
-    <p class="label">You are getting <span class="green big-font">{{receiveQuote}} {{receiveCoin.name}}</span></p>
+<div class="swap-inputs" fxLayout="row" fxLayout.xs="column">
+  <div fxFlex="33" fxFlex.xs="1">
+    <coin-input #depCoin [label]="'You are exchanging'" [coin]="depositCoin"
+                [ngModel]="depositCoin.amount" (ngModelChange)="updateDepositCoinAmount($event)">
+    </coin-input>
+    <coin-input [coin]="depositCoin"
+                [ngModel]="depositUSD" usd="true" disabled>
+    </coin-input>
+  </div>
+  <div fxFlex="33" fxFlex.xs="1">
+  </div>
+  <div fxFlex="33" fxFlex.xs="1">
+    <coin-input [label]="'You are getting'" [coin]="receiveCoin"
+                [ngModel]="receiveQuote" disabled>
+    </coin-input>
+    <coin-input [coin]="receiveCoin"
+                [ngModel]="receiveUSD" usd="true" disabled>
+    </coin-input>
   </div>
 </div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="center stretch">
+  <div fxFlex="25" fxFlex.xs="1" class="start-button">
+    <app-shapeshift-button [disabled]="!depCoin.value || +depCoin.value === 0 || depCoin.value === '0'"
+                           (click)="submitSwap(!depCoin.value || +depCoin.value === 0 || depCoin.value === '0')">
+      Start
+    </app-shapeshift-button>
+  </div>
+</div>
+<!-- <redeem-address [coin]="receiveCoin"></redeem-address> -->

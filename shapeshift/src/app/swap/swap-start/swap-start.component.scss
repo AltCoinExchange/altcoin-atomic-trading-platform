@@ -1,0 +1,17 @@
+@import '../../../styles/variables';
+
+.swap-start{
+    text-align: center;
+
+    .message-box{
+        margin-top: 15px;
+    }
+
+    &.form{
+        position: relative;
+    }
+    
+}
+
+
+

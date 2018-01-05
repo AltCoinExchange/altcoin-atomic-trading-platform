@@ -1,19 +1,7 @@
 <div class="form">
-  <div class="swap-start form-header">
-    <p>Please wait until the swap is complete</p>
-  </div>
   <div class="form-content">
-    <div fxLayout="column" fxLayoutAlign="center start" class="swap-steps" fxFlex.gt-xs="50%" fxFlex.xs="100%">
-      <app-shapeshift-status-spinner [status]="($status | async)?.initiated"
-                                     text="INITIATED"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="($status | async)?.participated"
-                                     text="PARTICIPATED"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="($status | async)?.redeeming"
-                                     text="REDEEMING"></app-shapeshift-status-spinner>
-      <app-shapeshift-status-spinner [status]="($status | async)?.done" text="DONE"></app-shapeshift-status-spinner>
+    <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="100%">
+      <progress-bar [progress]="progress"></progress-bar>
     </div>
-  </div>
-  <div class="form-footer">
-    <p>BTC miner fee: 0.001 BTC</p>
   </div>
 </div>

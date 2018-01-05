@@ -1,13 +1,11 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'variables';
 @import 'helpers';
 @import 'loader';
-@import 'nav-menu';
 @import 'tabs';
+@import 'icons';
+@import 'material';
 
-$fa-font-path: "../../node_modules/font-awesome/fonts";
-@import "../../node_modules/font-awesome/scss/font-awesome.scss";
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400');
 
 html,
 body {
@@ -18,17 +16,20 @@ body {
 
 body {
   background-color: $background-color;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
   font-size: 14px;
   line-height: 1.42857143;
   color: $text-color;
 }
 
 @media only screen and (max-width: 600px) {
-     body { 
-        font-size: 12px; 
+     body {
+        font-size: 12px;
      }
 }
+
+button:focus {outline:0;}
 
 input[type='number'] {
   -moz-appearance:textfield;
@@ -39,10 +40,10 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-::-webkit-input-placeholder { 
+::-webkit-input-placeholder {
   color: $text-color;
 }
-:-moz-placeholder { 
+:-moz-placeholder {
  color:  $text-color;
  opacity:  1;
 }
@@ -50,25 +51,25 @@ input::-webkit-inner-spin-button {
  color:  $text-color;
  opacity:  1;
 }
-:-ms-input-placeholder { 
+:-ms-input-placeholder {
  color:  $text-color;
 }
-::-ms-input-placeholder { 
+::-ms-input-placeholder {
  color:  $text-color;
 }
 
-input:focus::-webkit-input-placeholder { 
-  color:transparent; 
+input:focus::-webkit-input-placeholder {
+  color:transparent;
 }
-input:focus:-moz-placeholder { 
-  color:transparent; 
-} 
-input:focus::-moz-placeholder { 
-  color:transparent; 
-} 
-input:focus:-ms-input-placeholder { 
-  color:transparent; 
-} 
+input:focus:-moz-placeholder {
+  color:transparent;
+}
+input:focus::-moz-placeholder {
+  color:transparent;
+}
+input:focus:-ms-input-placeholder {
+  color:transparent;
+}
 
 a{
   text-decoration: none;
@@ -79,9 +80,24 @@ a{
   color: $text-color;
 }
 
+.card{
+  background: $main-gray;
+  border-radius: 11px;
+  -webkit-border-radius: 11px;
+  -moz-border-radius: 11px;
+  box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+}
+
 .input-box{
-  background-color: $second-gray;
-  border: 1px solid $border-color;
+  background: $main-gray;
+  border-radius: 11px;
+  -webkit-border-radius: 11px;
+  -moz-border-radius: 11px;
+  box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+  -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
   margin-bottom: 15px;
   display: flex;
 
@@ -90,17 +106,24 @@ a{
     font-size: 100%;
     margin: 0px;
     padding: 10px;
-    background-color: $second-gray;
-    color: $text-color;
+    background-color: $main-gray;
+    color: white;
     text-align: center;
     border: none;
     border-style: none;
-    font-weight: 400;
+    border-radius: 11px;
     width: 70px;
+    min-height: 40px;
   }
   input:focus{
     outline: none;
   }
+}
+
+.input-label{
+  color: white;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 .label{
@@ -108,45 +131,17 @@ a{
   text-transform: uppercase;
   margin: 6px 0px;
   font-size: 12px;
-  font-weight: 600;
 
   &.active{
-    color: $main-blue;
+    color: white;
   }
 
 }
 
 .form{
-  background-color: $main-gray;
-  border: 1px solid $border-color;  
-
-  .form-header{
-    background-color: $second-gray;
-    border-bottom: 1px solid $border-color;  
-    padding: 20px 5px;
-    text-align: center;
-    p{
-        font-size: 100%;
-        font-weight: 500;
-        margin: 0px;
-    }
-  }
-
   .form-content{
-    padding: 5% 8%;
+    padding: 5%;
   }
-
-  .form-footer{
-    border-top: 1px solid $border-color;  
-    background-color: $second-gray;
-    padding: 10px 0px;
-    p{
-        margin: 0px;
-        text-align: center;
-        font-size: 85%;
-    }
-  }
-
 }
 
 .qr-code {
@@ -161,13 +156,34 @@ a{
   flex: 0 1 auto;
   display: inline;
   margin-right: 10px;
-  font-size: 16px;
   font-weight: 600;
   a{
     cursor: pointer;
-  }
-  .fa{
-    color: $link-blue;
+    color: white;
   }
 }
 
+.gradient{
+  background-image: radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
+  background-image: -webkit-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
+  background-image: -o-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
+  background-image: -moz-radial-gradient(50% 218%, $main-gray 50%, $background-color 100%);
+}
+
+.all-coins-dialog {
+  width: 100%;
+  height: 100%;
+}
+
+.overlay{
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+}

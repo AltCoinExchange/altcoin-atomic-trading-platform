@@ -1,7 +1,7 @@
 import {HostBinding} from '@angular/core';
 
 export class AnimationEnabledComponent {
-  @HostBinding('@flyInOut') state = 'in';
+  @HostBinding('@flyInOut') state = 'flyInOut';
   @HostBinding('style.display') display = 'block';
 
   formFlyOut(){
