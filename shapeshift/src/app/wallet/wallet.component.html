@@ -36,7 +36,7 @@
           <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
           </div>
           <div class="coin-usd">{{ (coin.$amountUSD | async) || 0 }} USD</div>
-          <a class="faucet-button" mat-button href="#">Faucet</a>
+          <a class="faucet-button" mat-button color="accent" href="#">Get Tokens</a>
         </div>
       </div>
     </a>
