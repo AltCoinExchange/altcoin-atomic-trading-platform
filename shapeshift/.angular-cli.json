@@ -20,8 +20,7 @@
       "prefix": "app",
       "serviceWorker": true,
       "styles": [
-        "styles/styles.scss",
-        "../node_modules/font-awesome/css/font-awesome.css"
+        "styles/styles.scss"
       ],
       "scripts": [
         "../qrcode/qrcode.min.js"
