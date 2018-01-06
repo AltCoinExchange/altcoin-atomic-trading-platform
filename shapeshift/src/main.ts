@@ -20,6 +20,9 @@ console.log("START", t0);
 
 if (environment.production) {
   enableProdMode();
+}
+
+if (!environment.console) {
   window.console.log = function () {
   };
 }
