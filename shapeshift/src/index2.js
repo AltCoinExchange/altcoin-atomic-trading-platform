@@ -1,18 +1,21 @@
 var fs = require('fs');
 const hapi = require('hapi');
 const Inert = require('inert');
-const Path = require('path');
 
 var http2 = require('http2');
 var options = {
-  key: fs.readFileSync(__dirname + '/server.key'),
-  cert: fs.readFileSync(__dirname + '/server.crt'),
+  key: fs.readFileSync('/etc/letsencrypt/live/stagingswap.altcoin.io/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/stagingswap.altcoin.io/fullchain.pem'),
 };
+// var options = {
+//   key: fs.readFileSync(__dirname + '/privkey.pem'),
+//   cert: fs.readFileSync(__dirname + '/fullchain.pem'),
+// };
 
 
-const server = new hapi.Server({
+var server = new hapi.Server({
   listener: http2.createSecureServer(options),
-  host: 'localhost',
+  host: '0.0.0.0',
   port: 5000,
   tls: true
 });
