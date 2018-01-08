@@ -22,9 +22,7 @@ export class BalanceEffect {
   getBtcBalance: Observable<Action> = this.actions$
     .ofType(balanceAction.GET_BTC_BALANCE)
     .flatMap(() => {
-        if (!this.btcWallet) {
-          this.init();
-        }
+        this.init();
         const address = this.btcWallet.address;
         return Observable.fromPromise(this.btcInstance.getbalance(address)).map(balance => {
           return new balanceAction.GetBtcBalanceSuccessAction({address, balance});
@@ -36,9 +34,7 @@ export class BalanceEffect {
   getEthBalance: Observable<Action> = this.actions$
     .ofType(balanceAction.GET_ETH_BALANCE)
     .flatMap(() => {
-        if (!this.ethWallet) {
-          this.init();
-        }
+        this.init();
         const address = this.ethWallet.address;
         return Observable.fromPromise(this.ethInstance.getbalance(address)).map(balance => {
           const result = {
@@ -52,9 +48,7 @@ export class BalanceEffect {
   getBalance: Observable<Action> = this.actions$
     .ofType(balanceAction.GET_REP_BALANCE)
     .flatMap(() => {
-        if (!this.ethWallet) {
-          this.init();
-        }
+        this.init();
         const address = this.ethWallet.address;
         const token = this.ethInstance.getERC20Token(TOKENS.AUGUR);
         return Observable.fromPromise(token.balanceOf(address)).map(balance => {
@@ -70,9 +64,7 @@ export class BalanceEffect {
     .ofType(balanceAction.GET_TOKEN_BALANCE)
     .map(toPayload)
     .flatMap((payload) => {
-        if (!this.ethWallet) {
-          this.init();
-        }
+        this.init();
         const address = this.ethWallet.address;
         const token = this.ethInstance.getERC20Token(payload.token);
         return Observable.fromPromise(token.balanceOf(address)).map(balance => {
@@ -98,6 +90,5 @@ export class BalanceEffect {
       this.btcInstance = btcInstance;
       this.btcWallet = btcWallet;
     }
-    console.log("BalanceEffect initialized");
   }
 }

@@ -14,9 +14,6 @@
     </mat-expansion-panel-header>
     <mat-form-field *ngIf="hadPassword">
       <input type="password" [(ngModel)]="password" matInput placeholder="Please provide your password!">
-      <mat-hint>
-        Skip if you YOLO'ed
-      </mat-hint>
     </mat-form-field>
     <mat-card *ngIf="dumpedResult">
       <p style="max-width: 400px;">
@@ -33,7 +30,7 @@
 <h2 class="text">Are you sure?</h2>
 <mat-form-field *ngIf="hadPassword">
   <input type="password" [(ngModel)]="confirmPassword" matInput placeholder="Please provide your password!">
-  <mat-hint>
+  <mat-hint class="text">
     Confirm with your password
   </mat-hint>
 </mat-form-field>
