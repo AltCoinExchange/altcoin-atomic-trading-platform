@@ -1,4 +1,5 @@
-<nav [class.nav-up]="headerHidden">
+<mat-toolbar [class.nav-up]="headerHidden">
+
   <a routerLink="/swap" class="logo">
     <img [src]="altcoinLogo">
   </a>
@@ -12,7 +13,15 @@
     </ul>
   </div>
 
-</nav>
+  <span class="app-toolbar-filler"></span>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="logout()"> Logout</button>
+  </mat-menu>
+
+  <button *ngIf="hasAcc" class="menu-button" mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
 <main>
   <div *ngIf="routerLoading" class="sk-cube-grid">
     <div class="sk-cube sk-cube1"></div>
@@ -25,7 +34,6 @@
     <div class="sk-cube sk-cube8"></div>
     <div class="sk-cube sk-cube9"></div>
   </div>
-
   <router-outlet>
   </router-outlet>
 </main>
