@@ -110,7 +110,7 @@
 
 .options-slide{
     width: 100%;
-    padding: 15px;
+    padding: 15px 10px;
     overflow-x: auto;
     white-space: nowrap;
     margin-bottom: 3%;
@@ -160,6 +160,12 @@
     margin-bottom: 60px;
     text-align: center;
 }
+
+@media (max-width: 600px) {
+    .wallet-content{
+        margin-bottom: 0px;
+    }
+  }
 
 .start-button{
     margin-top: 15px;
