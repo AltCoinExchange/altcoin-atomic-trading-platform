@@ -2,14 +2,13 @@ import {environment} from "../../environments/environment";
 
 export class RC4 {
   static encDec(key: string, str: string) {
-    const b = true;
-    if (b) {
+    if (!environment.encryptData) {
       return str;
     }
     if (str === null) {
-      str = '';
+      str = "";
     }
-    let s = [], j = 0, x, res = '';
+    let s = [], j = 0, x, res = "";
     for (var i = 0; i < 256; i++) {
       s[i] = i;
     }

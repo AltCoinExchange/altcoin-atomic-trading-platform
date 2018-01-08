@@ -7,6 +7,17 @@ import {BitcoinWallet, FreshBitcoinWallet} from "altcoinio-wallet";
 import * as walletAction from "../../actions/wallet.action";
 import {MessageTypes} from "../../models/message-types.enum";
 import {AccountHelper} from "../../common/account-helper";
+import {RC4} from "../../common/rc4";
+
+class Node {
+  public elem;
+  public next;
+
+  constructor(elem) {
+    this.elem = elem;
+    this.next = null;
+  }
+}
 
 @Component({
   selector: "app-import-wallet",
@@ -20,9 +31,11 @@ export class ImportWalletComponent implements OnInit {
   hasError = false;
   messageTypes: typeof MessageTypes = MessageTypes;
   scaleInOut = "scaleInOut";
-  cardVisible = true;
+  cardVisible = false;
+  passwordCardVisible = true;
   words;
-
+  pw;
+  pwRepeat;
   easterEggCombination = [
     {correct: false, value: 38},
     {correct: false, value: 38},
@@ -97,6 +110,24 @@ export class ImportWalletComponent implements OnInit {
     });
   }
 
+  submitPassword() {
+    const encPassword = RC4.encDec(this.pw, this.pw);
+    localStorage.setItem("PW", encPassword);
+    this.changeCard();
+  }
+
+  skip() {
+    localStorage.setItem("PW", "KLJUC");
+    this.changeCard();
+  }
+
+  private changeCard() {
+    this.passwordCardVisible = false;
+    setTimeout(() => {
+      this.cardVisible = true;
+    }, 1000);
+  }
+
   private createBtcWallet(codes: any) {
     const btc = new BitcoinWallet();
     const wallet = new FreshBitcoinWallet(codes.phrase);
@@ -113,16 +144,6 @@ export class ImportWalletComponent implements OnInit {
 
   private concatPhrase() {
     return this.words.map(word => word.value).join(" ");
-  }
-}
-
-class Node {
-  public elem;
-  public next;
-
-  constructor(elem) {
-    this.elem = elem;
-    this.next = null;
   }
 }
 

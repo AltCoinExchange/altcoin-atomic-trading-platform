@@ -2,15 +2,20 @@ import {RC4} from "./rc4";
 
 export class ShapeshiftStorage {
   static set(key: string, value: string) {
-    const encryptedKey = RC4.encDec('KLJUC', key);
-    const encryptedData = RC4.encDec('KLJUC', value);
+    const decrKey = localStorage.getItem("PW");
+    const encryptedKey = RC4.encDec(decrKey, key);
+    const encryptedData = RC4.encDec(decrKey, value);
     localStorage.setItem(encryptedKey, encryptedData);
   }
 
   static get(key: string) {
-    const encryptedKey = RC4.encDec('KLJUC', key);
+    let decrKey = localStorage.getItem("PW");
+    if (!decrKey) {
+      decrKey = "KLJUC";
+    }
+    const encryptedKey = RC4.encDec(decrKey, key);
     const encrytpedData = localStorage.getItem(encryptedKey);
-    const decryptedData = RC4.encDec('KLJUC', encrytpedData);
+    const decryptedData = RC4.encDec(decrKey, encrytpedData);
     return decryptedData;
   }
 }

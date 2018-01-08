@@ -1,6 +1,4 @@
 import {NgModule} from "@angular/core";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpModule} from "@angular/http";
 import {EffectsModule} from "@ngrx/effects";
 
 import {RouterStateSerializer, StoreRouterConnectingModule} from "@ngrx/router-store";
@@ -9,7 +7,6 @@ import {AppRoutingModule} from "./app-routing.module";
 
 import {AppComponent} from "./app.component";
 import {CustomRouterStateSerializer} from "./common/util";
-import {BalanceEffect} from "./effects/balance.effect";
 import {RouterEffects} from "./effects/router.effect";
 import {metaReducers} from "./reducers/index";
 import {reducers} from "./reducers/reducers";
@@ -19,17 +16,13 @@ import {reducers} from "./reducers/reducers";
     AppComponent
   ],
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     AppRoutingModule,
-    HttpModule,
     StoreRouterConnectingModule,
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
     EffectsModule.forRoot([
       RouterEffects,
-      BalanceEffect,
     ]),
   ],
   providers: [
@@ -37,4 +30,7 @@ import {reducers} from "./reducers/reducers";
   ]
 })
 export class AppModule {
+  constructor() {
+    console.log("app module", performance.now());
+  }
 }

@@ -1,6 +1,6 @@
 @import '../../../styles/variables';
 
-nav {
+mat-toolbar {
   position: fixed;
   padding: 0px 15px;
   right: 0;
@@ -100,4 +100,97 @@ footer {
       }
     }
   }
+}
+
+
+
+
+
+@media (max-width: 600px) {
+  .nav-links {
+    visibility: hidden;
+  }
+
+
+  .tabs {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 2;
+    text-transform: uppercase;
+    font-size: 100%;
+    visibility: visible;
+  }
+
+  .tabs a {
+    color: #9cabbd;
+  }
+
+  .mat-tab-nav-bar {
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .tabs .mat-tab-nav-bar .mat-tab-links {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .tabs .mat-tab-nav-bar .mat-tab-links .mat-tab-link {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    height: 100%;
+  }
+
+  .mat-tab-link {
+    height: 48px;
+    padding: 0 24px;
+    cursor: pointer;
+    box-sizing: border-box;
+    opacity: .6;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    vertical-align: top;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 72px;
+  }
+
+  .tabs .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: #00bfa5;
+  }
+}
+
+.app-toolbar-filler {
+  flex: 1 1 auto;
+}
+
+.menu-button {
+  box-shadow: none;
+  user-select: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  filter: none;
+  font-weight: normal;
+  height: auto;
+  line-height: inherit;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  color: #9cabbd;
 }

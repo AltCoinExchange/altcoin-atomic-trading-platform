@@ -1,4 +1,8 @@
 import {Component, HostListener, OnInit} from "@angular/core";
+import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
+import {MatDialog} from "@angular/material";
+import {LogoutDialogComponent} from "../logout-dialog/logout-dialog.component";
+import {ShapeshiftStorage} from "../../common/shapeshift-storage";
 
 @Component({
   selector: "app",
@@ -8,9 +12,34 @@ import {Component, HostListener, OnInit} from "@angular/core";
 export class StartComponent implements OnInit {
   public altcoinLogo = "assets/icon/altcoin-icon.png";
   headerHidden = false;
+  routerLoading;
   private didScroll = false;
 
-  constructor() {
+  hasAcc = ShapeshiftStorage.get("btcprivkey");
+
+  constructor(private router: Router, private dialog: MatDialog) {
+    router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        // Show loading indicator
+        this.routerLoading = true;
+      }
+
+      if (event instanceof NavigationEnd) {
+        // Hide loading indicator
+        this.routerLoading = false;
+      }
+
+      if (event instanceof NavigationError) {
+        // Hide loading indicator
+        // Present error to user
+        this.routerLoading = false;
+      }
+      if (event instanceof NavigationCancel) {
+        // Hide loading indicator
+        // Present error to user
+        this.routerLoading = false;
+      }
+    });
   }
 
 
@@ -21,6 +50,14 @@ export class StartComponent implements OnInit {
 
   public ngOnInit() {
     this.hideHeaderOnScroll();
+  }
+
+  logout() {
+    const logoutRef = this.dialog.open(LogoutDialogComponent);
+    logoutRef.afterClosed().filter(result => result).subscribe(result => {
+      localStorage.clear();
+      this.router.navigate(["/wallet/empty"]);
+    });
   }
 
   private hideHeaderOnScroll() {
@@ -39,5 +76,4 @@ export class StartComponent implements OnInit {
       }
     }, 250);
   }
-
 }

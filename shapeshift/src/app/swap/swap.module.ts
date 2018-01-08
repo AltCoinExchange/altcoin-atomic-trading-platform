@@ -12,7 +12,7 @@ import {SideAEffect} from "../effects/side-A.effect";
 import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
 import {SideBEffect} from "../effects/side-B.effect";
-
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   imports: [
@@ -33,12 +33,13 @@ import {SideBEffect} from "../effects/side-B.effect";
       ]
       }
     ]),
+    HttpModule,
     ShapeShiftCommonModule,
     FlexLayoutModule,
     FormsModule,
     EffectsModule.forFeature([
       SideAEffect,
-      SideBEffect
+      SideBEffect,
     ]),
   ],
   declarations: [

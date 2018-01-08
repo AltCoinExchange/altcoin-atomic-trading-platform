@@ -15,26 +15,24 @@ import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {environment} from "./environments/environment";
 import {StartModule} from "./app/start/start.module";
 
-console.log("START");
 const t0 = performance.now();
+console.log("START", t0);
 
 if (environment.production) {
   enableProdMode();
-  // window.console.log = function () {
-  // };
+}
+
+if (!environment.console) {
+  window.console.log = function () {
+  };
 }
 
 platformBrowserDynamic().bootstrapModule(StartModule)
   .then(() => {
     const t1 = performance.now();
-    console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
+    console.log("Call to doSomething took " + (t1 - t0) + " milliseconds. at ", performance.now());
 
     if (environment.production && "serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/ngsw-worker.js").then(resp => {
-        console.log(resp);
-      }).catch(err => {
-        console.error(err);
-      });
+      navigator.serviceWorker.register("/ngsw-worker.js");
     }
-  })
-  .catch(err => console.log(err));
+  }).catch(err => console.log(err));
