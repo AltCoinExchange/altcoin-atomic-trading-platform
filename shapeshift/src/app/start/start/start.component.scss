@@ -35,7 +35,7 @@ main {
 a.logo {
   color: #ffffff !important;
   font-size: 32px;
-  margin-top: 8px;
+  margin-top: 5px;
   font-family: 'Poppins', sans-serif;
   float: left;
   cursor: pointer;
@@ -102,15 +102,10 @@ footer {
   }
 }
 
-
-
-
-
 @media (max-width: 600px) {
   .nav-links {
     visibility: hidden;
   }
-
 
   .tabs {
     position: fixed;
