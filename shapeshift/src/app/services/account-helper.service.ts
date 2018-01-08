@@ -23,9 +23,7 @@ export class AccountHelperService {
   }
 
   public generateWalletsFromPrivKey() {
-    const thisRequest = new Date().getTime();
-
-    if (this.firstTime && (thisRequest - this.lastRequest) < 10000) {
+    if (this.ethInstance && this.ethInstance.isWebSocketAlive()) {
       return {
         ethInstance: this.ethInstance,
         ethWallet: this.ethWallet,
@@ -33,9 +31,6 @@ export class AccountHelperService {
         btcWallet: this.btcWallet,
       };
     }
-    console.log("Re-initializing wallets...");
-    this.firstTime = true;
-    this.lastRequest = new Date().getTime();
     const {btcWallet, btcInstance} = this.generateBtcWallet();
     const {ethInstance, ethWallet} = this.generateEthWallet(btcWallet.xprivkey);
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
@@ -43,6 +38,7 @@ export class AccountHelperService {
     this.ethWallet = ethWallet;
     this.btcWallet = btcWallet;
     this.btcInstance = btcInstance;
+
 
     return {
       ethInstance: this.ethInstance,
