@@ -4,11 +4,13 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    height: 60px;
     z-index: 2;
 
     .mat-tab-nav-bar{
         background-color: $main-gray;
         padding: 0;
+        height: 100%;
 
         &.mat-primary{
             .mat-ink-bar{
