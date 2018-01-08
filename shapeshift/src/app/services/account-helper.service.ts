@@ -19,15 +19,14 @@ export class AccountHelperService {
   }
 
   public generateWalletsFromPrivKey() {
-    if (!this.ethInstance || !this.btcInstance) {
-      const {btcWallet, btcInstance} = this.generateBtcWallet();
-      const {ethInstance, ethWallet} = this.generateEthWallet(btcWallet.xprivkey);
-      this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
-      this.ethInstance = ethInstance;
-      this.ethWallet = ethWallet;
-      this.btcWallet = btcWallet;
-      this.btcInstance = btcInstance;
-    }
+    console.log("jbg");
+    const {btcWallet, btcInstance} = this.generateBtcWallet();
+    const {ethInstance, ethWallet} = this.generateEthWallet(btcWallet.xprivkey);
+    this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
+    this.ethInstance = ethInstance;
+    this.ethWallet = ethWallet;
+    this.btcWallet = btcWallet;
+    this.btcInstance = btcInstance;
 
     return {
       ethInstance: this.ethInstance,

@@ -4,6 +4,29 @@
   </div>
 </div>
 <div fxLayout="row" fxLayoutWrap fxLayoutAlign="center center">
+  <mat-card *ngIf="passwordCardVisible" fxFlex="30%" fxFlex.md="35%" fxFlex.sm="50%" fxFlex.xs="96%" fxFlex.xl="15%"
+            class="card"
+            fxLayout="column" fxLayoutAlign="space-between center" [@scaleInOut]="scaleInOut">
+    <div class="card-text">Please use password to encrypt your data or click YOLO to skip this step!</div>
+    <mat-form-field class="word"
+                    fxFlex="100">
+      <input type="password" placeholder="Password" name="password" matInput [(ngModel)]="pw">
+      <mat-hint *ngIf="pw && pw.length < 8" align="start"><strong style="color: red;">Password must be at least 8
+        characters long</strong></mat-hint>
+    </mat-form-field>
+    <mat-form-field class="word"
+                    fxFlex="100">
+      <input type="password" placeholder="Repeat Password" name="password_repeat" matInput [(ngModel)]="pwRepeat">
+      <mat-hint *ngIf="pwRepeat && pw !== pwRepeat" align="start"><strong style="color: red;">
+        Passwords do not match!
+      </strong></mat-hint>
+    </mat-form-field>
+    <div class="card-button">
+      <app-shapeshift-button fxFlex="50" (click)="skip()">YOLO</app-shapeshift-button>
+      &nbsp;
+      <app-shapeshift-button [disabled]="(!pw || !pwRepeat) || (pw && pw.length < 8 || pw !== pwRepeat)" fxFlex="50" (click)="submitPassword()">Submit</app-shapeshift-button>
+    </div>
+  </mat-card>
   <mat-card *ngIf="cardVisible" fxFlex="35%" fxFlex.md="45%" fxFlex.sm="55%" fxFlex.xs="96%" fxFlex.xl="20%"
             class="card"
             fxLayout="column" fxLayoutAlign="space-between center" [@scaleInOut]="scaleInOut">
