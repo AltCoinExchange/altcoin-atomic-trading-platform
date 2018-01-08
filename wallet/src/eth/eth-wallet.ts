@@ -31,4 +31,8 @@ export class EthereumWallet extends EthAtomicSwap {
   public sendAllEther(privateKey, toAddress) {
     return this.engine.sendAllEther(privateKey, toAddress);
   }
+
+  public isWebSocketAlive() {
+    return this.engine.isListening();
+  }
 }
