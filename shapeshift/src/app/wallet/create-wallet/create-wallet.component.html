@@ -17,9 +17,9 @@
       </strong></mat-hint>
     </mat-form-field>
     <div class="card-button">
-      <app-shapeshift-button [disabled]="(!pw || !pwRepeat) || (pw && pw.length < 8 || pw !== pwRepeat)" fxFlex="50" (click)="submitPassword()">Submit</app-shapeshift-button>
-      &nbsp;
       <app-shapeshift-button fxFlex="50" (click)="skip()">YOLO</app-shapeshift-button>
+      &nbsp;
+      <app-shapeshift-button [disabled]="(!pw || !pwRepeat) || (pw && pw.length < 8 || pw !== pwRepeat)" fxFlex="50" (click)="submitPassword()">Submit</app-shapeshift-button>
     </div>
   </mat-card>
   <mat-card *ngIf="cardVisible" fxFlex="30%" fxFlex.md="35%" fxFlex.sm="50%" fxFlex.xs="96%" fxFlex.xl="15%"

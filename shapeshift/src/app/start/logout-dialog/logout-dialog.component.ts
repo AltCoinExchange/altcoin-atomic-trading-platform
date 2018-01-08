@@ -39,10 +39,14 @@ export class LogoutDialogComponent implements OnInit {
   }
 
   deleteAcc() {
+    if (!this.hadPassword) {
+      this.dialogRef.close(true);
+      return;
+    }
     const encPw = localStorage.getItem("PW");
     const result = RC4.encDec(this.confirmPassword, encPw);
     if (result === this.confirmPassword) {
-      this.dialogRef.close(true)
+      this.dialogRef.close(true);
     }
   }
 }
