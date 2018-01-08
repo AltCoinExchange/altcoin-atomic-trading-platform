@@ -50,6 +50,6 @@ export class CreateWalletComponent implements OnInit {
     this.passwordCardVisible = false;
     setTimeout(() => {
       this.cardVisible = true;
-    }, 1000);
+    }, 1500);
   }
 }
