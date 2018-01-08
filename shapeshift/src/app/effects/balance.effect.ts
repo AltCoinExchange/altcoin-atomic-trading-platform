@@ -76,9 +76,8 @@ export class BalanceEffect {
       },
     );
 
-  constructor(private store: Store<AppState>,
-              private actions$: Actions, private accountService: AccountHelperService) {
-    console.log("BalanceEffect");
+  constructor(private actions$: Actions, private accountService: AccountHelperService) {
+
   }
 
   private init() {

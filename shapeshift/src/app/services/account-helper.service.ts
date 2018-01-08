@@ -14,12 +14,28 @@ export class AccountHelperService {
   btcInstance;
   btcWallet;
 
+  lastRequest = new Date().getTime();
+
+  firstTime = false;
+
   constructor(private store: Store<AppState>) {
 
   }
 
   public generateWalletsFromPrivKey() {
-    console.log("jbg");
+    const thisRequest = new Date().getTime();
+
+    if (this.firstTime && (thisRequest - this.lastRequest) < 10000) {
+      return {
+        ethInstance: this.ethInstance,
+        ethWallet: this.ethWallet,
+        btcInstance: this.btcInstance,
+        btcWallet: this.btcWallet,
+      };
+    }
+    console.log("Re-initializing wallets...");
+    this.firstTime = true;
+    this.lastRequest = new Date().getTime();
     const {btcWallet, btcInstance} = this.generateBtcWallet();
     const {ethInstance, ethWallet} = this.generateEthWallet(btcWallet.xprivkey);
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));
