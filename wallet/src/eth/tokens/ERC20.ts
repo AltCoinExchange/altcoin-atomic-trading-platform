@@ -94,6 +94,18 @@ export class ERC20 {
     return result;
   }
 
+  @abiParams({}, {"": AbiType.uint256}, {})
+  public async decimals(): Promise<any> {
+    const abi = getAbiParams(this, "decimals");
+
+    const configParams = {
+      from: this.ethEngine.configuration.defaultWallet
+    };
+
+    const result: any = await this.ethEngine.callFunction("decimals", [], configParams, EthConfirmation.STATIC, abi, this.contractAddress);
+    return result;
+  }
+
   // TODO: Add events
   // event Transfer(address indexed _from, address indexed _to, uint _value);
   // event Approval(address indexed _owner, address indexed _spender, uint _value);
