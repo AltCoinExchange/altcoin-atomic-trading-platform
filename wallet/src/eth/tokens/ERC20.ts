@@ -30,7 +30,8 @@ export class ERC20 {
     };
 
     const result: any = await this.ethEngine.callFunction("balanceOf", [owner], generalParams, EthConfirmation.STATIC, abi, this.contractAddress);
-    return result / Math.pow(10, getAbiParams(this, "decimals") - 1);
+    return result;
+    //return result / Math.pow(10, getAbiParams(this, "decimals") - 1);
   }
 
   @abiParams({stateMutability: "payable"}, {"": AbiType.bool}, {"_to": AbiType.address}, {"_value": AbiType.uint256})
