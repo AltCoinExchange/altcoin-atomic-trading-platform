@@ -30,7 +30,7 @@ export class ERC20 {
     };
 
     const result: any = await this.ethEngine.callFunction("balanceOf", [owner], generalParams, EthConfirmation.STATIC, abi, this.contractAddress);
-    return result;
+    return result / Math.pow(10, getAbiParams(this, "decimals") - 1);
   }
 
   @abiParams({stateMutability: "payable"}, {"": AbiType.bool}, {"_to": AbiType.address}, {"_value": AbiType.uint256})
@@ -91,18 +91,6 @@ export class ERC20 {
     };
 
     const result: any = await this.ethEngine.callFunction("faucet", [], configParams, EthConfirmation.CONFIRMATION, abi, this.contractAddress);
-    return result;
-  }
-
-  @abiParams({}, {"": AbiType.uint256}, {})
-  public async decimals(): Promise<any> {
-    const abi = getAbiParams(this, "decimals");
-
-    const configParams = {
-      from: this.ethEngine.configuration.defaultWallet
-    };
-
-    const result: any = await this.ethEngine.callFunction("decimals", [], configParams, EthConfirmation.STATIC, abi, this.contractAddress);
     return result;
   }
 
