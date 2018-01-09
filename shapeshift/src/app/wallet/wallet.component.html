@@ -19,8 +19,8 @@
 </div>
 <perfect-scrollbar #perfectScrollbar  class="wallet-slide" fxLayout="row" fxLayoutAlign="start center">
   <div (wheel)="wheelOverHorizontalDiv($event)">
-  <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name" [@scaleInOut]="scaleInOut">
-    <div class="wallet-card" [class.active]="selectedCoin == coin"
+  <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name">
+    <div [@scaleInOut]="scaleInOut" class="wallet-card" [class.active]="selectedCoin == coin"
           *ngIf="(inMyPossesion && (coin.$balance | async)?.balance > 0) ||
                   (!inMyPossesion && (coin.$balance | async)?.balance >= 0)">
       <img class="coin-icon" [src]="coin.icon" alt="">
