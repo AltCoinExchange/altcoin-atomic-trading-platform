@@ -6,47 +6,46 @@
   </div>
 </div>
 
-<div class="gradient">
-  <div fxLayout="row" fxLayoutAlign="center stretch">
-    <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
-      <mat-form-field class="search-box">
-        <input #inputRef placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
-        <button style="font-size: 20px;" class="input-button" mat-button matSuffix mat-icon-button
-                (click)="inputRef.blur(); showAllCoins($event)">
-          <mat-icon>view_module</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
+<div fxLayout="row" fxLayoutAlign="center stretch">
+  <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
+    <mat-form-field class="search-box">
+      <input #inputRef placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
+      <button class="input-button" mat-button matSuffix mat-icon-button
+              (click)="inputRef.blur(); showAllCoins($event)">
+        <mat-icon>view_module</mat-icon>
+      </button>
+    </mat-form-field>
   </div>
-  <perfect-scrollbar #perfectScrollbar class="wallet-slide" fxLayout="row" fxLayoutAlign="start center"
-                     (wheel)="wheelOverHorizontallDiv($event)">
-    <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name" [@scaleInOut]="scaleInOut">
-      <div class="wallet-card" [class.active]="selectedCoin == coin"
-           *ngIf="(inMyPossesion && (coin.$balance | async)?.balance > 0) ||
-                    (!inMyPossesion && (coin.$balance | async)?.balance >= 0)">
-        <img class="coin-icon" [src]="coin.icon" alt="">
-        <div *ngIf="(coin.$balance | async)?.loading || coin.faucetLoading">
-          <div class="spinner">
-            <div class="circle-loader">
-            </div>
+</div>
+<perfect-scrollbar #perfectScrollbar  class="wallet-slide" fxLayout="row" fxLayoutAlign="start center">
+  <div (wheel)="wheelOverHorizontalDiv($event)">
+  <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name">
+    <div [@scaleInOut]="scaleInOut" class="wallet-card" [class.active]="selectedCoin == coin"
+          *ngIf="(inMyPossesion && (coin.$balance | async)?.balance > 0) ||
+                  (!inMyPossesion && (coin.$balance | async)?.balance >= 0)">
+      <img class="coin-icon" [src]="coin.icon" alt="">
+      <div *ngIf="(coin.$balance | async)?.loading || coin.faucetLoading">
+        <div class="spinner">
+          <div class="circle-loader">
           </div>
-        </div>
-        <div *ngIf="!(coin.$balance | async)?.loading && !coin.faucetLoading">
-          <div class="coin-name">{{coin.fullName}}</div>
-          <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
-          </div>
-          <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
-          <a *ngIf="coin.name != 'BTC' && coin.name != 'ETH'" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
         </div>
       </div>
-    </a>
-    <a *ngIf="filteredCoins.length === 0" class="no-coins">Not found</a>
-  </perfect-scrollbar>
-  <div fxLayout="row" fxLayoutAlign="center center" class="hide-coins-box">
-    <mat-checkbox [ngModel]="inMyPossesion" (ngModelChange)="onPossesionModeChange($event)">Hide coins with zero
-      balance
-    </mat-checkbox>
+      <div *ngIf="!(coin.$balance | async)?.loading && !coin.faucetLoading">
+        <div class="coin-name">{{coin.fullName}}</div>
+        <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
+        </div>
+        <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
+        <a *ngIf="coin.name != 'BTC' && coin.name != 'ETH'" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
+      </div>
+    </div>
+  </a>
+  <a *ngIf="filteredCoins.length === 0" class="no-coins">Not found</a>
   </div>
+</perfect-scrollbar>
+<div fxLayout="row" fxLayoutAlign="center center" class="hide-coins-box">
+  <mat-checkbox [ngModel]="inMyPossesion" (ngModelChange)="onPossesionModeChange($event)">Hide coins with zero
+    balance
+  </mat-checkbox>
 </div>
 
 

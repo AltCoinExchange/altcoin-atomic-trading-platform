@@ -78,7 +78,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
 
   constructor(private store: Store<AppState>, public dialog: MatDialog) {
     super();
-    this.infoMsg = "For testnet use only";
+    this.infoMsg = "For testnet coins only. Do not send real Bitcoin or Ethereum.";
     this.coins = CoinFactory.createAllCoins();
 
     this.store.dispatch(new swapAction.SetActiveStepAction(1));
