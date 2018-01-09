@@ -6,6 +6,7 @@ import {SwapInitiateComponent} from "./swap-initiate.component";
 import {CoinInputModule} from "../../common/coin-input/coin-input.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QuoteEffect} from "../../effects/quote.effect";
+import {FlexLayoutModule} from "@angular/flex-layout";
 import {EffectsModule} from "@ngrx/effects";
 import {QuoteService} from "../../services/quote.service";
 
@@ -14,6 +15,7 @@ import {QuoteService} from "../../services/quote.service";
     CommonModule,
     ShapeShiftCommonModule,
     FormsModule,
+    FlexLayoutModule,
     ReactiveFormsModule,
     RouterModule.forChild([
       {

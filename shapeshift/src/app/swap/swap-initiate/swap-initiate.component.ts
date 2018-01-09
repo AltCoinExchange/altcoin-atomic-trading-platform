@@ -46,7 +46,7 @@ export class SwapInitiateComponent extends AnimationEnabledComponent implements 
     AccountHelper.generateWalletsFromPrivKey(store);
 
     this.parseLink();
-    this.infoMsg = "For testnet use only";
+    this.infoMsg = "For testnet coins only. Do not send real Bitcoin or Ethereum.";
     this.$errorInitiate = this.store.select(fromSwap.getInitiateError);
     this.$loading = this.store.select(getBLoading);
     this.$initiateData = this.store.select(fromSwap.getInitiateData);

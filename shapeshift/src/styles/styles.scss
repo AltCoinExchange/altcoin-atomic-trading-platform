@@ -105,7 +105,7 @@ a{
     flex: 1 1 auto;
     font-size: 100%;
     margin: 0px;
-    padding: 10px;
+    padding: 6px 10px;
     background-color: $main-gray;
     color: white;
     text-align: center;
@@ -186,4 +186,16 @@ a{
     bottom: 0;
     background-color: rgba(0,0,0,0.5);
     z-index: 2;
+}
+
+perfect-scrollbar{
+  .ps__thumb-x, .ps__thumb-y{
+    background-color: $text-color !important;;
+  }
+  > .ps__rail-x:focus, .ps__rail-x:hover, .ps__rail-y:focus, .ps__rail-y:hover{
+    background-color: $main-gray !important;
+  }
+  > .ps.ps--active-x > .ps__rail-x, .ps.ps--scrolling-x > .ps__rail-x{
+    background-color: $main-gray !important;
+  }
 }

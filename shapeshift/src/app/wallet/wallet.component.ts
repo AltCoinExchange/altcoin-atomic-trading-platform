@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
@@ -43,8 +43,7 @@ import {TransactionService} from "../services/transaction.service";
   animations: [scaleInOutAnimation, fadeInOutAnimation]
 })
 export class WalletComponent implements OnInit, AfterViewInit {
-  @ViewChild("perfectScrollbar") perfectScrollbar;
-
+  @ViewChild('perfectScrollbar') perfectScrollbar;
   scaleInOut = "scaleInOut";
   fadeInOut = "fadeInOut";
   infoMsg: string;
@@ -80,7 +79,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog, private renderer: Renderer2) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog) {
     this.allCoins = CoinFactory.createAllCoins();
     this.filteredCoins = [...this.allCoins];
   }
@@ -102,15 +101,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.selectedCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
       this.generateQrCode(this.selectedCoin);
     });
-
-    if (!document) {
-      return;
-    }
-    const bar = document.querySelector(".ps__rail-x");
-    if (bar) {
-      this.renderer.setStyle(bar, "visibility", "hidden");
-    }
-
   }
 
   selectWalletOption(walletOption) {
@@ -126,7 +116,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
       return;
     }
     this.selectedCoin = coin;
-    this.perfectScrollbar.directiveRef.scrollToX((<any>coinEl).offsetLeft - 20);
+    //this.perfectScrollbar.directiveRef.scrollToX((<any>coinEl).offsetLeft - 20);
     this.generateQrCode(coin);
   }
 
@@ -168,14 +158,13 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.inMyPossesion = val;
   }
 
-  wheelOverHorizontallDiv(e) {
-    const perfectNativeElement = this.perfectScrollbar.elementRef.nativeElement;
+  wheelOverHorizontalDiv(e) {
+    const perfectNativeElement = this.perfectScrollbar.directiveRef.elementRef.nativeElement;
     perfectNativeElement.scrollLeft -= (e.wheelDelta);
     e.preventDefault();
   }
 
   getTokenBalances() {
-
     this.store.dispatch(new GetEthBalanceAction());
     this.store.dispatch(new GetBtcBalanceAction());
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: "golem"}));
