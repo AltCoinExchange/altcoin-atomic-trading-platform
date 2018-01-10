@@ -50,7 +50,7 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
           {
             address,
             amount: receiveCoin.amount,
-            link: r.order_id,
+            link: r,
             coin: receiveCoin,
             depositCoin: depositCoin,
           },
