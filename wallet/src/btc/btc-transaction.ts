@@ -221,6 +221,7 @@ export class BtcTransaction {
         return new Promise((resolve, reject) => {
             this.rpc.sendRawTransaction(tx, (a, b) => {
                 if (a) {
+                    console.log("ERROR PUBLISHING TRANSACTION: ", a);
                     reject(new Error(JSON.stringify(a)));
                 } else {
                     resolve(b.result);
