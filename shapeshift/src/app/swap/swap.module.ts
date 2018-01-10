@@ -13,6 +13,7 @@ import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
 import {SideBEffect} from "../effects/side-B.effect";
 import {HttpModule} from "@angular/http";
+import {OrderService} from "../services/order.service";
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import {HttpModule} from "@angular/http";
   providers: [
     AuthGuardService,
     LinkService,
-    MoscaService
+    MoscaService,
+    OrderService,
   ]
 })
 export class SwapModule {

@@ -8,7 +8,13 @@ export interface State {
   secret: string;
   hashedSecret: string;
   link: string;
-  progress: SwapProgress,
+  side: string;
+  from: string;
+  to: string;
+  receiveAmount: number;
+  depositAmount: number;
+  progress: SwapProgress;
+  address: string;
   loading: boolean;
   receiveCoin: Coin;
   depositCoin: Coin;
@@ -24,6 +30,12 @@ export const initialState: State = {
   progress: undefined,
   receiveCoin: undefined,
   depositCoin: undefined,
+  side: undefined,
+  from: undefined,
+  to: undefined,
+  receiveAmount: undefined,
+  depositAmount: undefined,
+  address: undefined,
 };
 
 export function reducer(state = initialState, action: sideA.Actions): State {
@@ -38,7 +50,13 @@ export function reducer(state = initialState, action: sideA.Actions): State {
     case sideA.GENERATE_LINK_SUCCESS: {
       return {
         ...state,
-        link: action.payload,
+        link: action.payload.order_id,
+        side: action.payload.side,
+        from: action.payload.from,
+        to: action.payload.to,
+        receiveAmount: action.payload.receiveAmount,
+        depositAmount: action.payload.depositAmount,
+        address: action.payload.address,
       };
     }
     case sideA.PARTICIPATE: {
@@ -110,3 +128,14 @@ export const getASecret = (state: State) => state.secret;
 export const getAHashedSecret = (state: State) => state.hashedSecret;
 export const getAContractBin = (state: State) => state.contractBin;
 export const getAContractTx = (state: State) => state.contractTx;
+export const getSwapLink = (state: State) => {
+  return {
+    link: state.link,
+    side: state.side,
+    from: state.from,
+    to: state.to,
+    receiveAmount: state.receiveAmount,
+    depositAmount: state.depositAmount,
+    address: state.address,
+  };
+};

@@ -10,6 +10,8 @@ import "rxjs/add/operator/filter";
 import "rxjs/add/observable/fromPromise";
 import "rxjs/add/observable/combineLatest";
 import "rxjs/add/observable/empty";
+import "rxjs/add/operator/timeout";
+import "rxjs/add/operator/delay";
 import {enableProdMode} from "@angular/core";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {environment} from "./environments/environment";

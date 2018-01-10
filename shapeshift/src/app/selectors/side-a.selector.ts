@@ -6,6 +6,8 @@ export const getSideAState = createFeatureSelector<fromSideA.State>("sideA");
 
 export const getALink = createSelector(getSideAState,
   fromSideA.getALink);
+export const getSwapLink = createSelector(getSideAState,
+  fromSideA.getSwapLink);
 export const getAProgress = createSelector(getSideAState,
   fromSideA.getAProgress);
 export const getALoading = createSelector(getSideAState,

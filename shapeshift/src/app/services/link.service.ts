@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {assembleLink} from '../common/link-util';
+import {Injectable} from "@angular/core";
+import {Observable} from "rxjs/Observable";
+import {assembleLink} from "../common/link-util";
 
 
 @Injectable()
@@ -19,5 +19,12 @@ export class LinkService {
       new Date(),
     );
     return Observable.of(link);
+  }
+
+  public generateAddress(coins, wallet): string {
+    const address = wallet[
+      coins.receiveCoin.derive === undefined ? coins.receiveCoin.name : coins.receiveCoin.derive
+      ].address;
+    return address;
   }
 }

@@ -24,37 +24,38 @@ export class MoscaService {
   }
 
   public waitForInitiate(link): Observable<InitiateData> {
-    const topic = INITIATE + link.replace('=', '').replace('=', '');
+    console.log(link);
+    const topic = INITIATE + link.order_id;
     this.subscribeToTopic(topic);
     return this.onMessage(topic).map(msg => JSON.parse(msg.message));
   }
 
   public informInitiate(link, data: InitiateParams) {
-    const topic = INITIATE + link.replace('=', '').replace('=', '');
+    const topic = INITIATE + link.order_id;
     this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }
 
   public waitForParticipate(link): Observable<InitiateData> {
-    const topic = PARTICIPATE + link.replace('=', '').replace('=', '');
+    const topic = PARTICIPATE + link.order_id;
     this.subscribeToTopic(topic);
     return this.onMessage(topic).map(msg => JSON.parse(msg.message));
   }
 
   public informParticipate(link, data: InitiateParams) {
-    const topic = PARTICIPATE + link.replace('=', '').replace('=', '');
+    const topic = PARTICIPATE + link.order_id;
     this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }
 
   public waitForBRedeem(link): Observable<InitiateData> {
-    const topic = BREDEEM + link.replace('=', '').replace('=', '');
+    const topic = BREDEEM + link.order_id;
     this.subscribeToTopic(topic);
     return this.onMessage(topic).map(msg => JSON.parse(msg.message));
   }
 
   public informBRedeem(link, data: InitiateParams) {
-    const topic = BREDEEM + link.replace('=', '').replace('=', '');
+    const topic = BREDEEM + link.order_id;
     this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }

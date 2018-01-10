@@ -20,6 +20,7 @@ import {getWalletState} from "../selectors/wallets.selector";
 import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
 import {WalletFactory} from "../models/wallets/wallet";
+import {OrderService} from "../services/order.service";
 
 @Injectable()
 export class SideAEffect {
@@ -30,8 +31,11 @@ export class SideAEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getWalletState))
     .mergeMap(([payload, wallet]) => {
-      console.log("aaaa");
-      return this.linkService.generateLink(payload, wallet).map(resp => {
+        const address = this.linkService.generateAddress(payload, wallet);
+        const amount = payload.depositCoin.amount;
+        const from = payload.depositCoin.name;
+        const to = payload.receiveCoin.name;
+        return this.orderService.placeOrder(from, to, amount, address).map(resp => {
           return new sideA.GenerateLinkSuccessAction(resp);
         }).catch(err => Observable.of(new sideA.GenerateLinkFailAction(err)));
       },
@@ -233,7 +237,7 @@ export class SideAEffect {
   $done;
 
   constructor(private actions$: Actions, private linkService: LinkService,
-              private store: Store<AppState>, private moscaService: MoscaService) {
+              private store: Store<AppState>, private moscaService: MoscaService, private orderService: OrderService) {
 
   }
 }
