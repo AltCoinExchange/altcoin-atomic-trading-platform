@@ -161,11 +161,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   }
 
   onSwap(data) {
-    this.formFlyOut();
-    console.log(data);
-    setTimeout(() => {
-      this.store.dispatch(new sideA.GenerateLinkAction(data));
-    }, 500);
+    this.store.dispatch(new sideA.GenerateLinkAction(data));
   }
 
   onDepositChange(depositamount: number) {

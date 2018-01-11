@@ -46,12 +46,20 @@ export class SideAEffect {
     .ofType(sideA.GENERATE_LINK_SUCCESS)
     .map(toPayload)
     .mergeMap((link) => {
-      return Observable.from([
-        new sideA.WaitForInitiateAction(link),
-        new Go({
-          path: ["/transfer"],
-        }),
-      ]);
+      if (link.side === "a") {
+        return Observable.from([
+          new sideA.WaitForInitiateAction(link),
+          new Go({
+            path: ["/transfer"],
+          }),
+        ]);
+      } else {
+        return Observable.from([
+          new Go({
+            path: ["/transfer"],
+          }),
+        ]);
+      }
     });
 
   @Effect()
@@ -59,6 +67,7 @@ export class SideAEffect {
     .ofType(sideA.WAIT_FOR_INITIATE)
     .map(toPayload)
     .mergeMap((link) => {
+      console.log("WAITING FOR INITIATE", link);
       return this.moscaService.waitForInitiate(link).map(resp => {
         console.log("INITIATE DATA RECEIVED: ", resp);
         return new sideA.WaitForInitiateSuccessAction(resp);

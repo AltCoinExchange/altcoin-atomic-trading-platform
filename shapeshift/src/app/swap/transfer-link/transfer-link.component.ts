@@ -36,23 +36,20 @@ export class TransferLinkComponent extends AnimationEnabledComponent implements 
     this.makeInfoMessage();
 
     this.$link.delay(3000).subscribe(r => {
-      console.log(r);
       if (r.side === "b") {
-        const receiveCoin = CoinFactory.createCoin(<any>Coins[r.to]);
-        const depositCoin = CoinFactory.createCoin(<any>Coins[r.from]);
-        const receiveAmount = r.receiveAmount;
+        const to = CoinFactory.createCoin(<any>Coins[r.to]);
+        const from = CoinFactory.createCoin(<any>Coins[r.from]);
         const depositAmount = r.depositAmount;
         const address = r.address;
-        receiveCoin.amount = receiveAmount;
-        depositCoin.amount = depositAmount;
+        from.amount = depositAmount;
 
         this.store.dispatch(new InitiateAction(
           {
             address,
-            amount: receiveCoin.amount,
-            link: r,
-            coin: receiveCoin,
-            depositCoin: depositCoin,
+            amount: to.amount,
+            link: r.link,
+            coin: from,
+            depositCoin: to,
           },
         ));
         return;

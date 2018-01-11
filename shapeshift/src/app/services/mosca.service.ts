@@ -24,38 +24,42 @@ export class MoscaService {
   }
 
   public waitForInitiate(link): Observable<InitiateData> {
-    console.log(link);
-    const topic = INITIATE + link.order_id;
+    const topic = INITIATE + (typeof link === 'string' ? link : link.order_id);
+    console.log("waitForInitiate", topic, link);
     this.subscribeToTopic(topic);
     return this.onMessage(topic).map(msg => JSON.parse(msg.message));
   }
 
   public informInitiate(link, data: InitiateParams) {
-    const topic = INITIATE + link.order_id;
+    const topic = INITIATE + (typeof link === 'string' ? link : link.order_id);
     this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }
 
   public waitForParticipate(link): Observable<InitiateData> {
-    const topic = PARTICIPATE + link.order_id;
+    const topic = PARTICIPATE + (typeof link === 'string' ? link : link.order_id);
+    console.log("waitForParticipate", topic, link, typeof link === 'string' ? link : link.order_id);
     this.subscribeToTopic(topic);
     return this.onMessage(topic).map(msg => JSON.parse(msg.message));
   }
 
   public informParticipate(link, data: InitiateParams) {
-    const topic = PARTICIPATE + link.order_id;
+    const topic = PARTICIPATE + (typeof link === 'string' ? link : link.order_id);
+    console.log("informParticipate", topic, link);
     this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }
 
   public waitForBRedeem(link): Observable<InitiateData> {
-    const topic = BREDEEM + link.order_id;
+    const topic = BREDEEM + (typeof link === 'string' ? link : link.order_id);
+    console.log("waitForBRedeem", topic, link);
     this.subscribeToTopic(topic);
     return this.onMessage(topic).map(msg => JSON.parse(msg.message));
   }
 
   public informBRedeem(link, data: InitiateParams) {
-    const topic = BREDEEM + link.order_id;
+    const topic = BREDEEM + (typeof link === 'string' ? link : link.order_id);
+    console.log("informBRedeem", topic, link);
     this.sendMsg(topic, isString(data) ? data : JSON.stringify(data));
     return Observable.of(true);
   }
