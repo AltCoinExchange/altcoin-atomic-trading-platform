@@ -24,4 +24,7 @@ export const getAContractBin = createSelector(getSideAState,
   fromSideA.getAContractBin);
 export const getAContractTx = createSelector(getSideAState,
   fromSideA.getAContractTx);
-
+export const getLinkErrorMessage = createSelector(getSideAState,
+  fromSideA.getLinkErrorMessage);
+export const getLinkGenerating = createSelector(getSideAState,
+  fromSideA.getLinkGenerating);

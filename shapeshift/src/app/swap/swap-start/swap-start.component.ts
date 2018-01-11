@@ -36,6 +36,7 @@ import {
   getTokenBalanceTron
 } from "../../selectors/balance.selector";
 import {GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction} from "../../actions/balance.action";
+import {getLinkGenerating, getLinkErrorMessage} from "../../selectors/side-a.selector";
 
 @Component({
   selector: "app-swap-start",
@@ -75,6 +76,9 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   $tokenBalanceOmiseGo: Observable<WalletRecord>;
   $ethBalance: Observable<WalletRecord>;
   $btcBalance: Observable<WalletRecord>;
+
+  $generatingLinkIndicator: Observable<boolean> = this.store.select(getLinkGenerating);
+  $generatingLinkErrorMessage: Observable<string> = this.store.select(getLinkErrorMessage);
 
   constructor(private store: Store<AppState>, public dialog: MatDialog) {
     super();
@@ -150,11 +154,6 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
 
   ngOnInit() {
   }
-
-  ngAfterViewInit() {
-
-  }
-
 
   swapDepositRecieveCoins() {
     this.store.dispatch(new swapAction.SwapDepositReceiveCoinsAction());

@@ -18,6 +18,8 @@ export interface State {
   loading: boolean;
   receiveCoin: Coin;
   depositCoin: Coin;
+  generatingLink: boolean;
+  errorMessage: string;
 }
 
 export const initialState: State = {
@@ -36,6 +38,8 @@ export const initialState: State = {
   receiveAmount: undefined,
   depositAmount: undefined,
   address: undefined,
+  generatingLink: false,
+  errorMessage: undefined,
 };
 
 export function reducer(state = initialState, action: sideA.Actions): State {
@@ -45,6 +49,8 @@ export function reducer(state = initialState, action: sideA.Actions): State {
         ...state,
         receiveCoin: action.payload.coin,
         depositCoin: action.payload.depositCoin,
+        generatingLink: true,
+        errorMessage: undefined,
       };
     }
     case sideA.GENERATE_LINK_SUCCESS: {
@@ -57,6 +63,14 @@ export function reducer(state = initialState, action: sideA.Actions): State {
         receiveAmount: action.payload.receiveAmount,
         depositAmount: action.payload.depositAmount,
         address: action.payload.address,
+        generatingLink: false,
+      };
+    }
+    case sideA.GENERATE_LINK_FAIL: {
+      return {
+        ...state,
+        generatingLink: false,
+        errorMessage: "Please try later",
       };
     }
     case sideA.PARTICIPATE: {
@@ -139,3 +153,5 @@ export const getSwapLink = (state: State) => {
     address: state.address,
   };
 };
+export const getLinkGenerating = (state: State) => state.generatingLink;
+export const getLinkErrorMessage = (state: State) => state.errorMessage;

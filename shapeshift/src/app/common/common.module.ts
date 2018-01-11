@@ -47,7 +47,8 @@ import {ShapeshiftButtonModule} from "./shapeshift-button/shapeshift-button.modu
     SwapIconComponent,
     SwapCompleteComponent,
     CoinInputModule,
-    ShapeshiftButtonModule
+    ShapeshiftButtonModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [
     AllCoinsDialogComponent
