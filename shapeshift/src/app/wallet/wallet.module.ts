@@ -22,6 +22,9 @@ import {WalletReceiveComponent} from "./wallet-receive/wallet-receive.component"
 import {TransactionsWalletComponent} from './transactions-wallet/transactions-wallet.component';
 import {TransactionService} from "../services/transaction.service";
 import {HttpModule} from "@angular/http";
+import {QuoteEffect} from "../effects/quote.effect";
+import {EffectsModule} from "@ngrx/effects";
+import {QuoteService} from "../services/quote.service";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -46,7 +49,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
     MatCheckboxModule,
     MatCardModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    EffectsModule.forFeature([
+      QuoteEffect,
+    ]),
   ],
   declarations: [
     WalletComponent,
@@ -58,6 +64,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
   ],
   providers: [
     TransactionService,
+    QuoteService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
