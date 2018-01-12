@@ -104,8 +104,10 @@
       <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
         <a *ngIf="selectedCoin.name == 'BTC'" target="noopener"
            href="https://live.blockcypher.com/btc-testnet/address/{{(selectedCoin.$balance | async)?.address}}/">Blockcypher</a>
-        <a *ngIf="selectedCoin.name != 'BTC'" target="noopener"
-           href="https://rinkeby.etherscan.io/address/0x{{(selectedCoin.$balance | async)?.address}}">Rinkeby</a>
+        <div *ngIf="selectedCoin.name != 'BTC'" target="noopener">
+          <app-transactions-wallet
+            [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-transactions-wallet>
+        </div>
       </div>
     </div>
   </div>

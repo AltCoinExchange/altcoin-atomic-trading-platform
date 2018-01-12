@@ -19,6 +19,9 @@ import {WritePhraseComponent} from "./write-phrase/write-phrase.component";
 import {ImportWalletComponent} from "./import-wallet/import-wallet.component";
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from "ngx-perfect-scrollbar";
 import {WalletReceiveComponent} from "./wallet-receive/wallet-receive.component";
+import {TransactionsWalletComponent} from './transactions-wallet/transactions-wallet.component';
+import {TransactionService} from "../services/transaction.service";
+import {HttpModule} from "@angular/http";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -33,6 +36,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
       {path: "write", component: WritePhraseComponent},
       {path: "import", component: ImportWalletComponent}
     ]),
+    HttpModule,
     MatProgressSpinnerModule,
     ShapeShiftCommonModule,
     FormsModule,
@@ -50,8 +54,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
     WritePhraseComponent,
     ImportWalletComponent,
     WalletReceiveComponent,
+    TransactionsWalletComponent,
   ],
   providers: [
+    TransactionService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
