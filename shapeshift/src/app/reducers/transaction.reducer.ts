@@ -1,15 +1,15 @@
 import * as transaction from "../actions/transaction.action";
 import {TransactionModel} from "../models/transaction.model";
 
-export interface State {
+export interface TransactionState {
   transactions: TransactionModel,
 }
 
-export const initialState: State = {
+export const initialState: TransactionState = {
   transactions: undefined,
 };
 
-export function reducer(state = initialState, action: transaction.Actions): State {
+export function reducer(state = initialState, action: transaction.Actions): TransactionState {
   switch (action.type) {
     case transaction.LOAD_TRANSACTION: {
       return state;
@@ -26,4 +26,4 @@ export function reducer(state = initialState, action: transaction.Actions): Stat
   }
 }
 
-export const getTransactions = (state: State): TransactionModel => state.transactions;
+export const getTransactions = (state: TransactionState) => state;

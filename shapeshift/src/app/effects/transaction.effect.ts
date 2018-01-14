@@ -22,7 +22,8 @@ export class TransactionEffect {
         this.init();
         const address = this.ethWallet.address;
         return this.transactionService.getTransactions(address)
-          .map(transactions => new transactionAction.LoadTransactionSuccessAction(transactions));
+          .map(transactions => {
+            return new transactionAction.LoadTransactionSuccessAction(transactions)});
       },
     );
 

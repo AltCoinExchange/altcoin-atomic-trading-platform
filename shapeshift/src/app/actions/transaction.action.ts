@@ -1,5 +1,4 @@
 import {Action} from '@ngrx/store';
-import {TransactionModel} from "../models/transaction.model";
 
 export const LOAD_TRANSACTION = 'LOAD_TRANSACTION';
 export const LOAD_TRANSACTION_SUCCESS = 'LOAD_TRANSACTION_SUCCESS';
@@ -16,7 +15,7 @@ export class LoadTransactionAction implements Action {
 export class LoadTransactionSuccessAction implements Action {
   readonly type = LOAD_TRANSACTION_SUCCESS;
 
-  constructor(public payload: TransactionModel) {
+  constructor(public payload: any) {
   }
 }
 
