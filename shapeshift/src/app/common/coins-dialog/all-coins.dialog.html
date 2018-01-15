@@ -9,11 +9,11 @@
       (click)="dialogRef.close(coin)" 
       class="coin-card"
       fxLayout="column" 
-      fxFlex="15%"
+      fxFlex="23%"
       fxFlex.xs="90%"
       fxFlex.sm="45%"
       fxFlex.md="30%"
-      fxFlex.xl="10%">
+      fxFlex.xl="15%">
     <div>
       <img class="coin-icon" [src]="coin.icon" alt="">
       <div *ngIf="(coin.$balance | async)?.loading">

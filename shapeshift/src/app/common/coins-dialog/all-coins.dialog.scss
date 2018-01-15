@@ -15,15 +15,16 @@
 .coin-card{
     text-align: center;
     margin: 10px;
+    padding: 24px 16px;
     width: calc(100% - 20px);
     cursor: pointer;
     transition: all 0.2s linear;
     &:hover {
-        -moz-transform: translate(-2px, -2px);
-        -ms-transform: translate(-2px, -2px);
-        -o-transform: translate(-2px, -2px);
-        -webkit-transform: translate(-2px, -2px);
-        transform: translate(-2px, -2px);
+        -moz-transform: translate(2px, 2px);
+        -ms-transform: translate(2px, 2px);
+        -o-transform: translate(2px, 2px);
+        -webkit-transform: translate(2px, 2px);
+        transform: translate(2px, 2px);
         opacity: 1 !important;
     }    
 }

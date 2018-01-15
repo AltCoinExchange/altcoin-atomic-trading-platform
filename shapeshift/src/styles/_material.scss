@@ -20,6 +20,7 @@ $custom-typography: mat-typography-config(
 
 .mat-dialog-container{
     background-color: $background-color;
+    color: $text-color;
 }
 
 mat-dialog-container {
@@ -51,12 +52,22 @@ mat-dialog-container {
 }
 
 .mat-list-item, .mat-input-element, .mat-button, 
-.mat-toolbar, .mat-checkbox, .mat-form-field{
+.mat-toolbar, .mat-checkbox, .mat-form-field, .mat-menu-item, 
+.mat-expansion-panel-header {
     font-family: 'Montserrat', sans-serif !important;
 }
 
 .mat-list-text{
     color: white;
+}
+
+.mat-menu-item{
+    color: $text-color;
+    font-size: 100%;
+}
+
+.mat-menu-panel{
+    background-color: $main-gray;
 }
 
 
