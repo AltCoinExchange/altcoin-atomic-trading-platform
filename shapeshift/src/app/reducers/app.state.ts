@@ -6,7 +6,7 @@ import * as fromQuote from './quote.reducer';
 import * as fromBalance from './balance.reducer';
 import * as fromSideA from './side-a.reducer';
 import * as fromSideB from './side-b.reducer';
-
+import * as fromTransactions from './transaction.reducer';
 
 export interface AppState {
   start: fromStart.State;
@@ -17,4 +17,5 @@ export interface AppState {
   balance: fromBalance.State;
   sideA: fromSideA.State;
   sideB: fromSideB.State;
+  transactions: fromTransactions.TransactionState;
 }
