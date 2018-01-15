@@ -15,6 +15,7 @@ import {SideBEffect} from "../effects/side-B.effect";
 import {HttpModule} from "@angular/http";
 import {OrderService} from "../services/order.service";
 import {TokensModule} from "../tokens/tokens.module";
+import {MatTableModule, MatToolbarModule} from "@angular/material";
 
 @NgModule({
   imports: [
@@ -43,6 +44,8 @@ import {TokensModule} from "../tokens/tokens.module";
       SideBEffect,
     ]),
     TokensModule,
+    MatTableModule,
+    MatToolbarModule,
   ],
   declarations: [
     SwapContainerComponent,

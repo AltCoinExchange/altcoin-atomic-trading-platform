@@ -1,4 +1,4 @@
-<h1 style="text-align: center; color: white;">Exchange cryptocurrency at the best rate.</h1>
+<h1 style="text-align: center; color: #9cabbd;">Exchange cryptocurrency at the best rate.</h1>
 <div fxLayout="row" fxLayoutAlign="center center" class="content-block">
   <div fxFlex.xl="25%" fxFlex.lg="70%" fxFlex.md="80%" fxFlex.sm="100%" fxFlex.xs="100%"
        style="border-radius: 4px; border: 2px dashed #9cabbd78;">
@@ -11,3 +11,28 @@
   </div>
 </div>
 <app-token-list></app-token-list>
+<div fxLayout="row" class="content-block" fxLayoutAlign="center center">
+  <div fxFlex.xl="25%" fxFlex.lg="70%" fxFlex.md="80%" fxFlex.sm="100%" fxFlex.xs="100%">
+    <div class="example-container mat-elevation-z8" style="width: 100%;">
+      <mat-toolbar style="background: #2A3141; color: #9cabbd;">Orders</mat-toolbar>
+      <mat-table style="background: #2A3141;" #table [dataSource]="dataSource">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="from">
+          <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> From</mat-header-cell>
+          <mat-cell style="color: #9cabbd;" *matCellDef="let element">
+            <img style="width: 15px;" src="/assets/icon/btc-icon.png" alt=""> {{element.fromAmount}} {{element.from}}</mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="to">
+          <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> To</mat-header-cell>
+          <mat-cell style="color: #9cabbd;" *matCellDef="let element">{{element.toAmount}} {{element.to}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row style="color: #9cabbd;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
