@@ -4,7 +4,7 @@
       TOKENS
     </h5>
     <ng-template ngFor let-items let-last="last" [ngForOf]="tokenPreview">
-      <div fxLayout="row" fxLayoutWrap fxLayoutGap="10px">
+      <div fxLayout="row" fxLayoutGap="10px">
         <ng-template ngFor let-o [ngForOf]="items">
           <app-token-preview fxLayout="column" fxFlex="calc(25%-10px)"></app-token-preview>
         </ng-template>
