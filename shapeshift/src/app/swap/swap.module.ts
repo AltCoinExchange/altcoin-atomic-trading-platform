@@ -30,7 +30,6 @@ import {OrderService} from "../services/order.service";
         {path: "transfer", loadChildren: "app/swap/transfer-link/transfer-link.module#TransferLinkModule"},
         {path: "a/complete", loadChildren: "app/swap/side-a-container/side-a.module#SideAModule"},
         {path: "b/complete", loadChildren: "app/swap/side-b-container/side-b.module#SideBModule"},
-        {path: "initiate/:link", loadChildren: "app/swap/swap-initiate/swap-initiate.module#SwapInitiateModule"},
       ]
       }
     ]),

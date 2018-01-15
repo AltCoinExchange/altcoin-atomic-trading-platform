@@ -1,20 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  Renderer2,
-  ViewChild
-} from '@angular/core';
-import { coinSwapsAnimation } from '../../animations/animations';
-import { Coin } from '../../models/coins/coin.model';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, Renderer2} from "@angular/core";
+import {coinSwapsAnimation} from "../../animations/animations";
+import {Coin} from "../../models/coins/coin.model";
 
 @Component({
-  selector: 'app-swap-icon',
-  templateUrl: './swap-icon.component.html',
-  styleUrls: ['./swap-icon.component.scss'],
+  selector: "app-swap-icon",
+  templateUrl: "./swap-icon.component.html",
+  styleUrls: ["./swap-icon.component.scss"],
   animations: [coinSwapsAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -26,8 +17,8 @@ export class SwapIconComponent implements OnInit {
   @Output() chooseDepositCoin: EventEmitter<Coin> = new EventEmitter<Coin>();
   @Output() chooseReceiveCoin: EventEmitter<Coin> = new EventEmitter<Coin>();
 
-  fromCoinAnimationSwapState = 'slideBack';
-  toCoinAnimationSwapState = 'slideBack';
+  fromCoinAnimationSwapState = "slideBack";
+  toCoinAnimationSwapState = "slideBack";
   firstCoin = undefined;
   secondCoin = undefined;
   swapCount = 0;
@@ -42,13 +33,13 @@ export class SwapIconComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    if (typeof changes.fromCoin !== 'undefined' && typeof changes.toCoin == 'undefined') {
+    if (typeof changes.fromCoin !== "undefined" && typeof changes.toCoin == "undefined") {
       if (this.swapCount % 2 == 0)
         this.firstCoin = changes.fromCoin.currentValue;
       else
         this.secondCoin = changes.fromCoin.currentValue;
     }
-    else if (typeof changes.toCoin !== 'undefined' && typeof changes.fromCoin == 'undefined') {
+    else if (typeof changes.toCoin !== "undefined" && typeof changes.fromCoin == "undefined") {
       if (this.swapCount % 2 == 0)
         this.secondCoin = changes.toCoin.currentValue;
       else
@@ -60,13 +51,13 @@ export class SwapIconComponent implements OnInit {
     event.stopPropagation();
     event.preventDefault();
 
-    if (this.fromCoinAnimationSwapState === 'slideBack') {
-      this.fromCoinAnimationSwapState = 'slideLeft';
-      this.toCoinAnimationSwapState = 'slideRight';
+    if (this.fromCoinAnimationSwapState === "slideBack") {
+      this.fromCoinAnimationSwapState = "slideLeft";
+      this.toCoinAnimationSwapState = "slideRight";
     }
     else {
-      this.fromCoinAnimationSwapState = 'slideBack';
-      this.toCoinAnimationSwapState = 'slideBack';
+      this.fromCoinAnimationSwapState = "slideBack";
+      this.toCoinAnimationSwapState = "slideBack";
     }
     this.swapCount++;
     this.swapped.emit();
@@ -82,4 +73,7 @@ export class SwapIconComponent implements OnInit {
 
   }
 
+  onCoinSelected(coin) {
+    this.chooseReceiveCoin.emit(coin);
+  }
 }

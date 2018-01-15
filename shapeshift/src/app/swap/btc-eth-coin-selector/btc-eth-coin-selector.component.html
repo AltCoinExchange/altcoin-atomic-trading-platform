@@ -1,0 +1,16 @@
+<div fxLayout="column" fxFlex="100" style="cursor: pointer;">
+  <div fxLayout="row" style="justify-content: center; padding: 2px 2px 10px;">You are exchanging</div>
+  <div fxLayout="row">
+    <div (click)="select.emit(ethCoin)" fxLayout="column" style="border: 1px solid;padding: 10px;border-radius: 3px; background: #1d2431;"
+         [@coinSwaps]="fromCoinAnimationSwapState" fxFlex="50">
+      <a style="display: flex;justify-content: center;align-items: center;">
+        <img style="max-height: 90px; height: 90px;" [src]="ethCoin.icon" alt="">
+      </a>
+    </div>
+    <div (click)="select.emit(btcCoin)" fxLayout="column" [@coinSwaps]="fromCoinAnimationSwapState" fxFlex="50">
+      <a style="display: flex;justify-content: center;align-items: center;">
+        <img style="max-height: 90px; height: 90px;" [src]="btcCoin.icon" alt="">
+      </a>
+    </div>
+  </div>
+</div>
