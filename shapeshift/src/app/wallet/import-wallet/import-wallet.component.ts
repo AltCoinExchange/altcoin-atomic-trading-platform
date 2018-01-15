@@ -125,7 +125,7 @@ export class ImportWalletComponent implements OnInit {
     this.passwordCardVisible = false;
     setTimeout(() => {
       this.cardVisible = true;
-    }, 1000);
+    }, 1500);
   }
 
   private createBtcWallet(codes: any) {
