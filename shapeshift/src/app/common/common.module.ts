@@ -12,7 +12,6 @@ import {
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {FlexLayoutModule} from "@angular/flex-layout";
-import {SwapIconComponent} from "../components/swap-icon/swap-icon.component";
 import {SwapCompleteComponent} from "../swap/swap-complete/swap-complete.component";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar.component";
 import {CoinInputModule} from "./coin-input/coin-input.module";
@@ -36,7 +35,6 @@ import {ShapeshiftButtonModule} from "./shapeshift-button/shapeshift-button.modu
     RedeemAddressComponent,
     InfoMessageComponent,
     AllCoinsDialogComponent,
-    SwapIconComponent,
     SwapCompleteComponent,
     ProgressBarComponent,
   ],
@@ -44,11 +42,11 @@ import {ShapeshiftButtonModule} from "./shapeshift-button/shapeshift-button.modu
     RedeemAddressComponent,
     InfoMessageComponent,
     AllCoinsDialogComponent,
-    SwapIconComponent,
     SwapCompleteComponent,
     CoinInputModule,
     ShapeshiftButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIconModule,
   ],
   entryComponents: [
     AllCoinsDialogComponent
