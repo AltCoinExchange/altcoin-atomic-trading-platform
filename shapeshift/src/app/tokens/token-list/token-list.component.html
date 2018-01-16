@@ -1,0 +1,14 @@
+<div fxLayout="row" class="content-block" fxLayoutAlign="center center">
+  <div fxFlex.xl="25%" fxFlex.lg="70%" fxFlex.md="80%" fxFlex.sm="100%" fxFlex.xs="100%">
+    <h5>
+      TOKENS
+    </h5>
+    <ng-template ngFor let-items let-last="last" [ngForOf]="tokenPreview">
+      <div fxLayout="row" fxLayoutGap="10px">
+        <ng-template ngFor let-o [ngForOf]="items">
+          <app-token-preview fxLayout="column" fxFlex="calc(25%-10px)"></app-token-preview>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>

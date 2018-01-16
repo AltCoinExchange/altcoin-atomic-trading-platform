@@ -14,6 +14,8 @@ import {MoscaService} from "../services/mosca.service";
 import {SideBEffect} from "../effects/side-B.effect";
 import {HttpModule} from "@angular/http";
 import {OrderService} from "../services/order.service";
+import {TokensModule} from "../tokens/tokens.module";
+import {MatTableModule, MatToolbarModule} from "@angular/material";
 
 @NgModule({
   imports: [
@@ -41,6 +43,9 @@ import {OrderService} from "../services/order.service";
       SideAEffect,
       SideBEffect,
     ]),
+    TokensModule,
+    MatTableModule,
+    MatToolbarModule,
   ],
   declarations: [
     SwapContainerComponent,
