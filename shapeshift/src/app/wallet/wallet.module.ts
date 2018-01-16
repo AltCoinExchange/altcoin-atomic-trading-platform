@@ -27,7 +27,9 @@ import {EffectsModule} from "@ngrx/effects";
 import {QuoteService} from "../services/quote.service";
 import {TransactionEffect} from "../effects/transaction.effect";
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollY: true
+};
 
 @NgModule({
   imports: [
