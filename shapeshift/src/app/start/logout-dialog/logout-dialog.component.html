@@ -1,40 +1,41 @@
-<h1 class="text">Logout will delete your private key!</h1>
-<p class="text">Please be sure to have your mnemonic code phrase stored before signing out!</p>
-<p class="text">
-  Also please note that we do not hold any of your private keys and we are not able to restore it back!
-</p>
+<h3>Logout will delete your private key!</h3>
+<p class="logout-text">Please be sure to have your mnemonic code phrase stored before signing out!
+We do not hold any of your private keys and we are not able to restore it back!</p>
 
 
 <mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
+  <mat-expansion-panel class="pass-dump" (opened)="dumpPrivateKey()">
+    <mat-expansion-panel-header class="pass-dump-header">
+      <mat-panel-title class="pass-dump-title">
         If you have not stored your mnemonic code phrase please click this to dump your raw private key!
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <mat-form-field *ngIf="hadPassword">
-      <input type="password" [(ngModel)]="password" matInput placeholder="Please provide your password!">
-    </mat-form-field>
+    <mat-card class="pass-card">
+        <mat-form-field *ngIf="hadPassword && !dumpedResult" class="pass-field">
+          <input type="password" [(ngModel)]="password" matInput placeholder="Confirm password">
+        </mat-form-field>
+    </mat-card>
     <mat-card *ngIf="dumpedResult">
       <p style="max-width: 400px;">
-        Your raw private key: <strong style="word-wrap: break-word;">{{dumpedResult}}</strong>
+        <strong class="pass">{{dumpedResult}}</strong>
       </p>
     </mat-card>
-    <mat-action-row>
-      <button (click)="dumpPrivateKey()" mat-button>Dump Key</button>
+    <mat-action-row *ngIf="hadPassword">
+      <button (click)="dumpPrivateKey()" mat-button color="accent">Dump Key</button>
+      <!-- <button mat-button color="accent" (click)="copyPass()">Copy</button>
+      <button mat-button color="accent" (click)="savePass()">Save</button> -->
     </mat-action-row>
 
   </mat-expansion-panel>
 </mat-accordion>
 
-<h2 class="text">Are you sure?</h2>
-<mat-form-field *ngIf="hadPassword">
-  <input type="password" [(ngModel)]="confirmPassword" matInput placeholder="Please provide your password!">
-  <mat-hint class="text">
-    Confirm with your password
-  </mat-hint>
-</mat-form-field>
-<div class="text" mat-dialog-actions>
-  <button mat-button (click)="dialogRef.close(false)">No</button>
-  <button mat-button (click)="deleteAcc()">Yes, I am sure</button>
+<mat-card *ngIf="hadPassword" class="pass-card">
+    <mat-form-field *ngIf="hadPassword" class="pass-field">
+      <input type="password" [(ngModel)]="confirmPassword" matInput placeholder="Confirm password">
+    </mat-form-field>
+</mat-card>
+
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button color="accent" (click)="deleteAcc()">Logout</button>
+  <button mat-button color="accent" (click)="dialogRef.close(false)">Cancel</button>
 </div>
