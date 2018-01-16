@@ -13,19 +13,32 @@
   img{
     width: 60px;
     height: 60px;
-    cursor: pointer;
     box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
-    border-radius: 100px;
-
-    transition: transform 200ms ease-in-out;
-
-    &:hover {
-      -moz-transform: translate(2px, 2px);
-      -ms-transform: translate(2px, 2px);
-      -o-transform: translate(2px, 2px);
-      -webkit-transform: translate(2px, 2px);
-      transform: translate(2px, 2px);
-    } 
+    border-radius: 100px; 
   }
+}
 
+.icon-box{
+  border: 1px solid $border-color;
+  border-radius: 2px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.swap-horiz{
+  color: $main-blue;
+  transition: transform 200ms ease-in-out;
+  
+  &:hover {
+    -moz-transform: translate(2px, 2px);
+    -ms-transform: translate(2px, 2px);
+    -o-transform: translate(2px, 2px);
+    -webkit-transform: translate(2px, 2px);
+    transform: translate(2px, 2px);
+  }
+}
+
+.coin-name{
+  color: white;
+  font-size: 100%;
 }

@@ -6,6 +6,7 @@ import {flyInOutAnimation} from "../../animations/animations";
 import {AnimationEnabledComponent} from "../../common/animation.component";
 import {Coin, CoinFactory} from "../../models/coins/coin.model";
 import {MessageTypes} from "../../models/message-types.enum";
+import {Coins} from "../../models/coins/coins.enum";
 import {SwapProcess} from "../../models/swap-process.model";
 import * as quoteSelector from "../../selectors/quote.selector";
 import * as swapSelector from "../../selectors/start.selector";
@@ -52,10 +53,13 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   selectedCoin: Coin;
   coinToChange: string;
   coins: Array<Coin>;
+  coinTypes = Coins;
+  disableOtherCoins: boolean;
   $swapProcess: Observable<SwapProcess>;
   $depositCoin: Observable<Coin>;
   $receiveCoin: Observable<Coin>;
 
+  
   $quote: Observable<number>;
   $depositUSD: Observable<number>;
   $receiveUSD: Observable<number>;
@@ -84,7 +88,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     super();
     this.infoMsg = "For testnet coins only. Do not send real Bitcoin or Ethereum.";
     this.coins = CoinFactory.createAllCoins();
-
+    
     this.store.dispatch(new swapAction.SetActiveStepAction(1));
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
@@ -177,10 +181,26 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     this.coinToChange = "receive";
   }
 
+  observeSelectedCoins(){
+    const $disableOtherCoins = Observable.combineLatest(this.$depositCoin, this.$receiveCoin);
+    $disableOtherCoins.subscribe(coins => {
+      let fromCoin = coins[0];
+      let toCoin = coins[1];
+      let fromCoinCondition = !(fromCoin.type == this.coinTypes.BTC || fromCoin.type == this.coinTypes.ETH);
+      let toCoinCondition = !(toCoin.type == this.coinTypes.BTC || toCoin.type == this.coinTypes.ETH);
+      let selectedCoinCondition = !(this.selectedCoin.type === this.coinTypes.BTC || this.selectedCoin.type === this.coinTypes.ETH);      
+      this.disableOtherCoins = !(selectedCoinCondition || (!fromCoinCondition && !toCoinCondition));
+    }).unsubscribe();
+  }
+
   showAllCoins(coin) {
+
+    this.selectedCoin = coin;
+    this.observeSelectedCoins();
+
     const dialogRef = this.dialog.open(AllCoinsDialogComponent, {
       panelClass: "all-coins-dialog",
-      data: {coins: this.coins, selectedCoin: coin}
+      data: {coins: this.coins, selectedCoin: coin, disableOtherCoins: this.disableOtherCoins }
     });
 
     dialogRef.afterClosed().filter(res => !!res).subscribe(result => {

@@ -19,7 +19,7 @@
   </div>
 </div>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="center stretch">
-  <div fxFlex="25" fxFlex.xs="1" class="start-button">
+  <div fxFlex="60" fxFlex.xs="1" class="start-button">
     <app-shapeshift-button [disabled]="!depCoin.value || +depCoin.value === 0 || depCoin.value === '0'"
                            (click)="submitSwap(!depCoin.value || +depCoin.value === 0 || depCoin.value === '0')">
       Start

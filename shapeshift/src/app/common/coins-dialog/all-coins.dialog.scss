@@ -13,6 +13,7 @@
 }
 
 .coin-card{
+    position: relative;
     text-align: center;
     margin: 10px;
     padding: 24px 16px;
@@ -26,8 +27,14 @@
         -webkit-transform: translate(2px, 2px);
         transform: translate(2px, 2px);
         opacity: 1 !important;
-    }    
+    }
+    
+    .disabled-card{
+        position: absolute;
+    }
 }
+
+
 
 .coin-icon{
     width: 60px;

@@ -23,6 +23,10 @@ body {
   color: $text-color;
 }
 
+h1,h2,h3{
+  color: white;
+}
+
 @media only screen and (max-width: 600px) {
      body {
         font-size: 12px;
@@ -41,21 +45,21 @@ input::-webkit-inner-spin-button {
 }
 
 ::-webkit-input-placeholder {
-  color: $text-color;
+  color: white;
 }
 :-moz-placeholder {
- color:  $text-color;
+ color:  white;
  opacity:  1;
 }
 ::-moz-placeholder {
- color:  $text-color;
+ color:  white;
  opacity:  1;
 }
 :-ms-input-placeholder {
- color:  $text-color;
+ color:  white;
 }
 ::-ms-input-placeholder {
- color:  $text-color;
+ color: white;
 }
 
 input:focus::-webkit-input-placeholder {
@@ -92,9 +96,9 @@ a{
 
 .input-box{
   background: $main-gray;
-  border-radius: 11px;
-  -webkit-border-radius: 11px;
-  -moz-border-radius: 11px;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
   box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
   -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
   -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
@@ -111,9 +115,10 @@ a{
     text-align: center;
     border: none;
     border-style: none;
-    border-radius: 11px;
+    border-radius: 2px;
     width: 70px;
     min-height: 40px;
+    font-weight: 300;
   }
   input:focus{
     outline: none;
@@ -121,7 +126,7 @@ a{
 }
 
 .input-label{
-  color: white;
+  color: $text-color;
   margin-bottom: 10px;
   text-align: left;
 }
@@ -133,7 +138,7 @@ a{
   font-size: 12px;
 
   &.active{
-    color: white;
+    color: $main-blue;
   }
 
 }

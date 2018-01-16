@@ -1,10 +1,15 @@
-<div class="swap-icons" fxLayout="row" style="justify-content: center;">
-  <app-coin-selector (click)="iconClicked($event, fromCoin)" fxLayout="column" fxFlex="33"
-                     [coin]="fromCoin"></app-coin-selector>
-  <div fxLayout="column" fxFlex="13" fxFlexAlign="center" style="    margin-top: 30px;">
-    <a *ngIf="swapEnabled;else swap_disabled"
-       style="color: deepskyblue!important; display: flex;justify-content: center;align-items: center;" href=""
-       (click)="animateCoinSwap($event)">
+<div class="swap-icons" fxLayout="row">
+  <div fxLayout="column" fxFlex="33">
+    <div class="swap-icon icon-box" [@coinSwaps]="toCoinAnimationSwapState">
+      <a fxLayout="row" fxLayoutAlign="space-between center" href="" (click)="iconClicked($event, firstCoin)">
+          <img [src]="firstCoin.icon" alt="">
+          <p class="coin-name" fxShow.xs="false">{{firstCoin.fullName}}</p>
+          <mat-icon>arrow_drop_down</mat-icon>
+      </a>
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="33" fxFlexAlign="center" class="swap-icon">
+    <a *ngIf="swapEnabled;else swap_disabled" class="swap-horiz" href="" (click)="animateCoinSwap($event)">
       <div fxShow.gt-xs="true" fxShow.xs="false">
         <i class="material-icons md-48">swap_horiz</i>
       </div>
@@ -12,7 +17,7 @@
         <i class="material-icons md-36">swap_horiz</i>
       </div>
     </a>
-    <ng-template #swap_disabled>
+    <ng-template #swap_disabled class="swap-horiz">
       <div fxShow.gt-xs="true" fxShow.xs="false">
         <i class="material-icons md-48">swap_horiz</i>
       </div>
@@ -21,7 +26,13 @@
       </div>
     </ng-template>
   </div>
-  <app-btc-eth-coin-selector (select)="onCoinSelected($event)" *ngIf="(fromCoin.name !== 'ETH') || fromCoin.name !== 'ETH'" fxLayout="column" fxFlex="33"></app-btc-eth-coin-selector>
-  <app-coin-selector *ngIf="fromCoin.name === 'ETH'" (click)="iconClicked($event, toCoin)" fxLayout="column" fxFlex="33"
-                     [coin]="toCoin"></app-coin-selector>
+  <div fxLayout="column" fxFlex="33">
+    <div class="swap-icon icon-box" [@coinSwaps]="fromCoinAnimationSwapState">
+      <a fxLayout="row" fxLayoutAlign="space-between center" href="" (click)="iconClicked($event, secondCoin)">
+        <img [src]="secondCoin.icon" alt="">
+        <p class="coin-name" fxShow.xs="false">{{secondCoin.fullName}}</p>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </a>
+    </div>
+  </div>
 </div>

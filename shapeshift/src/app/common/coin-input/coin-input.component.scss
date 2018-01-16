@@ -3,18 +3,34 @@
 .input-box{
     position: relative;
     input{
-        text-align: right;
+        padding-left: 52px;
+        text-align: left;
     }
 
-    .usd{
-        color: $text-color;
+    &.usd{
+        box-shadow: none;
+        input{
+            background: $background-color;
+            color: $text-color;
+        }
     }
 }
 
 .coin-symbol{
+    color: white;
     position: absolute;
     left: 0;
     padding: 0 10px;
-    top: 35%;
+    top: 16px;
     background: $main-gray;
+    &.usd{
+        background: $background-color;
+        color: $text-color;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .coin-symbol{
+        top: 18px;
+    }
 }
