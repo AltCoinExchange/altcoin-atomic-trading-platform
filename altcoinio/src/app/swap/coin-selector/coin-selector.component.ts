@@ -9,6 +9,7 @@ import {coinSwapsAnimation} from "../../animations/animations";
 })
 export class CoinSelectorComponent implements OnInit {
   @Input() coin;
+  fromCoinAnimationSwapState = "slideBack";
 
   constructor() {
   }

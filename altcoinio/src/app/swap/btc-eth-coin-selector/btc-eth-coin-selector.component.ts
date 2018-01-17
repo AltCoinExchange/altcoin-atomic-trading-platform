@@ -12,6 +12,7 @@ import {BtcCoinModel} from "../../models/coins/btc-coin.model";
 export class BtcEthCoinSelectorComponent implements OnInit {
   ethCoin = new EthCoinModel();
   btcCoin = new BtcCoinModel();
+  fromCoinAnimationSwapState = "slideBack";
 
   @Output() select: EventEmitter<any> = new EventEmitter();
   constructor() { }
