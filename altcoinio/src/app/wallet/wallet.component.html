@@ -1,0 +1,114 @@
+<div fxLayout="row" fxLayoutAlign="center stretch">
+  <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
+    <div class="message-box">
+      <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+    </div>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="center stretch">
+  <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
+    <mat-form-field class="search-box">
+      <input #inputRef placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
+      <button class="input-button" mat-button matSuffix mat-icon-button
+              (click)="inputRef.blur(); showAllCoins($event)">
+        <mat-icon>view_module</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+<perfect-scrollbar #perfectScrollbar  class="wallet-slide" fxLayout="row" fxLayoutAlign="start center">
+  <div (wheel)="wheelOverHorizontalDiv($event)">
+  <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name">
+    <div [@scaleInOut]="scaleInOut" class="wallet-card" [class.active]="selectedCoin == coin"
+          *ngIf="(inMyPossesion && (coin.$balance | async)?.balance > 0) ||
+                  (!inMyPossesion && (coin.$balance | async)?.balance >= 0)">
+      <img class="coin-icon" [src]="coin.icon" alt="">
+      <div *ngIf="(coin.$balance | async)?.loading || coin.faucetLoading">
+        <div class="spinner">
+          <div class="circle-loader">
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!(coin.$balance | async)?.loading && !coin.faucetLoading">
+        <div class="coin-name">{{coin.fullName}}</div>
+        <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
+        </div>
+        <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
+        <a *ngIf="coin.name != 'BTC' && coin.name != 'ETH'" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
+      </div>
+    </div>
+  </a>
+  <a *ngIf="filteredCoins.length === 0" class="no-coins">Not found</a>
+  </div>
+</perfect-scrollbar>
+<div fxLayout="row" fxLayoutAlign="center center" class="hide-coins-box">
+  <mat-checkbox [ngModel]="inMyPossesion" (ngModelChange)="onPossesionModeChange($event)">Hide coins with zero
+    balance
+  </mat-checkbox>
+</div>
+
+
+<div class="gradient">
+  <div class="options-slide" fxLayout="row" fxLayoutAlign="start center">
+    <button
+      class="wallet-option"
+      (click)="selectWalletOption(walletOptions.Send)"
+      [class.active]="selectedOption == walletOptions.Send"
+      [@scaleInOut]="scaleInOut">SEND
+    </button>
+    <button
+      class="wallet-option"
+      (click)="selectWalletOption(walletOptions.Receive)"
+      [class.active]="selectedOption == walletOptions.Receive"
+      [@scaleInOut]="scaleInOut">RECEIVE
+    </button>
+    <button
+      class="wallet-option"
+      (click)="selectWalletOption(walletOptions.Transactions)"
+      [class.active]="selectedOption == walletOptions.Transactions"
+      [@scaleInOut]="scaleInOut">TRANSACTIONS
+    </button>
+  </div>
+</div>
+<div class="wallet-container">
+  <div *ngIf="selectedOption == walletOptions.Send" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
+    <div fxLayout="row" fxLayoutAlign="center stretch">
+      <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
+        <div class="input-label">Address</div>
+        <div class="input-box">
+          <input/>
+        </div>
+        <coin-input [label]="'Amount'" [alignLabel]="'left'" [coin]="selectedCoin"
+                    [(ngModel)]="selectedCoin.amount">
+        </coin-input>
+        <coin-input [label]="'Network fee'" [alignLabel]="'left'" [coin]="selectedCoin"
+                    [(ngModel)]="randomValue" disabled>
+        </coin-input>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end end" fxLayoutAlign.xs="center stretch">
+          <div fxFlex="25" fxFlex.xs="1" class="start-button">
+            <app-altcoinio-button>Send</app-altcoinio-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selectedOption == walletOptions.Receive" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
+    <app-wallet-receive
+      *ngIf="selectedCoin && ((selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address)"
+      [coin]="selectedCoin"
+      [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-wallet-receive>
+  </div>
+  <div *ngIf="selectedOption == walletOptions.Transactions" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
+        <a *ngIf="selectedCoin.name == 'BTC'" target="noopener"
+           href="https://live.blockcypher.com/btc-testnet/address/{{(selectedCoin.$balance | async)?.address}}/">Blockcypher</a>
+        <div *ngIf="selectedCoin.name != 'BTC'" target="noopener">
+          <app-transactions-wallet
+            [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-transactions-wallet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

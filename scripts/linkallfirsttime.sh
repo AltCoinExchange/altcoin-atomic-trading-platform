@@ -11,7 +11,7 @@ cd ..
 cd wallet-ts
 yarn link
 cd ..
-cd shapeshift
+cd altcoinio
 yarn link wallet
 yarn link ethatomicswap
 yarn link btc-atomic-swap
