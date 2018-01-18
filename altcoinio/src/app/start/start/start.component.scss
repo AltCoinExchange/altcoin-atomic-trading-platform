@@ -80,36 +80,7 @@ a.logo {
 footer {
   width: 100%;
   height: 60px;
-  background-color: $main-gray;
-  box-shadow: 1px -2px 4px 0 rgba(0, 0, 0, 0.50);
-  -webkit-box-shadow: 1px -2px 4px 0 rgba(0, 0, 0, 0.50);
-  -moz-box-shadow: 1px -2px 4px 0 rgba(0, 0, 0, 0.50);
-  ul {
-    text-align: center;
-    width: 220px;
-    list-style: none;
-    height: 60px;
-    margin: auto;
-    padding: 0;
-
-    li {
-      width: 32px;
-      height: 32px;
-      display: inline-block;
-      margin-right: 15px;
-
-      a {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        margin-top: 15px;
-        img{
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
-  }
+  background-color: $background-color;
 }
 
 .app-toolbar-filler {
@@ -132,4 +103,8 @@ footer {
   text-align: left;
   text-decoration: none;
   color: #9cabbd;
+}
+
+.copyright{
+  opacity: 0.7;
 }
