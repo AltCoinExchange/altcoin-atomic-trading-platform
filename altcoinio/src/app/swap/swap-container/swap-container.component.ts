@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {DataSource} from "@angular/cdk/collections";
 import {Observable} from "rxjs/Observable";
+import {OrderService} from "../../services/order.service";
 
 
 @Component({
@@ -10,10 +11,10 @@ import {Observable} from "rxjs/Observable";
 })
 export class SwapContainerComponent implements OnInit {
   displayedColumns = ["from", "to"];
-  dataSource = new MyDataSource(ELEMENT_DATA);
+  dataSource;
 
-  constructor() {
-
+  constructor(public orderService: OrderService) {
+    this.dataSource = new OrderDataSource(orderService);
   }
 
   ngOnInit() {
@@ -29,23 +30,24 @@ export interface Element {
   toAmount: number;
 }
 
-const ELEMENT_DATA: Element[] = [
-  {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
-  {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
-  {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
-  {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
-  {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
-];
+export class OrderDataSource extends DataSource<any> {
 
+  // TODO: Remove preserved for testing purposes
+  ELEMENT_DATA: Element[] = [
+    {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
+    {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
+    {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
+    {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
+    {id: 1, from: "BTC", to: "ETC", fromAmount: 1, toAmount: 3},
+  ];
 
-export class MyDataSource extends DataSource<any> {
-
-  constructor(private element: Element[]) {
+  constructor(private orderService: OrderService) {
     super();
   }
 
   connect(): Observable<Element[]> {
-    return Observable.of(this.element);
+    return this.orderService.getActiveOrders();
+    // return Observable.of(this.ELEMENT_DATA);
   }
 
   disconnect() {

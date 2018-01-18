@@ -32,10 +32,11 @@ export class SideAEffect {
     .withLatestFrom(this.store.select(getWalletState))
     .mergeMap(([payload, wallet]) => {
         const address = this.linkService.generateAddress(payload, wallet);
-        const amount = payload.depositCoin.amount;
+        const fromAmount = payload.depositCoin.amount;
+        const toAmount = payload.receiveCoin.amount;
         const from = payload.depositCoin.name;
         const to = payload.receiveCoin.name;
-        return this.orderService.placeOrder(from, to, amount, address).map(resp => {
+        return this.orderService.placeOrder(from, to, fromAmount, toAmount, address).map(resp => {
           return new sideA.GenerateLinkSuccessAction(resp);
         }).catch(err => Observable.of(new sideA.GenerateLinkFailAction(err)));
       },
