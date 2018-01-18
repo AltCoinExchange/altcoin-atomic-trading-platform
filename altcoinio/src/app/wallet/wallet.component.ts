@@ -78,6 +78,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   constructor(private store: Store<AppState>, public dialog: MatDialog) {
     this.allCoins = CoinFactory.createAllCoins();
     this.filteredCoins = [...this.allCoins];
+    this.selectedCoin = this.allCoins[0];
   }
 
   ngOnInit() {
@@ -101,10 +102,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   selectCoinCard(coin) {
-    const coinEl = document.querySelector("#" + coin.name);
-    if (!coin || !coinEl) {
-      return;
-    }
     this.selectedCoin = coin;
   }
 
@@ -197,7 +194,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
       switch (coin.name) {
         case "BTC":
           coin.$balance = this.$btcBalance;
-          this.selectedCoin = coin;
           break;
         case "ETH":
           coin.$balance = this.$ethBalance;
