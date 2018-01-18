@@ -9,11 +9,15 @@ export class OrderService {
 
   }
 
-  public placeOrder(from, to, amount, address) {
+  public placeOrder(from, to, fromAmount, toAmount, address) {
     const uniqueId = uuidv4().replace(/-/g, "");
-    return this.http.get(environment.orderApi + "/order/" + uniqueId + `/${from}/${to}/${amount}/${address}`)
+    return this.http.get(environment.orderApi + "/order/" + uniqueId + `/${address}/${from}/${to}/${fromAmount}/${toAmount}`)
       .timeout(10000)
       .map(resp => resp.json());
   }
 
+  public getActiveOrders() {
+    return this.http.get(environment.orderApi + "/orders/getActiveOrders")
+      .map(resp => resp.json());
+  }
 }

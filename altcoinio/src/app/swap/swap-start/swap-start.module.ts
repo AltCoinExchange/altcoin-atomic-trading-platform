@@ -10,8 +10,6 @@ import {EffectsModule} from "@ngrx/effects";
 import {QuoteEffect} from "../../effects/quote.effect";
 import {QuoteService} from "../../services/quote.service";
 import {SwapIconComponent} from "../swap-icon/swap-icon.component";
-import {CoinSelectorComponent} from "../coin-selector/coin-selector.component";
-import {BtcEthCoinSelectorComponent} from "../btc-eth-coin-selector/btc-eth-coin-selector.component";
 
 @NgModule({
   imports: [
@@ -31,9 +29,7 @@ import {BtcEthCoinSelectorComponent} from "../btc-eth-coin-selector/btc-eth-coin
   ],
   declarations: [
     SwapStartComponent,
-    CoinSelectorComponent,
     SwapIconComponent,
-    BtcEthCoinSelectorComponent,
   ],
   providers: [
     QuoteService,
