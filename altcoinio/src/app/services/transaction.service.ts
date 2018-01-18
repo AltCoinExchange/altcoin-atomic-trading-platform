@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Observable, Observer} from 'rxjs/';
 import {Http} from '@angular/http';
+import {environment} from "../../environments/environment";
 import {TransactionModel} from "../models/transaction.model";
 
 @Injectable()
 export class TransactionService {
 
   // TODO: Add https
-  private url = 'https://service1.altcoin.io:3001/data/transactions:';
+  private url = environment.orderApi + '/data/transactions:';
 
   constructor(private http: Http) {
   }
