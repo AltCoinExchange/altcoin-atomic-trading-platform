@@ -133,6 +133,11 @@ export class WalletComponent implements OnInit, AfterViewInit {
           return;
         }
         this.selectCoinCard(result);
+        const coinEl = document.querySelector("#" + result.name);
+        if (!result || !coinEl) {
+          return;
+        }
+        this.perfectScrollbar.directiveRef.scrollToX((<any>coinEl).offsetLeft - 50);
       });
 
     });
