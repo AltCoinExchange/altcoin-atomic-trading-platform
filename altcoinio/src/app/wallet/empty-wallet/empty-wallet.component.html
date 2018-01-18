@@ -1,0 +1,16 @@
+<div fxLayout="row" fxLayoutWrap fxLayoutAlign="center center" class="container">
+  <mat-card *ngIf="cardVisible" fxFlex="20%" fxFlex.md="25%" fxFlex.sm="40%" fxFlex.xs="90%" fxFlex.xl="12%" class="card"
+            fxLayout="column" fxLayoutAlign="space-between center">
+      <div class="card-title">Generate new wallet</div>
+      <div class="card-button">
+          <app-altcoinio-button (click)="createWallet()">Create Wallet</app-altcoinio-button>
+      </div>
+  </mat-card>
+  <mat-card *ngIf="cardVisible" fxFlex="20%" fxFlex.md="25%" fxFlex.sm="40%" fxFlex.xs="90%" fxFlex.xl="12%" class="card"
+            fxLayout="column" fxLayoutAlign="space-between center">
+      <div class="card-title">Restore your wallet with your twelve word phase</div>
+      <div class="card-button">
+          <app-altcoinio-button (click)="importWallet()">Import Wallet</app-altcoinio-button>
+      </div>
+  </mat-card>
+</div>

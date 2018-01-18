@@ -3,8 +3,8 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/shapeshift/dist" />
-      <excludeFolder url="file://$MODULE_DIR$/shapeshift/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/altcoinio/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/altcoinio/tmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
