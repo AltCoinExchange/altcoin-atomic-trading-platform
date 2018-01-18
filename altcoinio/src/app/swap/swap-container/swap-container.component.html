@@ -1,12 +1,10 @@
 <h1 style="text-align: center;">Exchange cryptocurrency at the best rate.</h1>
-<div fxLayout="row" fxLayoutAlign="center center" class="content-block">
-  <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="70%" fxFlex.xs="100%">
-      <progress-steps></progress-steps>
-  </div>
-</div>
-<div fxLayout="row" fxLayoutAlign="center center" class="content-block">
-  <div  fxFlex.xl="30%" fxFlex.lg="50%" fxFlex.md="85%" fxFlex.sm="100%" fxFlex.xs="100%">
-      <router-outlet></router-outlet>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div class="swap-proccess" fxFlex.xl="30%" fxFlex.lg="50%" fxFlex.md="85%" fxFlex.sm="100%" fxFlex.xs="100%">
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <progress-steps fxFlex.xl="50%" fxFlex.lg="80%" fxFlex.md="90%" fxFlex.sm="90%" fxFlex.xs="90%"></progress-steps>
+      </div>
+      <router-outlet class="content-block"></router-outlet>
   </div>
 </div>
 <app-token-list></app-token-list>
