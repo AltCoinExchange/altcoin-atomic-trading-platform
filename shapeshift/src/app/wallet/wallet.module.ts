@@ -3,6 +3,7 @@ import {NgModule} from "@angular/core";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {
+  MatTabsModule,
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
@@ -47,6 +48,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ShapeShiftCommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTabsModule,
     MatInputModule,
     MatIconModule,
     MatCheckboxModule,

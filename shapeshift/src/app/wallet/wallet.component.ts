@@ -4,7 +4,7 @@ import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {TOKENS} from "altcoinio-wallet";
 import {GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction} from "../actions/balance.action";
-import {fadeInOutAnimation, scaleInOutAnimation} from "../animations/animations";
+import {scaleInOutAnimation} from "../animations/animations";
 import {Coin, CoinFactory} from "../models/coins/coin.model";
 import {MessageTypes} from "../models/message-types.enum";
 import {AppState} from "../reducers/app.state";
@@ -31,7 +31,6 @@ import {
 } from "../selectors/balance.selector";
 import * as quoteSelector from "../selectors/quote.selector";
 import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
-import {WalletOptions} from "./wallet-options.enum";
 import {Go} from "../actions/router.action";
 import {ShapeshiftStorage} from "../common/shapeshift-storage";
 import {TransactionService} from "../services/transaction.service";
@@ -40,18 +39,15 @@ import {TransactionService} from "../services/transaction.service";
   selector: "app-wallet",
   templateUrl: "./wallet.component.html",
   styleUrls: ["./wallet.component.scss"],
-  animations: [scaleInOutAnimation, fadeInOutAnimation]
+  animations: [scaleInOutAnimation]
 })
 export class WalletComponent implements OnInit, AfterViewInit {
   @ViewChild('perfectScrollbar') perfectScrollbar;
   scaleInOut = "scaleInOut";
-  fadeInOut = "fadeInOut";
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
-  walletOptions: typeof WalletOptions = WalletOptions;
   allCoins: Array<Coin>;
   selectedCoin: Coin;
-  selectedOption: WalletOptions = WalletOptions.Receive;
   sendAmount: Number = 0.00;
   $tokenBalanceAugur: Observable<WalletRecord>;
   $tokenBalanceGolem: Observable<WalletRecord>;
@@ -98,16 +94,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.selectedCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
-      this.generateQrCode(this.selectedCoin);
-    });
-  }
-
-  selectWalletOption(walletOption) {
-    this.selectedOption = undefined;
-    setTimeout(() => {
-      this.selectedOption = walletOption;
-    }, 500);
+    // this.selectedCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
+    //   console.log('b ', b);
+    //   this.generateQrCode(this.selectedCoin);
+    // });
   }
 
   selectCoinCard(coin) {
@@ -116,8 +106,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
       return;
     }
     this.selectedCoin = coin;
-    //this.perfectScrollbar.directiveRef.scrollToX((<any>coinEl).offsetLeft - 20);
-    this.generateQrCode(coin);
   }
 
   filterCoin(val: string) {
@@ -282,22 +270,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
         return price;
       });
     });
-  }
-
-  private generateQrCode(coin) {
-    const address = Observable.combineLatest(coin.$balance, this.$ethBalance, (c: any, eth) => {
-      let addr;
-      if (c.address) {
-        addr = c.address;
-      } else {
-        addr = eth.address;
-      }
-      return addr;
-    });
-
-    address.first().subscribe(addr => {
-
-    }).unsubscribe();
   }
 
   private getTokens(coin){

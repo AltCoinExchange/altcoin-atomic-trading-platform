@@ -51,7 +51,7 @@
         padding: 15px 15px 15px 50px;
         background: $main-gray;
         box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
-        border-radius: 11px;
+        border-radius: 5px;
         cursor: pointer;
 
         &.active{
@@ -111,63 +111,26 @@
 
 .options-slide{
     width: 100%;
-    padding: 15px;
     overflow-x: auto;
     white-space: nowrap;
-    margin-bottom: 3%;
-
-    button.wallet-option{
-        border: none;
-        background: $main-gray;
-        box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
-        border-radius: 100px;
-        font-size: 85%;
-        color: #FFFFFF;
-        padding: 15px 0px;
-        width: 150px;
-        text-align: center;
-        margin: 0px 5px;
-        cursor: pointer;
-
-        &.active{
-            box-shadow: 1px 2px 14px 0 rgba(255,255,255,0.50);
-        }
-
-        transition: all 200ms ease-in-out;
-
-        &:hover {
-            -moz-transform: translate(2px, 2px);
-            -ms-transform: translate(2px, 2px);
-            -o-transform: translate(2px, 2px);
-            -webkit-transform: translate(2px, 2px);
-            transform: translate(2px, 2px);
-        }
-    }
 }
 
-@media only screen and (min-width: 510px) {
-    .options-slide{
-        width: fit-content;
-        margin: 0 auto;
-        margin-bottom: 3%;
-    }
+.wallet-container{
+    background: $main-gray;
 }
 
 .wallet-content{
-    width: -webkit-calc(100% - 40px);
-    width: -moz-calc(100% - 40px);
-    width: calc(100% - 40px);
-    padding: 20px;
-    margin-bottom: 60px;
+    padding: 20px 10px;
+    min-height: 200px;
+    padding-bottom: 60px;
     text-align: center;
-}
-
-@media (max-width: 600px) {
-    .wallet-content{
-        margin-bottom: 0px;
-    }
 }
 
 .start-button{
     margin-top: 15px;
 }
+
+.mat-tab-group{
+    width: 100%;
+}
+

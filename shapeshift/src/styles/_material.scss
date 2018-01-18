@@ -53,7 +53,7 @@ mat-dialog-container {
 
 .mat-list-item, .mat-input-element, .mat-button, 
 .mat-toolbar, .mat-checkbox, .mat-form-field, .mat-menu-item, 
-.mat-expansion-panel-header {
+.mat-expansion-panel-header, .mat-tab-group, .mat-tab-label {
     font-family: 'Montserrat', sans-serif !important;
 }
 
@@ -68,6 +68,11 @@ mat-dialog-container {
 
 .mat-menu-panel{
     background-color: $main-gray;
+}
+
+.mat-tab-label {
+    color: $text-color;
+    flex: 1 1 auto;
 }
 
 

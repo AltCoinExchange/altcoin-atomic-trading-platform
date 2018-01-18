@@ -49,12 +49,15 @@ export class WalletReceiveComponent implements OnInit {
         correctLevel: QRCode.CorrectLevel.H
       });
     }
-    let addr;
-    if (this._coin.type === Coins.BTC) {
-      addr = "bitcoin:" + this.address;
-    } else {
-      addr = "ethereum:" + this.address;
+    if(this.qr && this.address){
+      let addr;
+      if (this._coin.type === Coins.BTC) {
+        addr = "bitcoin:" + this.address;
+      } else {
+        addr = "ethereum:" + this.address;
+      }
+      this.qr.makeCode(addr);
     }
-    this.qr.makeCode(addr);
+    
   }
 }

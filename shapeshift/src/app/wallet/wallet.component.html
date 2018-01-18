@@ -48,67 +48,48 @@
   </mat-checkbox>
 </div>
 
-
-<div class="gradient">
-  <div class="options-slide" fxLayout="row" fxLayoutAlign="start center">
-    <button
-      class="wallet-option"
-      (click)="selectWalletOption(walletOptions.Send)"
-      [class.active]="selectedOption == walletOptions.Send"
-      [@scaleInOut]="scaleInOut">SEND
-    </button>
-    <button
-      class="wallet-option"
-      (click)="selectWalletOption(walletOptions.Receive)"
-      [class.active]="selectedOption == walletOptions.Receive"
-      [@scaleInOut]="scaleInOut">RECEIVE
-    </button>
-    <button
-      class="wallet-option"
-      (click)="selectWalletOption(walletOptions.Transactions)"
-      [class.active]="selectedOption == walletOptions.Transactions"
-      [@scaleInOut]="scaleInOut">TRANSACTIONS
-    </button>
-  </div>
-</div>
 <div class="wallet-container">
-  <div *ngIf="selectedOption == walletOptions.Send" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
-    <div fxLayout="row" fxLayoutAlign="center stretch">
-      <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
-        <div class="input-label">Address</div>
-        <div class="input-box">
-          <input/>
-        </div>
-        <coin-input [label]="'Amount'" [alignLabel]="'left'" [coin]="selectedCoin"
-                    [(ngModel)]="selectedCoin.amount">
-        </coin-input>
-        <coin-input [label]="'Network fee'" [alignLabel]="'left'" [coin]="selectedCoin"
-                    [(ngModel)]="randomValue" disabled>
-        </coin-input>
-        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end end" fxLayoutAlign.xs="center stretch">
-          <div fxFlex="25" fxFlex.xs="1" class="start-button">
-            <app-shapeshift-button>Send</app-shapeshift-button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="selectedOption == walletOptions.Receive" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
-    <app-wallet-receive
-      *ngIf="selectedCoin && ((selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address)"
-      [coin]="selectedCoin"
-      [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-wallet-receive>
-  </div>
-  <div *ngIf="selectedOption == walletOptions.Transactions" class="wallet-content gradient" [@fadeInOut]="fadeInOut">
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
-        <a *ngIf="selectedCoin.name == 'BTC'" target="noopener"
-           href="https://live.blockcypher.com/btc-testnet/address/{{(selectedCoin.$balance | async)?.address}}/">Blockcypher</a>
-        <div *ngIf="selectedCoin.name != 'BTC'" target="noopener">
-          <app-transactions-wallet
-            [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-transactions-wallet>
-        </div>
-      </div>
-    </div>
+  <div class="options-slide" fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
+        <mat-tab-group >
+          <mat-tab label="Receive">
+              <div class="wallet-content">
+                  <app-wallet-receive
+                  *ngIf="selectedCoin && ((selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address)"
+                  [coin]="selectedCoin"
+                  [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-wallet-receive>
+              </div>
+          </mat-tab>
+          <mat-tab label="Send">
+              <div class="wallet-content">
+                  <div class="input-label">Address</div>
+                  <div class="input-box">
+                      <input/>
+                    </div>
+                    <coin-input [label]="'Amount'" [alignLabel]="'left'" [coin]="selectedCoin"
+                                [(ngModel)]="selectedCoin.amount">
+                    </coin-input>
+                    <coin-input [label]="'Network fee'" [alignLabel]="'left'" [coin]="selectedCoin"
+                                [(ngModel)]="randomValue" disabled>
+                    </coin-input>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end end" fxLayoutAlign.xs="center stretch">
+                      <div fxFlex="25" fxFlex.xs="1" class="start-button">
+                        <app-shapeshift-button>Send</app-shapeshift-button>
+                      </div>
+                    </div>
+              </div>
+          </mat-tab>
+          <mat-tab label="Transactions">
+            <div class="wallet-content">
+              <a *ngIf="selectedCoin.name == 'BTC'" target="noopener"
+                  href="https://live.blockcypher.com/btc-testnet/address/{{(selectedCoin.$balance | async)?.address}}/">Blockcypher</a>
+              <div *ngIf="selectedCoin.name != 'BTC'" target="noopener">
+                <app-transactions-wallet
+                  [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-transactions-wallet>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+    </div> 
   </div>
 </div>
