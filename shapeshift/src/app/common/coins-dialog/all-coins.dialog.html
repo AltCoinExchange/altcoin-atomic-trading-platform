@@ -3,8 +3,16 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
+<div fxLayout="row" fxLayoutAlign="start center">
+  <div fxFlex="96%" fxFlex.xs="90%" fxFlex.md="97%" fxFlex.md="93%" fxFlex.sm="93%" fxFlex.xl="94%">
+    <mat-form-field class="search-box">
+      <input placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
+    </mat-form-field>
+  </div>
+</div>
+
 <div fxLayout="row" fxLayoutWrap fxLayoutAlign="start start">
-  <mat-card *ngFor="let coin of data.coins"
+  <mat-card *ngFor="let coin of filteredCoins"
       fxLayout="row" fxLayoutAlign="center center"
       [style.background]="isSelectedCoin(coin) ? 'rgba(42,49,65,1)' : 'rgba(42,49,65,.65)'"
       (click)="closeDialog(coin)" 

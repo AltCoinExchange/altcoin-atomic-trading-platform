@@ -4,6 +4,7 @@ import {RedeemAddressComponent} from "./redeem-address/redeem-address.component"
 import {InfoMessageComponent} from "./info-message/info-message.component";
 import {AllCoinsDialogComponent} from "./coins-dialog/all-coins.dialog";
 import {
+  MatInputModule,
   MatButtonModule,
   MatCardModule,
   MatDialogModule,
@@ -20,6 +21,7 @@ import {ShapeshiftButtonModule} from "./shapeshift-button/shapeshift-button.modu
 @NgModule({
   imports: [
     CommonModule,
+    MatInputModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
