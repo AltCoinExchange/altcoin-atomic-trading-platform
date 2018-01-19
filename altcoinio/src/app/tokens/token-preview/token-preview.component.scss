@@ -1,6 +1,42 @@
+@import '../../../styles/variables';
+
 .example-header-image {
   background-image: url('/assets/icon/btc-icon.png');
   background-size: cover;
+  
+}
+
+.token-img{
   height: inherit !important;
   width: inherit !important;
+}
+
+.token-card{
+  margin: 10px;
+  padding: 24px 16px;
+  width: calc(100% - 20px);
+  background: $main-gray;
+}
+
+.token-icon{
+  border-radius: 0px;
+  border: 1px solid $border-color;
+  width: 60px; 
+  height: 60px; 
+  padding: 10px;
+}
+
+.token-name{
+  color: white;
+  font-size: 115%;
+}
+
+.graph{
+  width: 100%;
+  margin: 0px;
+}
+
+.token-button{
+  background: $main-blue;
+  color: white;
 }

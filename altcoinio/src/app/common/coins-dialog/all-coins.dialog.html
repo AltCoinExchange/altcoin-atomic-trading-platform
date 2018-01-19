@@ -13,11 +13,11 @@
 
 <div fxLayout="row" fxLayoutWrap fxLayoutAlign="start start">
   <mat-card *ngFor="let coin of filteredCoins"
-      fxLayout="row" fxLayoutAlign="center center"
       [style.background]="isSelectedCoin(coin) ? 'rgba(42,49,65,1)' : 'rgba(42,49,65,.65)'"
       (click)="closeDialog(coin)" 
       class="coin-card"
       fxLayout="column" 
+      fxLayoutAlign="center center"
       fxFlex="23%"
       fxFlex.xs="90%"
       fxFlex.sm="45%"

@@ -1,4 +1,5 @@
 import {Component, OnInit} from "@angular/core";
+import {Coin, CoinFactory} from "../../models/coins/coin.model";
 
 @Component({
   selector: "app-token-list",
@@ -7,25 +8,10 @@ import {Component, OnInit} from "@angular/core";
 })
 export class TokenListComponent implements OnInit {
 
-  tokens = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-  ];
-
-  tokenPreview = [];
+  tokens: Array<Coin>;
 
   constructor() {
-    while (this.tokens.length) {
-      this.tokenPreview.push(this.tokens.splice(0, 4));
-    }
+    this.tokens = CoinFactory.createAllCoins();
   }
 
   ngOnInit() {
