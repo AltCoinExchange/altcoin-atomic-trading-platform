@@ -1,3 +1,25 @@
 <div>
-  from: {{ ((($transactions | async)?.transactions.from[0]) || 0) }}
+  <div class="example-container" style="width: 100%;">
+    <mat-table style="background: #2A3141;" #table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> From</mat-header-cell>
+        <mat-cell style="color: #9cabbd;margin-right: 5px;" *matCellDef="let element">
+          <img style="width: 15px;" src="/assets/icon/eth-icon.png" alt=""> {{element.from}} =></mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> To</mat-header-cell>
+        <mat-cell style="color: #9cabbd;margin-right: 5px;" *matCellDef="let element">{{element.to}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="value">
+        <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> Value</mat-header-cell>
+        <mat-cell style="color: #9cabbd;margin-right: 5px;" *matCellDef="let element">{{element.value}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row style="color: #9cabbd" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
 </div>

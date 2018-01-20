@@ -13,5 +13,5 @@ export const environment = {
   wshost: "ws://34.215.58.192:9985/api/v1/streams/valid_transactions",
   appid: "DLiUBJ8NGMh6ojuFjwAqhF4L8D2hUsSH5CCcH1X648Fe",
   appkey: "GgZtjS6WPDNAePNM43ZdPoJ1Ap61RU3jnsgjHqELxgHX",
-  orderApi: "http://localhost:3000"
+  orderApi: "https://service1.altcoin.io:3001"
 };

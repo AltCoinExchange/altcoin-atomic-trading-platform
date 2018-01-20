@@ -5,6 +5,11 @@ import {AppState} from "../../reducers/app.state";
 import {LoadTransactionAction} from "../../actions/transaction.action";
 import {getTransactions} from "../../selectors/transaction.selector";
 import {TransactionState} from "../../reducers/transaction.reducer";
+import {DataSource} from "@angular/cdk/collections";
+import {Element, OrderDataSource} from "../../swap/swap-container/swap-container.component";
+import {OrderService} from "../../services/order.service";
+import {TransactionService} from "../../services/transaction.service";
+import {TransactionDetailsModel, TransactionModel} from "../../models/transaction.model";
 
 @Component({
   selector: 'app-transactions-wallet',
@@ -13,14 +18,47 @@ import {TransactionState} from "../../reducers/transaction.reducer";
 })
 export class TransactionsWalletComponent implements OnInit {
   @Input() address;
-  public $transactions: Observable<TransactionState>;
-  public $from: Observable<Array<any>>;
-  public $to: Observable<Array<any>>;
+  public dataSource;
+  public displayedColumns = ["from", "to", "value"];
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, public transactionService: TransactionService) {
+  }
 
   ngOnInit() {
-    this.store.dispatch(new LoadTransactionAction());
-    this.$transactions = this.store.select(getTransactions);
+    this.dataSource = new TransactionsDataSource(this.transactionService, this.address);
   }
 }
+
+export class TransactionsDataSource extends DataSource<any> {
+
+  constructor(private transactionService: TransactionService, private address: string) {
+    super();
+  }
+
+  connect(): Observable<TransactionDetailsModel[]> {
+    const addr = "0x" + this.address.toLowerCase();
+    return this.transactionService.getTransactions(this.address)
+      .map(data => {
+        let details = data.from.concat(data.to) as TransactionDetailsModel[];
+        console.log(details);
+        details = details.filter((e, index, arr) => {
+          e.value = (parseFloat(e.value) / 1000000000000000000).toString() + " ETH";
+          if (e.from.toLowerCase() == addr) {
+            e.from = "ME";
+            return true;
+          } else if (e.to.toLowerCase() == addr) {
+            e.to = "ME";
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        return details;
+      });
+  }
+
+  disconnect() {
+  }
+}
+

@@ -10,7 +10,7 @@ import {
   MatDialogModule,
   MatIconModule,
   MatInputModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule, MatToolbarModule, MatTableModule
 } from "@angular/material";
 import {RouterModule} from "@angular/router";
 import {AltcoinIoCommonModule} from "../common/common.module";
@@ -48,6 +48,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AltcoinIoCommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTableModule,
+    MatToolbarModule,
     MatTabsModule,
     MatInputModule,
     MatIconModule,
