@@ -16,6 +16,11 @@ export class QuoteService {
     return this.fetch('', true);
   }
 
+  public getHistory(coin: string, range: string = "365day") {
+    const url = 'https://coincap.io/history/';
+    return this.http.get(`${url}${range}/${coin}`).map(res => res.json());
+  }
+
   /**
    *
    * @param currency
