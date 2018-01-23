@@ -33,10 +33,27 @@
 
 .graph{
   width: 100%;
+  height: 50%;
   margin: 0px;
+}
+
+.graph-buttons{
+  margin-top: 10px !important;
+  width: 100%;
+  text-align: center;
+  font-size: 85%;
 }
 
 .token-button{
   background: $main-blue;
   color: white;
+}
+
+.mat-button-toggle {
+  color: $text-color;
+}
+
+.mat-button-toggle-checked {
+  background-color: transparent;
+  color: $main-green;
 }

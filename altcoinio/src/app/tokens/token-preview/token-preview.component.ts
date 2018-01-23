@@ -14,61 +14,9 @@ import {ChartModel, ChartSerie} from "../../models/chart-model";
 export class TokenPreviewComponent implements OnInit {
   @Input() token;
 
-  public multi: Observable<ChartModel[]> = Observable.of([{ name: "PRICE", series: [ { name: new Date(), value: 1 }]}]);
-  // = Observable.of([
-  //   {
-  //     name: 'PRICE',
-  //     series: [
-  //       {
-  //         name: '1990',
-  //         value: 0
-  //       },
-  //       {
-  //         name: '2000',
-  //         value: 1200
-  //       },
-  //       {
-  //         name: '2010',
-  //         value: 11000
-  //       },
-  //     ]
-  //   }, {
-  //     name: 'MARKET CAP',
-  //     series: [
-  //       {
-  //         name: '1990',
-  //         value: 1000
-  //       },
-  //       {
-  //         name: '2000',
-  //         value: 1100
-  //       },
-  //       {
-  //         name: '2010',
-  //         value: 2200
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     name: 'VOLUME',
-  //     series: [
-  //       {
-  //         name: '1990',
-  //         value: 100
-  //       },
-  //       {
-  //         name: '2000',
-  //         value: 110
-  //       },
-  //       {
-  //         name: '2010',
-  //         value: 200
-  //       }
-  //     ]
-  //   }
-  // ]);
+  contentLoaded = false;
 
-  public view: any[] = [200, 100];
+  public multi: Observable<ChartModel[]> = Observable.of([{ name: "PRICE", series: [ { name: new Date(), value: 1 }]}]);
 
   // options
   public showXAxis = false;
@@ -82,7 +30,7 @@ export class TokenPreviewComponent implements OnInit {
   public yAxisLabel = 'Price';
 
   public colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#B2DFDB', '#4DB6AC', '#009688', '#AAAAAA']
   };
 
   constructor(public quoteService: QuoteService, private cd: ChangeDetectorRef) {
@@ -99,6 +47,10 @@ export class TokenPreviewComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  ngAfterViewChecked(){
+    this.contentLoaded = true;
   }
 
   public static parseMap(obj: any, label: string, field: string): ChartModel {

@@ -8,9 +8,14 @@
       <span class="red">-5%</span>
     </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content class="graph">
+      <mat-button-toggle-group multiple #group="matButtonToggleGroup" class="graph-buttons" fxLayout="row">
+      <mat-button-toggle fxFlex="100" value="left" checked="true">Price</mat-button-toggle>
+      <mat-button-toggle fxFlex="100" value="center">Volume</mat-button-toggle>
+      <mat-button-toggle fxFlex="100" value="right">Market cap</mat-button-toggle>
+      </mat-button-toggle-group>
     <ngx-charts-area-chart
-      [view]="view"
+      *ngIf="contentLoaded"
       [scheme]="colorScheme"
       [results]="multi | async"
       [gradient]="gradient"
