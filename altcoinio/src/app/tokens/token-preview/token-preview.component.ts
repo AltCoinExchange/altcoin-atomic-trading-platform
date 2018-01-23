@@ -1,4 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef} from '@angular/core';
+import {QuoteService} from "../../services/quote.service";
+import {Observable} from "rxjs/Observable";
+import {ChartModel, ChartSerie} from "../../models/chart-model";
+// import {QuoteService} from "../../services/quote.service";
+
+
 
 @Component({
   selector: 'app-token-preview',
@@ -8,25 +14,59 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TokenPreviewComponent implements OnInit {
   @Input() token;
 
-  public single: any[];
-  public multi: any[] = [
-    {
-      name: 'BTC',
-      series: [
-        {
-          name: '1990',
-          value: 0
-        },
-        {
-          name: '2000',
-          value: 1200
-        },
-        {
-          name: '2010',
-          value: 11000
-        },
-      ]
-    }];
+  public multi: Observable<ChartModel[]> = Observable.of([{ name: "PRICE", series: [ { name: new Date(), value: 1 }]}]);
+  // = Observable.of([
+  //   {
+  //     name: 'PRICE',
+  //     series: [
+  //       {
+  //         name: '1990',
+  //         value: 0
+  //       },
+  //       {
+  //         name: '2000',
+  //         value: 1200
+  //       },
+  //       {
+  //         name: '2010',
+  //         value: 11000
+  //       },
+  //     ]
+  //   }, {
+  //     name: 'MARKET CAP',
+  //     series: [
+  //       {
+  //         name: '1990',
+  //         value: 1000
+  //       },
+  //       {
+  //         name: '2000',
+  //         value: 1100
+  //       },
+  //       {
+  //         name: '2010',
+  //         value: 2200
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     name: 'VOLUME',
+  //     series: [
+  //       {
+  //         name: '1990',
+  //         value: 100
+  //       },
+  //       {
+  //         name: '2000',
+  //         value: 110
+  //       },
+  //       {
+  //         name: '2010',
+  //         value: 200
+  //       }
+  //     ]
+  //   }
+  // ]);
 
   public view: any[] = [200, 100];
 
@@ -45,9 +85,34 @@ export class TokenPreviewComponent implements OnInit {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  constructor() { }
+  constructor(public quoteService: QuoteService, private cd: ChangeDetectorRef) {
+    const charts = this.quoteService.getHistory("BTC").map(e => {
+      let chart: ChartModel[] = [];
+      chart.push(TokenPreviewComponent.parseMap(e, "PRICE", "price"));
+      chart.push(TokenPreviewComponent.parseMap(e, "MARKET CAP", "market_cap"));
+      chart.push(TokenPreviewComponent.parseMap(e, "VOLUME", "volume"));
+      return chart;
+    });
+
+    Object.assign(this.multi, charts);
+  }
 
   ngOnInit() {
+
+  }
+
+  public static parseMap(obj: any, label: string, field: string): ChartModel {
+    let priceModel = {} as ChartModel;
+    priceModel.name = label;
+
+    priceModel.series = obj[field].map(price => {
+      let serie = {} as ChartSerie;
+      serie.name = new Date(price[0]);
+      serie.value = price[1];
+      return serie;
+    });
+
+    return priceModel;
   }
 
   onSelect(event) {

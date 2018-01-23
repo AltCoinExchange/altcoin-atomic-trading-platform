@@ -12,7 +12,7 @@
     <ngx-charts-area-chart
       [view]="view"
       [scheme]="colorScheme"
-      [results]="multi"
+      [results]="multi | async"
       [gradient]="gradient"
       [xAxis]="showXAxis"
       [yAxis]="showYAxis"

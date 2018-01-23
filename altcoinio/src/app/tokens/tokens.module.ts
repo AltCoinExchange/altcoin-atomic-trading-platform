@@ -5,7 +5,7 @@ import {TokenListComponent} from "./token-list/token-list.component";
 import {AltcoinIoCommonModule} from "../common/common.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {NgxChartsModule} from '@swimlane/ngx-charts';
-
+import {QuoteService} from "../services/quote.service";
 
 @NgModule({
   imports: [
@@ -20,7 +20,10 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
   ],
   exports: [
     TokenListComponent,
-  ]
+  ],
+  providers: [
+    QuoteService
+  ],
 })
 export class TokensModule {
 }

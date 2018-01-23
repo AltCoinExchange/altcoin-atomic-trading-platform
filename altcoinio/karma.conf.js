@@ -22,7 +22,13 @@ module.exports = function (config) {
     angularCli: {
       environment: 'dev'
     },
+    files: [
+      'node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css'
+    ],
+    browserNoActivityTimeout: 60000,
+    browserDisconnectTolerance: 2,
     reporters: ['progress', 'kjhtml'],
+    sourceMap: false,
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
