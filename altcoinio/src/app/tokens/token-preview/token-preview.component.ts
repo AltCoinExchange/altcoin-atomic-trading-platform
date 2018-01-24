@@ -36,20 +36,26 @@ export class TokenPreviewComponent implements OnInit {
   };
 
   constructor(public quoteService: QuoteService) {
+  }
+
+  ngOnInit() {
     // Good luck using observables here
-    const charts = this.quoteService.getHistory("BTC").map(e => {
+    const charts = this.quoteService.getHistory(this.token.name).map(e => {
+      if (e === null) {
+        return null;
+      }
       let chart: ChartModel[] = [];
       chart.push(TokenPreviewComponent.parseMap(e, "PRICE", "price"));
       chart.push(TokenPreviewComponent.parseMap(e, "MARKET CAP", "market_cap"));
       chart.push(TokenPreviewComponent.parseMap(e, "VOLUME", "volume"));
       return chart;
     }).subscribe(e => {
+      if (e === null) {
+        return null;
+      }
       this.multi = e;
     });
-  }
-
-  ngOnInit() {
-
+    console.log(this.token);
   }
 
   public static parseMap(obj: any, label: string, field: string): ChartModel {
