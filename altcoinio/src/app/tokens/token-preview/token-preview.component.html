@@ -15,9 +15,8 @@
       <mat-button-toggle fxFlex="100" value="right">Market cap</mat-button-toggle>
       </mat-button-toggle-group>
     <ngx-charts-area-chart
-      *ngIf="contentLoaded"
       [scheme]="colorScheme"
-      [results]="multi | async"
+      [results]="multi"
       [gradient]="gradient"
       [xAxis]="showXAxis"
       [yAxis]="showYAxis"

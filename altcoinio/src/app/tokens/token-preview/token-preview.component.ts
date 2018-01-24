@@ -16,7 +16,9 @@ export class TokenPreviewComponent implements OnInit {
 
   contentLoaded = false;
 
-  public multi: Observable<ChartModel[]> = Observable.of([{ name: "PRICE", series: [ { name: new Date(), value: 1 }]}]);
+  // public multi: Observable<ChartModel[]> = Observable.of([{ name: "PRICE", series: [ { name: new Date(), value: 1 }]}]);
+  // S**** observable
+  public multi: ChartModel[] = [{ name: "PRICE", series: [ { name: new Date(), value: 1 }]}];
 
   // options
   public showXAxis = false;
@@ -33,24 +35,21 @@ export class TokenPreviewComponent implements OnInit {
     domain: ['#B2DFDB', '#4DB6AC', '#009688', '#AAAAAA']
   };
 
-  constructor(public quoteService: QuoteService, private cd: ChangeDetectorRef) {
+  constructor(public quoteService: QuoteService) {
+    // Good luck using observables here
     const charts = this.quoteService.getHistory("BTC").map(e => {
       let chart: ChartModel[] = [];
       chart.push(TokenPreviewComponent.parseMap(e, "PRICE", "price"));
       chart.push(TokenPreviewComponent.parseMap(e, "MARKET CAP", "market_cap"));
       chart.push(TokenPreviewComponent.parseMap(e, "VOLUME", "volume"));
       return chart;
+    }).subscribe(e => {
+      this.multi = e;
     });
-
-    Object.assign(this.multi, charts);
   }
 
   ngOnInit() {
 
-  }
-
-  ngAfterViewChecked(){
-    this.contentLoaded = true;
   }
 
   public static parseMap(obj: any, label: string, field: string): ChartModel {
