@@ -15,42 +15,55 @@ export class TokenPreviewComponent implements OnInit {
   @Input() token;
 
   contentLoaded = false;
+  chartPrice = true;
+  chartVolume = false;
+  chartMarket = false;
 
-  public multi: Observable<ChartModel[]> = Observable.of([{ name: "PRICE", series: [ { name: new Date(), value: 1 }]}]);
+  public $charts: Observable<ChartModel[]>;
+  public multi: ChartModel[] = [];
 
-  // options
+  // chart options
   public showXAxis = false;
   public scaleType = "linear";
   public showYAxis = false;
   public gradient = false;
   public showLegend = true;
   public showXAxisLabel = false;
-  public xAxisLabel = 'Coin';
   public showYAxisLabel = false;
-  public yAxisLabel = 'Price';
 
   public colorScheme = {
     domain: ['#B2DFDB', '#4DB6AC', '#009688', '#AAAAAA']
   };
 
-  constructor(public quoteService: QuoteService, private cd: ChangeDetectorRef) {
-    const charts = this.quoteService.getHistory("BTC").map(e => {
-      let chart: ChartModel[] = [];
-      chart.push(TokenPreviewComponent.parseMap(e, "PRICE", "price"));
-      chart.push(TokenPreviewComponent.parseMap(e, "MARKET CAP", "market_cap"));
-      chart.push(TokenPreviewComponent.parseMap(e, "VOLUME", "volume"));
-      return chart;
-    });
-
-    Object.assign(this.multi, charts);
+  constructor(public quoteService: QuoteService, private cd: ChangeDetectorRef) {  
   }
 
   ngOnInit() {
-
+    this.getChartData();
+    this.updateChart();  
   }
 
-  ngAfterViewChecked(){
-    this.contentLoaded = true;
+  getChartData(){
+    this.$charts = this.quoteService.getHistory(this.token.name, "90day").map(e => {
+      let chart: ChartModel[] = [];
+      chart.push(TokenPreviewComponent.parseMap(e, "PRICE", "price"));
+      chart.push(TokenPreviewComponent.parseMap(e, "VOLUME", "volume"));
+      chart.push(TokenPreviewComponent.parseMap(e, "MARKET CAP", "market_cap"));
+      return chart;
+    });
+  }
+
+  updateChart(){
+    this.$charts.subscribe((data) => { 
+      this.multi = [];
+      if(this.chartPrice)
+        this.multi.push(data[0]);
+      if(this.chartVolume)
+        this.multi.push(data[1]);
+      if(this.chartMarket)
+        this.multi.push(data[2]);
+      this.contentLoaded = true;
+    });
   }
 
   public static parseMap(obj: any, label: string, field: string): ChartModel {
