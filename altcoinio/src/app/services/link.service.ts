@@ -27,4 +27,12 @@ export class LinkService {
       ].address;
     return address;
   }
+
+  public generateAddressForCoin(coin, wallet): string {
+    if (coin.name == "BTC") {
+      return wallet["BTC"].address;
+    } else {
+      return wallet["ETH"].address;
+    }
+  }
 }

@@ -16,6 +16,9 @@ export interface Wallet {
 }
 
 export class WalletFactory {
+  static createWalletFromString(coin: string){
+    return this.createWallet(Coins[coin]);
+  }
   static createWallet(coin: Coins): Wallet {
     switch (coin) {
       case Coins.BTC: {

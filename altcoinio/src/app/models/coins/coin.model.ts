@@ -97,6 +97,9 @@ export class CoinFactory {
       }
     }
   }
+  static createCoinFromString(coin: string) {
+    return this.createCoin(Coins[coin]);
+  }
   static createAllCoins(): Coin[] {
     return [
       new BtcCoinModel(),

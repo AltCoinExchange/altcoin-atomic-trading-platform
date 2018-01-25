@@ -13,7 +13,10 @@ import {
 import {getWalletState} from "../selectors/wallets.selector";
 import {MoscaService} from "../services/mosca.service";
 import {WalletFactory} from "../models/wallets/wallet";
-import {Coin} from "../models/coins/coin.model";
+import {Coin, CoinFactory} from "../models/coins/coin.model";
+import * as sideA from "../actions/side-A.action";
+import {OrderService} from "../services/order.service";
+import {LinkService} from "../services/link.service";
 
 @Injectable()
 export class SideBEffect {
@@ -22,12 +25,18 @@ export class SideBEffect {
   $initiate: Observable<Action> = this.actions$
     .ofType(sideB.INITIATE)
     .map(toPayload)
-    .switchMap((payload) => {
-        const coin = payload.coin as Coin;
-        const wallet = WalletFactory.createWallet(coin.type);
-        return wallet.Initiate(payload.address, coin).map(resp => {
-          return new sideB.InitiateSuccessAction(resp);
-        }).catch(err => Observable.of(new sideB.InitiateFailAction(err)));
+    .withLatestFrom(this.store.select(getWalletState))
+    .mergeMap(([payload, walletState]) => {
+        const coin = CoinFactory.createCoinFromString(payload.to);
+        coin.amount = payload.toAmount;
+        const wallet = WalletFactory.createWalletFromString(payload.to);
+        const address = this.linkService.generateAddressForCoin(coin, walletState);
+        return this.orderService.placeOrder(payload.to, payload.from, payload.toAmount, payload.fromAmount, address)
+            .flatMap(init => wallet.Initiate(payload.address, coin), (orderData, initData) => {
+            console.log("Initiated:....");
+            console.log(orderData);
+            return new sideB.InitiateSuccessAction(initData);
+          }).catch(err => Observable.of(new sideB.InitiateFailAction(err)));
       },
     );
 
@@ -189,7 +198,7 @@ export class SideBEffect {
 
   $done;
 
-  constructor(private actions$: Actions, private store: Store<AppState>, private moscaService: MoscaService) {
-
+  constructor(private actions$: Actions, private store: Store<AppState>, private linkService: LinkService,
+              private moscaService: MoscaService, private orderService: OrderService) {
   }
 }
