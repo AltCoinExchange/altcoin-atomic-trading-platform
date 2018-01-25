@@ -54,7 +54,7 @@ export class TokenPreviewComponent implements OnInit {
   }
 
   updateChart(){
-    this.$charts.subscribe((data) => { 
+    this.$charts.subscribe((data) => {
       this.multi = [];
       if(this.chartPrice)
         this.multi.push(data[0]);
