@@ -31,9 +31,9 @@
   font-size: 115%;
 }
 
-.graph{
+.chart-container{
   width: 100%;
-  height: 50%;
+  height: 40%;
   margin: 0px;
 }
 
@@ -56,4 +56,10 @@
 .mat-button-toggle-checked {
   background-color: transparent;
   color: $main-green;
+}
+
+.spinner{
+  min-height: 100px;
+  padding-top: 30px;
+  text-align: center;
 }

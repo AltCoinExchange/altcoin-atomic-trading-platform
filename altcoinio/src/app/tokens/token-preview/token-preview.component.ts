@@ -2,7 +2,9 @@ import {Component, OnInit, Input, ChangeDetectorRef} from '@angular/core';
 import {QuoteService} from "../../services/quote.service";
 import {Observable} from "rxjs/Observable";
 import {ChartModel, ChartSerie} from "../../models/chart-model";
-// import {QuoteService} from "../../services/quote.service";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../reducers/app.state";
+import * as quoteSelector from "../../selectors/quote.selector";
 
 
 
@@ -18,6 +20,9 @@ export class TokenPreviewComponent implements OnInit {
   chartPrice = true;
   chartVolume = false;
   chartMarket = false;
+  tokenPrice;
+  tokenPerc;
+  statsLoaded = false;
 
   public $charts: Observable<ChartModel[]>;
   public multi: ChartModel[] = [];
@@ -35,10 +40,11 @@ export class TokenPreviewComponent implements OnInit {
     domain: ['#B2DFDB', '#4DB6AC', '#009688', '#AAAAAA']
   };
 
-  constructor(public quoteService: QuoteService, private cd: ChangeDetectorRef) {  
+  constructor(private store: Store<AppState>,public quoteService: QuoteService, private cd: ChangeDetectorRef) {  
   }
 
   ngOnInit() {
+    this.getCoinStats();
     this.getChartData();
     this.updateChart();  
   }
@@ -50,6 +56,18 @@ export class TokenPreviewComponent implements OnInit {
       chart.push(TokenPreviewComponent.parseMap(e, "VOLUME", "volume"));
       chart.push(TokenPreviewComponent.parseMap(e, "MARKET CAP", "market_cap"));
       return chart;
+    });
+  }
+
+  getCoinStats(){
+    const quotes = this.store.select(quoteSelector.getQuotes);
+    quotes.subscribe((q) => {
+      if(!!q){
+        var coinStats = q.get(this.token.name);
+        this.tokenPrice = coinStats.price;
+        this.tokenPerc = coinStats.perc;
+        this.statsLoaded = true;
+      }
     });
   }
 
