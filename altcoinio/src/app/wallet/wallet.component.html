@@ -35,7 +35,7 @@
         <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
         </div>
         <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
-        <a *ngIf="coin.name != 'BTC' && coin.name != 'ETH'" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
+        <a *ngIf="coin.type != Coins.BTC && coin.type != Coins.ETH" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
       </div>
     </div>
   </a>
@@ -50,7 +50,7 @@
 
 <div class="wallet-container">
   <div class="options-slide" fxLayout="row" fxLayoutAlign="center center">
-    <div fxFlex.xl="25%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="80%" fxFlex.xs="100%">
+    <div fxFlex.xl="30%" fxFlex.lg="40%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
         <mat-tab-group >
           <mat-tab label="Receive">
               <div class="wallet-content">
@@ -81,9 +81,9 @@
           </mat-tab>
           <mat-tab label="Transactions">
             <div class="wallet-content">
-              <a *ngIf="selectedCoin.name == 'BTC'" target="noopener"
+              <a *ngIf="selectedCoin.type == Coins.BTC" target="noopener"
                   href="https://live.blockcypher.com/btc-testnet/address/{{(selectedCoin.$balance | async)?.address}}/">Blockcypher</a>
-              <div *ngIf="selectedCoin.name != 'BTC'" target="noopener">
+              <div *ngIf="selectedCoin.type != Coins.BTC" target="noopener">
                 <app-transactions-wallet
                   [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-transactions-wallet>
               </div>

@@ -20,12 +20,18 @@ export class TransactionsWalletComponent implements OnInit {
   @Input() address;
   public dataSource;
   public displayedColumns = ["from", "to", "value"];
+  detailsClosed;
 
   constructor(private store: Store<AppState>, public transactionService: TransactionService) {
+    this.detailsClosed = true;
   }
 
   ngOnInit() {
     this.dataSource = new TransactionsDataSource(this.transactionService, this.address);
+  }
+
+  openDetails(){
+    this.detailsClosed = !this.detailsClosed;
   }
 }
 

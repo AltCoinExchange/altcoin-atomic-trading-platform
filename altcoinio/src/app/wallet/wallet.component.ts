@@ -6,6 +6,7 @@ import {TOKENS} from "altcoinio-wallet";
 import {GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction} from "../actions/balance.action";
 import {scaleInOutAnimation} from "../animations/animations";
 import {Coin, CoinFactory} from "../models/coins/coin.model";
+import {Coins} from "../models/coins/coins.enum";
 import {MessageTypes} from "../models/message-types.enum";
 import {AppState} from "../reducers/app.state";
 import {WalletRecord} from "../reducers/balance.reducer";
@@ -46,6 +47,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   scaleInOut = "scaleInOut";
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
+  Coins = Coins;
   allCoins: Array<Coin>;
   selectedCoin: Coin;
   sendAmount: Number = 0.00;

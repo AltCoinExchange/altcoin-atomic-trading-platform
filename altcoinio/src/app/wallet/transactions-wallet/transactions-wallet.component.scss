@@ -1,0 +1,75 @@
+@import '../../../styles/variables';
+
+.container{
+    width: 100%;
+}
+
+.transaction{
+    background: $main-gray;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+    -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+    -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+    margin-bottom: 15px;
+    cursor: pointer;
+
+    overflow-y: hidden;
+	max-height: 250px;
+
+	transition-property: all;
+	transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);   
+
+    .transaction-send{
+        height: 60px;
+    }
+
+    .transaction-receive{
+        height: 60px;
+    }
+
+    .icon{
+        padding: 0px 16px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .content{
+        text-align: left;
+    }
+
+    .amount{
+        padding: 0px 16px;
+    }
+
+    .date{
+        font-size: 85%;
+    }
+
+    .title{
+        color: white;
+    }
+}
+
+.transaction.closed {
+	max-height: 60px;
+}
+
+.details{
+    padding: 5px 16px;
+    
+    .detail{
+        width: fit-content;
+    }
+
+    .left{
+        overflow: hidden
+    }
+
+    .info{
+        margin-bottom: 5px;
+        color: white;
+    }
+}
