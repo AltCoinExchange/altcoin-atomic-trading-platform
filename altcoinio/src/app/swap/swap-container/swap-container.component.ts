@@ -2,6 +2,9 @@ import {Component, OnInit} from "@angular/core";
 import {DataSource} from "@angular/cdk/collections";
 import {Observable} from "rxjs/Observable";
 import {OrderService} from "../../services/order.service";
+import {AppState} from "../../reducers/app.state";
+import {Store} from "@ngrx/store";
+import * as sideB from "../../actions/side-B.action";
 
 
 @Component({
@@ -13,13 +16,16 @@ export class SwapContainerComponent implements OnInit {
   displayedColumns = ["from", "to"];
   dataSource;
 
-  constructor(public orderService: OrderService) {
+  constructor(private store: Store<AppState>, public orderService: OrderService) {
     this.dataSource = new OrderDataSource(orderService);
   }
 
   ngOnInit() {
   }
 
+  onRowClick(obj) {
+    this.store.dispatch(new sideB.InitiateAction(obj));
+  }
 }
 
 export interface Element {
