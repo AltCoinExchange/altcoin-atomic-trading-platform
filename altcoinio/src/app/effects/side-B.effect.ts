@@ -34,7 +34,7 @@ export class SideBEffect {
         return this.orderService.placeOrder(payload.to, payload.from, payload.toAmount, payload.fromAmount, address)
             .flatMap(init => wallet.Initiate(payload.address, coin), (orderData, initData) => {
             console.log("Initiated:....");
-            console.log(orderData);
+            console.log(orderData, initData);
             return new sideB.InitiateSuccessAction(initData);
           }).catch(err => Observable.of(new sideB.InitiateFailAction(err)));
       },

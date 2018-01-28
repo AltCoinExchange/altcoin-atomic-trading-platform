@@ -5,6 +5,7 @@ import {OrderService} from "../../services/order.service";
 import {AppState} from "../../reducers/app.state";
 import {Store} from "@ngrx/store";
 import * as sideB from "../../actions/side-B.action";
+import {Coin, CoinFactory} from "../../models/coins/coin.model";
 
 
 @Component({
@@ -23,8 +24,21 @@ export class SwapContainerComponent implements OnInit {
   ngOnInit() {
   }
 
-  onRowClick(obj) {
-    this.store.dispatch(new sideB.InitiateAction(obj));
+  onRowClick(rowData) {
+    // Create coins
+    const depositCoin = CoinFactory.createCoinFromString(rowData.from);
+    depositCoin.amount = rowData.fromAmount;
+
+    const receiveCoin = CoinFactory.createCoinFromString(rowData.to);
+    receiveCoin.amount = rowData.toAmount;
+
+    rowData.depositCoin = depositCoin;
+    rowData.receiveCoin = receiveCoin;
+    rowData.coin = depositCoin;
+
+    rowData.link = { order_id: rowData.id };
+
+    this.store.dispatch(new sideB.InitiateAction(rowData));
   }
 }
 
