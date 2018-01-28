@@ -34,7 +34,7 @@ export class SwapContainerComponent implements OnInit {
 
     rowData.depositCoin = depositCoin;
     rowData.receiveCoin = receiveCoin;
-    rowData.coin = depositCoin;
+    rowData.coin = receiveCoin;
 
     rowData.link = { order_id: rowData.id };
 
