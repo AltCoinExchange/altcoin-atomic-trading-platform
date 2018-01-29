@@ -1,10 +1,13 @@
 <div class="swap-start form">
   <div class="swap-start form-content"  style="padding-top: 0;">
-    <div class="small-font">1 BTC = 23.55863 ETH</div>
     <div style="text-align: center;" *ngIf="($generatingLinkIndicator | async)">
-      <mat-spinner style="margin: 0 auto;"></mat-spinner>
+      <div class="spinner">
+        <div class="circle-loader">
+        </div>
+      </div>
     </div>
     <div *ngIf="!($generatingLinkIndicator | async)">
+      <div class="small-font">1 BTC = 23.55863 ETH</div>
       <app-swap-icon
         [fromCoin]="$depositCoin | async"
         [toCoin]="$receiveCoin | async"

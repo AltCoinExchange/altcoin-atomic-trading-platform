@@ -14,8 +14,8 @@ export class GnoCoinModel implements Coin {
   readonly icon: string = "assets/icon/gno-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
+  walletRecord: WalletRecord;
 
   constructor() {
   }

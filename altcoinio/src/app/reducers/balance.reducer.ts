@@ -64,7 +64,6 @@ export function reducer(state = initialState, action: balance.Actions): State {
       const newState = {
         ...state
       };
-
       const token = state.TOKENS[action.payload.name] = {} as WalletRecord;
       token.loading = true;
       return newState;
@@ -73,10 +72,13 @@ export function reducer(state = initialState, action: balance.Actions): State {
       const newState = {
         ...state
       };
-
+      //console.log('old state ', state);
+      //console.log('token balance success for ', action.payload);
       const token = state.TOKENS[action.payload.name];
       token.loading = false;
+      token.address = action.payload.address;
       token.balance = action.payload.balance;
+      //console.log('new state ', newState);
       return newState;
     }
     case balance.GET_ETH_BALANCE_SUCCESS: {

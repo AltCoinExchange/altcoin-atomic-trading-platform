@@ -13,22 +13,7 @@ import {WalletRecord} from "../reducers/balance.reducer";
 import {
   getBTCBalance,
   getETHBalance,
-  getTokenBalanceAragon,
-  getTokenBalanceAugur,
-  getTokenBalanceBat,
-  getTokenBalanceBytom,
-  getTokenBalanceCivic,
-  getTokenBalanceDent,
-  getTokenBalanceDistrict0x,
-  getTokenBalanceEos,
-  getTokenBalanceGnosis,
-  getTokenBalanceGolem,
-  getTokenBalanceOmiseGo,
-  getTokenBalances,
-  getTokenBalanceSalt,
-  getTokenBalanceStatusNetwork,
-  getTokenBalanceSubstratum,
-  getTokenBalanceTron
+  getTokenBalances
 } from "../selectors/balance.selector";
 import * as quoteSelector from "../selectors/quote.selector";
 import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
@@ -51,23 +36,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
   allCoins: Array<Coin>;
   selectedCoin: Coin;
   sendAmount: Number = 0.00;
-  $tokenBalanceAugur: Observable<WalletRecord>;
-  $tokenBalanceGolem: Observable<WalletRecord>;
-  $tokenBalanceAragon: Observable<WalletRecord>;
-  $tokenBalanceEos: Observable<WalletRecord>;
-  $tokenBalanceSalt: Observable<WalletRecord>;
-  $tokenBalanceBat: Observable<WalletRecord>;
-  $tokenBalanceGnosis: Observable<WalletRecord>;
-  $tokenBalanceCivic: Observable<WalletRecord>;
-  $tokenBalanceDistrict0x: Observable<WalletRecord>;
-  $tokenBalanceStatusNetwork: Observable<WalletRecord>;
-  $tokenBalanceSubstratum: Observable<WalletRecord>;
-  $tokenBalanceTron: Observable<WalletRecord>;
-  $tokenBalanceBytom: Observable<WalletRecord>;
-  $tokenBalanceDent: Observable<WalletRecord>;
-  $tokenBalanceOmiseGo: Observable<WalletRecord>;
-  $ethBalance: Observable<WalletRecord>;
-  $btcBalance: Observable<WalletRecord>;
   randomValue = 0.001;
   elementType: "url";
   value = "Techiediaries";
@@ -91,9 +59,12 @@ export class WalletComponent implements OnInit, AfterViewInit {
       }));
     } else {
       this.infoMsg = "This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.";
-      this.getTokenBalances();
-      this.getTokenAmountUSD();
+      this.getTokenWalletRecords();
     }
+  }
+
+  ngAfterViewInit() {
+    
   }
 
   selectCoinCard(coin) {
@@ -118,9 +89,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().filter(res => !!res).subscribe(result => {
-      result.$balance.first().filter(data => !!data).subscribe(amount => {
-        console.log(amount);
-        if (amount.balance === "0") {
+        if (result.walletRecord.balance === "0") {
           this.inMyPossesion = false;
           setTimeout(() => {
             this.selectCoinCard(result);
@@ -133,7 +102,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
           return;
         }
         this.perfectScrollbar.directiveRef.scrollToX((<any>coinEl).offsetLeft - 50);
-      });
 
     });
   }
@@ -149,114 +117,48 @@ export class WalletComponent implements OnInit, AfterViewInit {
     e.preventDefault();
   }
 
-  getTokenBalances() {
+  getTokenWalletRecords() {
     this.store.dispatch(new GetEthBalanceAction());
     this.store.dispatch(new GetBtcBalanceAction());
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: "golem"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.AUGUR, name: "augur"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ARAGON, name: "aragon"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BAT, name: "bat"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: "eos"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: "gnosis"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: "salt"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.CIVIC, name: "civic"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.OMISEGO, name: "omisego"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DISTRICT0X, name: "district0x"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STATUSNETWORK, name: "statusnetwork"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SUBSTRATUM, name: "substratum"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: "tron"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: "bytom"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: "dent"}));
-
-    this.$ethBalance = this.store.select(getETHBalance);
-    this.$btcBalance = this.store.select(getBTCBalance);
-    this.$tokenBalanceAugur = this.store.select(getTokenBalanceAugur);
-    this.$tokenBalanceGolem = this.store.select(getTokenBalanceGolem);
-    this.$tokenBalanceAragon = this.store.select(getTokenBalanceAragon);
-    this.$tokenBalanceBat = this.store.select(getTokenBalanceBat);
-    this.$tokenBalanceEos = this.store.select(getTokenBalanceEos);
-    this.$tokenBalanceGnosis = this.store.select(getTokenBalanceGnosis);
-    this.$tokenBalanceSalt = this.store.select(getTokenBalanceSalt);
-
-    this.$tokenBalanceCivic = this.store.select(getTokenBalanceCivic);
-    this.$tokenBalanceOmiseGo = this.store.select(getTokenBalanceOmiseGo);
-    this.$tokenBalanceDistrict0x = this.store.select(getTokenBalanceDistrict0x);
-    this.$tokenBalanceStatusNetwork = this.store.select(getTokenBalanceStatusNetwork);
-    this.$tokenBalanceSubstratum = this.store.select(getTokenBalanceSubstratum);
-    this.$tokenBalanceTron = this.store.select(getTokenBalanceTron);
-    this.$tokenBalanceBytom = this.store.select(getTokenBalanceBytom);
-    this.$tokenBalanceDent = this.store.select(getTokenBalanceDent);
-
-    const tokenBalances = this.store.select(getTokenBalances);
-    //console.log(tokenBalances); // todo can be done better
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GOLEM, name: "GNT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.AUGUR, name: "REP"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ARAGON, name: "ANT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BAT, name: "BAT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EOS, name: "EOS"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.GNOSIS, name: "GNO"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SALT, name: "SALT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.CIVIC, name: "CVC"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.OMISEGO, name: "OMG"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DISTRICT0X, name: "DNT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STATUSNETWORK, name: "SNT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.SUBSTRATUM, name: "SUB"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: "TRX"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: "BTM"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: "DENT"}));
 
     this.allCoins.forEach((coin) => {
       switch (coin.name) {
         case "BTC":
-          coin.$balance = this.$btcBalance;
+          this.store.select(getBTCBalance).subscribe((walletRecord) => { coin.walletRecord = walletRecord; });
           break;
         case "ETH":
-          coin.$balance = this.$ethBalance;
-          break;
-        case "REP":
-          coin.$balance = this.$tokenBalanceAugur;
-          break;
-        case "GNT":
-          coin.$balance = this.$tokenBalanceGolem;
-          break;
-        case "GNO":
-          coin.$balance = this.$tokenBalanceGnosis;
-          break;
-        case "BAT":
-          coin.$balance = this.$tokenBalanceBat;
-          break;
-        case "ANT":
-          coin.$balance = this.$tokenBalanceAragon;
-          break;
-        case "EOS":
-          coin.$balance = this.$tokenBalanceEos;
-          break;
-        case "SALT":
-          coin.$balance = this.$tokenBalanceSalt;
-          break;
-        case "CVC":
-          coin.$balance = this.$tokenBalanceCivic;
-          break;
-        case "OMG":
-          coin.$balance = this.$tokenBalanceOmiseGo;
-          break;
-        case "DNT":
-          coin.$balance = this.$tokenBalanceDistrict0x;
-          break;
-        case "SNT":
-          coin.$balance = this.$tokenBalanceStatusNetwork;
-          break;
-        case "SUB":
-          coin.$balance = this.$tokenBalanceSubstratum;
-          break;
-        case "TRN":
-          coin.$balance = this.$tokenBalanceTron;
-          break;
-        case "BTM":
-          coin.$balance = this.$tokenBalanceBytom;
-          break;
-        case "DENT":
-          coin.$balance = this.$tokenBalanceDent;
+        this.store.select(getETHBalance).subscribe((walletRecord) => { coin.walletRecord = walletRecord; });
           break;
         default:
-          coin.$balance = this.$tokenBalanceDent;
+          this.store.select(getTokenBalances).subscribe((walletRecords) => {
+            coin.walletRecord = walletRecords[coin.name];
+          });
       }
-
+      this.getTokenAmountUSD(coin);
     });
   }
 
-  getTokenAmountUSD() {
+  getTokenAmountUSD(coin) {
     const quotes = this.store.select(quoteSelector.getQuotes);
-    this.allCoins.forEach((coin) => {
-      coin.$amountUSD = Observable.combineLatest(quotes, coin.$balance, (q, coinBalance) => {
-        if (!q || !coinBalance)
+      coin.$amountUSD = Observable.combineLatest(quotes, (q) => {
+        if (!q || !coin.walletRecord)
           return undefined;
-        const balance = Number(coinBalance.balance);
+        const balance = Number(coin.walletRecord.balance);
         const coinQuote = q.get(coin.name);
         const number = balance * coinQuote.price;
         const price = +number.toFixed(2);
@@ -265,14 +167,13 @@ export class WalletComponent implements OnInit, AfterViewInit {
         }
         return price;
       });
-    });
   }
 
   private getTokens(coin){
       coin.faucetLoading = true;
       coin.getTokens().then(() => {
         coin.faucetLoading = false;
-        this.getTokenBalances();
+        this.getTokenWalletRecords();
       }, () => {
         coin.faucetLoading = false;
         console.log('error')

@@ -11,8 +11,8 @@ export class EthCoinModel implements Coin {
   readonly icon: string = "assets/icon/eth-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
+  walletRecord: WalletRecord;
 
   constructor() {
   }

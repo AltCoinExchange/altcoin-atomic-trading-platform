@@ -26,15 +26,15 @@
     <div class="disabled-card" *ngIf="isCoinDisabled(coin)">Coin you selected can only be exchanged with Bitcoin or Ethereum</div>
     <div [style.opacity]="isSelectedCoin(coin) ? '1' : isCoinDisabled(coin) ? '0.1' : '0.65'">
       <img class="coin-icon" [src]="coin.icon" alt="">
-      <div *ngIf="(coin.$balance | async)?.loading">
+      <div *ngIf="coin.walletRecord?.loading">
         <div class="spinner">
           <div class="circle-loader">
           </div>
         </div>
       </div>
-      <div *ngIf="!(coin.$balance | async)?.loading">
+      <div *ngIf="!coin.walletRecord?.loading">
         <div class="coin-name">{{coin.fullName}}</div>
-        <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}</div>
+        <div class="coin-balance">{{ ((coin.walletRecord?.balance) || 0) | number : '1.2-8' }} {{coin.name}}</div>
         <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
       </div>
     </div>

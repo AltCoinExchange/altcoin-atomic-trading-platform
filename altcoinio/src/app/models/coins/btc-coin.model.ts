@@ -14,8 +14,8 @@ export class BtcCoinModel implements Coin {
   readonly icon: string = "assets/icon/btc-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
+  walletRecord: WalletRecord;
 
   constructor() {
   }

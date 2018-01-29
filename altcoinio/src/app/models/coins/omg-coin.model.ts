@@ -14,8 +14,8 @@ export class OmgCoinModel implements Coin {
   readonly icon: string = "assets/icon/omg-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
+  walletRecord: WalletRecord;
 
   constructor() {
   }

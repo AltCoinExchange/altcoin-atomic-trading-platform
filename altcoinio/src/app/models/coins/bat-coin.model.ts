@@ -14,8 +14,8 @@ export class BatCoinModel implements Coin {
   readonly icon: string = "assets/icon/bat-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
+  walletRecord: WalletRecord;
 
   constructor() {
   }

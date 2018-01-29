@@ -29,8 +29,8 @@ export abstract class Coin {
   readonly icon: string;
   amount: number;
   faucetLoading: boolean = false;
-  $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
+  walletRecord: WalletRecord;
   abstract update(coin: Coin): Coin;
 
 }
@@ -132,8 +132,8 @@ export class CoinFactory {
       new AntCoinModel(),
       new BatCoinModel(),
       new EosCoinModel(),
-      //new GnoCoinModel(),
-      //new GntCoinModel(),
+      new GnoCoinModel(),
+      new GntCoinModel(),
       new SaltCoinModel(),
       // new LtcCoinModel(),
       new CvcCoinModel(),

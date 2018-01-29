@@ -14,8 +14,8 @@ export class DentCoinModel implements Coin {
   readonly icon: string = "assets/icon/dent-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
+  walletRecord: WalletRecord;
 
   constructor() {
   }

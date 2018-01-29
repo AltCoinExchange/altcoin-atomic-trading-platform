@@ -21,25 +21,24 @@
   <div (wheel)="wheelOverHorizontalDiv($event)">
   <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name">
     <div [@scaleInOut]="scaleInOut" class="wallet-card" [class.active]="selectedCoin == coin"
-          *ngIf="(inMyPossesion && (coin.$balance | async)?.balance > 0) ||
-                  (!inMyPossesion && (coin.$balance | async)?.balance >= 0)">
+          *ngIf="(inMyPossesion && coin.walletRecord?.balance > 0) ||
+                  (!inMyPossesion && coin.walletRecord?.balance >= 0)">
       <img class="coin-icon" [src]="coin.icon" alt="">
-      <div *ngIf="(coin.$balance | async)?.loading || coin.faucetLoading">
+      <div *ngIf="coin.walletRecord?.loading || coin.faucetLoading">
         <div class="spinner">
           <div class="circle-loader">
           </div>
         </div>
       </div>
-      <div *ngIf="!(coin.$balance | async)?.loading && !coin.faucetLoading">
+      <div *ngIf="!coin.walletRecord?.loading && !coin.faucetLoading">
         <div class="coin-name">{{coin.fullName}}</div>
-        <div class="coin-balance">{{ (((coin.$balance | async)?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
+        <div class="coin-balance">{{ ((coin.walletRecord?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
         </div>
         <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
         <a *ngIf="coin.type != Coins.BTC && coin.type != Coins.ETH" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
       </div>
     </div>
   </a>
-  <a *ngIf="filteredCoins.length === 0" class="no-coins">Not found</a>
   </div>
 </perfect-scrollbar>
 <div fxLayout="row" fxLayoutAlign="center center" class="hide-coins-box">
@@ -55,9 +54,9 @@
           <mat-tab label="Receive">
               <div class="wallet-content">
                   <app-wallet-receive
-                  *ngIf="selectedCoin && ((selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address)"
+                  *ngIf="selectedCoin && selectedCoin.walletRecord?.address"
                   [coin]="selectedCoin"
-                  [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-wallet-receive>
+                  [address]="selectedCoin.walletRecord?.address"></app-wallet-receive>
               </div>
           </mat-tab>
           <mat-tab label="Send">
@@ -82,10 +81,10 @@
           <mat-tab label="Transactions">
             <div class="wallet-content">
               <a *ngIf="selectedCoin.type == Coins.BTC" target="noopener"
-                  href="https://live.blockcypher.com/btc-testnet/address/{{(selectedCoin.$balance | async)?.address}}/">Blockcypher</a>
+                  href="https://live.blockcypher.com/btc-testnet/address/{{selectedCoin.walletRecord?.address}}/">Blockcypher</a>
               <div *ngIf="selectedCoin.type != Coins.BTC" target="noopener">
                 <app-transactions-wallet
-                  [address]="(selectedCoin.$balance | async)?.address || ($ethBalance | async)?.address"></app-transactions-wallet>
+                  [address]="selectedCoin.walletRecord?.address"></app-transactions-wallet>
               </div>
             </div>
           </mat-tab>

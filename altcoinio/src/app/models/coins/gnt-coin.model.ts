@@ -14,8 +14,8 @@ export class GntCoinModel implements Coin {
   readonly icon: string = "assets/icon/gnt-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $balance: Observable<WalletRecord>;
   $amountUSD: Observable<number>;
+  walletRecord: WalletRecord;
 
   constructor() {
   }
