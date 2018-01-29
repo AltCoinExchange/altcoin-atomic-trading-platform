@@ -94,7 +94,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.selectCoinCard(result);
           });
-          return;
         }
         this.selectCoinCard(result);
         const coinEl = document.querySelector("#" + result.name);
