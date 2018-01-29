@@ -96,13 +96,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    // this.selectedCoin.$balance.filter(b => b.loading === false).first().subscribe((b) => {
-    //   console.log('b ', b);
-    //   this.generateQrCode(this.selectedCoin);
-    // });
-  }
-
   selectCoinCard(coin) {
     this.selectedCoin = coin;
   }

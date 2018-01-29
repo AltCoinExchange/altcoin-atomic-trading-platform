@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from "@angular/core";
 import {Coins} from "../../models/coins/coins.enum";
 
 declare const QRCode;
@@ -9,6 +9,7 @@ declare const QRCode;
   styleUrls: ["./wallet-receive.component.scss"]
 })
 export class WalletReceiveComponent implements OnInit {
+  @ViewChild('qrcode') qrcodeElement; 
   @Input() address;
   _coin;
   qr;
@@ -28,6 +29,10 @@ export class WalletReceiveComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+  }
+
+  ngAfterViewInit(){
     this.generateQrCode();
   }
 
@@ -38,9 +43,8 @@ export class WalletReceiveComponent implements OnInit {
   }
 
   private generateQrCode() {
-    const qrcodeElement = document.getElementById("qrcode");
-    if (!this.qr && !!qrcodeElement) {
-      this.qr = new QRCode(qrcodeElement, {
+    if (!this.qr && !!this.qrcodeElement.nativeElement) {
+      this.qr = new QRCode(this.qrcodeElement.nativeElement, {
         text: "bitcoin:" + this.address,
         width: 200,
         height: 200,
@@ -49,6 +53,7 @@ export class WalletReceiveComponent implements OnInit {
         correctLevel: QRCode.CorrectLevel.H
       });
     }
+    
     if(this.qr && this.address){
       let addr;
       if (this._coin.type === Coins.BTC) {
