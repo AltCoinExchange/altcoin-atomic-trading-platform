@@ -5,8 +5,12 @@ import {ChartModel, ChartSerie} from "../../models/chart-model";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers/app.state";
 import * as quoteSelector from "../../selectors/quote.selector";
-
-
+import * as swapSelector from "../../selectors/start.selector";
+import {Coin} from "../../models/coins/coin.model";
+import {BtcCoinModel} from "../../models/coins/btc-coin.model";
+import {EthCoinModel} from "../../models/coins/eth-coin.model";
+import {Coins} from "../../models/coins/coins.enum";
+import * as swapAction from "../../actions/start.action";
 
 @Component({
   selector: 'app-token-preview',
@@ -15,6 +19,9 @@ import * as quoteSelector from "../../selectors/quote.selector";
 })
 export class TokenPreviewComponent implements OnInit {
   @Input() token;
+
+  $depositCoin: Observable<Coin>;
+  $receiveCoin: Observable<Coin>;
 
   contentLoaded = false;
   chartPrice = true;
@@ -41,6 +48,8 @@ export class TokenPreviewComponent implements OnInit {
   };
 
   constructor(private store: Store<AppState>,public quoteService: QuoteService, private cd: ChangeDetectorRef) {  
+    this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
+    this.$receiveCoin = this.store.select(swapSelector.getReceiveCoin);
   }
 
   ngOnInit() {
@@ -100,5 +109,26 @@ export class TokenPreviewComponent implements OnInit {
 
   onSelect(event) {
     console.log(event);
+  }
+
+  buyToken(){
+    try { window.scrollTo({ left: 0, top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+    this.store.dispatch(new swapAction.setReceiveCoinAction(this.token));
+    this.$depositCoin.subscribe((deposit) => {
+      if(!(this.token.type == Coins.BTC || this.token.type == Coins.ETH) && !(deposit.type == Coins.BTC || deposit.type == Coins.ETH)){
+        this.store.dispatch(new swapAction.setDepositCoinAction(new EthCoinModel()));
+      }
+    }).unsubscribe();
+    
+  }
+
+  sellToken(){
+    try { window.scrollTo({ left: 0, top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+    this.store.dispatch(new swapAction.setDepositCoinAction(this.token));
+    this.$receiveCoin.subscribe((receive) => {
+      if(!(this.token.type == Coins.BTC || this.token.type == Coins.ETH) && !(receive.type == Coins.BTC || receive.type == Coins.ETH)){
+        this.store.dispatch(new swapAction.setReceiveCoinAction(new EthCoinModel()));
+      }
+    }).unsubscribe();
   }
 }

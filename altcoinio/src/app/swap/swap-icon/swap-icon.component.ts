@@ -45,6 +45,16 @@ export class SwapIconComponent implements OnInit {
       else
         this.firstCoin = changes.toCoin.currentValue;
     }
+    else{
+      if (this.swapCount % 2 == 0){
+        this.firstCoin = changes.fromCoin.currentValue;
+        this.secondCoin = changes.toCoin.currentValue;
+      }
+      else{
+        this.firstCoin = changes.toCoin.currentValue;
+        this.secondCoin = changes.fromCoin.currentValue;
+      }
+    }
   }
 
   animateCoinSwap(event) {
