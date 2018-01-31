@@ -16,6 +16,7 @@ import {HttpModule} from "@angular/http";
 import {OrderService} from "../services/order.service";
 import {TokensModule} from "../tokens/tokens.module";
 import {MatTableModule, MatToolbarModule} from "@angular/material";
+import {OrderMatchingService} from "../services/order-matching.service";
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import {MatTableModule, MatToolbarModule} from "@angular/material";
     LinkService,
     MoscaService,
     OrderService,
+    OrderMatchingService,
   ]
 })
 export class SwapModule {
