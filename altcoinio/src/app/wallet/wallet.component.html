@@ -35,6 +35,8 @@
         <div class="coin-balance">{{ ((coin.walletRecord?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
         </div>
         <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
+        <a *ngIf="coin.type == Coins.BTC" target="noopener" href="https://testnet.coinfaucet.eu/en/" class="faucet-button" mat-button color="accent">Faucet</a>
+        <a *ngIf="coin.type == Coins.ETH" target="noopener" href="https://faucet.rinkeby.io/" class="faucet-button" mat-button color="accent">Faucet</a>
         <a *ngIf="coin.type != Coins.BTC && coin.type != Coins.ETH" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
       </div>
     </div>
