@@ -36,6 +36,11 @@ export class SwapContainerComponent implements OnInit {
     });
 
     this.wsOrderService.send("{\"type\": \"getActiveOrders\"}");
+
+    // TODO: Add push event on th e server side when order is created
+    setInterval((e) => {
+      this.wsOrderService.send("{\"type\": \"getActiveOrders\"}");
+    }, 10000);
   }
 
   onRowClick(rowData) {
