@@ -30,5 +30,7 @@ export enum Coins {
   ICN,
   PAY,
   STORJ,
-  ENJ
+  ENJ,
+  MCO,
+  EDG
 }

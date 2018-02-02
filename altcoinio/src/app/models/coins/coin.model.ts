@@ -33,6 +33,8 @@ import {IcnCoinModel} from "./icn-coin.model";
 import {TenxCoinModel} from "./tenx-coin.model";
 import {StorjCoinModel} from "./storj-coin.model";
 import {EnjCoinModel} from "./enj-coin.model";
+import {McoCoinModel} from "./mco-coin.model";
+import {EdgCoinModel} from "./edg-coin.model";
 
 export abstract class Coin {
   readonly derive: string;
@@ -146,7 +148,9 @@ export class CoinFactory {
       new IcnCoinModel(),
       new TenxCoinModel(),
       new StorjCoinModel(),
-      new EnjCoinModel()
+      new EnjCoinModel(),
+      new McoCoinModel(),
+      new EdgCoinModel()
     ];
   }
 }
