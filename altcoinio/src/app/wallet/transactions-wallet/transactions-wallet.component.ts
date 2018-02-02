@@ -28,6 +28,7 @@ export class TransactionsWalletComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource = new TransactionsDataSource(this.transactionService, this.address);
+    console.log('data source ', this.dataSource);
   }
 
   openDetails(){

@@ -20,6 +20,19 @@ import {TrxCoinModel} from "./trx-coin.model";
 import {OmgCoinModel} from "./omg-coin.model";
 import {BtmCoinModel} from "./btm-coin.model";
 import {DentCoinModel} from "./dent-coin.model";
+import {PptCoinModel} from "./ppt-coin.model";
+import {MkrCoinModel} from "./mkr-coin.model";
+import {DgdCoinModel} from "./dgd-coin.model";
+import {QashCoinModel} from "./qash-coin.model";
+import {EthosCoinModel} from "./ethos-coin.model";
+import {FunCoinModel} from "./fun-coin.model";
+import {ZrxCoinModel} from "./zrx-coin.model";
+import {ReqCoinModel} from "./req-coin.model";
+import {BntCoinModel} from "./bnt-coin.model";
+import {IcnCoinModel} from "./icn-coin.model";
+import {TenxCoinModel} from "./tenx-coin.model";
+import {StorjCoinModel} from "./storj-coin.model";
+import {EnjCoinModel} from "./enj-coin.model";
 
 export abstract class Coin {
   readonly derive: string;
@@ -120,30 +133,20 @@ export class CoinFactory {
       new TrxCoinModel(),
       new OmgCoinModel(),
       new BtmCoinModel(),
-      new DentCoinModel()
-    ];
-  }
-  static createAllCoinsForWallet(balances): Coin[] {
-    return [
-      new BtcCoinModel(),
-      new EthCoinModel(),
-      new RepCoinModel(),
-      // new DcrCoinModel(),
-      new AntCoinModel(),
-      new BatCoinModel(),
-      new EosCoinModel(),
-      new GnoCoinModel(),
-      new GntCoinModel(),
-      new SaltCoinModel(),
-      // new LtcCoinModel(),
-      new CvcCoinModel(),
-      new DntCoinModel(),
-      new SntCoinModel(),
-      new SubCoinModel(),
-      new TrxCoinModel(),
-      new OmgCoinModel(),
-      new BtmCoinModel(),
-      new DentCoinModel()
+      new DentCoinModel(),
+      new PptCoinModel(),
+      new MkrCoinModel(),
+      new DgdCoinModel(),
+      new QashCoinModel(),
+      new EthosCoinModel(),
+      new FunCoinModel(),
+      new ZrxCoinModel(),
+      new ReqCoinModel(),
+      new BntCoinModel(),
+      new IcnCoinModel(),
+      new TenxCoinModel(),
+      new StorjCoinModel(),
+      new EnjCoinModel()
     ];
   }
 }

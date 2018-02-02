@@ -17,5 +17,18 @@ export enum Coins {
   TRX,
   OMG,
   BTM,
-  DENT
+  DENT,
+  PPT,
+  MKR,
+  DGD,
+  QASH,
+  ETHOS,
+  FUN,
+  ZRX,
+  REQ,
+  BNT,
+  ICN,
+  PAY,
+  STORJ,
+  ENJ
 }
