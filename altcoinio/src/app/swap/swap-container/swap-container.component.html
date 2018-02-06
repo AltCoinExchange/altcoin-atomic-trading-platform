@@ -18,17 +18,25 @@
         <ng-container matColumnDef="from">
           <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> From</mat-header-cell>
           <mat-cell style="color: #9cabbd;" *matCellDef="let element">
-            <img style="width: 15px;" src="/assets/icon/btc-icon.png" alt=""> {{element.fromAmount}} {{element.from}}</mat-cell>
+            <img style="width: 15px;vertical-align: text-top" src="{{element.fromCoin.icon}}" alt=""> {{element.fromAmount}} {{element.from}}</mat-cell>
         </ng-container>
 
         <!-- Weight Column -->
         <ng-container matColumnDef="to">
           <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> To</mat-header-cell>
-          <mat-cell style="color: #9cabbd;" *matCellDef="let element">{{element.toAmount}} {{element.to}}</mat-cell>
+          <mat-cell style="color: #9cabbd;" *matCellDef="let element">
+            <img style="width: 15px;vertical-align: text-top" src="{{element.toCoin.icon}}"> {{element.toAmount}} {{element.to}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="trade">
+          <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> Trade</mat-header-cell>
+          <mat-cell style="color: #9cabbd;" *matCellDef="let element">
+            <button class="buy-button" mat-raised-button (click)="onRowClick(element)">BUY</button>
+          </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row (click)="onRowClick(row)" style="color: #9cabbd;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-row style="color: #9cabbd;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
     </div>
   </div>

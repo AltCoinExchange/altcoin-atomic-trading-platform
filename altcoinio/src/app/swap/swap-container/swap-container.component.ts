@@ -9,6 +9,7 @@ import {Coin, CoinFactory} from "../../models/coins/coin.model";
 import {OrderMatchingService} from "../../services/order-matching.service";
 import {Subscription} from "rxjs/Subscription";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Coins} from "../../models/coins/coins.enum";
 
 
 @Component({
@@ -17,7 +18,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
   styleUrls: ["./swap-container.component.scss"]
 })
 export class SwapContainerComponent implements OnInit {
-  displayedColumns = ["from", "to"];
+  displayedColumns = ["from", "to", "trade"];
   dataSource;
   dataSubject = new BehaviorSubject<any[]>([]);
   socketSubscription: Subscription;
@@ -30,8 +31,12 @@ export class SwapContainerComponent implements OnInit {
   ngOnInit() {
     this.wsOrderService.connect();
     this.socketSubscription = this.wsOrderService.messages.subscribe((message: string) => {
-      const jsonmessage = JSON.parse(message);
-      this.dataSubject.next(jsonmessage);
+      const jsonMessage = JSON.parse(message);
+      for (let msg of jsonMessage) {
+        msg.fromCoin = CoinFactory.createCoinFromString(msg.from);
+        msg.toCoin = CoinFactory.createCoinFromString(msg.to);
+      }
+      this.dataSubject.next(jsonMessage);
       if (!this.changeDetectorRefs['destroyed']) {
         this.changeDetectorRefs.detectChanges();
       } 
