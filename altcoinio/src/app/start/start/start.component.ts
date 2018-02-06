@@ -86,4 +86,13 @@ export class StartComponent implements OnInit {
       }
     }, 250);
   }
+
+  private scrollToOrders(){
+    this.router.navigate(['/swap']).then(() => {
+      setTimeout(() => {
+        try { window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, document.body.scrollHeight); }
+      }, 300);
+    });
+    
+  }
 }
