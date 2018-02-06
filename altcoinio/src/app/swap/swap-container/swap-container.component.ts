@@ -32,7 +32,9 @@ export class SwapContainerComponent implements OnInit {
     this.socketSubscription = this.wsOrderService.messages.subscribe((message: string) => {
       const jsonmessage = JSON.parse(message);
       this.dataSubject.next(jsonmessage);
-      this.changeDetectorRefs.detectChanges();
+      if (!this.changeDetectorRefs['destroyed']) {
+        this.changeDetectorRefs.detectChanges();
+      } 
     });
 
     this.wsOrderService.send("{\"type\": \"getActiveOrders\"}");
@@ -59,6 +61,11 @@ export class SwapContainerComponent implements OnInit {
 
     this.store.dispatch(new sideB.InitiateAction(rowData));
   }
+
+  ngOnDestroy() {
+    this.changeDetectorRefs.detach();
+  }
+
 }
 
 export interface Element {
