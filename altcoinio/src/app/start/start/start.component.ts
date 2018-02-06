@@ -4,21 +4,26 @@ import {MatDialog} from "@angular/material";
 import {LogoutDialogComponent} from "../logout-dialog/logout-dialog.component";
 import {AltcoinioStorage} from "../../common/altcoinio-storage";
 
+declare var Appcues: any;
+
 @Component({
   selector: "app",
   templateUrl: "./start.component.html",
   styleUrls: ["./start.component.scss"]
 })
+
 export class StartComponent implements OnInit {
   public altcoinLogo = "assets/icon/altcoin-icon.png";
   headerHidden = false;
   routerLoading;
   private didScroll = false;
-
+  private routerSubscription;
   hasAcc = AltcoinioStorage.get("btcprivkey");
 
   constructor(private router: Router, private dialog: MatDialog) {
-    router.events.subscribe((event: Event) => {
+    
+    Appcues.anonymous();
+    this.routerSubscription = router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
         // Show loading indicator
         this.routerLoading = true;
@@ -27,6 +32,7 @@ export class StartComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
         this.routerLoading = false;
+        Appcues && Appcues.page();
       }
 
       if (event instanceof NavigationError) {
@@ -50,6 +56,10 @@ export class StartComponent implements OnInit {
 
   public ngOnInit() {
     this.hideHeaderOnScroll();
+  }
+
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe();
   }
 
   logout() {
