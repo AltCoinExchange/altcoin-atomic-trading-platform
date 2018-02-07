@@ -26,11 +26,11 @@ export class OmgCoinModel implements Coin {
     return model;
   }
 
-  getTokens(){
+  getTokens() {
     const ethCoinModel = new EthWallet();
     const xprivKey = AltcoinioStorage.get("btcprivkey");
     const keystore = ethCoinModel.recover(xprivKey);
-    ethCoinModel.login(keystore, xprivKey);
+    ethCoinModel.login(keystore);
     const token = ethCoinModel.getERC20Token(TOKENS.OMISEGO);
     return token.faucet();
   }

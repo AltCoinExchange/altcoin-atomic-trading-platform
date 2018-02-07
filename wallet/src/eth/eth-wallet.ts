@@ -8,8 +8,8 @@ export class EthereumWallet extends EthAtomicSwap {
     super(net);
   }
 
-  public login(keystore, password) {
-    const acc = this.engine.login(keystore, password);
+  public login(keystore) {
+    const acc = this.engine.login(keystore);
     if (acc.address.length > 2) {
       this.walletAddress = acc.address.slice(2);
     }
@@ -20,8 +20,8 @@ export class EthereumWallet extends EthAtomicSwap {
     return this.engine.createAccount(password);
   }
 
-  public recover(privateKey, password?) {
-    return this.engine.recoverAccount(privateKey, password);
+  public recover(privateKey?) {
+    return this.engine.recoverAccount(privateKey);
   }
 
   public async getbalance(address) {

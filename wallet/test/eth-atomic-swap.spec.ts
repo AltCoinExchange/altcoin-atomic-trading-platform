@@ -19,7 +19,7 @@ describe("EthAtomicSwap", () => {
 
         const newAccount = ethSwap.engine.createAccount("customPassword");
         const store = newAccount.keystore;
-        ethSwap.engine.login(store, "customPassword");
+        ethSwap.engine.login(store);
 
         const secret = SecretGenerator.generateSecret();
 

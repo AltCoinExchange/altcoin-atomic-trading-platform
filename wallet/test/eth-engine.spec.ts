@@ -15,7 +15,7 @@ describe("EthEngine", () => {
     const newAccount = ethEngine.createAccount("customPassword");
     const address = newAccount.wallet.address;
     const store = newAccount.keystore;
-    const accountRelogged = ethEngine.login(store, "customPassword");
+    const accountRelogged = ethEngine.login(store);
     expect(accountRelogged.address).toEqual(address);
   });
 
@@ -23,8 +23,8 @@ describe("EthEngine", () => {
     const privKey = "tprv8ZgxMBicQKsPdxZqLMWLFLxJiYwSnP92WVXzkb3meDwix5nxQtNd21AHzn3UvmJAqEqGoYzR7vtZk8hrujhZVGBh1MMED8JnsNja8gEopYM";
 
     const ethEngine = new EthEngine(AtomicSwapAbi, EthConfiguration.hosts[0], AtomicSwapBin);
-    const recovered = ethEngine.recoverAccount(privKey, "");
-    ethEngine.login(recovered, privKey);
+    const recovered = ethEngine.recoverAccount(privKey);
+    ethEngine.login(recovered);
     const result = await ethEngine.scanBlockRange();
     const g = 1;
     expect(1).toEqual(1);

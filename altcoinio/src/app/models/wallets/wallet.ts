@@ -28,7 +28,7 @@ export class WalletFactory {
         const ethCoinModel = new EthWallet();
         const xprivKey = AltcoinioStorage.get("btcprivkey");
         const keystore = ethCoinModel.recover(xprivKey);
-        ethCoinModel.login(keystore, xprivKey);
+        ethCoinModel.login(keystore);
         return ethCoinModel;
       }
       case Coins.SNT:
@@ -103,7 +103,7 @@ export class WalletFactory {
         const ethCoinModel = new EthTokenWallet(token);
         const xprivKey = AltcoinioStorage.get("btcprivkey");
         const keystore = ethCoinModel.recover(xprivKey);
-        ethCoinModel.login(keystore, xprivKey);
+        ethCoinModel.login(keystore);
         return ethCoinModel;
       }
       default: {
@@ -111,7 +111,7 @@ export class WalletFactory {
         const ethCoinModel = new EthTokenWallet(TOKENS.AUGUR);
         const xprivKey = AltcoinioStorage.get("btcprivkey");
         const keystore = ethCoinModel.recover(xprivKey);
-        ethCoinModel.login(keystore, xprivKey);
+        ethCoinModel.login(keystore);
         return ethCoinModel;
       }
     }

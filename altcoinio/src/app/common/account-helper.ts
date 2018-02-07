@@ -40,7 +40,7 @@ export class AccountHelper {
     const eth = new EthWallet();
 
     const recovered = eth.recover(xprivKey);
-    eth.login(recovered, xprivKey);
+    eth.login(recovered);
 
     const ethWallet = {
       privateKey: xprivKey,

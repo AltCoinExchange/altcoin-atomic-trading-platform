@@ -2,6 +2,8 @@ import * as Web3 from "web3/src";
 import {Contract} from "web3/types";
 import {IEthAccount} from "./eth-account";
 import axios from "axios";
+import * as bitcore from "bitcore";
+const HDPrivateKey = bitcore.HDPrivateKey;
 
 const walletN = 256;
 
@@ -43,19 +45,13 @@ export class EthEngine {
         } as IEthAccount;
     }
 
-    public login(keystore, password) {
-        if (!keystore || !password) {
-            return;
-        }
-        const accounts = this.web3.eth.accounts;
+    public login(keystore) {
+        this.configuration.defaultWallet = keystore.address;
 
-        const wallet = accounts.decrypt(keystore, password);
-        this.configuration.defaultWallet = wallet.address;
+        this.web3.eth.accounts.wallet.add(keystore);
+        this.web3.eth.defaultAccount = keystore.address;
 
-        this.web3.eth.accounts.wallet.add(wallet);
-        this.web3.eth.defaultAccount = wallet.address;
-
-        return wallet;
+        return keystore;
     }
 
     public getBalance(address): Promise<number> {
@@ -169,18 +165,13 @@ export class EthEngine {
         });
     }
 
-    public recoverAccount(privateKey, password?) {
-        if (!privateKey) {
-            return;
-        }
-
-        if (password === undefined) {
-            password = "";
-        }
+    public recoverAccount(pkSeed) {
+        const hdKey = new HDPrivateKey(pkSeed);
+        const privKey = hdKey.privateKey.toString();
 
         const accounts = this.web3.eth.accounts;
-        const acc = accounts.privateKeyToAccount(this.web3.utils.asciiToHex(privateKey));
-        return acc.encrypt(privateKey, password);
+        const acc = accounts.privateKeyToAccount("0x" + privKey);
+        return acc;
     }
 
     public toWei(amount, conversion) {

@@ -57,7 +57,7 @@ export class EthWallet extends EthereumWallet implements Wallet {
   public init(): string {
     const xprivKey = AltcoinioStorage.get("btcprivkey");
     const keystore = super.recover(xprivKey);
-    super.login(keystore, xprivKey);
+    super.login(keystore);
     return xprivKey;
   }
 
