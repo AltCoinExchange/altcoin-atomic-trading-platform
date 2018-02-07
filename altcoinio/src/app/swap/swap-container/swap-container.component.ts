@@ -32,22 +32,19 @@ export class SwapContainerComponent implements OnInit {
     this.wsOrderService.connect();
     this.socketSubscription = this.wsOrderService.messages.subscribe((message: string) => {
       const jsonMessage = JSON.parse(message);
-      for (let msg of jsonMessage) {
-        msg.fromCoin = CoinFactory.createCoinFromString(msg.from);
-        msg.toCoin = CoinFactory.createCoinFromString(msg.to);
+      if (jsonMessage.message == "getActiveOrders") {
+        for (let msg of jsonMessage.data) {
+          msg.fromCoin = CoinFactory.createCoinFromString(msg.from);
+          msg.toCoin = CoinFactory.createCoinFromString(msg.to);
+        }
+        this.dataSubject.next(jsonMessage.data);
+        if (!this.changeDetectorRefs['destroyed']) {
+          this.changeDetectorRefs.detectChanges();
+        }
       }
-      this.dataSubject.next(jsonMessage);
-      if (!this.changeDetectorRefs['destroyed']) {
-        this.changeDetectorRefs.detectChanges();
-      } 
     });
 
     this.wsOrderService.send("{\"type\": \"getActiveOrders\"}");
-
-    // TODO: Add push event on th e server side when order is created
-    setInterval((e) => {
-      this.wsOrderService.send("{\"type\": \"getActiveOrders\"}");
-    }, 10000);
   }
 
   onRowClick(rowData) {
