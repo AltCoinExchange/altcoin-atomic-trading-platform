@@ -21,7 +21,7 @@ export class StartComponent implements OnInit {
   hasAcc = AltcoinioStorage.get("btcprivkey");
 
   constructor(private router: Router, private dialog: MatDialog) {
-    
+
     Appcues.anonymous();
     this.routerSubscription = router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
@@ -87,12 +87,12 @@ export class StartComponent implements OnInit {
     }, 250);
   }
 
-  private scrollToOrders(){
+  public scrollToOrders(){
     this.router.navigate(['/swap']).then(() => {
       setTimeout(() => {
         try { window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, document.body.scrollHeight); }
       }, 300);
     });
-    
+
   }
 }
