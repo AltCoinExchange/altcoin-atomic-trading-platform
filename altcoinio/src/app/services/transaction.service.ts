@@ -28,8 +28,8 @@ export class TransactionService {
    */
   private fetch(address): Observable<TransactionModel> {
     try {
-      console.log("CALLING TRANSACTION SERVICE: ", `${this.url}0x${address}`);
-      return this.http.get(`${this.url}0x${address}`).map(res => {
+      console.log("CALLING TRANSACTION SERVICE: ", `${this.url}${address}`);
+      return this.http.get(`${this.url}${address}`).map(res => {
         console.log("DATA: ", res);
         return res.json()
       });
