@@ -1,7 +1,7 @@
 import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
 import {FlexLayoutModule} from "@angular/flex-layout";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {AltcoinIoCommonModule} from "../common/common.module";
 import {ProgressStepsComponent} from "../components/progress-steps/progress-steps.component";
@@ -15,7 +15,10 @@ import {SideBEffect} from "../effects/side-B.effect";
 import {HttpModule} from "@angular/http";
 import {OrderService} from "../services/order.service";
 import {TokensModule} from "../tokens/tokens.module";
-import {MatPaginatorModule, MatTableModule, MatToolbarModule} from "@angular/material";
+import {
+  MatAutocompleteModule, MatInputModule, MatPaginatorModule, MatSelectModule, MatTableModule,
+  MatToolbarModule
+} from "@angular/material";
 import {OrderMatchingService} from "../services/order-matching.service";
 
 @NgModule({
@@ -48,6 +51,10 @@ import {OrderMatchingService} from "../services/order-matching.service";
     MatTableModule,
     MatToolbarModule,
     MatPaginatorModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     SwapContainerComponent,
