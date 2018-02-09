@@ -32,5 +32,7 @@ export enum Coins {
   STORJ,
   ENJ,
   MCO,
-  EDG
+  EDG,
+  VEN,
+  ICX
 }

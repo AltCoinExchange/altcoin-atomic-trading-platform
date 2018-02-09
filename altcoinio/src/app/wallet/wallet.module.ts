@@ -16,6 +16,7 @@ import {RouterModule} from "@angular/router";
 import {AltcoinIoCommonModule} from "../common/common.module";
 import {WalletComponent} from "./wallet.component";
 import {CreateWalletComponent} from "./create-wallet/create-wallet.component";
+import {SetPasswordComponent} from "./set-password/set-password.component";
 import {WritePhraseComponent} from "./write-phrase/write-phrase.component";
 import {ImportWalletComponent} from "./import-wallet/import-wallet.component";
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from "ngx-perfect-scrollbar";
@@ -39,6 +40,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FlexLayoutModule,
     RouterModule.forChild([
       {path: "", component: WalletComponent},
+      {path: "password", component: SetPasswordComponent},
       {path: "create", component: CreateWalletComponent},
       {path: "write", component: WritePhraseComponent},
       {path: "import", component: ImportWalletComponent}
@@ -64,6 +66,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   declarations: [
     WalletComponent,
+    SetPasswordComponent,
     CreateWalletComponent,
     WritePhraseComponent,
     ImportWalletComponent,

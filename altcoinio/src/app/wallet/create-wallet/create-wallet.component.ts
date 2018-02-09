@@ -1,10 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {Go} from "../../actions/router.action";
+import {Router} from "@angular/router";
+import {scaleInOutAnimation} from "../../animations/animations";
+import {BitcoinWallet, FreshBitcoinWallet, generateMnemonic,} from "altcoinio-wallet";
+import {AccountHelper} from "../../common/account-helper";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers/app.state";
-import {scaleInOutAnimation} from "../../animations/animations";
-import {RC4} from "../../common/rc4";
-
+import * as walletAction from "../../actions/wallet.action";
 @Component({
   selector: "app-create-wallet",
   templateUrl: "./create-wallet.component.html",
@@ -14,13 +15,10 @@ import {RC4} from "../../common/rc4";
 export class CreateWalletComponent implements OnInit {
 
   scaleInOut = "scaleInOut";
-  passwordCardVisible = true;
-  cardVisible = false;
+  cardVisible = true;
+  codes;
 
-  pw;
-  pwRepeat;
-
-  constructor(private store: Store<AppState>) {
+  constructor(private router: Router, private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -29,27 +27,68 @@ export class CreateWalletComponent implements OnInit {
   writePhrase() {
     this.cardVisible = false;
     setTimeout(() => {
-      this.store.dispatch(new Go({
-        path: ["/wallet/write"],
-      }));
+      this.router.navigate(['/wallet/write']);
     }, 1500);
   }
 
-  submitPassword() {
-    const encPassword = RC4.encDec(this.pw, this.pw);
-    localStorage.setItem("PW", encPassword);
-    this.changeCard();
+  downloadPhrase(){
+    this.generatePhrase();
+    this.saveTextAsFile(this.codes.phrase, 'AltcoinKeyPhrase');
+    this.createWallet();
   }
 
-  skip() {
-    localStorage.setItem("PW", "KLJUC");
-    this.changeCard();
+  generatePhrase() {
+    this.codes = {
+      phrase: generateMnemonic()
+    };
+  }
+ 
+  saveTextAsFile (data, filename){
+    if(!data){
+      console.log('No data');
+      return;
+    }
+      
+    var blob = new Blob([data], {type: 'text/plain'}),
+        e    = document.createEvent('MouseEvents'),
+        a    = document.createElement('a')
+
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(blob, filename);
+    }
+    else{
+      var e = document.createEvent('MouseEvents'),
+          a = document.createElement('a');
+
+      a.download = filename;
+      a.href = window.URL.createObjectURL(blob);
+      a.dataset.downloadurl = ['text/plain', a.download, a.href].join(':');
+      e.initEvent('click', true, false);
+      a.dispatchEvent(e);
+    }
   }
 
-  private changeCard() {
-    this.passwordCardVisible = false;
+  createWallet() {
+    this.cardVisible = false;
+    this.createBtcWallet(this.codes);
     setTimeout(() => {
-      this.cardVisible = true;
-    }, 1500);
+      this.router.navigate(['/wallet']);
+      AccountHelper.generateWalletsFromPrivKey(this.store);
+    }, 500);
   }
+
+  private createBtcWallet(codes: any) {
+    const btc = new BitcoinWallet();
+    const wallet = new FreshBitcoinWallet(codes.phrase);
+    btc.create(wallet);
+    const WIF = btc.WIF;
+    const address = btc.generateAddressFromWif(WIF);
+    const xkey = btc.hdPrivateKey.xprivkey;
+    this.store.dispatch(new walletAction.SetBtcWalletAction({
+      xprivkey: xkey,
+      WIF,
+      address
+    }));
+  }
+
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Go} from "../../actions/router.action";
+import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers/app.state";
 import {scaleInOutAnimation} from "../../animations/animations";
@@ -21,7 +21,7 @@ export class WritePhraseComponent implements OnInit {
   words: Array<string>;
   wordCounter: number;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private router: Router) {
     this.generatePhrase();
   }
 
@@ -57,10 +57,7 @@ export class WritePhraseComponent implements OnInit {
     this.cardVisible = false;
     this.createBtcWallet(this.codes);
     setTimeout(() => {
-      this.store.dispatch(new Go({
-        path: ["/wallet"],
-      }));
-
+      this.router.navigate(['/wallet']);
       AccountHelper.generateWalletsFromPrivKey(this.store);
     }, 500);
   }

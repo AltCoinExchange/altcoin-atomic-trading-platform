@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
+import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
@@ -17,7 +18,6 @@ import {
 } from "../selectors/balance.selector";
 import * as quoteSelector from "../selectors/quote.selector";
 import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
-import {Go} from "../actions/router.action";
 import {AltcoinioStorage} from "../common/altcoinio-storage";
 import {TransactionService} from "../services/transaction.service";
 
@@ -45,7 +45,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
 
-  constructor(private store: Store<AppState>, public dialog: MatDialog) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog, private router: Router) {
     this.allCoins = CoinFactory.createAllCoins();
     this.filteredCoins = [...this.allCoins];
     this.selectedCoin = this.allCoins[0];
@@ -54,9 +54,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const xprivKey = AltcoinioStorage.get("btcprivkey");
     if (!xprivKey) {
-      this.store.dispatch(new Go({
-        path: ["/wallet/empty"],
-      }));
+      this.router.navigate(['/wallet/empty']);
     } else {
       this.infoMsg = "This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.";
       this.getTokenWalletRecords();
