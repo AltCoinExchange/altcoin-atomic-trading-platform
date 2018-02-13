@@ -14,7 +14,7 @@ export class IcxCoinModel implements Coin {
   readonly icon: string = "assets/icon/icx-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $amountUSD: Observable<number>;
+  $balanceUSD: Observable<number>;
   walletRecord: WalletRecord;
 
   constructor() {

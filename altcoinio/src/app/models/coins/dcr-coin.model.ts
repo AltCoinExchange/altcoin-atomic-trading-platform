@@ -13,7 +13,7 @@ export class DcrCoinModel implements Coin {
   readonly fullName: string = "Decred";
   amount;
   faucetLoading: boolean = false;
-  $amountUSD: Observable<number>;
+  $balanceUSD: Observable<number>;
   walletRecord: WalletRecord;
 
   constructor() {

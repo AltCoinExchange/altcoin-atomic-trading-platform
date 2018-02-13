@@ -27,7 +27,8 @@ mat-dialog-container {
     max-width: 100% !important;
 }
 
-.mat-card{
+.mat-card, .mat-paginator, .mat-toolbar, 
+.mat-select-content, .mat-option{
     font-family: 'Montserrat', sans-serif;
     background-color: $main-gray;
     color: $text-color;
@@ -52,6 +53,7 @@ mat-dialog-container {
 }
 
 .mat-list-item, .mat-input-element, .mat-button, 
+.mat-table, .mat-select-trigger, .mat-paginator,
 .mat-toolbar, .mat-checkbox, .mat-form-field, .mat-menu-item, 
 .mat-expansion-panel-header, .mat-tab-group, .mat-tab-label {
     font-family: 'Montserrat', sans-serif !important;
@@ -66,7 +68,7 @@ mat-dialog-container {
     font-size: 100%;
 }
 
-.mat-menu-panel{
+.mat-menu-panel, .mat-header-row{
     background-color: $main-gray;
 }
 
@@ -79,6 +81,14 @@ mat-dialog-container {
     color: rgba(0, 0, 0, 0.65);
 }
 
+.mat-toolbar{
+    font-size: 100%;
+}
 
-
+.mat-select-arrow, 
+.mat-select-value, 
+.mat-header-cell,
+.mat-cell{
+    color: $text-color;
+}
 

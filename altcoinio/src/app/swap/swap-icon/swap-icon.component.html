@@ -3,7 +3,9 @@
     <div class="swap-icon icon-box" [@coinSwaps]="toCoinAnimationSwapState">
       <a fxLayout="row" fxLayoutAlign="space-between center" href="" (click)="iconClicked($event, firstCoin)">
           <img [src]="firstCoin.icon" alt="">
-          <p class="coin-name" fxShow.xs="false">{{firstCoin.fullName}}</p>
+          <div class="coin-name" fxShow.xs="false" fxLayout="column" fxLayoutAlign="center center">
+            <div>{{firstCoin.fullName}}</div>
+          </div>
           <mat-icon>arrow_drop_down</mat-icon>
       </a>
     </div>
@@ -30,7 +32,9 @@
     <div class="swap-icon icon-box" [@coinSwaps]="fromCoinAnimationSwapState">
       <a fxLayout="row" fxLayoutAlign="space-between center" href="" (click)="iconClicked($event, secondCoin)">
         <img [src]="secondCoin.icon" alt="">
-        <p class="coin-name" fxShow.xs="false">{{secondCoin.fullName}}</p>
+        <div class="coin-name" fxShow.xs="false" fxLayout="column" fxLayoutAlign="center center">
+          <div>{{secondCoin.fullName}}</div>
+        </div>
         <mat-icon>arrow_drop_down</mat-icon>
       </a>
     </div>

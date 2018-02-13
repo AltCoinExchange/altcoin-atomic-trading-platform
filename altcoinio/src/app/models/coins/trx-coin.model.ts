@@ -14,7 +14,7 @@ export class TrxCoinModel implements Coin {
   readonly icon: string = "assets/icon/trx-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $amountUSD: Observable<number>;
+  $balanceUSD: Observable<number>;
   walletRecord: WalletRecord;
 
   constructor() {

@@ -152,7 +152,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   getTokenAmountUSD(coin) {
     const quotes = this.store.select(quoteSelector.getQuotes);
-      coin.$amountUSD = Observable.combineLatest(quotes, (q) => {
+      coin.$balanceUSD = Observable.combineLatest(quotes, (q) => {
         if (!q || !coin.walletRecord)
           return undefined;
         const balance = Number(coin.walletRecord.balance);

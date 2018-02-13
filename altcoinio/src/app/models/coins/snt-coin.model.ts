@@ -14,7 +14,7 @@ export class SntCoinModel implements Coin {
   readonly icon: string = "assets/icon/snt-icon.png";
   amount;
   faucetLoading: boolean = false;
-  $amountUSD: Observable<number>;
+  $balanceUSD: Observable<number>;
   walletRecord: WalletRecord;
 
   constructor() {

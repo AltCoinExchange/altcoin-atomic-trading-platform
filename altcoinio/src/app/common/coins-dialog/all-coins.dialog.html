@@ -35,7 +35,7 @@
       <div *ngIf="!coin.walletRecord?.loading">
         <div class="coin-name">{{coin.fullName}}</div>
         <div class="coin-balance">{{ ((coin.walletRecord?.balance) || 0) | number : '1.2-8' }} {{coin.name}}</div>
-        <div class="coin-usd">{{ ((coin.$amountUSD | async) || 0) | number : '1.0-2' }} USD</div>
+        <div class="coin-usd">{{ ((coin.$balanceUSD | async) || 0) | number : '1.0-2' }} USD</div>
       </div>
     </div>
   </mat-card>

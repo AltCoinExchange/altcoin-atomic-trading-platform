@@ -1,4 +1,4 @@
-<h1 style="text-align: center;">Atomic swap tokens securely. No middleman required.</h1>
+<h1 style="text-align: center;">Which tokens do you want to trade?</h1>
 <div fxLayout="row" fxLayoutAlign="center center">
   <div class="swap-proccess" fxFlex.xl="30%" fxFlex.lg="50%" fxFlex.md="85%" fxFlex.sm="100%" fxFlex.xs="100%">
     <div fxLayout="row" fxLayoutAlign="center center">
@@ -8,13 +8,15 @@
   </div>
 </div>
 <app-token-list></app-token-list>
-<div fxLayout="row" class="content-block" fxLayoutAlign="center center">
-  <div fxFlex.xl="25%" fxFlex.lg="70%" fxFlex.md="80%" fxFlex.sm="100%" fxFlex.xs="100%">
-    <div class="example-container mat-elevation-z8" style="width: 100%;">
-      <mat-toolbar style="background: #2A3141; color: #9cabbd;">Orders
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div fxFlex="80%" fxFlex.xl="55%" fxFlex.md="90%" fxFlex.sm="100%" fxFlex.xs="100%">
+    <div class="orders-container mat-elevation-z8">
+      <mat-toolbar>Available trades</mat-toolbar>
+      <mat-table style="background: #2A3141;" #table [dataSource]="dataSource">
 
-        <mat-toolbar-row>
-          <mat-form-field class="example-full-width">
+        <ng-container matColumnDef="from">
+          <mat-header-cell *matHeaderCellDef> 
+            <mat-form-field class="filter">
             <input matInput placeholder="From" aria-label="From" [matAutocomplete]="fromAuto" [formControl]="fromCtrl">
             <mat-autocomplete #fromAuto="matAutocomplete" (optionSelected)="onFromSelected($event)">
               <mat-option *ngFor="let fromCoin of fromFilterFiltered | async" [value]="fromCoin.name">
@@ -22,52 +24,46 @@
                 <span>{{ fromCoin.name }}</span>
               </mat-option>
             </mat-autocomplete>
-          </mat-form-field>
-          &nbsp;
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="To" aria-label="To" [matAutocomplete]="toAuto" [formControl]="toCtrl">
-            <mat-autocomplete #toAuto="matAutocomplete" (optionSelected)="onToSelected($event)">
-              <mat-option *ngFor="let toCoin of toFilterFiltered | async" [value]="toCoin.name">
-                <img style="vertical-align:middle;" aria-hidden src="{{toCoin.icon}}" height="25" />
-                <span>{{ toCoin.name }}</span>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <button mat-button (click)="clearFilters()">Clear filters</button>
-        </mat-toolbar-row>
-
-      </mat-toolbar>
-      <mat-table style="background: #2A3141;" #table [dataSource]="dataSource">
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="from">
-          <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> From</mat-header-cell>
-          <mat-cell style="color: #9cabbd;" *matCellDef="let element">
-            <img style="width: 15px;vertical-align: text-top" src="{{element.fromCoin.icon}}" alt="">
+          </mat-form-field></mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <img style="width: 16px;vertical-align: text-top" src="{{element.fromCoin.icon}}" alt="">
             {{element.fromAmount}} {{element.from}}
           </mat-cell>
         </ng-container>
 
-        <!-- Weight Column -->
         <ng-container matColumnDef="to">
-          <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> To</mat-header-cell>
-          <mat-cell style="color: #9cabbd;" *matCellDef="let element">
-            <img style="width: 15px;vertical-align: text-top" src="{{element.toCoin.icon}}"> {{element.toAmount}}
+          <mat-header-cell *matHeaderCellDef> 
+            <mat-form-field class="filter">
+              <input matInput placeholder="To" aria-label="To" [matAutocomplete]="toAuto" [formControl]="toCtrl">
+              <mat-autocomplete #toAuto="matAutocomplete" (optionSelected)="onToSelected($event)">
+                <mat-option *ngFor="let toCoin of toFilterFiltered | async" [value]="toCoin.name">
+                  <img style="vertical-align:middle;" aria-hidden src="{{toCoin.icon}}" height="25" />
+                  <span>{{ toCoin.name }}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+        </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <img style="width: 16px;vertical-align: text-top" src="{{element.toCoin.icon}}"> {{element.toAmount}}
             {{element.to}}
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="trade">
-          <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> Trade</mat-header-cell>
-          <mat-cell style="color: #9cabbd;" *matCellDef="let element">
-            <button class="buy-button" mat-raised-button (click)="onRowClick(element)">BUY</button>
+          <mat-header-cell *matHeaderCellDef class="last-cell">
+            <button (click)="clearFilters()" mat-icon-button>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="last-cell">
+            <button class="buy-button" mat-raised-button (click)="onRowClick(element)">ACCEPT TRADE</button>
           </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row style="color: #9cabbd;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <mat-paginator [length]="tableOrderLength" style="background: #374457;"
+      <mat-paginator [length]="tableOrderLength"
                      [pageSize]="tableOrderPageSize" (page)="onPageChange($event)"
                      [pageSizeOptions]="[5, 10, 25, 100]">
       </mat-paginator>
