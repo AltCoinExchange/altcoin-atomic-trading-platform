@@ -24,9 +24,6 @@ export class TokenPreviewComponent implements OnInit {
   $receiveCoin: Observable<Coin>;
 
   contentLoaded = false;
-  chartPrice = true;
-  chartVolume = false;
-  chartMarket = false;
   tokenPrice;
   tokenPerc;
   statsLoaded = false;
@@ -44,7 +41,7 @@ export class TokenPreviewComponent implements OnInit {
   public showYAxisLabel = false;
 
   public colorScheme = {
-    domain: ['#B2DFDB', '#4DB6AC', '#009688', '#AAAAAA']
+    domain: ['#B2DFDB', '#4DB6AC', '#009688', '#AAAAAA']    
   };
 
   constructor(private store: Store<AppState>,public quoteService: QuoteService, private cd: ChangeDetectorRef) {  
@@ -55,16 +52,21 @@ export class TokenPreviewComponent implements OnInit {
   ngOnInit() {
     this.getCoinStats();
     this.getChartData();
-    this.updateChart();  
+    this.loadChart();  
   }
 
   getChartData(){
-    this.$charts = this.quoteService.getHistory(this.token.name, "90day").map(e => {
+    this.$charts = this.quoteService.getHistory(this.token.name, "30day").map(e => {
       let chart: ChartModel[] = [];
       chart.push(TokenPreviewComponent.parseMap(e, "PRICE", "price"));
-      chart.push(TokenPreviewComponent.parseMap(e, "VOLUME", "volume"));
-      chart.push(TokenPreviewComponent.parseMap(e, "MARKET CAP", "market_cap"));
       return chart;
+    });
+  }
+
+  loadChart(){
+    this.$charts.subscribe((data) => {
+      this.multi.push(data[0]);
+      this.contentLoaded = true;
     });
   }
 
@@ -80,18 +82,7 @@ export class TokenPreviewComponent implements OnInit {
     });
   }
 
-  updateChart(){
-    this.$charts.subscribe((data) => {
-      this.multi = [];
-      if(this.chartPrice)
-        this.multi.push(data[0]);
-      if(this.chartVolume)
-        this.multi.push(data[1]);
-      if(this.chartMarket)
-        this.multi.push(data[2]);
-      this.contentLoaded = true;
-    });
-  }
+ 
 
   public static parseMap(obj: any, label: string, field: string): ChartModel {
     let priceModel = {} as ChartModel;
