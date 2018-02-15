@@ -1,85 +1,100 @@
 <div class="container">
-  <a (click)="openDetails()">
-    <div class="transaction closed" [class.closed]="detailsClosed">
-      <div class="transaction-send" fxLayout="row" fxLayoutAlign="center center" >
-        <div class="icon">
-          <img src="/assets/icon/forward.png" alt="">
-        </div>
-        <div class="content" fxFlex="100">
-          <div class="title">Sent</div>
-          <div class="date">12 Jan 2018</div>
-        </div>
-        <div class="amount">
-          1 ETH
-          <mat-icon *ngIf="detailsClosed">arrow_drop_down</mat-icon>
-          <mat-icon *ngIf="!detailsClosed">arrow_drop_up</mat-icon>
-        </div>
+  <div *ngIf="!transactionsLoaded">
+    <div class="spinner">
+      <div class="circle-loader">
       </div>
-      <div class="details" 
-      fxLayout="row" 
-      fxLayout.xs="column" 
-      fxLayout.sm="column" 
-      fxLayoutAlign="center center" 
-      fxLayoutAlign.xs="center stretch" 
-      fxLayoutAlign.sm="center stretch">
-        <div class="left" fxFlex="70">
-          <div fxLayout="column" fxLayoutAlign="stretch start">
-            <div class="detail">Sent to</div>
-            <div class="detail info">96660d57fda60c54184a0930c66d5202b10f695b</div>
-          
-            <div class="detail">Transaction ID</div>
-            <div class="detail info">85d64bbf30b3bb85ac97498948a48c66ccda9d440c8320a5964b177fa1e2d710</div>
+    </div>
+  </div>
+  <div *ngFor="let transaction of transactions">
+    <a *ngIf="transaction.from.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
+      <div class="transaction closed" [class.closed]="transaction.detailsClosed">
+        <div class="transaction-send" fxLayout="row" fxLayoutAlign="center center" >
+          <div class="icon">
+            <img src="/assets/icon/forward.png" alt="">
+          </div>
+          <div class="content" fxFlex="100">
+            <div class="title">Sent</div>
+            <div class="date">{{transaction.date}}</div>
+          </div>
+          <div class="amount">
+            {{transaction.value}} ETH
+            <mat-icon *ngIf="transaction.detailsClosed">arrow_drop_down</mat-icon>
+            <mat-icon *ngIf="!transaction.detailsClosed">arrow_drop_up</mat-icon>
           </div>
         </div>
-        <div class="right" fxFlex="30">
-          <div fxLayout="column" fxLayoutAlign="stretch end" fxLayoutAlign.xs="stretch start" fxLayoutAlign.sm="stretch start">
-            <div class="detail">Mining fee</div>
-            <div class="detail info">0.00432</div>
+        <div class="details" 
+        fxLayout="row" 
+        fxLayout.xs="column" 
+        fxLayout.sm="column" 
+        fxLayoutAlign="center center" 
+        fxLayoutAlign.xs="center stretch" 
+        fxLayoutAlign.sm="center stretch">
+          <div class="left" fxFlex="70">
+            <div fxLayout="column" fxLayoutAlign="stretch start">
+              <div class="detail">Sent to</div>
+              <div class="detail info">{{transaction.to}}</div>
             
-            <div class="detail">Confirmations</div>
-            <div class="detail info">6+</div>
+              <div class="detail">Transaction ID</div>
+              <div class="detail info">{{transaction.hash}}</div>
+            </div>
+          </div>
+          <div class="right" fxFlex="30">
+            <div fxLayout="column" fxLayoutAlign="stretch end" fxLayoutAlign.xs="stretch start" fxLayoutAlign.sm="stretch start">
+              <div class="detail">Mining fee</div>
+              <div class="detail info">0.00432</div>
+              
+              <div class="detail">Confirmations</div>
+              <div *ngIf="transaction.confirmations >= 12" class="detail info">12+</div>
+              <div *ngIf="transaction.confirmations < 12" class="detail info">{{transaction.confirmations}}</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </a>
-  <a>
-    <div class="transaction">
-      <div class="transaction-receive" fxLayout="row" fxLayoutAlign="center center" >
-        <div class="icon">
-          <img src="/assets/icon/backward.png" alt="">
+    </a>
+    <a *ngIf="transaction.to.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
+      <div class="transaction">
+        <div class="transaction-receive" fxLayout="row" fxLayoutAlign="center center" >
+          <div class="icon">
+            <img src="/assets/icon/backward.png" alt="">
+          </div>
+          <div class="content" fxFlex="100">
+            <div class="title">Received</div>
+            <div class="date">10 Jan 2018</div>
+          </div>
+          <div class="amount">
+            {{transaction.value}} ETH
+            <mat-icon *ngIf="transaction.detailsClosed">arrow_drop_down</mat-icon>
+            <mat-icon *ngIf="!transaction.detailsClosed">arrow_drop_up</mat-icon>
+          </div>
         </div>
-        <div class="content" fxFlex="100">
-          <div class="title">Received</div>
-          <div class="date">10 Jan 2018</div>
-        </div>
-        <div class="amount">
-          18 ETH
-          <mat-icon>arrow_drop_down</mat-icon>
+        <div class="details" 
+        fxLayout="row" 
+        fxLayout.xs="column" 
+        fxLayout.sm="column" 
+        fxLayoutAlign="center center" 
+        fxLayoutAlign.xs="center stretch" 
+        fxLayoutAlign.sm="center stretch">
+          <div class="left" fxFlex="70">
+            <div fxLayout="column" fxLayoutAlign="stretch start">
+              <div class="detail">Received from</div>
+              <div class="detail info">{{transaction.from}}</div>
+            
+              <div class="detail">Transaction ID</div>
+              <div class="detail info">{{transaction.hash}}</div>
+            </div>
+          </div>
+          <div class="right" fxFlex="30">
+            <div fxLayout="column" fxLayoutAlign="stretch end" fxLayoutAlign.xs="stretch start" fxLayoutAlign.sm="stretch start">
+              <div class="detail">Mining fee</div>
+              <div class="detail info">0.00432</div>
+              
+              <div class="detail">Confirmations</div>
+              <div *ngIf="transaction.confirmations >= 12" class="detail info">12+</div>
+              <div *ngIf="transaction.confirmations < 12" class="detail info">{{transaction.confirmations}}</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </a>
-
-  <mat-table style="background: #2A3141;" #table [dataSource]="dataSource">
-
-    <ng-container matColumnDef="from">
-      <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> From</mat-header-cell>
-      <mat-cell style="color: #9cabbd;margin-right: 5px;" *matCellDef="let element">
-        <img style="width: 15px;" src="/assets/icon/eth-icon.png" alt=""> {{element.from}} =></mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="to">
-      <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> To</mat-header-cell>
-      <mat-cell style="color: #9cabbd;margin-right: 5px;" *matCellDef="let element">{{element.to}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="value">
-      <mat-header-cell *matHeaderCellDef style="color: #9cabbd"> Value</mat-header-cell>
-      <mat-cell style="color: #9cabbd;margin-right: 5px;" *matCellDef="let element">{{element.value}}</mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row style="color: #9cabbd" *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+    </a>
+  </div>
 </div>

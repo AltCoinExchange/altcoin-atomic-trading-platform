@@ -10,6 +10,7 @@ import {Element, OrderDataSource} from "../../swap/swap-container/swap-container
 import {OrderService} from "../../services/order.service";
 import {TransactionService} from "../../services/transaction.service";
 import {TransactionDetailsModel, TransactionModel} from "../../models/transaction.model";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-transactions-wallet',
@@ -18,55 +19,33 @@ import {TransactionDetailsModel, TransactionModel} from "../../models/transactio
 })
 export class TransactionsWalletComponent implements OnInit {
   @Input() address;
-  public dataSource;
-  public displayedColumns = ["from", "to", "value"];
-  detailsClosed;
+  transactions;
+  transactionsLoaded = false;
 
   constructor(private store: Store<AppState>, public transactionService: TransactionService) {
-    this.detailsClosed = true;
   }
 
   ngOnInit() {
-    this.dataSource = new TransactionsDataSource(this.transactionService, this.address);
-    console.log('data source ', this.dataSource);
+    this.getTransactions();
   }
 
-  openDetails(){
-    this.detailsClosed = !this.detailsClosed;
-  }
-}
-
-export class TransactionsDataSource extends DataSource<any> {
-
-  constructor(private transactionService: TransactionService, private address: string) {
-    super();
-  }
-
-  connect(): Observable<TransactionDetailsModel[]> {
-    const addr = this.address.toLowerCase();
-    return this.transactionService.getTransactions(this.address)
-      .map(data => {
-        if (data.from !== undefined) {
-          let details = data.from.concat(data.to) as TransactionDetailsModel[];
-          console.log(details);
-          details = details.filter((e, index, arr) => {
-            e.value = (parseFloat(e.value) / 1000000000000000000).toString() + " ETH";
-            if (e.from.toLowerCase() == addr) {
-              e.from = "ME";
-              return true;
-            } else if (e.to.toLowerCase() == addr) {
-              e.to = "ME";
-              return true;
-            } else {
-              return false;
-            }
-          });
-          return details;
-        }
+  getTransactions(){
+    this.transactionService.getTransactions(this.address).subscribe(data => {
+      this.transactionsLoaded = true;
+      this.transactions = data.from.concat(data.to) as TransactionDetailsModel[];
+      this.transactions = this.transactions.filter((transaction) => transaction !== undefined).map((transaction) => {
+        transaction.value = (parseFloat(transaction.value) / 1000000000000000000).toString();
+        transaction.detailsClosed = true;
+        transaction.date = moment.unix(transaction.timestamp).fromNow();
+        return transaction;
       });
+      console.log('transactions ', this.transactions)
+    });
   }
 
-  disconnect() {
+  openDetails(transaction){
+    transaction.detailsClosed = !transaction.detailsClosed;
   }
 }
+
 
