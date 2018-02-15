@@ -14,7 +14,7 @@
           </div>
           <div class="content" fxFlex="100">
             <div class="title">Sent</div>
-            <div class="date">{{transaction.date}}</div>
+            <div class="date">{{transaction.relativeDate}}</div>
           </div>
           <div class="amount">
             {{transaction.value}} ETH
@@ -26,16 +26,20 @@
         fxLayout="row" 
         fxLayout.xs="column" 
         fxLayout.sm="column" 
-        fxLayoutAlign="center center" 
+        fxLayoutAlign="center start" 
         fxLayoutAlign.xs="center stretch" 
         fxLayoutAlign.sm="center stretch">
           <div class="left" fxFlex="70">
             <div fxLayout="column" fxLayoutAlign="stretch start">
+              <div class="detail">Date</div>
+              <div class="detail info">{{transaction.date}}</div>
+
               <div class="detail">Sent to</div>
               <div class="detail info">{{transaction.to}}</div>
             
               <div class="detail">Transaction ID</div>
               <div class="detail info">{{transaction.hash}}</div>
+              
             </div>
           </div>
           <div class="right" fxFlex="30">
@@ -59,7 +63,7 @@
           </div>
           <div class="content" fxFlex="100">
             <div class="title">Received</div>
-            <div class="date">10 Jan 2018</div>
+            <div class="date">{{transaction.relativeDate}}</div>
           </div>
           <div class="amount">
             {{transaction.value}} ETH
@@ -71,11 +75,14 @@
         fxLayout="row" 
         fxLayout.xs="column" 
         fxLayout.sm="column" 
-        fxLayoutAlign="center center" 
+        fxLayoutAlign="center start" 
         fxLayoutAlign.xs="center stretch" 
         fxLayoutAlign.sm="center stretch">
           <div class="left" fxFlex="70">
             <div fxLayout="column" fxLayoutAlign="stretch start">
+              <div class="detail">Date</div>
+              <div class="detail info">{{transaction.date}}</div>
+
               <div class="detail">Received from</div>
               <div class="detail info">{{transaction.from}}</div>
             

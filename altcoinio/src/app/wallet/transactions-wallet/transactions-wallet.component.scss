@@ -16,7 +16,7 @@
     cursor: pointer;
 
     overflow-y: hidden;
-	max-height: 160px;
+	max-height: 205px;
 
 	transition-property: all;
 	transition-duration: .5s;
@@ -55,7 +55,7 @@
 
 @media only screen and (max-width: 959px) {
     .transaction{
-        max-height: 250px;
+        max-height: 295px;
     }
 }
 
