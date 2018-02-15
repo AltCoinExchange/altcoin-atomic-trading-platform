@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {scaleInOutAnimation} from "../../animations/animations";
-import {Router} from "@angular/router";
+import {Router, NavigationExtras} from "@angular/router";
 
 @Component({
   selector: "app-empty-wallet",
@@ -20,16 +20,26 @@ export class EmptyWalletComponent implements OnInit {
   }
 
   createWallet() {
+    let navigationExtras: NavigationExtras = {
+        queryParams: {
+            mode: 'create'
+        }
+    };
     this.cardVisible = false;
     setTimeout(() => {
-      this.router.navigate(['/wallet/password']);
+      this.router.navigate(['/wallet/password'], navigationExtras);
     }, 1500);
   }
 
   importWallet() {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+          mode: 'import'
+      }
+    };
     this.cardVisible = false;
     setTimeout(() => {
-      this.router.navigate(['/wallet/import']);
+      this.router.navigate(['/wallet/password'], navigationExtras);
     }, 1500);
   }
 

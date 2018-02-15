@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {scaleInOutAnimation} from "../../animations/animations";
 import {RC4} from "../../common/rc4";
 
@@ -13,11 +13,15 @@ export class SetPasswordComponent implements OnInit {
 
   scaleInOut = "scaleInOut";
   passwordCardVisible = true;
+  mode;
 
   pw;
   pwRepeat;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+        this.mode = params.mode;
+    });
   }
 
   ngOnInit() {
@@ -37,7 +41,10 @@ export class SetPasswordComponent implements OnInit {
   private changeCard() {
     this.passwordCardVisible = false;
     setTimeout(() => {
-      this.router.navigate(['/wallet/create']);
+      if(this.mode == 'create')
+        this.router.navigate(['/wallet/create']);
+      else if(this.mode == 'import')
+        this.router.navigate(['/wallet/import']);
     }, 1500);
   }
 }

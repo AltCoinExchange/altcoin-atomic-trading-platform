@@ -31,11 +31,9 @@ export class ImportWalletComponent implements OnInit {
   hasError = false;
   messageTypes: typeof MessageTypes = MessageTypes;
   scaleInOut = "scaleInOut";
-  cardVisible = false;
-  passwordCardVisible = true;
+  cardVisible = true;
   words;
-  pw;
-  pwRepeat;
+ 
   easterEggCombination = [
     {correct: false, value: 38},
     {correct: false, value: 38},
@@ -108,24 +106,6 @@ export class ImportWalletComponent implements OnInit {
     ev.split(" ").forEach((word, index) => {
       this.words[index].value = word;
     });
-  }
-
-  submitPassword() {
-    const encPassword = RC4.encDec(this.pw, this.pw);
-    localStorage.setItem("PW", encPassword);
-    this.changeCard();
-  }
-
-  skip() {
-    localStorage.setItem("PW", "KLJUC");
-    this.changeCard();
-  }
-
-  private changeCard() {
-    this.passwordCardVisible = false;
-    setTimeout(() => {
-      this.cardVisible = true;
-    }, 1500);
   }
 
   private createBtcWallet(codes: any) {

@@ -68,7 +68,7 @@ mat-dialog-container {
     font-size: 100%;
 }
 
-.mat-menu-panel, .mat-header-row{
+.mat-menu-panel, .mat-header-row, .mat-row{
     background-color: $main-gray;
 }
 
@@ -90,5 +90,9 @@ mat-dialog-container {
 .mat-header-cell,
 .mat-cell{
     color: $text-color;
+}
+
+.mat-paginator-page-size{
+    display: none !important;
 }
 
