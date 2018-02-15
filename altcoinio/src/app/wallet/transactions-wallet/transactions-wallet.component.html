@@ -52,7 +52,7 @@
       </div>
     </a>
     <a *ngIf="transaction.to.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
-      <div class="transaction">
+      <div class="transaction closed" [class.closed]="transaction.detailsClosed">
         <div class="transaction-receive" fxLayout="row" fxLayoutAlign="center center" >
           <div class="icon">
             <img src="/assets/icon/backward.png" alt="">
