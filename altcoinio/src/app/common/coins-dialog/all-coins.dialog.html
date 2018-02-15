@@ -23,8 +23,9 @@
       fxFlex.sm="45%"
       fxFlex.md="30%"
       fxFlex.xl="15%">
-    <div class="disabled-card" *ngIf="isCoinDisabled(coin)">Coin you selected can only be exchanged with Bitcoin or Ethereum</div>
-    <div [style.opacity]="isSelectedCoin(coin) ? '1' : isCoinDisabled(coin) ? '0.1' : '0.65'">
+    <!-- <div class="disabled-card" *ngIf="isCoinDisabled(coin)">Coin you selected can only be exchanged with Bitcoin or Ethereum</div> -->
+    <!-- <div [style.opacity]="isSelectedCoin(coin) ? '1' : isCoinDisabled(coin) ? '0.1' : '0.65'"> -->
+    <div [style.opacity]="isSelectedCoin(coin) ? '1' : '0.65'">
       <img class="coin-icon" [src]="coin.icon" alt="">
       <div *ngIf="coin.walletRecord?.loading">
         <div class="spinner">

@@ -30,7 +30,7 @@ export class AllCoinsDialogComponent {
   }
 
   closeDialog(coin){
-    if(!this.isCoinDisabled(coin))
+    // if(!this.isCoinDisabled(coin))
       this.dialogRef.close(coin)
   }
 
