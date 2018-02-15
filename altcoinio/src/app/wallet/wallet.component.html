@@ -65,17 +65,17 @@
               <div class="wallet-content">
                   <div class="input-label">Address</div>
                   <div class="input-box">
-                      <input/>
+                      <input [(ngModel)]="addressToSend" />
                     </div>
                     <coin-input [label]="'Amount'" [alignLabel]="'left'" [coin]="selectedCoin"
-                                [(ngModel)]="selectedCoin.amount">
+                                [(ngModel)]="balanceToSend">
                     </coin-input>
                     <coin-input [label]="'Network fee'" [alignLabel]="'left'" [coin]="selectedCoin"
                                 [(ngModel)]="randomValue" disabled>
                     </coin-input>
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end end" fxLayoutAlign.xs="center stretch">
                       <div fxFlex="25" fxFlex.xs="1" class="start-button">
-                        <app-altcoinio-button>Send</app-altcoinio-button>
+                        <app-altcoinio-button (click)="sendCoinsToAddress()">Send</app-altcoinio-button>
                       </div>
                     </div>
               </div>
@@ -91,6 +91,6 @@
             </div>
           </mat-tab>
         </mat-tab-group>
-    </div> 
+    </div>
   </div>
 </div>

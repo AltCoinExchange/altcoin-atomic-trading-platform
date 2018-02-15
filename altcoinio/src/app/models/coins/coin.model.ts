@@ -45,11 +45,11 @@ export abstract class Coin {
   readonly fullName: string;
   readonly icon: string;
   amount: number;
-  faucetLoading: boolean = false;
+  faucetLoading = false;
   $balanceUSD: Observable<number>;
   walletRecord: WalletRecord;
   abstract update(coin: Coin): Coin;
-
+  abstract transferTo(to: string, value: number);
 }
 
 export class CoinFactory {
@@ -108,6 +108,60 @@ export class CoinFactory {
       }
       case Coins.TRX: {
         return new TrxCoinModel();
+      }
+      case Coins.SNT: {
+        return new SntCoinModel();
+      }
+      case Coins.ZRX: {
+        return new ZrxCoinModel();
+      }
+      case Coins.BNT: {
+        return new BntCoinModel();
+      }
+      case Coins.DGD: {
+        return new DgdCoinModel();
+      }
+      case Coins.PPT: {
+        return new PptCoinModel();
+      }
+      case Coins.EDG: {
+        return new EdgCoinModel();
+      }
+      case Coins.ENJ: {
+        return new EnjCoinModel();
+      }
+      case Coins.ETHOS: {
+        return new EthosCoinModel();
+      }
+      case Coins.FUN: {
+        return new FunCoinModel();
+      }
+      case Coins.ICN: {
+        return new IcnCoinModel();
+      }
+      case Coins.ICX: {
+        return new IcxCoinModel();
+      }
+      case Coins.MCO: {
+        return new McoCoinModel();
+      }
+      case Coins.MKR: {
+        return new MkrCoinModel();
+      }
+      case Coins.REQ: {
+        return new ReqCoinModel();
+      }
+      case Coins.PAY: {
+        return new TenxCoinModel();
+      }
+      case Coins.VEN: {
+        return new VenCoinModel();
+      }
+      case Coins.STORJ: {
+        return new StorjCoinModel();
+      }
+      case Coins.QASH: {
+        return new QashCoinModel();
       }
       default: {
         throw new Error();

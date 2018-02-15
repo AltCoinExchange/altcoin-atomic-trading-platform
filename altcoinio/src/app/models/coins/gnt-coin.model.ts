@@ -1,37 +1,22 @@
-import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 import {Observable} from "rxjs/Observable";
-import { WalletRecord } from "../../reducers/balance.reducer";
+import {WalletRecord} from "../../reducers/balance.reducer";
 import {TOKENS} from "altcoinio-wallet";
-import {EthWallet} from "../wallets/eth-wallet";
-import {AltcoinioStorage} from "../../common/altcoinio-storage";
+import {Erc20CoinModel} from "./erc20-coin.model";
 
-export class GntCoinModel implements Coin {
+export class GntCoinModel extends Erc20CoinModel {
+  token: TOKENS = TOKENS.GOLEM;
   readonly type: Coins = Coins.GNT;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.GNT].toString();
   readonly fullName: string = "Golem";
   readonly icon: string = "assets/icon/gnt-icon.png";
   amount;
-  faucetLoading: boolean = false;
+  faucetLoading = false;
   $balanceUSD: Observable<number>;
   walletRecord: WalletRecord;
 
   constructor() {
-  }
-
-  update(coin: GntCoinModel): GntCoinModel {
-    const model = new GntCoinModel();
-    model.amount = coin ? coin.amount : 0;
-    return model;
-  }
-
-  getTokens(){
-    const ethCoinModel = new EthWallet();
-    const xprivKey = AltcoinioStorage.get("btcprivkey");
-    const keystore = ethCoinModel.recover(xprivKey);
-    ethCoinModel.login(keystore);
-    const token = ethCoinModel.getERC20Token(TOKENS.GOLEM);
-    return token.faucet();
+    super(GntCoinModel);
   }
 }

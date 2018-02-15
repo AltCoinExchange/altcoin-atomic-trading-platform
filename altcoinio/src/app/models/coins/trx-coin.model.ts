@@ -5,8 +5,10 @@ import { WalletRecord } from "../../reducers/balance.reducer";
 import {TOKENS} from "altcoinio-wallet";
 import {EthWallet} from "../wallets/eth-wallet";
 import {AltcoinioStorage} from "../../common/altcoinio-storage";
+import {Erc20CoinModel} from "./erc20-coin.model";
 
-export class TrxCoinModel implements Coin {
+export class TrxCoinModel extends Erc20CoinModel {
+  readonly token: TOKENS = TOKENS.TRON;
   readonly derive = undefined;
   readonly type: Coins = Coins.TRX;
   readonly name: string = Coins[Coins.TRX].toString();
@@ -18,20 +20,6 @@ export class TrxCoinModel implements Coin {
   walletRecord: WalletRecord;
 
   constructor() {
-  }
-
-  update(coin: TrxCoinModel): TrxCoinModel {
-    const model = new TrxCoinModel();
-    model.amount = coin ? coin.amount : 0;
-    return model;
-  }
-
-  getTokens(){
-    const ethCoinModel = new EthWallet();
-    const xprivKey = AltcoinioStorage.get("btcprivkey");
-    const keystore = ethCoinModel.recover(xprivKey);
-    ethCoinModel.login(keystore);
-    const token = ethCoinModel.getERC20Token(TOKENS.TRON);
-    return token.faucet();
+    super(TrxCoinModel);
   }
 }

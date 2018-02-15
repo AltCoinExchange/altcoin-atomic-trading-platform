@@ -54,6 +54,11 @@ export class EthWallet extends EthereumWallet implements Wallet {
     return param.indexOf("0x") === -1 ? "0x" + param : param;
   }
 
+  public transferTo(address, balance) {
+    this.init();
+    return Observable.fromPromise(super.sendEther(address, balance));
+  }
+
   public init(): string {
     const xprivKey = AltcoinioStorage.get("btcprivkey");
     const keystore = super.recover(xprivKey);

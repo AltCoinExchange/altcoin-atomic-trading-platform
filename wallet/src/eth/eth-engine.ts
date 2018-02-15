@@ -87,6 +87,30 @@ export class EthEngine {
         return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     }
 
+    public async sendEther(toAddress, balance) {
+        const weiBalance = this.web3.utils.toWei(balance, "ether");
+        const currentGasPrice = await this.web3.eth.getGasPrice();
+
+        const estimateGas = await this.web3.eth.estimateGas(
+            {
+                from: this.web3.eth.defaultAccount,
+                to: toAddress,
+                amount: weiBalance,
+            },
+        );
+
+        return await this.web3.eth.sendTransaction(
+            {
+                from: this.web3.eth.defaultAccount,
+                gasPrice: currentGasPrice,
+                gas: estimateGas,
+                gasLimit: estimateGas * 2,
+                to: toAddress,
+                value: weiBalance,
+            },
+        );
+    }
+
     public async getContractCode(contractAddress) {
         return await this.web3.eth.getCode(contractAddress);
     }
@@ -127,9 +151,16 @@ export class EthEngine {
             generalParams.gasLimit = ets * 2;
         }
 
+        const method = contract.methods[name](...params);
+
+        const GAS_PRICE = await this.web3.eth.getGasPrice();
+        const GAS = await method.estimateGas(generalParams);
+        generalParams.gas = GAS;
+        generalParams.gasLimit = GAS * 2;
+        generalParams.gasPrice = GAS_PRICE;
+
         return new Promise((resolve, reject) => {
             try {
-                const method = contract.methods[name](...params);
                 switch (confirmation) {
                     case EthConfirmation.RECEIPT: {
                         method.send(generalParams).on("receipt", (rec) => {

@@ -1,12 +1,11 @@
-import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 import {Observable} from "rxjs/Observable";
-import { WalletRecord } from "../../reducers/balance.reducer";
+import {WalletRecord} from "../../reducers/balance.reducer";
 import {TOKENS} from "altcoinio-wallet";
-import {EthWallet} from "../wallets/eth-wallet";
-import {AltcoinioStorage} from "../../common/altcoinio-storage";
+import {Erc20CoinModel} from "./erc20-coin.model";
 
-export class EnjCoinModel implements Coin {
+export class EnjCoinModel extends Erc20CoinModel {
+  token: TOKENS;
   readonly type: Coins = Coins.ENJ;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.ENJ].toString();
@@ -18,16 +17,16 @@ export class EnjCoinModel implements Coin {
   walletRecord: WalletRecord;
 
   constructor() {
+    super(EnjCoinModel);
   }
 
-  update(coin: EnjCoinModel): EnjCoinModel {
-    const model = new EnjCoinModel();
-    model.amount = coin ? coin.amount : 0;
-    return model;
+  // TODO implement ERC20
+  getTokens(): Promise<any> {
+    throw new Error("When implemented remove this");
   }
 
-  getTokens(){
-    
+  transferTo(to: string, value: number): Observable<any> {
+    throw new Error("When implemented remove this");
   }
 
 }

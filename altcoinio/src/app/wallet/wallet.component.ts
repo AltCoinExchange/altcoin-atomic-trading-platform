@@ -10,16 +10,12 @@ import {Coin, CoinFactory} from "../models/coins/coin.model";
 import {Coins} from "../models/coins/coins.enum";
 import {MessageTypes} from "../models/message-types.enum";
 import {AppState} from "../reducers/app.state";
-import {WalletRecord} from "../reducers/balance.reducer";
-import {
-  getBTCBalance,
-  getETHBalance,
-  getTokenBalances
-} from "../selectors/balance.selector";
+import {getBTCBalance, getETHBalance, getTokenBalances} from "../selectors/balance.selector";
 import * as quoteSelector from "../selectors/quote.selector";
 import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
 import {AltcoinioStorage} from "../common/altcoinio-storage";
-import {TransactionService} from "../services/transaction.service";
+import {EthWallet} from "../models/wallets/eth-wallet";
+import {Erc20CoinModel} from "../models/coins/erc20-coin.model";
 
 @Component({
   selector: "app-wallet",
@@ -28,7 +24,7 @@ import {TransactionService} from "../services/transaction.service";
   animations: [scaleInOutAnimation]
 })
 export class WalletComponent implements OnInit, AfterViewInit {
-  @ViewChild('perfectScrollbar') perfectScrollbar;
+  @ViewChild("perfectScrollbar") perfectScrollbar;
   scaleInOut = "scaleInOut";
   infoMsg: string;
   messageTypes: typeof MessageTypes = MessageTypes;
@@ -44,6 +40,8 @@ export class WalletComponent implements OnInit, AfterViewInit {
   search;
 
   inMyPossesion: boolean = localStorage.getItem("show_posession") ? localStorage.getItem("show_posession") === "true" : false;
+  addressToSend;
+  balanceToSend;
 
   constructor(private store: Store<AppState>, public dialog: MatDialog, private router: Router) {
     this.allCoins = CoinFactory.createAllCoins();
@@ -54,7 +52,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const xprivKey = AltcoinioStorage.get("btcprivkey");
     if (!xprivKey) {
-      this.router.navigate(['/wallet/empty']);
+      this.router.navigate(["/wallet/empty"]);
     } else {
       this.infoMsg = "This wallet is to be used for testnet coins only. Do not send real Bitcoin or Ethereum to these addresses.";
       this.getTokenWalletRecords();
@@ -62,7 +60,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    
+
   }
 
   selectCoinCard(coin) {
@@ -87,18 +85,18 @@ export class WalletComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().filter(res => !!res).subscribe(result => {
-        if (result.walletRecord.balance === "0") {
-          this.inMyPossesion = false;
-          setTimeout(() => {
-            this.selectCoinCard(result);
-          });
-        }
-        this.selectCoinCard(result);
-        const coinEl = document.querySelector("#" + result.name);
-        if (!result || !coinEl) {
-          return;
-        }
-        this.perfectScrollbar.directiveRef.scrollToX((<any>coinEl).offsetLeft - 50);
+      if (result.walletRecord.balance === "0") {
+        this.inMyPossesion = false;
+        setTimeout(() => {
+          this.selectCoinCard(result);
+        });
+      }
+      this.selectCoinCard(result);
+      const coinEl = document.querySelector("#" + result.name);
+      if (!result || !coinEl) {
+        return;
+      }
+      this.perfectScrollbar.directiveRef.scrollToX((<any>coinEl).offsetLeft - 50);
 
     });
   }
@@ -136,13 +134,18 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.allCoins.forEach((coin) => {
       switch (coin.name) {
         case "BTC":
-          this.store.select(getBTCBalance).subscribe((walletRecord) => { coin.walletRecord = walletRecord; });
+          this.store.select(getBTCBalance).subscribe((walletRecord) => {
+            coin.walletRecord = walletRecord;
+          });
           break;
         case "ETH":
-        this.store.select(getETHBalance).subscribe((walletRecord) => { coin.walletRecord = walletRecord; });
+          this.store.select(getETHBalance).subscribe((walletRecord) => {
+            coin.walletRecord = walletRecord;
+          });
           break;
         default:
           this.store.select(getTokenBalances).subscribe((walletRecords) => {
+            console.log('walletRecords', walletRecords);
             coin.walletRecord = walletRecords[coin.name];
           });
       }
@@ -152,28 +155,56 @@ export class WalletComponent implements OnInit, AfterViewInit {
 
   getTokenAmountUSD(coin) {
     const quotes = this.store.select(quoteSelector.getQuotes);
-      coin.$balanceUSD = Observable.combineLatest(quotes, (q) => {
-        if (!q || !coin.walletRecord)
-          return undefined;
-        const balance = Number(coin.walletRecord.balance);
-        const coinQuote = q.get(coin.name);
-        const number = balance * coinQuote.price;
-        const price = +number.toFixed(2);
-        if (isNaN(number)) {
-          return 0;
-        }
-        return price;
-      });
+    coin.$balanceUSD = Observable.combineLatest(quotes, (q) => {
+      if (!q || !coin.walletRecord) {
+        return undefined;
+      }
+      const balance = Number(coin.walletRecord.balance);
+      const coinQuote = q.get(coin.name);
+      const number = balance * coinQuote.price;
+      const price = +number.toFixed(2);
+      if (isNaN(number)) {
+        return 0;
+      }
+      return price;
+    });
   }
 
-  private getTokens(coin){
-      coin.faucetLoading = true;
-      coin.getTokens().then(() => {
-        coin.faucetLoading = false;
-        this.getTokenWalletRecords();
-      }, () => {
-        coin.faucetLoading = false;
-        console.log('error')
+  sendCoinsToAddress() {
+    this.selectedCoin.faucetLoading = true;
+    if (this.selectedCoin.type === Coins.ETH) {
+      const ethWallet = new EthWallet();
+      ethWallet.transferTo(this.addressToSend, this.balanceToSend).subscribe(r => {
+        this.selectedCoin.faucetLoading = false;
       });
+      return;
+      // this.selectedCoin.walletRecord
+    }
+
+    if (this.selectedCoin.type === Coins.BTC) {
+      // todo
+      return;
+    }
+
+    // TODO -> everything else is ERC20 until we get BTC clones
+    // TODO -> normally we ∂o not want to check Coin type, rather we will call same method e.g. transferTo like below
+
+    this.selectedCoin.transferTo(this.addressToSend, this.balanceToSend).subscribe(r => {
+      this.selectedCoin.faucetLoading = false;
+      const tokenBalancePayload = {token: (this.selectedCoin as Erc20CoinModel).token, name: this.selectedCoin.name};
+      this.store.dispatch(new GetTokenBalanceAction(tokenBalancePayload));
+      this.getTokenAmountUSD(this.selectedCoin);
+    });
+  }
+
+  private getTokens(coin) {
+    coin.faucetLoading = true;
+    coin.getTokens().then(() => {
+      coin.faucetLoading = false;
+      this.getTokenWalletRecords();
+    }, () => {
+      coin.faucetLoading = false;
+      console.log("error");
+    });
   }
 }
