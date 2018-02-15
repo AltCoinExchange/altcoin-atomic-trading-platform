@@ -24,6 +24,9 @@ export class TokenPreviewComponent implements OnInit {
   $receiveCoin: Observable<Coin>;
 
   contentLoaded = false;
+  chartPrice = true;
+  chartVolume = false;
+  chartMarket = false;
   tokenPrice;
   tokenPerc;
   statsLoaded = false;
@@ -52,20 +55,28 @@ export class TokenPreviewComponent implements OnInit {
   ngOnInit() {
     this.getCoinStats();
     this.getChartData();
-    this.loadChart();  
+    this.updateChart();  
   }
 
   getChartData(){
     this.$charts = this.quoteService.getHistory(this.token.name, "30day").map(e => {
       let chart: ChartModel[] = [];
       chart.push(TokenPreviewComponent.parseMap(e, "PRICE", "price"));
+      chart.push(TokenPreviewComponent.parseMap(e, "VOLUME", "volume"));
+      chart.push(TokenPreviewComponent.parseMap(e, "MARKET CAP", "market_cap"));
       return chart;
     });
   }
 
-  loadChart(){
+  updateChart(){
     this.$charts.subscribe((data) => {
-      this.multi.push(data[0]);
+      this.multi = [];
+      if(this.chartPrice)
+        this.multi.push(data[0]);
+      if(this.chartVolume)
+        this.multi.push(data[1]);
+      if(this.chartMarket)
+        this.multi.push(data[2]);
       this.contentLoaded = true;
     });
   }
