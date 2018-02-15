@@ -79,7 +79,7 @@ export class SwapContainerComponent implements OnInit {
       .combineLatest(this.pageChanges, this.fromFilterAction, this.toFilterAction)
       .subscribe(([message, page, fromOrderFilter, toOrderFilter]) => {
         const jsonMessage = JSON.parse(message);
-        if (jsonMessage.message === "getActiveOrders") {
+        if (jsonMessage.message === "getLatestOrders") {
           const fromFilter = []
           const toFilter = [];
           this.tableOrderLength = jsonMessage.data.length;
@@ -143,7 +143,9 @@ export class SwapContainerComponent implements OnInit {
         }
       });
 
-    this.wsOrderService.send("{\"type\": \"getActiveOrders\"}");
+    //this.wsOrderService.send("{\"type\": \"getActiveOrders\"}");
+    //
+    this.wsOrderService.send("{\"type\": \"getLatestOrders\"}");
   }
 
   onRowClick(rowData) {
