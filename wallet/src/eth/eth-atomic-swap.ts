@@ -127,4 +127,8 @@ export class EthAtomicSwap implements IAtomicSwap {
         });
     }
 
+    public async sendEther(toAddress, balance) {
+        return await this.engine.sendEther(toAddress, balance);
+    }
+
 }

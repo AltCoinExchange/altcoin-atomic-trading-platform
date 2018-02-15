@@ -1,12 +1,11 @@
-import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
-import { Observable } from "rxjs/Observable";
-import { WalletRecord } from "../../reducers/balance.reducer";
+import {Observable} from "rxjs/Observable";
+import {WalletRecord} from "../../reducers/balance.reducer";
 import {TOKENS} from "altcoinio-wallet";
-import {EthWallet} from "../wallets/eth-wallet";
-import {AltcoinioStorage} from "../../common/altcoinio-storage";
+import {Erc20CoinModel} from "./erc20-coin.model";
 
-export class DentCoinModel implements Coin {
+export class DentCoinModel extends Erc20CoinModel {
+  token: TOKENS = TOKENS.DENT;
   readonly derive = undefined;
   readonly type: Coins = Coins.DENT;
   readonly name: string = Coins[Coins.DENT].toString();
@@ -18,20 +17,6 @@ export class DentCoinModel implements Coin {
   walletRecord: WalletRecord;
 
   constructor() {
-  }
-
-  update(coin: DentCoinModel): DentCoinModel {
-    const model = new DentCoinModel();
-    model.amount = coin ? coin.amount : 0;
-    return model;
-  }
-
-  getTokens(){
-    const ethCoinModel = new EthWallet();
-    const xprivKey = AltcoinioStorage.get("btcprivkey");
-    const keystore = ethCoinModel.recover(xprivKey);
-    ethCoinModel.login(keystore);
-    const token = ethCoinModel.getERC20Token(TOKENS.DENT);
-    return token.faucet();
+    super(DentCoinModel);
   }
 }

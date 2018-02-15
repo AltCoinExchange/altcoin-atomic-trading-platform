@@ -1,9 +1,7 @@
-// import {DcrWalletTestNet, BtcInitiateParams, BtcParticipateParams, BtcWalletTestNet, InitiateData, ParticipateData} from "altcoinio-wallet";
-import {AltcoinioStorage} from "../../common/altcoinio-storage";
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 import {Observable} from "rxjs/Observable";
-import { WalletRecord } from "../../reducers/balance.reducer";
+import {WalletRecord} from "../../reducers/balance.reducer";
 
 export class DcrCoinModel implements Coin {
   readonly derive = undefined;
@@ -51,5 +49,10 @@ export class DcrCoinModel implements Coin {
     const model = new DcrCoinModel();
     model.amount = coin ? coin.amount : 0;
     return model;
+  }
+
+
+  transferTo(to: string, value: number) {
+    throw new Error("Not implemented");
   }
 }

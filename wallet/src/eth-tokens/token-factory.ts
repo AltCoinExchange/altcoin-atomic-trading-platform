@@ -1,6 +1,3 @@
-/**
- * Augur token interface
- */
 import {EthEngine} from "../eth/eth-engine";
 import {AragonTokenMainnet, AragonTokenTestnet} from "./aragon";
 import {AugurTokenMainnet, AugurTokenTestnet} from "./augur";

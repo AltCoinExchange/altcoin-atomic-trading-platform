@@ -25,4 +25,8 @@ export class BtcCoinModel implements Coin {
     model.amount = coin ? coin.amount : 0;
     return model;
   }
+
+  transferTo(to: string, value: number) {
+    throw new Error('Not implemented');
+  }
 }

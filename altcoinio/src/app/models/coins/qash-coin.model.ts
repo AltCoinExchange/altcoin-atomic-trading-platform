@@ -1,33 +1,32 @@
-import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 import {Observable} from "rxjs/Observable";
-import { WalletRecord } from "../../reducers/balance.reducer";
+import {WalletRecord} from "../../reducers/balance.reducer";
 import {TOKENS} from "altcoinio-wallet";
-import {EthWallet} from "../wallets/eth-wallet";
-import {AltcoinioStorage} from "../../common/altcoinio-storage";
+import {Erc20CoinModel} from "./erc20-coin.model";
 
-export class QashCoinModel implements Coin {
+export class QashCoinModel extends Erc20CoinModel {
+  token: TOKENS;
   readonly type: Coins = Coins.QASH;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.QASH].toString();
   readonly fullName: string = "QASH";
   readonly icon: string = "assets/icon/qash-icon.png";
   amount;
-  faucetLoading: boolean = false;
+  faucetLoading = false;
   $balanceUSD: Observable<number>;
   walletRecord: WalletRecord;
 
   constructor() {
+    super(QashCoinModel);
   }
 
-  update(coin: QashCoinModel): QashCoinModel {
-    const model = new QashCoinModel();
-    model.amount = coin ? coin.amount : 0;
-    return model;
+  // TODO implement ERC20
+  getTokens(): Promise<any> {
+    throw new Error("When implemented remove this");
   }
 
-  getTokens(){
-    
+  transferTo(to: string, value: number): Observable<any> {
+    throw new Error("When implemented remove this");
   }
 
 }
