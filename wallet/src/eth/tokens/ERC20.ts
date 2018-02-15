@@ -30,7 +30,7 @@ export class ERC20 {
     };
 
     const result: any = await this.ethEngine.callFunction("balanceOf", [owner], generalParams, EthConfirmation.STATIC, abi, this.contractAddress);
-    return result;
+    return this.ethEngine.fromWeiToEther(result);
     //return result / Math.pow(10, getAbiParams(this, "decimals") - 1);
   }
 

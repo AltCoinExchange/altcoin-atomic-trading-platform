@@ -145,7 +145,6 @@ export class WalletComponent implements OnInit, AfterViewInit {
           break;
         default:
           this.store.select(getTokenBalances).subscribe((walletRecords) => {
-            console.log('walletRecords', walletRecords);
             coin.walletRecord = walletRecords[coin.name];
           });
       }
@@ -171,9 +170,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
   }
 
   sendCoinsToAddress() {
+    const ethWallet = new EthWallet();
     this.selectedCoin.faucetLoading = true;
     if (this.selectedCoin.type === Coins.ETH) {
-      const ethWallet = new EthWallet();
       ethWallet.transferTo(this.addressToSend, this.balanceToSend).subscribe(r => {
         this.selectedCoin.faucetLoading = false;
       });
@@ -189,7 +188,7 @@ export class WalletComponent implements OnInit, AfterViewInit {
     // TODO -> everything else is ERC20 until we get BTC clones
     // TODO -> normally we ∂o not want to check Coin type, rather we will call same method e.g. transferTo like below
 
-    this.selectedCoin.transferTo(this.addressToSend, this.balanceToSend).subscribe(r => {
+    this.selectedCoin.transferTo(this.addressToSend, ethWallet.toWei(this.balanceToSend, "ether")).subscribe(r => {
       this.selectedCoin.faucetLoading = false;
       const tokenBalancePayload = {token: (this.selectedCoin as Erc20CoinModel).token, name: this.selectedCoin.name};
       this.store.dispatch(new GetTokenBalanceAction(tokenBalancePayload));

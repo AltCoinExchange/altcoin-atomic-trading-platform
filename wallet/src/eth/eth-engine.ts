@@ -209,6 +209,11 @@ export class EthEngine {
         return this.web3.utils.toWei(amount, conversion);
     }
 
+    public fromWeiToEther(weiValue) {
+        const ether = this.web3.utils.fromWei(weiValue, "ether");
+        return ether;
+    }
+
     public isMethodPayable(name: string, abi: any[]): boolean {
         for (const i in abi) {
             if (abi[i].name === name) {
