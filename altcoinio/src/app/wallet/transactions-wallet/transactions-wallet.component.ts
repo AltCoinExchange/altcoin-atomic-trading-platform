@@ -39,6 +39,14 @@ export class TransactionsWalletComponent implements OnInit {
         transaction.date = moment.unix(transaction.timestamp).fromNow();
         return transaction;
       });
+      this.transactions = this.transactions.sort((a,b) => {
+        if (a.timestamp < b.timestamp) {
+          return 1;
+        }
+        if (a.timestamp > b.timestamp) {
+          return -1;
+        }
+      });
       console.log('transactions ', this.transactions)
     });
   }
