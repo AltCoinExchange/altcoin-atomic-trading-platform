@@ -16,6 +16,7 @@
   },
   "private": true,
   "dependencies": {
+    "altcoinio-wallet": "git+git@github.com:AltCoinExchange/altcoinio-wallet.git",
     "@angular/animations": "^5.1.2",
     "@angular/cdk": "^2.0.0-beta.12",
     "@angular/common": "^5.1.2",

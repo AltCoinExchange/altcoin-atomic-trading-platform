@@ -2,7 +2,7 @@ import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
 import {Observable} from "rxjs/Observable";
 import {WalletRecord} from "../../reducers/balance.reducer";
-import {TOKENS} from "../../../../../wallet/src/eth-tokens/token-factory";
+import {TOKENS} from "altcoinio-wallet";
 import {AltcoinioStorage} from "../../common/altcoinio-storage";
 import {EthWallet} from "../wallets/eth-wallet";
 
