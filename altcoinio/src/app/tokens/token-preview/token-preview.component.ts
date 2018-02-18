@@ -42,10 +42,10 @@ export class TokenPreviewComponent implements OnInit {
   public showYAxisLabel = false;
 
   public colorScheme = {
-    domain: ['#B2DFDB', '#4DB6AC', '#009688', '#AAAAAA']    
+    domain: ['#B2DFDB', '#4DB6AC', '#009688', '#AAAAAA']
   };
 
-  constructor(private store: Store<AppState>,public quoteService: QuoteService, private cd: ChangeDetectorRef) {  
+  constructor(private store: Store<AppState>,public quoteService: QuoteService, private cd: ChangeDetectorRef) {
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
     this.$receiveCoin = this.store.select(swapSelector.getReceiveCoin);
   }
@@ -53,7 +53,7 @@ export class TokenPreviewComponent implements OnInit {
   ngOnInit() {
     this.getCoinStats();
     this.getChartData();
-    this.showPrice();  
+    this.showPrice();
   }
 
   getChartData(){
@@ -98,9 +98,18 @@ export class TokenPreviewComponent implements OnInit {
         this.statsLoaded = true;
       }
     });
+
+    this.quoteService.getLiveQuotesObj().subscribe(e => {
+      const token = e.find(i => i.short === this.token.name);
+      if (token) {
+        this.tokenPrice = token.price;
+        this.tokenPerc = token.perc;
+        this.statsLoaded = true;
+      }
+    });
   }
 
- 
+
 
   public static parseMap(obj: any, label: string, field: string): ChartModel {
     let priceModel = {} as ChartModel;
@@ -128,7 +137,7 @@ export class TokenPreviewComponent implements OnInit {
         this.store.dispatch(new swapAction.setDepositCoinAction(new EthCoinModel()));
       }
     }).unsubscribe();
-    
+
   }
 
   sellToken(){
