@@ -57,7 +57,7 @@ export class QuoteService {
       if (!this.multiSession) {
         return this.initiateSession().switchMap(() => this.getLiveQuotes());
       }
-      return Observable.interval(10000).switchMap(() => this.http.get(`http://coincap.io/socket.io/?EIO=3&transport=polling&t=${this.singleSession}&sid=${this.multiSession}`).map((response) => {
+      return Observable.interval(10000).switchMap(() => this.http.get(`https://coincap.io/socket.io/?EIO=3&transport=polling&t=${this.singleSession}&sid=${this.multiSession}`).map((response) => {
         // map
         try {
           // Filter JSON
@@ -81,7 +81,7 @@ export class QuoteService {
   public initiateSession() {
     try {
       this.singleSession = this.getRandomSessionString();
-      const url = 'http://coincap.io/socket.io/?EIO=3&transport=polling&t=' + this.singleSession;
+      const url = 'https://coincap.io/socket.io/?EIO=3&transport=polling&t=' + this.singleSession;
       return this.http.get(`${url}`).map((response) => {
         const filtered = this.filterInitiateString(response.text());
         const sid = JSON.parse(filtered).sid;
