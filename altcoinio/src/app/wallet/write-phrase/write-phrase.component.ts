@@ -61,14 +61,14 @@ export class WritePhraseComponent implements OnInit {
       AccountHelper.generateWalletsFromPrivKey(this.store);
     }, 500);
   }
-
+  // TODO: refactor int to seperate function
   private createBtcWallet(codes: any) {
     const btc = new BitcoinWallet();
     const wallet = new FreshBitcoinWallet(codes.phrase);
     btc.create(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
+    const xkey = btc.hdPrivateKey.toBase58();
     this.store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,

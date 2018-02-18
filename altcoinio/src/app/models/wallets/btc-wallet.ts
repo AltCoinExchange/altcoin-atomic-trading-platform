@@ -21,12 +21,8 @@ export class BtcWallet extends BitcoinWallet implements Wallet {
   Participate(data: InitiateData, btc: BtcCoinModel): Observable<ParticipateData> {
     // tslint:disable-next-line
     console.log("PARTICIPATING BTC:... ", InitiateData);
-    const btcParticipateParams = new BtcParticipateParams();
-    btcParticipateParams.address = (<any>data).address;
-    btcParticipateParams.secretHash = data.secretHash;
-    btcParticipateParams.amount = btc.amount;
-    btcParticipateParams.privateKey = AltcoinioStorage.get("btc-wif");
-    btcParticipateParams.refundTime = 7200;
+    const privateKey = AltcoinioStorage.get("btc-wif")
+    const btcParticipateParams = new BtcParticipateParams(48, privateKey, data.address, btc.amount, data.secretHash);
     console.log("btcParticipateParams", btcParticipateParams);
     return Observable.fromPromise(super.participate(btcParticipateParams));
   }
@@ -51,12 +47,12 @@ export class BtcWallet extends BitcoinWallet implements Wallet {
 
   getInitParams(address: string, amount: number): BtcInitiateParams {
     const wif = AltcoinioStorage.get("btc-wif");
-    return new BtcInitiateParams(7200, wif, address, amount);
+    return new BtcInitiateParams(48, wif, address, amount);
   }
 
   getRedeemParams(secret: string, hashedsecret: string, contractBin, contractTx): BtcRedeemParams {
     const wif = AltcoinioStorage.get("btc-wif");
-    return new BtcRedeemParams(wif, secret, hashedsecret, contractBin, contractTx);
+    return new BtcRedeemParams(secret, hashedsecret, contractBin, contractTx, wif);
   }
 
   unoxify(param: string): string {

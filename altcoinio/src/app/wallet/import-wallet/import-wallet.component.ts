@@ -33,7 +33,7 @@ export class ImportWalletComponent implements OnInit {
   scaleInOut = "scaleInOut";
   cardVisible = true;
   words;
- 
+
   easterEggCombination = [
     {correct: false, value: 38},
     {correct: false, value: 38},
@@ -107,14 +107,14 @@ export class ImportWalletComponent implements OnInit {
       this.words[index].value = word;
     });
   }
-
+  // TODO: refactor int to seperate function
   private createBtcWallet(codes: any) {
     const btc = new BitcoinWallet();
     const wallet = new FreshBitcoinWallet(codes.phrase);
     btc.create(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
+    const xkey = btc.hdPrivateKey.toBase58();
     this.store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,

@@ -42,13 +42,13 @@ export class CreateWalletComponent implements OnInit {
       phrase: generateMnemonic()
     };
   }
- 
+
   saveTextAsFile (data, filename){
     if(!data){
       console.log('No data');
       return;
     }
-      
+
     var blob = new Blob([data], {type: 'text/plain'}),
         e    = document.createEvent('MouseEvents'),
         a    = document.createElement('a')
@@ -76,14 +76,14 @@ export class CreateWalletComponent implements OnInit {
       AccountHelper.generateWalletsFromPrivKey(this.store);
     }, 500);
   }
-
+  // TODO: refactor into separate function, usage: create-wallet, import-wallet, write-phrase, account-helper, account-helper.service
   private createBtcWallet(codes: any) {
     const btc = new BitcoinWallet();
     const wallet = new FreshBitcoinWallet(codes.phrase);
     btc.create(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
+    const xkey = btc.hdPrivateKey.toBase58();
     this.store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,

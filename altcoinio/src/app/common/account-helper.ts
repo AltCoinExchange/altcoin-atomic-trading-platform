@@ -16,7 +16,7 @@ export class AccountHelper {
       ethWallet
     };
   }
-
+  // TODO: refactor into seperate function
   private static generateBtcWallet(store: Store<AppState>) {
     const xprivKey = AltcoinioStorage.get("btcprivkey");
     const btc = new BitcoinWallet();
@@ -24,7 +24,7 @@ export class AccountHelper {
     btc.recover(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
+    const xkey = btc.hdPrivateKey.toBase58();
     store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,
