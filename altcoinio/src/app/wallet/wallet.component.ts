@@ -16,6 +16,7 @@ import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
 import {AltcoinioStorage} from "../common/altcoinio-storage";
 import {EthWallet} from "../models/wallets/eth-wallet";
 import {Erc20CoinModel} from "../models/coins/erc20-coin.model";
+import {BtcWallet} from "../models/wallets/btc-wallet";
 
 @Component({
   selector: "app-wallet",
@@ -181,7 +182,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
     }
 
     if (this.selectedCoin.type === Coins.BTC) {
-      // todo
+      const btcWallet = new BtcWallet();
+      btcWallet.transferBalance(this.addressToSend, this.balanceToSend).subscribe(r => {
+        this.selectedCoin.faucetLoading = false;
+      });
       return;
     }
 

@@ -62,4 +62,9 @@ export class BtcWallet extends BitcoinWallet implements Wallet {
   unoxify(param: string): string {
     return param.indexOf("0x") !== -1 ? param.slice(2) : param
   }
+
+  transferBalance(to, value) {
+    const wif = AltcoinioStorage.get("btc-wif");
+    return Observable.fromPromise(this.sendCoins(to, value, wif));
+  }
 }
