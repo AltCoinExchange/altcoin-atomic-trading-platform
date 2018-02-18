@@ -37,7 +37,7 @@ export class TransactionsWalletComponent implements OnInit {
         transaction.value = (parseFloat(transaction.value) / 1000000000000000000).toString();
         transaction.detailsClosed = true;
         transaction.relativeDate = moment.unix(transaction.timestamp).fromNow();
-        transaction.date = moment.unix(transaction.timestamp).format('D MMM YYYY hh:ss');
+        transaction.date = moment.unix(transaction.timestamp).format('D MMM YYYY HH:mm');
         return transaction;
       });
       this.transactions = this.transactions.sort((a,b) => {

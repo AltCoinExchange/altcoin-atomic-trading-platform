@@ -34,8 +34,11 @@
       </div>
   </mat-card-content>
   <div style="clear: both"></div>
-  <mat-card-actions fxLayout="row" fxLayoutAlign="center">
+  <mat-card-actions *ngIf="!token.comingSoon" fxLayout="row" fxLayoutAlign="center">
     <button class="token-button" mat-raised-button (click)="buyToken()">BUY</button>
     <button class="token-button" mat-raised-button (click)="sellToken()">SELL</button>
+  </mat-card-actions>
+  <mat-card-actions *ngIf="token.comingSoon" fxLayout="row" fxLayoutAlign="center">
+    <button disabled class="token-button" mat-raised-button>COMING SOON</button>
   </mat-card-actions>
 </mat-card>

@@ -11,13 +11,14 @@
 <div fxLayout="row" fxLayoutAlign="center center">
   <div fxFlex="80%" fxFlex.xl="55%" fxFlex.md="90%" fxFlex.sm="100%" fxFlex.xs="100%" 
     fxLayout="row" fxLayoutWrap fxLayoutAlign="center start">
+    <!-- Available trades
     <div fxFlex="50%" fxFlex.sm="100%" fxFlex.xs="100%">
       <div class="orders-container mat-elevation-z8">
           <mat-toolbar>Available trades</mat-toolbar>
           <mat-toolbar>No active orders available.</mat-toolbar>
       </div>
-    </div>
-    <div fxFlex="50%" fxFlex.sm="100%" fxFlex.xs="100%">
+    </div> -->
+    <div fxFlex="100%" fxFlex.sm="100%" fxFlex.xs="100%">
         <div class="orders-container mat-elevation-z8">
           <mat-toolbar>Recent trades</mat-toolbar>
           <div *ngIf="tableOrderLength > 0">

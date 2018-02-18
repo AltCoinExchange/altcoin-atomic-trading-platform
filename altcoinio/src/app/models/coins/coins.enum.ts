@@ -34,5 +34,11 @@ export enum Coins {
   MCO,
   EDG,
   VEN,
-  ICX
+  ICX,
+  PART,
+  XVG,
+  VTC,
+  DASH,
+  VIA,
+  BCH
 }
