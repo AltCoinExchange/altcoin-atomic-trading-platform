@@ -9,7 +9,7 @@ export class IcnCoinModel extends Erc20CoinModel {
   readonly type: Coins = Coins.ICN;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.ICN].toString();
-  readonly fullName: string = "ICONOMI";
+  readonly fullName: string = "Iconomi";
   readonly icon: string = "assets/icon/icn-icon.png";
   amount;
   faucetLoading = false;
