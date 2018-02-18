@@ -77,9 +77,9 @@ export class WritePhraseComponent implements OnInit {
 
   goBack(){
     this.confirmCardVisible = false;
+    this.hasError = false;
     this.words = this.codes.phrase.split(" ");
     setTimeout(() => {
-      this.hasError = false;
       this.cardVisible = true;
     }, 1500);
   }

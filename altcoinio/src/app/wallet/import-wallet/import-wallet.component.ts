@@ -32,50 +32,11 @@ export class ImportWalletComponent implements OnInit {
   messageTypes: typeof MessageTypes = MessageTypes;
   scaleInOut = "scaleInOut";
   cardVisible = true;
-  words;
- 
-  easterEggCombination = [
-    {correct: false, value: 38},
-    {correct: false, value: 38},
-    {correct: false, value: 40},
-    {correct: false, value: 40},
-    {correct: false, value: 37},
-    {correct: false, value: 39},
-    {correct: false, value: 37},
-    {correct: false, value: 39},
-    {correct: false, value: 66},
-    {correct: false, value: 65},
-  ];
-
-  easterEgg = new LinkedList(this.easterEggCombination);
-  easterUnlocked = false;
-  easterEggValue = "";
+  phrase;
+  enteredValue = "";
 
   constructor(private store: Store<AppState>) {
-    this.words = [{value: ""}, {value: ""}, {value: ""},
-      {value: ""}, {value: ""}, {value: ""},
-      {value: ""}, {value: ""}, {value: ""},
-      {value: ""}, {value: ""}, {value: ""}];
-  }
-
-  @HostListener("document:keydown", ["$event"])
-  public onKeyDown(e) {
-    const code = e.keyCode;
-    this.openEgg(code);
-  }
-
-  openEgg(code) {
-    if (this.easterUnlocked) {
-      return;
-    }
-    if (this.easterEgg.head.elem.value === code) {
-      this.easterEgg.pop();
-      if (this.easterEgg.len === 0) {
-        this.easterUnlocked = true;
-      }
-    } else {
-      this.easterEgg = new LinkedList(this.easterEggCombination);
-    }
+    this.phrase = '';
   }
 
   ngOnInit() {
@@ -83,9 +44,8 @@ export class ImportWalletComponent implements OnInit {
 
   importWallet() {
     this.hasError = false;
-    const phrase = this.concatPhrase();
     const codes = {
-      phrase: phrase
+      phrase: this.phrase
     };
     try {
       this.createBtcWallet(codes);
@@ -102,10 +62,8 @@ export class ImportWalletComponent implements OnInit {
     }
   }
 
-  onEasterEggInsert(ev) {
-    ev.split(" ").forEach((word, index) => {
-      this.words[index].value = word;
-    });
+  onPhraseInsert(ev) {
+    this.phrase = ev;
   }
 
   private createBtcWallet(codes: any) {
@@ -122,39 +80,4 @@ export class ImportWalletComponent implements OnInit {
     }));
   }
 
-  private concatPhrase() {
-    return this.words.map(word => word.value).join(" ");
-  }
-}
-
-class LinkedList {
-  public head = null;
-  public len = 0;
-
-  constructor(values: any[]) {
-    values.forEach(val => {
-      this.append(val);
-    });
-  }
-
-  public append(elem) {
-    const node = new Node(elem);
-    let current;
-
-    if (this.head === null) {
-      this.head = node;
-    } else {
-      current = this.head;
-      while (current.next) {
-        current = current.next;
-      }
-      current.next = node;
-    }
-    this.len++;
-  }
-
-  pop() {
-    this.head = this.head.next;
-    this.len--;
-  }
 }
