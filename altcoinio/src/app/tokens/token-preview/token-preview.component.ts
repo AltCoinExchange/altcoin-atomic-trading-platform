@@ -102,7 +102,7 @@ export class TokenPreviewComponent implements OnInit {
     this.quoteService.getLiveQuotesObj().subscribe(e => {
       const token = e.find(i => i.short === this.token.name);
       if (token) {
-        this.tokenPrice = token.price;
+        this.tokenPrice = token.price.toFixed(8);
         this.tokenPerc = token.perc;
         this.statsLoaded = true;
       }
