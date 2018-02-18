@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef, ViewChild} from '@angular/core';
 import {QuoteService} from "../../services/quote.service";
 import {Observable} from "rxjs/Observable";
 import {ChartModel, ChartSerie} from "../../models/chart-model";
@@ -24,9 +24,7 @@ export class TokenPreviewComponent implements OnInit {
   $receiveCoin: Observable<Coin>;
 
   contentLoaded = false;
-  chartPrice = true;
-  chartVolume = false;
-  chartMarket = false;
+  chartMode = 'price';
   tokenPrice;
   tokenPerc;
   statsLoaded = false;
@@ -55,7 +53,7 @@ export class TokenPreviewComponent implements OnInit {
   ngOnInit() {
     this.getCoinStats();
     this.getChartData();
-    this.updateChart();  
+    this.showPrice();  
   }
 
   getChartData(){
@@ -68,16 +66,25 @@ export class TokenPreviewComponent implements OnInit {
     });
   }
 
-  updateChart(){
+  showPrice(){
     this.$charts.subscribe((data) => {
       this.multi = [];
-      if(this.chartPrice)
-        this.multi.push(data[0]);
-      if(this.chartVolume)
-        this.multi.push(data[1]);
-      if(this.chartMarket)
-        this.multi.push(data[2]);
+      this.multi.push(data[0]);
       this.contentLoaded = true;
+    });
+  }
+
+  showVolume(){
+    this.$charts.subscribe((data) => {
+      this.multi = [];
+      this.multi.push(data[1]);
+    });
+  }
+
+  showMarket(){
+    this.$charts.subscribe((data) => {
+      this.multi = [];
+      this.multi.push(data[2]);
     });
   }
 
