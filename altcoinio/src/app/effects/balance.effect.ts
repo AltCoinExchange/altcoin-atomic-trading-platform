@@ -84,7 +84,6 @@ export class BalanceEffect {
 
   private init() {
     const xprivKey = AltcoinioStorage.get("btcprivkey");
-    console.log("init!!!!!")
     if (xprivKey) {
       const {ethInstance, ethWallet, btcWallet, btcInstance} = this.accountService.generateWalletsFromPrivKey();
       this.ethInstance = ethInstance;
