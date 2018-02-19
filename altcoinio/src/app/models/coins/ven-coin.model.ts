@@ -5,7 +5,7 @@ import {TOKENS} from "altcoinio-wallet";
 import {Erc20CoinModel} from "./erc20-coin.model";
 
 export class VenCoinModel extends Erc20CoinModel {
-  token: TOKENS;
+  token: TOKENS = TOKENS.VECHAIN;
   readonly type: Coins = Coins.VEN;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.VEN].toString();
@@ -18,11 +18,6 @@ export class VenCoinModel extends Erc20CoinModel {
 
   constructor() {
     super(VenCoinModel);
-  }
-
-  // TODO implement ERC20
-  getTokens(): Promise<any> {
-    throw new Error("When implemented remove this");
   }
 
   transferTo(to: string, value: number): Observable<any> {

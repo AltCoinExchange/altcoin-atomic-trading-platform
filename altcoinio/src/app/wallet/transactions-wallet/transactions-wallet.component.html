@@ -6,7 +6,7 @@
     </div>
   </div>
   <div *ngFor="let transaction of transactions">
-    <a *ngIf="transaction.from.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
+    <a *ngIf="transaction.from && transaction.from.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
       <div class="transaction closed" [class.closed]="transaction.detailsClosed">
         <div class="transaction-send" fxLayout="row" fxLayoutAlign="center center" >
           <div class="icon">
@@ -55,7 +55,7 @@
         </div>
       </div>
     </a>
-    <a *ngIf="transaction.to.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
+    <a *ngIf="transaction.to && transaction.to.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
       <div class="transaction closed" [class.closed]="transaction.detailsClosed">
         <div class="transaction-receive" fxLayout="row" fxLayoutAlign="center center" >
           <div class="icon">

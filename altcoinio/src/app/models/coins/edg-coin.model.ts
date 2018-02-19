@@ -5,7 +5,7 @@ import {TOKENS} from "altcoinio-wallet";
 import {Erc20CoinModel} from "./erc20-coin.model";
 
 export class EdgCoinModel extends Erc20CoinModel {
-  token: TOKENS;
+  token: TOKENS = TOKENS.EDGELESS;
   readonly type: Coins = Coins.EDG;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.EDG].toString();
@@ -18,11 +18,6 @@ export class EdgCoinModel extends Erc20CoinModel {
 
   constructor() {
     super(EdgCoinModel);
-  }
-
-  // TODO implement ERC20
-  getTokens(): Promise<any> {
-    throw new Error("When implemented remove this");
   }
 
   transferTo(to: string, value: number): Observable<any> {
