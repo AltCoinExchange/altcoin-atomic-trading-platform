@@ -23,6 +23,7 @@ export class EthWallet extends EthereumWallet implements Wallet {
   }
 
   Initiate(address: string, coin: EthCoinModel): Observable<InitiateData> {
+    console.log("INITIATING ETH:... ", InitiateData);
     return Observable.fromPromise(super.initiate(this.getInitParams(address, coin.amount.toString())));
   }
 
@@ -41,6 +42,7 @@ export class EthWallet extends EthereumWallet implements Wallet {
   }
 
   Redeem(data: RedeemData, coin: EthCoinModel): Observable<RedeemData> {
+    console.log("REDEEMING ETH:... ", InitiateData);
     this.init();
     const params = new EthRedeemParams(this.oxify(data.secret), this.oxify(data.secretHash), null);
     return Observable.fromPromise(super.redeem(params));

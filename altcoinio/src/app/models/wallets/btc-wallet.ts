@@ -28,6 +28,7 @@ export class BtcWallet extends BitcoinWallet implements Wallet {
   }
 
   Initiate(address: string, btc: BtcCoinModel): Observable<InitiateData> {
+    console.log("INITIATING BTC:... ");
     const initParams = this.getInitParams(address, btc.amount);
     return Observable.fromPromise(
       super.initiate(
@@ -37,6 +38,7 @@ export class BtcWallet extends BitcoinWallet implements Wallet {
   }
 
   Redeem(data: RedeemData, btc: BtcCoinModel): Observable<RedeemData> {
+    console.log("REDEEMING BTC:... ");
     const redeemParams = this.getRedeemParams(this.unoxify(data.secret), this.unoxify(data.secretHash), data.contractBin, data.contractTx);
     return Observable.fromPromise(
       super.redeem(
