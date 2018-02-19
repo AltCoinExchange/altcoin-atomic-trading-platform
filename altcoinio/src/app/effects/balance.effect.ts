@@ -1,20 +1,32 @@
 import {Injectable} from "@angular/core";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
-import {Action, Store} from "@ngrx/store";
+import {Action} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {TOKENS} from "altcoinio-wallet";
 import * as balanceAction from "../actions/balance.action";
-import {AppState} from "../reducers/app.state";
+import * as walletAction from "../actions/wallet.action";
 import {AltcoinioStorage} from "../common/altcoinio-storage";
 import "rxjs/add/operator/withLatestFrom";
 import "rxjs/add/observable/fromPromise";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import {AccountHelperService} from "../services/account-helper.service";
+import {Go} from "../actions/router.action";
 
 @Injectable()
 export class BalanceEffect {
 
+  @Effect()
+  fundEthAddress: Observable<Action> = this.actions$
+    .ofType(walletAction.FUND_ETH_WALLET)
+    .map(toPayload)
+    .flatMap(payload => {
+      return this.accountService.fundAddress(payload).flatMap(result => {
+        return Observable.of(new Go({
+          path: ["/wallet"],
+        }));
+      });
+    });
   private ethWallet: any;
   private btcWallet: any;
   private btcInstance: any;

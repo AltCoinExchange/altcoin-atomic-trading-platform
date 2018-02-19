@@ -6,6 +6,7 @@ import {AccountHelper} from "../../common/account-helper";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers/app.state";
 import * as walletAction from "../../actions/wallet.action";
+import {FundEthWalletAction} from "../../actions/wallet.action";
 @Component({
   selector: "app-create-wallet",
   templateUrl: "./create-wallet.component.html",
@@ -42,13 +43,13 @@ export class CreateWalletComponent implements OnInit {
       phrase: generateMnemonic()
     };
   }
- 
+
   saveTextAsFile (data, filename){
     if(!data){
       console.log('No data');
       return;
     }
-      
+
     var blob = new Blob([data], {type: 'text/plain'}),
         e    = document.createEvent('MouseEvents'),
         a    = document.createElement('a')
@@ -72,8 +73,9 @@ export class CreateWalletComponent implements OnInit {
     this.cardVisible = false;
     this.createBtcWallet(this.codes);
     setTimeout(() => {
-      this.router.navigate(['/wallet']);
-      AccountHelper.generateWalletsFromPrivKey(this.store);
+      // this.router.navigate(['/wallet']);
+      const {ethWallet} = AccountHelper.generateWalletsFromPrivKey(this.store);
+      this.store.dispatch(new FundEthWalletAction(ethWallet.address));
     }, 500);
   }
 

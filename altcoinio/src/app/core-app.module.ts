@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {EffectsModule} from "@ngrx/effects";
 import {BalanceEffect} from "./effects/balance.effect";
 import {AccountHelperService} from "./services/account-helper.service";
+import {HttpModule} from "@angular/http";
 
 export const ROUTES: Routes = [
   {
@@ -16,7 +17,8 @@ export const ROUTES: Routes = [
 @NgModule({
   imports: [
     RouterModule.forChild(ROUTES),
-    EffectsModule.forFeature([BalanceEffect])
+    EffectsModule.forFeature([BalanceEffect]),
+    HttpModule,
   ],
   providers: [
     AccountHelperService,
