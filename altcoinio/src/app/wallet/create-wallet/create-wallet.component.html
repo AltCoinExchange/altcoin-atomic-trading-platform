@@ -12,7 +12,7 @@
       <app-altcoinio-button (click)="writePhrase()">Write Phrase</app-altcoinio-button>
     </div>
   </mat-card>
-  <div *ngIf="fundingWallet" fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
+  <div *ngIf="fundingWallet" fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%" [@scaleInOut]="scaleInOut">
     <div class="sk-cube-grid">
       <div class="sk-cube sk-cube1"></div>
       <div class="sk-cube sk-cube2"></div>

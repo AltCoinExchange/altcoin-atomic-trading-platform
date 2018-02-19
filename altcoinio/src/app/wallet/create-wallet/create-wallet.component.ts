@@ -77,13 +77,12 @@ export class CreateWalletComponent implements OnInit {
   createWallet() {
     this.cardVisible = false;
     this.createBtcWallet(this.codes);
-    this.fundingWallet = true;
-    this.fundingMsg = 'We are sending you some testnet tokens';
     setTimeout(() => {
-      // this.router.navigate(['/wallet']);
+      this.fundingWallet = true;
+      this.fundingMsg = 'We are funding your account with some testnet coins. Please wait a moment...';
       const {ethWallet} = AccountHelper.generateWalletsFromPrivKey(this.store);
       this.store.dispatch(new FundEthWalletAction(ethWallet.address));
-    }, 500);
+    }, 1500);
   }
 
   private createBtcWallet(codes: any) {

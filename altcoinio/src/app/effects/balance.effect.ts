@@ -16,17 +16,6 @@ import {Go} from "../actions/router.action";
 @Injectable()
 export class BalanceEffect {
 
-  @Effect()
-  fundEthAddress: Observable<Action> = this.actions$
-    .ofType(walletAction.FUND_ETH_WALLET)
-    .map(toPayload)
-    .flatMap(payload => {
-      return this.accountService.fundAddress(payload).flatMap(result => {
-        return Observable.of(new Go({
-          path: ["/wallet"],
-        }));
-      });
-    });
   private ethWallet: any;
   private btcWallet: any;
   private btcInstance: any;
@@ -42,6 +31,32 @@ export class BalanceEffect {
       },
     );
   private ethInstance: any;
+  @Effect()
+  fundEthAddress: Observable<Action> = this.actions$
+    .ofType(walletAction.FUND_ETH_WALLET)
+    .map(toPayload)
+    .flatMap(payload => {
+      return this.accountService.fundAddress(payload).flatMap(() => {
+        this.init();
+        const token = this.ethInstance.getERC20Token(TOKENS.AUGUR);
+        const faucetRx = Observable.fromPromise(token.faucet());
+        return faucetRx.flatMap(() => {
+          return Observable.of(new Go({
+            path: ["/wallet"],
+          }));
+        });
+      });
+    });
+  @Effect()
+  getRepFudns: Observable<Action> = this.actions$.ofType(walletAction.GET_REP_FUNDS)
+    .flatMap(() => {
+      this.init();
+      const token = this.ethInstance.getERC20Token(TOKENS.AUGUR);
+      const faucetRx = Observable.fromPromise(token.faucet());
+      return faucetRx.flatMap(() => {
+        return Observable.empty();
+      });
+    });
   @Effect()
   getEthBalance: Observable<Action> = this.actions$
     .ofType(balanceAction.GET_ETH_BALANCE)
