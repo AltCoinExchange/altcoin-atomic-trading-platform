@@ -57,8 +57,10 @@ export class AccountHelperService {
 
   private generateBtcWallet() {
     const xprivKey = AltcoinioStorage.get("btcprivkey");
+    console.log("xprivKey!!! ",xprivKey);
     const btc = new BtcWallet();
     const wallet = new RegenerateBitcoinWallet(xprivKey);
+    console.log("wallet!!! ",wallet);
     btc.recover(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
