@@ -7,6 +7,8 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers/app.state";
 import * as walletAction from "../../actions/wallet.action";
 import {FundEthWalletAction} from "../../actions/wallet.action";
+import {MessageTypes} from "../../models/message-types.enum";
+
 @Component({
   selector: "app-create-wallet",
   templateUrl: "./create-wallet.component.html",
@@ -17,6 +19,9 @@ export class CreateWalletComponent implements OnInit {
 
   scaleInOut = "scaleInOut";
   cardVisible = true;
+  fundingWallet = false;
+  fundingMsg: string;
+  messageTypes = MessageTypes;
   codes;
 
   constructor(private router: Router, private store: Store<AppState>) {
@@ -72,6 +77,8 @@ export class CreateWalletComponent implements OnInit {
   createWallet() {
     this.cardVisible = false;
     this.createBtcWallet(this.codes);
+    this.fundingWallet = true;
+    this.fundingMsg = 'We are sending you some testnet tokens';
     setTimeout(() => {
       // this.router.navigate(['/wallet']);
       const {ethWallet} = AccountHelper.generateWalletsFromPrivKey(this.store);
