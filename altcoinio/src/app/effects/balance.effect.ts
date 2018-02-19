@@ -1,17 +1,17 @@
 import {Injectable} from "@angular/core";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
-import {Action, Store} from "@ngrx/store";
+import {Action} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {TOKENS} from "altcoinio-wallet";
 import * as balanceAction from "../actions/balance.action";
-import {AppState} from "../reducers/app.state";
+import * as walletAction from "../actions/wallet.action";
 import {AltcoinioStorage} from "../common/altcoinio-storage";
 import "rxjs/add/operator/withLatestFrom";
 import "rxjs/add/observable/fromPromise";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import {AccountHelperService} from "../services/account-helper.service";
-import {log} from "util";
+import {Go} from "../actions/router.action";
 
 @Injectable()
 export class BalanceEffect {
@@ -25,13 +25,38 @@ export class BalanceEffect {
     .flatMap(() => {
         this.init();
         const address = this.btcWallet.address;
-      console.log("altcoinio/src/app/effects/balance.effect.ts", address);
-      return Observable.fromPromise(this.btcInstance.getBalance(address)).map(balance => {
+        return Observable.fromPromise(this.btcInstance.getbalance(address)).map(balance => {
           return new balanceAction.GetBtcBalanceSuccessAction({address, balance});
         });
       },
     );
   private ethInstance: any;
+  @Effect()
+  fundEthAddress: Observable<Action> = this.actions$
+    .ofType(walletAction.FUND_ETH_WALLET)
+    .map(toPayload)
+    .flatMap(payload => {
+      return this.accountService.fundAddress(payload).flatMap(() => {
+        this.init();
+        const token = this.ethInstance.getERC20Token(TOKENS.AUGUR);
+        const faucetRx = Observable.fromPromise(token.faucet());
+        return faucetRx.flatMap(() => {
+          return Observable.of(new Go({
+            path: ["/wallet"],
+          }));
+        });
+      });
+    });
+  @Effect()
+  getRepFudns: Observable<Action> = this.actions$.ofType(walletAction.GET_REP_FUNDS)
+    .flatMap(() => {
+      this.init();
+      const token = this.ethInstance.getERC20Token(TOKENS.AUGUR);
+      const faucetRx = Observable.fromPromise(token.faucet());
+      return faucetRx.flatMap(() => {
+        return Observable.empty();
+      });
+    });
   @Effect()
   getEthBalance: Observable<Action> = this.actions$
     .ofType(balanceAction.GET_ETH_BALANCE)

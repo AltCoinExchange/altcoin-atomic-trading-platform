@@ -6,6 +6,8 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../reducers/app.state";
 import {EthWallet} from "../models/wallets/eth-wallet";
 import {BtcWallet} from "../models/wallets/btc-wallet";
+import {Http} from "@angular/http";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class AccountHelperService {
@@ -18,8 +20,12 @@ export class AccountHelperService {
 
   firstTime = false;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private http: Http) {
 
+  }
+
+  fundAddress(address) {
+    return this.http.get(environment.orderApi + "/faucet/fund/" + address);
   }
 
   public generateWalletsFromPrivKey() {

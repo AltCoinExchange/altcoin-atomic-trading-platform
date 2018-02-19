@@ -7,6 +7,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {QuoteService} from "../services/quote.service";
 import {MatButtonToggleModule} from "@angular/material";
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import {MatButtonToggleModule} from "@angular/material";
     AltcoinIoCommonModule,
     FlexLayoutModule,
     NgxChartsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    FormsModule
   ],
   declarations: [
     TokenPreviewComponent,

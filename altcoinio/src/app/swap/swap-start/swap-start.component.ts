@@ -205,6 +205,23 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: "TRX"}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: "BTM"}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: "DENT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.POPULOUS, name: "PPT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.MAKER, name: "MKR"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DIGIXDAO, name: "DGD"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.QASH, name: "QASH"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ETHOS, name: "ETHOS"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.FUNFAIR, name: "FUN"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ZEROX, name: "ZRX"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.REQUESTNETWORK, name: "REQ"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BANCOR, name: "BNT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ICONOMI, name: "ICN"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TENXPAY, name: "PAY"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STORJ, name: "STORJ"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ENJINCOIN, name: "ENJ"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.MONACO, name: "MCO"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EDGELESS, name: "EDG"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.VECHAIN, name: "VEN"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ICON, name: "ICX"}));
 
     this.coins.forEach((coin) => {
       switch (coin.name) {

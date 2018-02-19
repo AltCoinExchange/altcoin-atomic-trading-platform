@@ -1,9 +1,7 @@
 import {Coin} from "./coin.model";
 import {Coins} from "./coins.enum";
-import { Observable } from "rxjs/Observable";
-import { WalletRecord } from "../../reducers/balance.reducer";
-import {TOKENS} from "altcoinio-wallet";
-import {EthWallet} from "../wallets/eth-wallet";
+import {Observable} from "rxjs/Observable";
+import {WalletRecord} from "../../reducers/balance.reducer";
 import {AltcoinioStorage} from "../../common/altcoinio-storage";
 
 export class BtcCoinModel implements Coin {
@@ -13,7 +11,7 @@ export class BtcCoinModel implements Coin {
   readonly fullName: string = "Bitcoin";
   readonly icon: string = "assets/icon/btc-icon.png";
   amount;
-  faucetLoading: boolean = false;
+  faucetLoading = false;
   $balanceUSD: Observable<number>;
   walletRecord: WalletRecord;
 

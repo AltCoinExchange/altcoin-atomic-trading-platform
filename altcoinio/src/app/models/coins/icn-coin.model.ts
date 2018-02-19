@@ -5,11 +5,11 @@ import {TOKENS} from "altcoinio-wallet";
 import {Erc20CoinModel} from "./erc20-coin.model";
 
 export class IcnCoinModel extends Erc20CoinModel {
-  token: TOKENS;
+  token: TOKENS = TOKENS.ICONOMI;
   readonly type: Coins = Coins.ICN;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.ICN].toString();
-  readonly fullName: string = "ICONOMI";
+  readonly fullName: string = "Iconomi";
   readonly icon: string = "assets/icon/icn-icon.png";
   amount;
   faucetLoading = false;
@@ -18,11 +18,6 @@ export class IcnCoinModel extends Erc20CoinModel {
 
   constructor() {
     super(IcnCoinModel);
-  }
-
-  // TODO implement ERC20
-  getTokens(): Promise<any> {
-    throw new Error("When implemented remove this");
   }
 
   transferTo(to: string, value: number): Observable<any> {

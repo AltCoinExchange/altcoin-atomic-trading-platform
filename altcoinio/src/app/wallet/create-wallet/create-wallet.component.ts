@@ -6,6 +6,9 @@ import {AccountHelper} from "../../common/account-helper";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers/app.state";
 import * as walletAction from "../../actions/wallet.action";
+import {FundEthWalletAction} from "../../actions/wallet.action";
+import {MessageTypes} from "../../models/message-types.enum";
+
 @Component({
   selector: "app-create-wallet",
   templateUrl: "./create-wallet.component.html",
@@ -16,6 +19,9 @@ export class CreateWalletComponent implements OnInit {
 
   scaleInOut = "scaleInOut";
   cardVisible = true;
+  fundingWallet = false;
+  fundingMsg: string;
+  messageTypes = MessageTypes;
   codes;
 
   constructor(private router: Router, private store: Store<AppState>) {
@@ -72,9 +78,11 @@ export class CreateWalletComponent implements OnInit {
     this.cardVisible = false;
     this.createBtcWallet(this.codes);
     setTimeout(() => {
-      this.router.navigate(['/wallet']);
-      AccountHelper.generateWalletsFromPrivKey(this.store);
-    }, 500);
+      this.fundingWallet = true;
+      this.fundingMsg = 'We are funding your account with some testnet coins. Please wait a moment...';
+      const {ethWallet} = AccountHelper.generateWalletsFromPrivKey(this.store);
+      this.store.dispatch(new FundEthWalletAction(ethWallet.address));
+    }, 1500);
   }
   // TODO: refactor into separate function, usage: create-wallet, import-wallet, write-phrase, account-helper, account-helper.service
   private createBtcWallet(codes: any) {

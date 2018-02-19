@@ -20,6 +20,7 @@ import {
   MatToolbarModule
 } from "@angular/material";
 import {OrderMatchingService} from "../services/order-matching.service";
+import {QuoteService} from "../services/quote.service";
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import {OrderMatchingService} from "../services/order-matching.service";
     MoscaService,
     OrderService,
     OrderMatchingService,
+    QuoteService
   ]
 })
 export class SwapModule {

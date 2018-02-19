@@ -13,6 +13,7 @@ export class QuoteEffect {
   loadQuotes$: Observable<Action> = this.actions$
     .ofType(quoteAction.LOAD_QUOTE)
     .flatMap(() => {
+        this.quoteService.getLiveQuotes().subscribe(e => e);
         return this.quoteService.getQuotes()
           .map(quotes => new quoteAction.LoadQuoteSuccessAction(quotes));
       },

@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 .container{
-    margin: 10% 0 0 0;
+    margin: 5% 0 0 0;
 }
 
 .card{
@@ -29,4 +29,12 @@
         color: $text-color;
         margin-top: 15px;
     }
+}
+
+.words{
+    padding: 20px;
+}
+
+.word{
+    padding: 0px 5px;
 }

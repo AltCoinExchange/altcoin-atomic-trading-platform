@@ -16,6 +16,7 @@ import {AllCoinsDialogComponent} from "../common/coins-dialog/all-coins.dialog";
 import {AltcoinioStorage} from "../common/altcoinio-storage";
 import {EthWallet} from "../models/wallets/eth-wallet";
 import {Erc20CoinModel} from "../models/coins/erc20-coin.model";
+import {BtcWallet} from "../models/wallets/btc-wallet";
 
 @Component({
   selector: "app-wallet",
@@ -130,6 +131,23 @@ export class WalletComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TRON, name: "TRX"}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BYTOM, name: "BTM"}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DENT, name: "DENT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.POPULOUS, name: "PPT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.MAKER, name: "MKR"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.DIGIXDAO, name: "DGD"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.QASH, name: "QASH"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ETHOS, name: "ETHOS"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.FUNFAIR, name: "FUN"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ZEROX, name: "ZRX"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.REQUESTNETWORK, name: "REQ"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.BANCOR, name: "BNT"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ICONOMI, name: "ICN"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.TENXPAY, name: "PAY"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.STORJ, name: "STORJ"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ENJINCOIN, name: "ENJ"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.MONACO, name: "MCO"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EDGELESS, name: "EDG"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.VECHAIN, name: "VEN"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ICON, name: "ICX"}));
 
     this.allCoins.forEach((coin) => {
       switch (coin.name) {
@@ -181,7 +199,10 @@ export class WalletComponent implements OnInit, AfterViewInit {
     }
 
     if (this.selectedCoin.type === Coins.BTC) {
-      // todo
+      const btcWallet = new BtcWallet();
+      btcWallet.transferBalance(this.addressToSend, this.balanceToSend).subscribe(r => {
+        this.selectedCoin.faucetLoading = false;
+      });
       return;
     }
 
@@ -201,9 +222,9 @@ export class WalletComponent implements OnInit, AfterViewInit {
     coin.getTokens().then(() => {
       coin.faucetLoading = false;
       this.getTokenWalletRecords();
-    }, () => {
+    }, (error) => {
       coin.faucetLoading = false;
-      console.log("error");
+      console.log("error ", error );
     });
   }
 }

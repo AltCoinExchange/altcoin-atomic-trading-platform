@@ -37,6 +37,12 @@ import {McoCoinModel} from "./mco-coin.model";
 import {EdgCoinModel} from "./edg-coin.model";
 import {VenCoinModel} from "./ven-coin.model";
 import {IcxCoinModel} from "./icx-coin.model";
+import {PartCoinModel} from "./part-coin.model";
+import {XvgCoinModel} from "./xvg-coin.model";
+import {VtcCoinModel} from "./vtc-coin.model";
+import {DashCoinModel} from "./dash-coin.model";
+import {ViaCoinModel} from "./via-coin.model";
+import {BchCoinModel} from "./bch-coin.model";
 
 export abstract class Coin {
   readonly derive: string;
@@ -210,5 +216,17 @@ export class CoinFactory {
       new VenCoinModel(),
       new IcxCoinModel()
     ];
+  }
+  static createSoonCoins(): Coin[] {
+    return [
+      new DcrCoinModel(),
+      new LtcCoinModel(),
+      new PartCoinModel(),
+      new XvgCoinModel(),
+      new VtcCoinModel(),
+      new DashCoinModel(),
+      new ViaCoinModel(),
+      new BchCoinModel()
+    ]
   }
 }

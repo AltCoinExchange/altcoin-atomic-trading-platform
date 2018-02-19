@@ -5,11 +5,11 @@ import {TOKENS} from "altcoinio-wallet";
 import {Erc20CoinModel} from "./erc20-coin.model";
 
 export class ZrxCoinModel extends Erc20CoinModel {
-  token: TOKENS;
+  token: TOKENS = TOKENS.ZEROX;
   readonly type: Coins = Coins.ZRX;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.ZRX].toString();
-  readonly fullName: string = "0x";
+  readonly fullName: string = "ZeroX";
   readonly icon: string = "assets/icon/zrx-icon.png";
   amount;
   faucetLoading: boolean = false;
@@ -18,11 +18,6 @@ export class ZrxCoinModel extends Erc20CoinModel {
 
   constructor() {
     super(ZrxCoinModel);
-  }
-
-  // TODO implement ERC20
-  getTokens(): Promise<any> {
-    throw new Error("When implemented remove this");
   }
 
   transferTo(to: string, value: number): Observable<any> {
