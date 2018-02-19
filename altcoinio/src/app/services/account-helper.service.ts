@@ -31,6 +31,7 @@ export class AccountHelperService {
         btcWallet: this.btcWallet,
       };
     }
+
     const {btcWallet, btcInstance} = this.generateBtcWallet();
     const {ethInstance, ethWallet} = this.generateEthWallet(btcWallet.xprivkey);
     this.store.dispatch(new walletAction.SetEthWalletAction(ethWallet));

@@ -11,6 +11,7 @@ import "rxjs/add/observable/fromPromise";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import {AccountHelperService} from "../services/account-helper.service";
+import {log} from "util";
 
 @Injectable()
 export class BalanceEffect {
@@ -24,7 +25,8 @@ export class BalanceEffect {
     .flatMap(() => {
         this.init();
         const address = this.btcWallet.address;
-        return Observable.fromPromise(this.btcInstance.getbalance(address)).map(balance => {
+      console.log("altcoinio/src/app/effects/balance.effect.ts", address);
+      return Observable.fromPromise(this.btcInstance.getBalance(address)).map(balance => {
           return new balanceAction.GetBtcBalanceSuccessAction({address, balance});
         });
       },
@@ -82,6 +84,7 @@ export class BalanceEffect {
 
   private init() {
     const xprivKey = AltcoinioStorage.get("btcprivkey");
+    console.log("init!!!!!")
     if (xprivKey) {
       const {ethInstance, ethWallet, btcWallet, btcInstance} = this.accountService.generateWalletsFromPrivKey();
       this.ethInstance = ethInstance;
