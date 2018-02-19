@@ -17,6 +17,7 @@ export class CreateWalletComponent implements OnInit {
 
   scaleInOut = "scaleInOut";
   cardVisible = true;
+  showFundingMessage = false;
   codes;
 
   constructor(private router: Router, private store: Store<AppState>) {
@@ -74,6 +75,7 @@ export class CreateWalletComponent implements OnInit {
     this.createBtcWallet(this.codes);
     setTimeout(() => {
       // this.router.navigate(['/wallet']);
+      this.showFundingMessage = true;
       const {ethWallet} = AccountHelper.generateWalletsFromPrivKey(this.store);
       this.store.dispatch(new FundEthWalletAction(ethWallet.address));
     }, 500);
