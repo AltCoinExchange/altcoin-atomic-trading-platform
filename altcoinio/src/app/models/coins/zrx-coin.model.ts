@@ -9,7 +9,7 @@ export class ZrxCoinModel extends Erc20CoinModel {
   readonly type: Coins = Coins.ZRX;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.ZRX].toString();
-  readonly fullName: string = "0x";
+  readonly fullName: string = "ZeroX";
   readonly icon: string = "assets/icon/zrx-icon.png";
   amount;
   faucetLoading: boolean = false;

@@ -9,7 +9,7 @@ export class ReqCoinModel extends Erc20CoinModel {
   readonly type: Coins = Coins.REQ;
   readonly derive: string = "ETH";
   readonly name: string = Coins[Coins.REQ].toString();
-  readonly fullName: string = "Request Network";
+  readonly fullName: string = "RequestNetwork";
   readonly icon: string = "assets/icon/req-icon.png";
   amount;
   faucetLoading = false;
