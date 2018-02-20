@@ -219,6 +219,7 @@ export class SideAEffect {
       }).mergeMap((data) => {
 
       console.log("REDEEM A SIDE:", data);
+      console.log("data.swapProcess.depositCoin.type", data.swapProcess.depositCoin.type);
       const wallet = WalletFactory.createWallet(data.swapProcess.depositCoin.type);
       return wallet.Redeem(new RedeemData(data.payload.secret, data.payload.secretHash, data.contractBin, data.contractTx), data.swapProcess.depositCoin).map(resp => {
         console.log("REDEEM RESPONSE:", resp);

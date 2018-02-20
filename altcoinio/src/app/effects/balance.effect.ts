@@ -25,7 +25,7 @@ export class BalanceEffect {
     .flatMap(() => {
         this.init();
         const address = this.btcWallet.address;
-        return Observable.fromPromise(this.btcInstance.getbalance(address)).map(balance => {
+        return Observable.fromPromise(this.btcInstance.getBalance(address)).map(balance => {
           return new balanceAction.GetBtcBalanceSuccessAction({address, balance});
         });
       },
