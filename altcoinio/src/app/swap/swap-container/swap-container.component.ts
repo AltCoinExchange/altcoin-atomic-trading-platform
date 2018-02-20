@@ -15,6 +15,7 @@ import {map} from "rxjs/operators/map";
 import {getActiveStep} from "../../selectors/start.selector";
 import {getAProgress} from "../../selectors/side-a.selector";
 import {SwapProgress} from "../../models/swap-progress.enum";
+import * as moment from 'moment';
 
 export class Filter {
   constructor(public name: string, public icon: string) {
@@ -36,6 +37,7 @@ export class SwapContainerComponent implements OnInit {
     }
   }
 
+  moment = moment;
   safeToClose: boolean = true;
   $activeStep : Observable<any>;
   $swapProgress : Observable<any>;

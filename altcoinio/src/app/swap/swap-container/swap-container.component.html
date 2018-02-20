@@ -66,6 +66,7 @@
                   </button>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="last-cell">
+                  {{moment.utc(element.expiration).format('DD MMM YYYY HH:mm')}}
                   <!-- <button class="buy-button" mat-raised-button (click)="onRowClick(element)">ACCEPT TRADE</button> -->
                 </mat-cell>
               </ng-container>
