@@ -148,23 +148,6 @@ export class RecentTradesComponent implements OnInit {
     this.wsOrderService.send("{\"type\": \"getLatestOrders\"}");
     }
 
-    onRowClick(rowData) {
-      // Create coins
-      const depositCoin = CoinFactory.createCoinFromString(rowData.from);
-      depositCoin.amount = rowData.fromAmount;
-
-      const receiveCoin = CoinFactory.createCoinFromString(rowData.to);
-      receiveCoin.amount = rowData.toAmount;
-
-      rowData.depositCoin = depositCoin;
-      rowData.receiveCoin = receiveCoin;
-      rowData.coin = receiveCoin;
-
-      rowData.link = {order_id: rowData.id};
-
-      this.store.dispatch(new sideB.InitiateAction(rowData));
-    }
-
     ngOnDestroy() {
       this.changeDetectorRefs.detach();
     }

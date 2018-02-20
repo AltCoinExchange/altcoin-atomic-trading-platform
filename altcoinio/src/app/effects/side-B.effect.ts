@@ -30,6 +30,7 @@ export class SideBEffect {
         const coin = CoinFactory.createCoinFromString(payload.to);
         coin.amount = payload.toAmount;
         const wallet = WalletFactory.createWalletFromString(payload.to);
+        console.log("INITIATE COIN", coin);
         const address = this.linkService.generateAddressForCoin(coin, walletState);
         return this.orderService.placeOrder(payload.to, payload.from, payload.toAmount, payload.fromAmount, address)
             .flatMap(init => wallet.Initiate(payload.address, coin), (orderData, initData) => {
@@ -125,24 +126,24 @@ export class SideBEffect {
       this.store.select(getBSecret),
       this.store.select(getBHashedSecret),
       this.store.select(getWalletState),
-      this.store.select(getBDepositCoin),
+      this.store.select(getBReceiveCoin),
       this.store.select(getBContractBin),
       this.store.select(getBContractTx),
-      (payload, secret, hashedSecret, walletState, depositCoin, contractBin, contractTx) => {
+      (payload, secret, hashedSecret, walletState, receiveCoin, contractBin, contractTx) => {
         return {
           payload,
           secret,
           hashedSecret,
           walletState,
-          depositCoin,
+          receiveCoin,
           contractBin,
           contractTx
         };
       }).mergeMap((data) => {
 
       console.log("REDEEM B SIDE:", data);
-      const wallet = WalletFactory.createWallet(data.depositCoin.type);
-      return wallet.Redeem(new RedeemData(data.secret, data.hashedSecret, data.contractBin, data.contractTx), data.depositCoin).map(resp => {
+      const wallet = WalletFactory.createWallet(data.receiveCoin.type);
+      return wallet.Redeem(new RedeemData(data.secret, data.hashedSecret, data.contractBin, data.contractTx), data.receiveCoin).map(resp => {
         console.log("REDEEM RESPONSE:", resp);
         return new sideB.BRedeemSuccessAction(resp);
       }).catch(err => Observable.of(new sideB.BRedeemFailAction(err)));

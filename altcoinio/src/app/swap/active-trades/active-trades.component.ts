@@ -164,6 +164,8 @@ export class ActiveTradesComponent implements OnInit {
 
       rowData.link = {order_id: rowData.id};
 
+      console.log("rowData", rowData);
+
       this.store.dispatch(new sideB.InitiateAction(rowData));
     }
 
