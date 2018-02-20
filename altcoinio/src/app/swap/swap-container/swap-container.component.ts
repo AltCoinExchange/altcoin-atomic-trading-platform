@@ -223,7 +223,6 @@ export class SwapContainerComponent implements OnInit {
     this.$swapProgress = this.store.select(getAProgress);
     let swapObs = Observable.combineLatest(this.$activeStep, this.$swapProgress);
     this.swapSubscription = swapObs.subscribe(([step, progress]) => {
-      console.log('pocelo je');
       if((step > 1) && (progress !== SwapProgress.Redeemed))
         this.safeToClose = false;
       else

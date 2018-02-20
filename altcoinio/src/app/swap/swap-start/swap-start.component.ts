@@ -23,6 +23,7 @@ import {
 } from "../../selectors/balance.selector";
 import {GetBtcBalanceAction, GetEthBalanceAction, GetTokenBalanceAction} from "../../actions/balance.action";
 import {getLinkGenerating, getLinkErrorMessage} from "../../selectors/side-a.selector";
+import {Go} from "../../actions/router.action";
 
 @Component({
   selector: "app-swap-start",
@@ -43,7 +44,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   $swapProcess: Observable<SwapProcess>;
   $depositCoin: Observable<Coin>;
   $receiveCoin: Observable<Coin>;
-  
+
   $quote: Observable<number>;
   $depositUSD: Observable<number>;
   $receiveUSD: Observable<number>;
@@ -55,7 +56,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     super();
     this.infoMsg = "For testnet coins only. Do not send real Bitcoin or Ethereum.";
     this.coins = CoinFactory.createAllCoins();
-    
+
     this.store.dispatch(new swapAction.SetActiveStepAction(1));
     this.$swapProcess = this.store.select(swapSelector.getSwapProcess);
     this.$depositCoin = this.store.select(swapSelector.getDepositCoin);
@@ -132,7 +133,16 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   onSwap(data) {
     this.formFlyOut();
     setTimeout(() => {
-      this.store.dispatch(new sideA.GenerateLinkAction(data));
+      this.$depositCoin.subscribe(r => {
+        const swapCoin = this.coins.find(coin => coin.name === r.name);
+        if (+swapCoin.walletRecord.balance >= +r.amount) {
+          this.store.dispatch(new sideA.GenerateLinkAction(data));
+        } else {
+          this.store.dispatch(new Go({
+            path: ["/wallet"],
+          }));
+        }
+      }).unsubscribe();
     }, 500);
   }
 
@@ -150,14 +160,14 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     this.coinToChange = "receive";
   }
 
-  observeSelectedCoins(){
+  observeSelectedCoins() {
     const $disableOtherCoins = Observable.combineLatest(this.$depositCoin, this.$receiveCoin);
     $disableOtherCoins.subscribe(coins => {
       let fromCoin = coins[0];
       let toCoin = coins[1];
       let fromCoinCondition = !(fromCoin.type == this.coinTypes.BTC || fromCoin.type == this.coinTypes.ETH);
       let toCoinCondition = !(toCoin.type == this.coinTypes.BTC || toCoin.type == this.coinTypes.ETH);
-      let selectedCoinCondition = !(this.selectedCoin.type === this.coinTypes.BTC || this.selectedCoin.type === this.coinTypes.ETH);      
+      let selectedCoinCondition = !(this.selectedCoin.type === this.coinTypes.BTC || this.selectedCoin.type === this.coinTypes.ETH);
       this.disableOtherCoins = !(selectedCoinCondition || (!fromCoinCondition && !toCoinCondition));
     }).unsubscribe();
   }
