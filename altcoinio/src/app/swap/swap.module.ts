@@ -21,6 +21,8 @@ import {
 } from "@angular/material";
 import {OrderMatchingService} from "../services/order-matching.service";
 import {QuoteService} from "../services/quote.service";
+import { RecentTradesComponent } from './recent-trades/recent-trades.component';
+import { ActiveTradesComponent } from './active-trades/active-trades.component';
 
 @NgModule({
   imports: [
@@ -60,6 +62,8 @@ import {QuoteService} from "../services/quote.service";
   declarations: [
     SwapContainerComponent,
     ProgressStepsComponent,
+    RecentTradesComponent,
+    ActiveTradesComponent,
   ],
   providers: [
     AuthGuardService,
