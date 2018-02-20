@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, OnInit, HostListener} from "@angular/core";
 import {DataSource} from "@angular/cdk/collections";
 import {Observable} from "rxjs/Observable";
 import {AppState} from "../../reducers/app.state";
@@ -12,6 +12,9 @@ import {Subject} from "rxjs/Subject";
 import {FormControl} from "@angular/forms";
 import {startWith} from "rxjs/operators/startWith";
 import {map} from "rxjs/operators/map";
+import {getActiveStep} from "../../selectors/start.selector";
+import {getAProgress} from "../../selectors/side-a.selector";
+import {SwapProgress} from "../../models/swap-progress.enum";
 
 export class Filter {
   constructor(public name: string, public icon: string) {
@@ -24,6 +27,20 @@ export class Filter {
   styleUrls: ["./swap-container.component.scss"]
 })
 export class SwapContainerComponent implements OnInit {
+  @HostListener('window:beforeunload', ['$event'])
+  public beforeunloadHandler($event) {
+    if(!this.safeToClose){
+      let msg = 'Your swap will be cancelled if you leave';
+      $event.returnValue = msg;
+      return msg;
+    }
+  }
+
+  safeToClose: boolean = true;
+  $activeStep : Observable<any>;
+  $swapProgress : Observable<any>;
+  swapSubscription : Subscription;
+
   displayedColumns = ["from", "to", "trade"];
   dataSource;
   dataSubject = new BehaviorSubject<any[]>([]);
@@ -46,6 +63,7 @@ export class SwapContainerComponent implements OnInit {
 
   constructor(private store: Store<AppState>, private wsOrderService: OrderMatchingService,
               private changeDetectorRefs: ChangeDetectorRef) {
+    
     this.dataSource = new OrderDataSource(this.dataSubject);
 
     this.fromCtrl = new FormControl();
@@ -61,6 +79,8 @@ export class SwapContainerComponent implements OnInit {
         startWith(""),
         map(coin => coin ? this.filterToOrders(coin) : this.toFilter.slice())
       );
+    
+      this.watchSwapProgress();
   }
 
   filterFromOrders(name: string) {
@@ -135,7 +155,7 @@ export class SwapContainerComponent implements OnInit {
           this.toFilter = Array.from(toFilter);
 
           jsonMessage.data = this.paginate(coins, page.pageSize, page.pageIndex);
-
+          
           this.dataSubject.next(jsonMessage.data);
           if (!this.changeDetectorRefs["destroyed"]) {
             this.changeDetectorRefs.detectChanges();
@@ -197,6 +217,20 @@ export class SwapContainerComponent implements OnInit {
   clearFilters() {
     this.fromFilterAction.next("");
   }
+
+  watchSwapProgress(){
+    this.$activeStep = this.store.select(getActiveStep);
+    this.$swapProgress = this.store.select(getAProgress);
+    let swapObs = Observable.combineLatest(this.$activeStep, this.$swapProgress);
+    this.swapSubscription = swapObs.subscribe(([step, progress]) => {
+      console.log('pocelo je');
+      if((step > 1) && (progress !== SwapProgress.Redeemed))
+        this.safeToClose = false;
+      else
+        this.safeToClose = true;
+    });
+  }
+
 }
 
 export interface Element {

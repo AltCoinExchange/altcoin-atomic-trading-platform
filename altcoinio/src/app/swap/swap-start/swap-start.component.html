@@ -7,7 +7,7 @@
       </div>
     </div>
     <div *ngIf="!($generatingLinkIndicator | async)">
-      <div class="small-font">1 BTC = 23.55863 ETH</div>
+      <!-- <div class="small-font">1 BTC = 23.55863 ETH</div> -->
       <app-swap-icon
         [fromCoin]="$depositCoin | async"
         [toCoin]="$receiveCoin | async"
