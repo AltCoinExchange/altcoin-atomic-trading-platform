@@ -3,6 +3,8 @@ import {BtcCoinModel} from "../models/coins/btc-coin.model";
 import {Coin} from "../models/coins/coin.model";
 import {EthCoinModel} from "../models/coins/eth-coin.model";
 import {SwapProcess} from "../models/swap-process.model";
+import {RepCoinModel} from "../models/coins/rep-coin.model";
+import {BatCoinModel} from "../models/coins/bat-coin.model";
 
 export interface State {
   swapProcess: SwapProcess;
@@ -11,8 +13,8 @@ export interface State {
 
 export const initialState: State = {
   swapProcess: {
-    depositCoin: new EthCoinModel(),
-    receiveCoin: new BtcCoinModel(),
+    depositCoin: new RepCoinModel(),
+    receiveCoin: new BatCoinModel(),
     activeStep: 1,
   } as SwapProcess,
   link: undefined,
