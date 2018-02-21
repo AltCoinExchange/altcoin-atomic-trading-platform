@@ -6,7 +6,6 @@ import {Erc20CoinModel} from "./erc20-coin.model";
 
 export class CvcCoinModel extends Erc20CoinModel {
   token: TOKENS = TOKENS.CIVIC;
-  readonly derive = undefined;
   readonly type: Coins = Coins.CVC;
   readonly name: string = Coins[Coins.CVC].toString();
   readonly fullName: string = "Civic";

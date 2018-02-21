@@ -6,7 +6,6 @@ import {Erc20CoinModel} from "./erc20-coin.model";
 
 export class DntCoinModel extends Erc20CoinModel {
   token: TOKENS = TOKENS.DISTRICT0X;
-  readonly derive = undefined;
   readonly type: Coins = Coins.DNT;
   readonly name: string = Coins[Coins.DNT].toString();
   readonly fullName: string = "district0x";

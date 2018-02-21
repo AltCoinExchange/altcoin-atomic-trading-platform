@@ -7,7 +7,7 @@ import {AltcoinioStorage} from "../../common/altcoinio-storage";
 import {EthWallet} from "../wallets/eth-wallet";
 
 export abstract class Erc20CoinModel implements Coin {
-  abstract derive: string;
+  derive = "ETH";
   abstract type: Coins;
   abstract name: string;
   abstract fullName: string;
