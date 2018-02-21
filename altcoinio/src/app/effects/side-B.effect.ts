@@ -27,7 +27,7 @@ export class SideBEffect {
   $initInitiate: Observable<Action> = this.actions$
     .ofType(sideB.INIT_INITIATE)
     .map(toPayload)
-    .mergeMap(([payload]) => {
+    .mergeMap((payload) => {
         return Observable.from([
           new Go({
             path: ["/b/complete"],
@@ -62,6 +62,7 @@ export class SideBEffect {
     .ofType(sideB.INITIATE_SUCCESS)
     .map(toPayload)
     .mergeMap((payload) => {
+      console.log("INITIATE_SUCCESS");
       return Observable.from([
         new sideB.InformInitiateAction(payload),
       ]);
@@ -85,7 +86,8 @@ export class SideBEffect {
       })
     .mergeMap((data) => {
         // TODO payload contains SECRET ------- TODO please correct this
-        console.log("TODO payload contains SECRET ------- TODO please correct this", data);
+        console.log("TODO payload contains SECRET ------- TODO please correct this");
+        console.log("wallet type", data.receiveCoin.derive === undefined ? data.receiveCoin.name : data.receiveCoin.derive);
         const address = data.wallet[data.receiveCoin.derive === undefined ? data.receiveCoin.name : data.receiveCoin.derive].address;
         data.payload = {
           ...data.payload,
