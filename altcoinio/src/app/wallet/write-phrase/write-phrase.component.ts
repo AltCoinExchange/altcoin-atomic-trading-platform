@@ -106,7 +106,7 @@ export class WritePhraseComponent implements OnInit {
   private concatPhrase() {
     return this.checkWords.map(word => word.value).join(" ");
   }
-  // TODO: refactor int to seperate function
+
   private createBtcWallet(codes: any) {
     const btc = new BitcoinWallet();
     const wallet = new FreshBitcoinWallet(codes.phrase);

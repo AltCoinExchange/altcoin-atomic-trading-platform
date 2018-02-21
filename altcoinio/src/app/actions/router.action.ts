@@ -5,6 +5,8 @@ export const GO = '[Router] Go';
 export const BACK = '[Router] Back';
 export const FORWARD = '[Router] Forward';
 
+export const RESET_APP = '[Router] Reset APP';
+
 export class Go implements Action {
   readonly type = GO;
 
@@ -24,7 +26,12 @@ export class Forward implements Action {
   readonly type = FORWARD;
 }
 
+export class ResetApp implements Action {
+  readonly type = RESET_APP;
+}
+
 export type Actions
   = Go
   | Back
-  | Forward;
+  | Forward
+  | ResetApp;

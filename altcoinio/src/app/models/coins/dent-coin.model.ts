@@ -6,7 +6,6 @@ import {Erc20CoinModel} from "./erc20-coin.model";
 
 export class DentCoinModel extends Erc20CoinModel {
   token: TOKENS = TOKENS.DENT;
-  readonly derive = undefined;
   readonly type: Coins = Coins.DENT;
   readonly name: string = Coins[Coins.DENT].toString();
   readonly fullName: string = "Dent";

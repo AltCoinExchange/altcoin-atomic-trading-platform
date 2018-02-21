@@ -1,8 +1,16 @@
 import {Action} from "@ngrx/store";
 
+export const INIT_INITIATE = "INIT_INITIATE";
 export const INITIATE = "INITIATE";
 export const INITIATE_SUCCESS = "INITIATE_SUCCESS";
 export const INITIATE_FAIL = "INITIATE_FAIL";
+
+export class InitInitiateAction implements Action {
+  readonly type = INIT_INITIATE;
+
+  constructor(public payload: any) {
+  }
+}
 
 export class InitiateAction implements Action {
   readonly type = INITIATE;
@@ -142,6 +150,7 @@ export class BDoneAction implements Action {
 }
 
 export type Actions = InitiateAction
+  | InitInitiateAction
   | InitiateSuccessAction
   | InitiateFailAction
   | InformInitiateAction

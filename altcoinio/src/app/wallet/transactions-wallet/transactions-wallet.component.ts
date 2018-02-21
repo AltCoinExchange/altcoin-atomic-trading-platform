@@ -6,7 +6,6 @@ import {LoadTransactionAction} from "../../actions/transaction.action";
 import {getTransactions} from "../../selectors/transaction.selector";
 import {TransactionState} from "../../reducers/transaction.reducer";
 import {DataSource} from "@angular/cdk/collections";
-import {Element, OrderDataSource} from "../../swap/swap-container/swap-container.component";
 import {OrderService} from "../../services/order.service";
 import {TransactionService} from "../../services/transaction.service";
 import {TransactionDetailsModel, TransactionModel} from "../../models/transaction.model";

@@ -6,7 +6,6 @@ import {Erc20CoinModel} from "./erc20-coin.model";
 
 export class SntCoinModel extends Erc20CoinModel {
   token: TOKENS = TOKENS.STATUSNETWORK;
-  readonly derive = undefined;
   readonly type: Coins = Coins.SNT;
   readonly name: string = Coins[Coins.SNT].toString();
   readonly fullName: string = "Status Network";

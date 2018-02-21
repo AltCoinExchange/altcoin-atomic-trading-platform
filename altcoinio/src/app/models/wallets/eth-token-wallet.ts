@@ -29,7 +29,6 @@ export class EthTokenWallet extends EthereumWallet implements Wallet {
 
   Participate(data: InitiateData, coin: EthCoinModel): Observable<ParticipateData> {
     // tslint:disable-next-line
-    console.log("PARTICIPATING ETH:... ", InitiateData);
     const xprivKey = this.init();
 
     const token = this.getERC20Token(this.token);

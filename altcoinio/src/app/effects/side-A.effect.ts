@@ -70,7 +70,6 @@ export class SideAEffect {
     .mergeMap((link) => {
       console.log("WAITING FOR INITIATE", link);
       return this.moscaService.waitForInitiate(link).map(resp => {
-        console.log("INITIATE DATA RECEIVED: ", resp);
         return new sideA.WaitForInitiateSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.WaitForInitiateFailAction(err)));
     });
@@ -90,6 +89,7 @@ export class SideAEffect {
     .withLatestFrom(this.store.select(getSwapProcess))
     .switchMap(([payload, swapProcess]) => {
       const wallet = WalletFactory.createWallet(swapProcess.depositCoin.type);
+      console.log("PARTICIPATE COIN", swapProcess.depositCoin);
       return wallet.Participate(payload, swapProcess.depositCoin).map(resp => {
         console.log("PARTICIPATE RESPONSE:", resp);
         return new sideA.ParticipateSuccessAction(resp);
@@ -219,9 +219,8 @@ export class SideAEffect {
       }).mergeMap((data) => {
 
       console.log("REDEEM A SIDE:", data);
-      console.log("data.swapProcess.depositCoin.type", data.swapProcess.depositCoin.type);
-      const wallet = WalletFactory.createWallet(data.swapProcess.depositCoin.type);
-      return wallet.Redeem(new RedeemData(data.payload.secret, data.payload.secretHash, data.contractBin, data.contractTx), data.swapProcess.depositCoin).map(resp => {
+      const wallet = WalletFactory.createWallet(data.swapProcess.receiveCoin.type);
+      return wallet.Redeem(new RedeemData(data.payload.secret, data.payload.secretHash, data.contractBin, data.contractTx), data.swapProcess.receiveCoin).map(resp => {
         console.log("REDEEM RESPONSE:", resp);
         return new sideA.ARedeemSuccessAction(resp);
       }).catch(err => Observable.of(new sideA.ARedeemFailAction(err)));
@@ -232,7 +231,10 @@ export class SideAEffect {
     .ofType(sideA.AREDEEM_SUCCESS)
     .map(toPayload)
     .mergeMap((payload) => {
-      return Observable.of(new sideA.ADoneAction(payload));
+      return Observable.from([
+        new sideA.ADoneAction(payload),
+        new Go({path: ["/swap"]}),
+      ]);
     });
 
   @Effect()
@@ -244,8 +246,12 @@ export class SideAEffect {
       });
     });
 
-
-  $done;
+  @Effect()
+  $done: Observable<Action> = this.actions$
+    .ofType(sideA.ADONE).delay(2000).mergeMap(() => {
+      location.reload();
+      return Observable.empty();
+    });
 
   constructor(private actions$: Actions, private linkService: LinkService,
               private store: Store<AppState>, private moscaService: MoscaService, private orderService: OrderService) {
