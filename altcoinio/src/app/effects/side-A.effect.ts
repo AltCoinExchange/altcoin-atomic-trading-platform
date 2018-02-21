@@ -247,7 +247,10 @@ export class SideAEffect {
 
   @Effect()
   $done: Observable<Action> = this.actions$
-    .ofType(sideA.ADONE).delay(2000).mergeMap(() => Observable.of(new ResetApp()));
+    .ofType(sideA.ADONE).delay(2000).mergeMap(() => {
+      location.reload();
+      return Observable.empty();
+    });
 
   constructor(private actions$: Actions, private linkService: LinkService,
               private store: Store<AppState>, private moscaService: MoscaService, private orderService: OrderService) {

@@ -215,7 +215,10 @@ export class SideBEffect {
 
   @Effect()
   $done: Observable<Action> = this.actions$
-    .ofType(sideB.BDONE).delay(2000).mergeMap(() => Observable.of(new ResetApp()));
+    .ofType(sideB.BDONE).delay(2000).mergeMap(() => {
+      location.reload();
+      return Observable.empty();
+    });
 
   constructor(private actions$: Actions, private store: Store<AppState>, private linkService: LinkService,
               private moscaService: MoscaService, private orderService: OrderService) {
