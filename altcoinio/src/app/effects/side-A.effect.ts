@@ -3,7 +3,7 @@ import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {RedeemData} from "altcoinio-wallet";
-import {Go} from "../actions/router.action";
+import {Go, ResetApp} from "../actions/router.action";
 import * as sideA from "../actions/side-A.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
@@ -230,7 +230,10 @@ export class SideAEffect {
     .ofType(sideA.AREDEEM_SUCCESS)
     .map(toPayload)
     .mergeMap((payload) => {
-      return Observable.of(new sideA.ADoneAction(payload));
+      return Observable.from([
+        new sideA.ADoneAction(payload),
+        new Go({path: ["/swap"]}),
+      ]);
     });
 
   @Effect()
@@ -242,8 +245,9 @@ export class SideAEffect {
       });
     });
 
-
-  $done;
+  @Effect()
+  $done: Observable<Action> = this.actions$
+    .ofType(sideA.ADONE).delay(2000).mergeMap(() => Observable.of(new ResetApp()));
 
   constructor(private actions$: Actions, private linkService: LinkService,
               private store: Store<AppState>, private moscaService: MoscaService, private orderService: OrderService) {
