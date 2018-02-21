@@ -7,19 +7,35 @@ import {Go} from "../actions/router.action";
 import * as sideB from "../actions/side-B.action";
 import {AppState} from "../reducers/app.state";
 import {
-  getBLink, getBReceiveCoin, getBHashedSecret, getBSecret, getBDepositCoin,
-  getBContractBin, getBContractTx,
+  getBContractBin,
+  getBContractTx,
+  getBHashedSecret,
+  getBLink,
+  getBReceiveCoin,
+  getBSecret,
 } from "../selectors/side-b.selector";
 import {getWalletState} from "../selectors/wallets.selector";
 import {MoscaService} from "../services/mosca.service";
 import {WalletFactory} from "../models/wallets/wallet";
-import {Coin, CoinFactory} from "../models/coins/coin.model";
-import * as sideA from "../actions/side-A.action";
+import {CoinFactory} from "../models/coins/coin.model";
 import {OrderService} from "../services/order.service";
 import {LinkService} from "../services/link.service";
 
 @Injectable()
 export class SideBEffect {
+  @Effect()
+  $initInitiate: Observable<Action> = this.actions$
+    .ofType(sideB.INIT_INITIATE)
+    .map(toPayload)
+    .mergeMap(([payload]) => {
+        return Observable.from([
+          new Go({
+            path: ["/b/complete"],
+          }),
+          new sideB.InitiateAction(payload),
+        ]);
+      },
+    );
 
   @Effect()
   $initiate: Observable<Action> = this.actions$
@@ -33,7 +49,7 @@ export class SideBEffect {
         console.log("INITIATE COIN", coin);
         const address = this.linkService.generateAddressForCoin(coin, walletState);
         return this.orderService.placeOrder(payload.to, payload.from, payload.toAmount, payload.fromAmount, address)
-            .flatMap(init => wallet.Initiate(payload.address, coin), (orderData, initData) => {
+          .flatMap(init => wallet.Initiate(payload.address, coin), (orderData, initData) => {
             console.log("Initiated:....");
             console.log(orderData, initData);
             return new sideB.InitiateSuccessAction(initData);
@@ -47,9 +63,6 @@ export class SideBEffect {
     .map(toPayload)
     .mergeMap((payload) => {
       return Observable.from([
-        new Go({
-          path: ["/b/complete"],
-        }),
         new sideB.InformInitiateAction(payload),
       ]);
     });
@@ -99,11 +112,11 @@ export class SideBEffect {
     .map(toPayload)
     .withLatestFrom(this.store.select(getBLink),
       (payload, blink) => {
-      return {
-        payload,
-        link: blink
-      };
-    })
+        return {
+          payload,
+          link: blink
+        };
+      })
     .mergeMap((data) => {
       return this.moscaService.waitForParticipate(data.link).map(resp => {
         return new sideB.WaitForParticipateSuccessAction(resp);

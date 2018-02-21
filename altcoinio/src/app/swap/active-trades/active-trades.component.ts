@@ -166,7 +166,7 @@ export class ActiveTradesComponent implements OnInit {
 
       console.log("rowData", rowData);
 
-      this.store.dispatch(new sideB.InitiateAction(rowData));
+      this.store.dispatch(new sideB.InitInitiateAction(rowData));
     }
 
     ngOnDestroy() {
