@@ -4,4 +4,19 @@
 
 .last-cell{
     text-align: right;
+    font-size: 12px;
+}
+
+.cell-img{
+    height: 23px;
+    width: 23px;
+    padding-right: 2px;
+    vertical-align: middle;
+	display: inline-block;
+}
+
+.cell-name{
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 12px;
 }

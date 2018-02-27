@@ -1,21 +1,13 @@
 import {ChangeDetectorRef, Component, OnInit, HostListener} from "@angular/core";
-import {DataSource} from "@angular/cdk/collections";
 import {Observable} from "rxjs/Observable";
 import {AppState} from "../../reducers/app.state";
 import {Store} from "@ngrx/store";
-import * as sideB from "../../actions/side-B.action";
-import {CoinFactory} from "../../models/coins/coin.model";
-import {OrderMatchingService} from "../../services/order-matching.service";
 import {Subscription} from "rxjs/Subscription";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Subject} from "rxjs/Subject";
-import {FormControl} from "@angular/forms";
-import {startWith} from "rxjs/operators/startWith";
-import {map} from "rxjs/operators/map";
-import {getActiveStep} from "../../selectors/start.selector";
+import {getActiveStep, getDepositCoin, getReceiveCoin} from "../../selectors/start.selector";
 import {getAProgress} from "../../selectors/side-a.selector";
 import {SwapProgress} from "../../models/swap-progress.enum";
-import * as moment from 'moment';
+import { fadeInOutAnimation } from "../../animations/animations";
+
 
 export class Filter {
   constructor(public name: string, public icon: string) {
@@ -25,7 +17,8 @@ export class Filter {
 @Component({
   selector: "app-swap-container",
   templateUrl: "./swap-container.component.html",
-  styleUrls: ["./swap-container.component.scss"]
+  styleUrls: ["./swap-container.component.scss"],
+  animations: [fadeInOutAnimation]
 })
 export class SwapContainerComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
@@ -36,15 +29,18 @@ export class SwapContainerComponent implements OnInit {
       return msg;
     }
   }
-
-  moment = moment;
+  fadeInOut = 'fadeInOut';
   safeToClose: boolean = true;
   $activeStep : Observable<any>;
   $swapProgress : Observable<any>;
   swapSubscription : Subscription;
+  $fromCoin : Observable<any>;
+  $toCoin : Observable<any>;
 
   constructor(private store: Store<AppState>) {
     this.watchSwapProgress();
+    this.$fromCoin = this.store.select(getDepositCoin);
+    this.$toCoin = this.store.select(getReceiveCoin);
   }
 
   ngOnInit() {
@@ -60,6 +56,8 @@ export class SwapContainerComponent implements OnInit {
     this.$swapProgress = this.store.select(getAProgress);
     let swapObs = Observable.combineLatest(this.$activeStep, this.$swapProgress);
     this.swapSubscription = swapObs.subscribe(([step, progress]) => {
+      console.log('step is ', step);
+      console.log('progres is ', progress)
       if((step > 1) && (progress !== SwapProgress.Redeemed))
         this.safeToClose = false;
       else

@@ -4,6 +4,7 @@
     <div fxLayout="row" fxLayoutAlign="center center">
       <progress-steps fxFlex.xl="50%" fxFlex.lg="80%" fxFlex.md="90%" fxFlex.sm="90%" fxFlex.xs="90%"></progress-steps>
     </div>
+    <!-- <div *ngIf="!safeToClose" class="label white" [@fadeInOut]="fadeInOut"> You are trading {{($fromCoin | async)?.amount}} {{($fromCoin | async)?.name}} for {{($toCoin | async)?.amount}} {{($toCoin | async)?.name}}</div> -->
     <router-outlet class="content-block"></router-outlet>
   </div>
 </div>

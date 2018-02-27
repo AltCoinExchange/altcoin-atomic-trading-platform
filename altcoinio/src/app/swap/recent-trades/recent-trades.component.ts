@@ -26,7 +26,6 @@ export class Filter {
 })
 export class RecentTradesComponent implements OnInit {
 
-  moment = moment;
   displayedColumns = ["from", "to", "trade"];
   dataSource;
   dataSubject = new BehaviorSubject<any[]>([]);
@@ -35,7 +34,7 @@ export class RecentTradesComponent implements OnInit {
   toFilterAction = new Subject<any>();
   socketSubscription: Subscription;
 
-  tableOrderLength = 100;
+  tableOrderLength = 0;
   tableOrderPageSize = 10;
 
   fromCtrl: FormControl;
@@ -83,12 +82,14 @@ export class RecentTradesComponent implements OnInit {
       .subscribe(([message, page, fromOrderFilter, toOrderFilter]) => {
       const jsonMessage = JSON.parse(message);
       if (jsonMessage.message === "getLatestOrders") {
+      console.log('got latest orders ', jsonMessage.data);
       const fromFilter = []
       const toFilter = [];
       this.tableOrderLength = jsonMessage.data.length;
       const coins = jsonMessage.data.map(msg => {
         msg.fromCoin = CoinFactory.createCoinFromString(msg.from);
         msg.toCoin = CoinFactory.createCoinFromString(msg.to);
+        msg.relativeDate = moment(msg.expiration).subtract(2, 'hours').fromNow();
         const exist = fromFilter.find(coin => {
           return coin.name === msg.fromCoin.name;
         });

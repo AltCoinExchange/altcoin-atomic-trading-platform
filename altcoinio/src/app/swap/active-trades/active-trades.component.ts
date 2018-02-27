@@ -12,7 +12,6 @@ import {Subject} from "rxjs/Subject";
 import {FormControl} from "@angular/forms";
 import {startWith} from "rxjs/operators/startWith";
 import {map} from "rxjs/operators/map";
-import * as moment from 'moment';
 
 export class Filter {
   constructor(public name: string, public icon: string) {
@@ -26,7 +25,6 @@ export class Filter {
 })
 export class ActiveTradesComponent implements OnInit {
 
-  moment = moment;
   displayedColumns = ["from", "to", "trade"];
   dataSource;
   dataSubject = new BehaviorSubject<any[]>([]);

@@ -32,9 +32,10 @@
 }
 
 .chart-container{
-  width: 100%;
+  width: calc(100% + 30px);
   height: 115px;
   margin: 0px;
+  margin-left: -15px;
 }
 
 .graph-buttons{

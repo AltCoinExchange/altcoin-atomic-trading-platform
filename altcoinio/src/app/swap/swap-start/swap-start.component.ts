@@ -131,6 +131,8 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
   }
 
   onSwap(data) {
+    this.store.dispatch(new swapAction.setDepositCoinAction(data.depositCoin));
+    this.store.dispatch(new swapAction.setReceiveCoinAction(data.receiveCoin));
     this.formFlyOut();
     setTimeout(() => {
       this.$depositCoin.subscribe(r => {

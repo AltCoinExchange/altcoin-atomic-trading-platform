@@ -15,8 +15,8 @@
           </mat-autocomplete>
         </mat-form-field></mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <img style="width: 16px;vertical-align: text-top" src="{{element.fromCoin.icon}}" alt="">
-          {{element.fromAmount}} {{element.from}}
+          <img class="cell-img" src="{{element.fromCoin.icon}}" alt="">
+          <div class="cell-name">{{element.fromAmount | number : '1.0-3'}} {{element.from}}</div>
         </mat-cell>
       </ng-container>
 
@@ -33,8 +33,8 @@
           </mat-form-field>
       </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <img style="width: 16px;vertical-align: text-top" src="{{element.toCoin.icon}}"> {{element.toAmount}}
-          {{element.to}}
+          <img class="cell-img" src="{{element.toCoin.icon}}" alt=""> 
+          <div class="cell-name">{{element.toAmount | number : '1.0-3'}} {{element.to}}</div>
         </mat-cell>
       </ng-container>
 

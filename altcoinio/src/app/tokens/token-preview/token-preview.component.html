@@ -4,7 +4,7 @@
         <img class="token-img" [src]="token.icon" alt="">
     </div>
     <mat-card-title class="token-name">{{token.fullName}}</mat-card-title>
-    <mat-card-subtitle *ngIf="statsLoaded" class="blue">${{tokenPrice}}<br>
+    <mat-card-subtitle *ngIf="statsLoaded" class="blue">${{tokenPrice | number : '1.0-8'}}<br>
       <span *ngIf="tokenPerc <= 0" class="red">{{tokenPerc}}%</span>
       <span *ngIf="tokenPerc > 0" class="green">+{{tokenPerc}}%</span>
     </mat-card-subtitle>
