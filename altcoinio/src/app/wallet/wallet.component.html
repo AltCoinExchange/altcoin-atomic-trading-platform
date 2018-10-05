@@ -1,0 +1,96 @@
+<div fxLayout="row" fxLayoutAlign="center stretch">
+  <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
+    <div class="message-box">
+      <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+    </div>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="center stretch">
+  <div fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
+    <mat-form-field class="search-box">
+      <input #inputRef placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
+      <button class="input-button" mat-button matSuffix mat-icon-button
+              (click)="inputRef.blur(); showAllCoins($event)">
+        <mat-icon>view_module</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+<perfect-scrollbar #perfectScrollbar  class="wallet-slide" fxLayout="row" fxLayoutAlign="start center">
+  <div (wheel)="wheelOverHorizontalDiv($event)">
+  <a *ngFor="let coin of filteredCoins" (click)="selectCoinCard(coin)" [id]="coin.name">
+    <div [@scaleInOut]="scaleInOut" class="wallet-card" [class.active]="selectedCoin == coin"
+          *ngIf="(inMyPossesion && coin.walletRecord?.balance > 0) ||
+                  (!inMyPossesion && coin.walletRecord?.balance >= 0)">
+      <img class="coin-icon" [src]="coin.icon" alt="">
+      <div *ngIf="coin.walletRecord?.loading || coin.faucetLoading">
+        <div class="spinner">
+          <div class="circle-loader">
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!coin.walletRecord?.loading && !coin.faucetLoading">
+        <div class="coin-name">{{coin.fullName}}</div>
+        <div class="coin-balance">{{ ((coin.walletRecord?.balance) || 0) | number : '1.2-8' }} {{coin.name}}
+        </div>
+        <div class="coin-usd">{{ ((coin.$balanceUSD | async) || 0) | number : '1.0-2' }} USD</div>
+        <a *ngIf="coin.type == Coins.BTC" target="noopener" href="https://testnet.coinfaucet.eu/en/" class="faucet-button" mat-button color="accent">Faucet</a>
+        <a *ngIf="coin.type == Coins.ETH" target="noopener" href="https://faucet.rinkeby.io/" class="faucet-button" mat-button color="accent">Faucet</a>
+        <a *ngIf="coin.type != Coins.BTC && coin.type != Coins.ETH" class="faucet-button" mat-button color="accent" (click)="getTokens(coin)">Get Tokens</a>
+      </div>
+    </div>
+  </a>
+  </div>
+</perfect-scrollbar>
+<div fxLayout="row" fxLayoutAlign="center center" class="hide-coins-box">
+  <mat-checkbox [ngModel]="inMyPossesion" (ngModelChange)="onPossesionModeChange($event)">Hide coins with zero
+    balance
+  </mat-checkbox>
+</div>
+
+<div class="wallet-container">
+  <div class="options-slide" fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex.xl="30%" fxFlex.lg="40%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%">
+        <mat-tab-group >
+          <mat-tab label="Receive">
+              <div class="wallet-content">
+                  <app-wallet-receive
+                  *ngIf="selectedCoin && selectedCoin.walletRecord?.address"
+                  [coin]="selectedCoin"
+                  [address]="selectedCoin.walletRecord?.address"></app-wallet-receive>
+              </div>
+          </mat-tab>
+          <mat-tab label="Send">
+              <div class="wallet-content">
+                  <div class="input-label">Address</div>
+                  <div class="input-box">
+                      <input [(ngModel)]="addressToSend" />
+                    </div>
+                    <coin-input [label]="'Amount'" [alignLabel]="'left'" [coin]="selectedCoin"
+                                [(ngModel)]="balanceToSend">
+                    </coin-input>
+                    <coin-input [label]="'Network fee'" [alignLabel]="'left'" [coin]="selectedCoin"
+                                [(ngModel)]="randomValue" disabled>
+                    </coin-input>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end end" fxLayoutAlign.xs="center stretch">
+                      <div fxFlex="25" fxFlex.xs="1" class="start-button">
+                        <app-altcoinio-button (click)="sendCoinsToAddress()">Send</app-altcoinio-button>
+                      </div>
+                    </div>
+              </div>
+          </mat-tab>
+          <mat-tab label="Transactions">
+            <div class="wallet-content">
+              <a *ngIf="selectedCoin.type == Coins.BTC" target="noopener"
+                  href="https://live.blockcypher.com/btc-testnet/address/{{selectedCoin.walletRecord?.address}}/">Blockcypher</a>
+              <div *ngIf="selectedCoin.type != Coins.BTC" target="noopener">
+                <app-transactions-wallet
+                  [address]="selectedCoin.walletRecord?.address"></app-transactions-wallet>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+    </div>
+  </div>
+</div>

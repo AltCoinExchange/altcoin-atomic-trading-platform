@@ -1,0 +1,17 @@
+@import '../../../styles/variables';
+
+.swap-proccess{
+  border: 1px solid $border-color;
+}
+.content-block{
+  padding: 10px 0;
+}
+
+.buy-button{
+  background: $main-green;
+  color: white;
+}
+
+.orders-container{
+  margin: 10px;
+}

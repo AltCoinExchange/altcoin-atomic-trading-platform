@@ -1,0 +1,14 @@
+<div class="form">
+  <div class="form-content">
+    <div class="spinner">
+      <div class="circle-loader" [ngClass]="{'load-complete' : linkCopied}">
+        <div [hidden]="!linkCopied" class="checkmark draw"></div>
+      </div>
+    </div>
+    <div class="message-box">
+      <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+    </div>
+  </div>
+</div>
+
+

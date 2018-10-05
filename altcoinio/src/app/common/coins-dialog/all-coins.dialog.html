@@ -1,0 +1,43 @@
+<div fxLayout="column" fxLayoutAlign="center end">
+  <button class="close-button" matDialogClose mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div fxLayout="row" fxLayoutAlign="start center">
+  <div fxFlex="96%" fxFlex.xs="90%" fxFlex.md="97%" fxFlex.md="93%" fxFlex.sm="93%" fxFlex.xl="94%">
+    <mat-form-field class="search-box">
+      <input placeholder="Search" matInput [ngModel]="search" (ngModelChange)="filterCoin($event)">
+    </mat-form-field>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutWrap fxLayoutAlign="start start">
+  <mat-card *ngFor="let coin of filteredCoins"
+      [style.background]="isSelectedCoin(coin) ? 'rgba(42,49,65,1)' : 'rgba(42,49,65,.65)'"
+      (click)="closeDialog(coin)" 
+      class="coin-card"
+      fxLayout="column" 
+      fxLayoutAlign="center center"
+      fxFlex="23%"
+      fxFlex.xs="90%"
+      fxFlex.sm="45%"
+      fxFlex.md="30%"
+      fxFlex.xl="15%">
+    <!-- <div class="disabled-card" *ngIf="isCoinDisabled(coin)">Coin you selected can only be exchanged with Bitcoin or Ethereum</div> -->
+    <!-- <div [style.opacity]="isSelectedCoin(coin) ? '1' : isCoinDisabled(coin) ? '0.1' : '0.65'"> -->
+    <div [style.opacity]="isSelectedCoin(coin) ? '1' : '0.65'">
+      <img class="coin-icon" [src]="coin.icon" alt="">
+      <div *ngIf="coin.walletRecord?.loading">
+        <div class="spinner">
+          <div class="circle-loader">
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!coin.walletRecord?.loading">
+        <div class="coin-name">{{coin.fullName}}</div>
+        <div class="coin-balance">{{ ((coin.walletRecord?.balance) || 0) | number : '1.2-8' }} {{coin.name}}</div>
+        <div class="coin-usd">{{ ((coin.$balanceUSD | async) || 0) | number : '1.0-2' }} USD</div>
+      </div>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,35 @@
+<div class="swap-start form">
+  <div class="swap-start form-content"  style="padding-top: 0;">
+    <div style="text-align: center;" *ngIf="($generatingLinkIndicator | async)">
+      <div class="spinner">
+        <div class="circle-loader">
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!($generatingLinkIndicator | async)">
+      <!-- <div class="small-font">1 BTC = 23.55863 ETH</div> -->
+      <app-swap-icon
+        [fromCoin]="$depositCoin | async"
+        [toCoin]="$receiveCoin | async"
+        [swapEnabled]="true"
+        (swapped)="swapDepositRecieveCoins()"
+        (chooseDepositCoin)="changeDepositCoin($event)"
+        (chooseReceiveCoin)="changeReceiveCoin($event)">
+      </app-swap-icon>
+      <app-swap-inputs (swap)="onSwap($event)"
+                       [depositCoin]="($depositCoin | async)"
+                       [receiveCoin]="($receiveCoin | async)"
+                       [receiveQuote]="($quote | async)"
+                       [depositUSD]="($depositUSD | async)"
+                       [receiveUSD]="($receiveUSD | async)"
+                       (depositChange)="onDepositChange($event)">
+      </app-swap-inputs>
+    </div>
+    <div class="message-box">
+      <info-message [message]="infoMsg" [type]="messageTypes.Info"></info-message>
+    </div>
+    <div class="message-box" *ngIf="$generatingLinkErrorMessage | async">
+      <info-message [message]="$generatingLinkErrorMessage | async" [type]="messageTypes.Warning"></info-message>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div fxLayout="row" fxLayoutWrap fxLayoutAlign="center center" class="container">
+  <mat-card *ngIf="cardVisible" fxFlex="25%" fxFlex.md="30%" fxFlex.sm="45%" fxFlex.xs="96%" fxFlex.xl="15%"
+            class="card"
+            fxLayout="column" fxLayoutAlign="space-between center" [@scaleInOut]="scaleInOut">
+    <div class="card-text">This twelve word phrase is the only way to restore your wallet. Please store it somewhere safe and secure.
+      You can either write it down on paper or download it in a text file.
+    </div>
+    <div class="card-button">
+        <app-altcoinio-button (click)="downloadPhrase()">Download File</app-altcoinio-button>
+      </div>
+    <div class="card-button">
+      <app-altcoinio-button (click)="writePhrase()">Write Phrase</app-altcoinio-button>
+    </div>
+  </mat-card>
+  <div *ngIf="fundingWallet" fxFlex.xl="25%" fxFlex.lg="50%" fxFlex.md="70%" fxFlex.sm="80%" fxFlex.xs="100%" [@scaleInOut]="scaleInOut">
+    <div class="sk-cube-grid">
+      <div class="sk-cube sk-cube1"></div>
+      <div class="sk-cube sk-cube2"></div>
+      <div class="sk-cube sk-cube3"></div>
+      <div class="sk-cube sk-cube4"></div>
+      <div class="sk-cube sk-cube5"></div>
+      <div class="sk-cube sk-cube6"></div>
+      <div class="sk-cube sk-cube7"></div>
+      <div class="sk-cube sk-cube8"></div>
+      <div class="sk-cube sk-cube9"></div>
+    </div>
+    <div class="message-box" class="blink">
+      <info-message [message]="fundingMsg" [type]="messageTypes.Info"></info-message>
+    </div>
+  </div>
+</div>

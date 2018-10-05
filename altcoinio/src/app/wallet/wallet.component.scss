@@ -1,0 +1,132 @@
+@import '../../styles/variables';
+
+.input-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: $text-color;
+  font-size: 20px;
+}
+
+.input-box{
+    margin-bottom: 20px;
+}
+
+.message-box{
+    margin: 15px 5%;
+}
+
+.search-box{
+    margin: 0 5%;
+    padding-top: 10px;
+    width: 90%;
+}
+
+.hide-coins-box{
+    margin-bottom: 3%;
+    padding: 15px 0px;
+}
+
+.wallet-slide{
+    width: 100%;
+    padding: 20px 0px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+
+    a:first-child{
+        margin-left: 20px;
+    }
+
+    .wallet-card{
+        display: inline-block;
+        position: relative;
+        height: 80px;
+        min-width: 150px;
+        margin: 10px 30px;
+        padding: 15px 15px 15px 50px;
+        background: $main-gray;
+        box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+        border-radius: 5px;
+        cursor: pointer;
+
+        &.active{
+            box-shadow: 1px 2px 14px 0 rgba(255,255,255,0.50);
+        }
+
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+            -moz-transform: translate(2px, 2px);
+            -ms-transform: translate(2px, 2px);
+            -o-transform: translate(2px, 2px);
+            -webkit-transform: translate(2px, 2px);
+            transform: translate(2px, 2px);
+        }
+
+        .coin-icon{
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            top: 25px;
+            left: -30px;
+        }
+
+        .coin-name{
+            color: white;
+            font-size: 125%;
+        }
+
+        .coin-balance{
+            color: white;
+            font-size: 100%;
+            margin-top: 5px;
+        }
+
+        .coin-usd{
+            color: $text_color;
+            font-size: 85%;
+        }
+
+        .faucet-button{
+            bottom: 0px;
+            right: 0px;
+            position: absolute;
+        }
+
+        .spinner{
+            text-align: left;
+            margin-top: 12px;
+            margin-left: 35px;
+        }
+
+        
+    }
+
+}
+
+.options-slide{
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.wallet-container{
+    background: $main-gray;
+}
+
+.wallet-content{
+    padding: 20px 10px;
+    min-height: 200px;
+    padding-bottom: 60px;
+    text-align: center;
+}
+
+.start-button{
+    margin-top: 15px;
+}
+
+.mat-tab-group{
+    width: 100%;
+}
+

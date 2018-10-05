@@ -1,0 +1,7 @@
+<div class="info-message" 
+[@entrance]="animateMsg"
+[class.info]="type == messageTypes.Info"
+[class.error]="type == messageTypes.Error"
+[class.warning]="type == messageTypes.Warning">
+    <p class="message-text">{{message}}</p>
+</div>

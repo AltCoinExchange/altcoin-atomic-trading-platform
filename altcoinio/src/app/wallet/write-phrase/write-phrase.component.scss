@@ -1,0 +1,40 @@
+@import '../../../styles/variables';
+
+.container{
+    margin: 5% 0 0 0;
+}
+
+.card{
+    margin: 10px;
+    min-height: 250px;
+    padding: 38px 16px;
+    color: white;
+    text-align: center;
+
+    .card-title{
+        font-size: 125%;
+    }
+
+    .card-text{
+        font-size: 100%;
+        width: 80%;
+    }
+
+    .card-button{
+        width: 80%;
+    }
+
+    .word-count{
+        font-size: 85%;
+        color: $text-color;
+        margin-top: 15px;
+    }
+}
+
+.words{
+    padding: 20px;
+}
+
+.word{
+    padding: 0px 5px;
+}

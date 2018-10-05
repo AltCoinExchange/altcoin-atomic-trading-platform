@@ -1,0 +1,34 @@
+@import '../../../styles/variables';
+
+.logout-text{
+  max-width: 500px;
+}
+
+.pass-dump{
+  max-width: 500px;
+  margin: 16px auto !important;
+  background-color: $main-gray;
+  word-wrap: break-word;
+}
+
+.pass-dump-header{
+  height: auto !important;
+  padding: 24px;
+}
+
+.pass-dump-title{
+  color: white;
+}
+
+.pass{
+  word-wrap: break-word;
+  color: white;
+}
+
+.pass-field{
+  width: auto;
+}
+
+.pass-card{
+  text-align: center;
+}

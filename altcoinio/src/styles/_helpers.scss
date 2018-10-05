@@ -1,0 +1,25 @@
+@import 'variables';
+
+.white{
+    color: white !important;
+}
+
+.green{
+    color: $main-green !important;
+}
+
+.blue{
+    color: $main-blue !important;
+}
+  
+.red{
+    color: $main-red !important;
+}
+  
+.big-font{
+    font-size: 115%;
+}
+
+.small-font{
+    font-size: 85%;
+}

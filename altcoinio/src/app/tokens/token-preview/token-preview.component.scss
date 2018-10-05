@@ -1,0 +1,70 @@
+@import '../../../styles/variables';
+
+.example-header-image {
+  background-image: url('/assets/icon/btc-icon.png');
+  background-size: cover;
+  
+}
+
+.token-img{
+  height: inherit !important;
+  width: inherit !important;
+}
+
+.token-card{
+  margin: 10px;
+  padding: 24px 16px;
+  width: calc(100% - 20px);
+  background: $main-gray;
+}
+
+.token-icon{
+  border-radius: 0px;
+  border: 1px solid $border-color;
+  width: 60px; 
+  height: 60px; 
+  padding: 10px;
+}
+
+.token-name{
+  color: white;
+  font-size: 115%;
+}
+
+.chart-container{
+  width: calc(100% + 30px);
+  height: 115px;
+  margin: 0px;
+  margin-left: -15px;
+}
+
+.graph-buttons{
+  margin-top: 10px !important;
+  width: 100%;
+  text-align: center;
+  font-size: 85%;
+}
+
+.token-button{
+  background: $main-blue;
+  color: white;
+}
+
+.mat-button-toggle {
+  color: $text-color;
+}
+
+.mat-button-toggle-checked {
+  background-color: transparent;
+  color: $main-green;
+}
+
+.spinner{
+  height: 85px;
+  padding-top: 70px;
+  text-align: center;
+}
+
+.mat-raised-button[disabled][disabled] {
+  background: $main-blue;
+}

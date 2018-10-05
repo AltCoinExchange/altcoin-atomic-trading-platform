@@ -1,0 +1,42 @@
+<div class="swap-icons" fxLayout="row">
+  <div fxLayout="column" fxFlex="33">
+    <div class="swap-icon icon-box" [@coinSwaps]="toCoinAnimationSwapState">
+      <a fxLayout="row" fxLayoutAlign="space-between center" href="" (click)="iconClicked($event, firstCoin)">
+          <img [src]="firstCoin.icon" alt="">
+          <div class="coin-name" fxShow.xs="false" fxLayout="column" fxLayoutAlign="center center">
+            <div>{{firstCoin.fullName}}</div>
+          </div>
+          <mat-icon>arrow_drop_down</mat-icon>
+      </a>
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="33" fxFlexAlign="center" class="swap-icon">
+    <a *ngIf="swapEnabled;else swap_disabled" class="swap-horiz" href="" (click)="animateCoinSwap($event)">
+      <div fxShow.gt-xs="true" fxShow.xs="false">
+        <i class="material-icons md-48">swap_horiz</i>
+      </div>
+      <div fxShow.gt-xs="false" fxShow.xs="true">
+        <i class="material-icons md-36">swap_horiz</i>
+      </div>
+    </a>
+    <ng-template #swap_disabled class="swap-horiz">
+      <div fxShow.gt-xs="true" fxShow.xs="false">
+        <i class="material-icons md-48">swap_horiz</i>
+      </div>
+      <div fxShow.gt-xs="false" fxShow.xs="true">
+        <i class="material-icons md-36">swap_horiz</i>
+      </div>
+    </ng-template>
+  </div>
+  <div fxLayout="column" fxFlex="33">
+    <div class="swap-icon icon-box" [@coinSwaps]="fromCoinAnimationSwapState">
+      <a fxLayout="row" fxLayoutAlign="space-between center" href="" (click)="iconClicked($event, secondCoin)">
+        <img [src]="secondCoin.icon" alt="">
+        <div class="coin-name" fxShow.xs="false" fxLayout="column" fxLayoutAlign="center center">
+          <div>{{secondCoin.fullName}}</div>
+        </div>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </a>
+    </div>
+  </div>
+</div>

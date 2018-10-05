@@ -1,0 +1,30 @@
+@import '../../../styles/variables';
+
+.mat-raised-button{
+    width: 100%;
+    border: none;
+    height: 48px;
+    cursor: pointer;
+    color: white;
+    text-transform: uppercase;
+    font-size: 100%;
+    box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+    -webkit-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);
+    -moz-box-shadow: 1px 2px 8px 0 rgba(0,0,0,0.50);  
+
+    background-image: linear-gradient(135deg, #00FFDC 0%, #00BFA5 100%);
+    background-image: -webkit-linear-gradient(135deg, #00FFDC 0%, #00BFA5 100%);
+    background-image: -o-linear-gradient(135deg, #00FFDC 0%, #00BFA5 100%);
+    background-image: -moz-linear-gradient(135deg, #00FFDC 0%, #00BFA5 100%);
+
+    transition: all 200ms ease-in-out;
+    
+    &:hover {
+        -moz-transform: translate(2px, 2px);
+        -ms-transform: translate(2px, 2px);
+        -o-transform: translate(2px, 2px);
+        -webkit-transform: translate(2px, 2px);
+        transform: translate(2px, 2px);
+    }
+    
+}

@@ -1,0 +1,60 @@
+<div>
+  <mat-toolbar>Available trades</mat-toolbar>
+  <mat-toolbar *ngIf="tableOrderLength == 0">No trades available at the moment.</mat-toolbar>
+  <div *ngIf="tableOrderLength > 0">
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef> 
+          <mat-form-field class="filter">
+          <input matInput placeholder="From" aria-label="From" [matAutocomplete]="fromAuto" [formControl]="fromCtrl">
+          <mat-autocomplete #fromAuto="matAutocomplete" (optionSelected)="onFromSelected($event)">
+            <mat-option *ngFor="let fromCoin of fromFilterFiltered | async" [value]="fromCoin.name">
+              <img style="vertical-align:middle;" aria-hidden src="{{fromCoin.icon}}" height="25" />
+              <span>{{ fromCoin.name }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <img class="cell-img" src="{{element.fromCoin.icon}}" alt="">
+          <div class="cell-name">{{element.fromAmount | number : '1.0-3'}} {{element.from}}</div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef> 
+          <mat-form-field class="filter">
+            <input matInput placeholder="To" aria-label="To" [matAutocomplete]="toAuto" [formControl]="toCtrl">
+            <mat-autocomplete #toAuto="matAutocomplete" (optionSelected)="onToSelected($event)">
+              <mat-option *ngFor="let toCoin of toFilterFiltered | async" [value]="toCoin.name">
+                <img style="vertical-align:middle;" aria-hidden src="{{toCoin.icon}}" height="25" />
+                <span>{{ toCoin.name }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+      </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <img class="cell-img" src="{{element.toCoin.icon}}" alt=""> 
+          <div class="cell-name">{{element.toAmount | number : '1.0-3'}} {{element.to}}</div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="trade">
+        <mat-header-cell *matHeaderCellDef class="last-cell">
+          <button (click)="clearFilters()" mat-icon-button>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="last-cell">
+          <button class="buy-button" mat-raised-button (click)="onRowClick(element)">ACCEPT TRADE</button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="tableOrderLength"
+                    [pageSize]="tableOrderPageSize" (page)="onPageChange($event)"
+                    [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+@import '../../../styles/variables';
+
+mat-toolbar {
+  position: fixed;
+  padding: 0px 15px;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  background-color: $main-gray;
+  border: 0;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  height: 60px;
+  box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.50);
+  -webkit-box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.50);
+  -moz-box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.50);
+  &.nav-up {
+    top: -60px;
+  }
+}
+
+main {
+  min-height: -webkit-calc(100% - 120px);
+  min-height: -moz-calc(100% - 120px);
+  min-height: calc(100% - 120px);
+  overflow: auto;
+  padding-top: 60px;
+
+  > * {
+    min-height: 100%;
+  }
+}
+
+a.logo {
+  color: #ffffff !important;
+  font-size: 32px;
+  margin-top: 5px;
+  font-family: 'Poppins', sans-serif;
+  float: left;
+  cursor: pointer;
+  img {
+    height: 35px;
+    margin: 5px 0px;
+  }
+}
+
+.nav-links {
+  height: 100%;
+  display: inline-block;
+  ul {
+    list-style-type: none;
+    margin: 0px;
+    height: 100%;
+    vertical-align: middle;
+    display: table;
+    text-transform: uppercase;
+    font-size: 13px;
+    li {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 0px 10px;
+
+      a {
+        cursor: pointer;
+        color: $text-color;
+        &.active {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-links {
+    visibility: hidden;
+  }
+}
+
+footer {
+  width: 100%;
+  height: 60px;
+  background-color: $background-color;
+}
+
+.app-toolbar-filler {
+  flex: 1 1 auto;
+}
+
+.menu-button {
+  box-shadow: none;
+  user-select: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  filter: none;
+  font-weight: normal;
+  height: auto;
+  line-height: inherit;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  color: #9cabbd;
+}
+
+.footer{
+  opacity: 0.7;
+  ul {
+    padding: 0px;
+    display: table;
+    list-style-type: none;
+    li{
+      display: table-cell;
+      padding-right: 8px;
+    }
+  }
+}
+
+.about{
+  a:hover{
+    color: white;
+  }
+}
+
+.media{
+  img{
+    width: 24px;
+    height: 24px;
+  }
+}

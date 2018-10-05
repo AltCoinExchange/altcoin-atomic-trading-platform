@@ -1,0 +1,98 @@
+@import 'variables';
+@import '~@angular/material/theming';
+
+$custom-typography: mat-typography-config(
+    $font-family: 'Montserrat'
+);
+@include angular-material-typography($custom-typography);
+@include mat-core();
+
+  $primary: mat-palette($mat-blue-grey, 300);
+  $accent: mat-palette($mat-teal, A700);
+
+  $theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);
+
+.mat-input-placeholder {
+    color: $text-color;
+}
+
+.mat-dialog-container{
+    background-color: $background-color;
+    color: $text-color;
+}
+
+mat-dialog-container {
+    max-width: 100% !important;
+}
+
+.mat-card, .mat-paginator, .mat-toolbar, 
+.mat-select-content, .mat-option{
+    font-family: 'Montserrat', sans-serif;
+    background-color: $main-gray;
+    color: $text-color;
+}
+
+.mat-focused{
+    .mat-form-field-placeholder{
+        color: $main-green;
+    }
+}
+
+.mat-form-field-underline{
+    background-color: $text-color;
+}
+
+.mat-form-field-ripple {
+    background-color: $main-green;
+}
+
+.mat-checkbox-frame {
+    border-color: $text-color;
+}
+
+.mat-list-item, .mat-input-element, .mat-button, 
+.mat-table, .mat-select-trigger, .mat-paginator,
+.mat-toolbar, .mat-checkbox, .mat-form-field, .mat-menu-item, 
+.mat-expansion-panel-header, .mat-tab-group, .mat-tab-label {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.mat-list-text{
+    color: white;
+}
+
+.mat-menu-item{
+    color: $text-color;
+    font-size: 100%;
+}
+
+.mat-menu-panel, .mat-header-row, .mat-row{
+    background-color: $main-gray;
+}
+
+.mat-tab-label {
+    color: $text-color;
+    flex: 1 1 auto;
+}
+
+.mat-raised-button[disabled][disabled]{
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.mat-toolbar{
+    font-size: 100%;
+}
+
+.mat-select-arrow, 
+.mat-select-value, 
+.mat-header-cell,
+.mat-cell{
+    color: $text-color;
+}
+
+.mat-paginator-page-size{
+    display: none !important;
+}
+

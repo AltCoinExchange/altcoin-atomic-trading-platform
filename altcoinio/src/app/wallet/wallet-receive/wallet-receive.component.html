@@ -1,0 +1,13 @@
+
+<div class="input-label">Address</div>
+<div class="input-box">
+  <input class="copy-address" readonly [value]="address" id="coinAddress"/>
+  <p class="copy-icon">
+    <a (click)="copyReceiveAddress($event)">
+      <i class="material-icons">content_copy</i>
+    </a>
+  </p>
+</div>
+<div class="qr-code-image">
+  <div id="qrcode" #qrcode></div>
+</div>

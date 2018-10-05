@@ -1,0 +1,107 @@
+<div class="container">
+  <div *ngIf="!transactionsLoaded">
+    <div class="spinner">
+      <div class="circle-loader">
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let transaction of transactions">
+    <a *ngIf="transaction.from && transaction.from.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
+      <div class="transaction closed" [class.closed]="transaction.detailsClosed">
+        <div class="transaction-send" fxLayout="row" fxLayoutAlign="center center" >
+          <div class="icon">
+            <img src="/assets/icon/forward.png" alt="">
+          </div>
+          <div class="content" fxFlex="100">
+            <div class="title">Sent</div>
+            <div class="date">{{transaction.relativeDate}}</div>
+          </div>
+          <div class="amount">
+            {{transaction.value}} ETH
+            <mat-icon *ngIf="transaction.detailsClosed">arrow_drop_down</mat-icon>
+            <mat-icon *ngIf="!transaction.detailsClosed">arrow_drop_up</mat-icon>
+          </div>
+        </div>
+        <div class="details" 
+        fxLayout="row" 
+        fxLayout.xs="column" 
+        fxLayout.sm="column" 
+        fxLayoutAlign="center start" 
+        fxLayoutAlign.xs="center stretch" 
+        fxLayoutAlign.sm="center stretch">
+          <div class="left" fxFlex="70">
+            <div fxLayout="column" fxLayoutAlign="stretch start">
+              <div class="detail">Date</div>
+              <div class="detail info">{{transaction.date}}</div>
+
+              <div class="detail">Sent to</div>
+              <div class="detail info">{{transaction.to}}</div>
+            
+              <div class="detail">Transaction ID</div>
+              <div class="detail info">{{transaction.hash}}</div>
+              
+            </div>
+          </div>
+          <div class="right" fxFlex="30">
+            <div fxLayout="column" fxLayoutAlign="stretch end" fxLayoutAlign.xs="stretch start" fxLayoutAlign.sm="stretch start">
+              <div class="detail">Mining fee</div>
+              <div class="detail info">0.00432</div>
+              
+              <div class="detail">Confirmations</div>
+              <div *ngIf="transaction.confirmations >= 12" class="detail info">12+</div>
+              <div *ngIf="transaction.confirmations < 12" class="detail info">{{transaction.confirmations}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <a *ngIf="transaction.to && transaction.to.toLowerCase() == address.toLowerCase()" (click)="openDetails(transaction)">
+      <div class="transaction closed" [class.closed]="transaction.detailsClosed">
+        <div class="transaction-receive" fxLayout="row" fxLayoutAlign="center center" >
+          <div class="icon">
+            <img src="/assets/icon/backward.png" alt="">
+          </div>
+          <div class="content" fxFlex="100">
+            <div class="title">Received</div>
+            <div class="date">{{transaction.relativeDate}}</div>
+          </div>
+          <div class="amount">
+            {{transaction.value}} ETH
+            <mat-icon *ngIf="transaction.detailsClosed">arrow_drop_down</mat-icon>
+            <mat-icon *ngIf="!transaction.detailsClosed">arrow_drop_up</mat-icon>
+          </div>
+        </div>
+        <div class="details" 
+        fxLayout="row" 
+        fxLayout.xs="column" 
+        fxLayout.sm="column" 
+        fxLayoutAlign="center start" 
+        fxLayoutAlign.xs="center stretch" 
+        fxLayoutAlign.sm="center stretch">
+          <div class="left" fxFlex="70">
+            <div fxLayout="column" fxLayoutAlign="stretch start">
+              <div class="detail">Date</div>
+              <div class="detail info">{{transaction.date}}</div>
+
+              <div class="detail">Received from</div>
+              <div class="detail info">{{transaction.from}}</div>
+            
+              <div class="detail">Transaction ID</div>
+              <div class="detail info">{{transaction.hash}}</div>
+            </div>
+          </div>
+          <div class="right" fxFlex="30">
+            <div fxLayout="column" fxLayoutAlign="stretch end" fxLayoutAlign.xs="stretch start" fxLayoutAlign.sm="stretch start">
+              <div class="detail">Mining fee</div>
+              <div class="detail info">0.00432</div>
+              
+              <div class="detail">Confirmations</div>
+              <div *ngIf="transaction.confirmations >= 12" class="detail info">12+</div>
+              <div *ngIf="transaction.confirmations < 12" class="detail info">{{transaction.confirmations}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

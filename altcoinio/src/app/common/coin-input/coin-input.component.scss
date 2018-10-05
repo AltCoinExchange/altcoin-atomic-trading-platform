@@ -1,0 +1,37 @@
+@import '../../../styles/variables';
+
+.input-box{
+    position: relative;
+    input{
+        padding-left: 70px;
+        text-align: left;
+    }
+
+    &.usd{
+        box-shadow: none;
+        margin-top: -12px;
+        input{
+            background: $background-color;
+            color: $text-color;
+        }
+    }
+}
+
+.coin-symbol{
+    color: white;
+    position: absolute;
+    left: 0;
+    padding: 0 10px;
+    top: 16px;
+    background: $main-gray;
+    &.usd{
+        background: $background-color;
+        color: $text-color;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .coin-symbol{
+        top: 18px;
+    }
+}

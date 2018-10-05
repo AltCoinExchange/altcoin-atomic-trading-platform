@@ -1,0 +1,15 @@
+<div fxLayout="row" class="content-block" fxLayoutAlign="center center">
+  <div fxFlex="80%" fxFlex.xl="55%" fxFlex.md="90%" fxFlex.sm="100%" fxFlex.xs="100%">
+      <div class="token-grid" fxLayout="row" fxLayoutWrap fxLayoutAlign="center center">
+            <app-token-preview
+              [token]="token"
+              *ngFor="let token of tokens"
+              fxFlex="25%"
+              fxFlex.xs="100%"
+              fxFlex.sm="50%"
+              fxFlex.md="33%"
+              fxFlex.xl="20%">
+          </app-token-preview>
+      </div>
+  </div>
+</div>

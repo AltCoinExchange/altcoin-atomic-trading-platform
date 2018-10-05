@@ -1,0 +1,27 @@
+@import '../../../styles/variables';
+
+.info-message{
+    color: white;
+    border-radius: 11px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    text-align: center;
+    padding: 2px 15px;
+    font-size: 100%;
+}
+
+.message-text{
+    margin: 8px 0px;
+}
+
+.info{
+    color: $main-green;
+}
+
+.error{
+    color: $main-red;
+}
+
+.warning{
+    color: $warning;
+}
