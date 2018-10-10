@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Actions, Effect, toPayload} from "@ngrx/effects";
+import {Actions, Effect} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {RedeemData} from "altcoinio-wallet";
@@ -20,6 +20,7 @@ import {WalletFactory} from "../models/wallets/wallet";
 import {CoinFactory} from "../models/coins/coin.model";
 import {OrderService} from "../services/order.service";
 import {LinkService} from "../services/link.service";
+import {toPayload} from "../common/util";
 
 @Injectable()
 export class SideBEffect {

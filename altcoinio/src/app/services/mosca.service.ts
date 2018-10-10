@@ -7,6 +7,7 @@ import {InitiateData, InitiateParams} from "altcoinio-wallet";
 import {isString} from "util";
 import {AREDEEM, PARTICIPATE} from "../actions/side-A.action";
 import {BREDEEM} from "../actions/side-B.action";
+import {environment} from "../../environments/environment";
 
 const INITIATE = "/inititate/";
 
@@ -17,7 +18,7 @@ export class MoscaService {
   messages: Subject<any> = new Subject();
 
   constructor() {
-    this.client = mqtt.connect("wss://swap.altcoin.io:3001/");
+    this.client = mqtt.connect(environment.moscaService);
     this.client.on("message", (topic, message) => {
       this.messages.next({topic, message: message.toString()});
     });

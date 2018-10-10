@@ -1,0 +1,16 @@
+{
+  "name": "simple-mosca-server",
+  "version": "1.0.0",
+  "description": "Simple Mosca Server",
+  "main": "mosca-server.js",
+  "scripts": {
+    "start": "node mosca-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mosca": "^2.8.3",
+    "mqtt": "^2.18.8"
+  }
+}

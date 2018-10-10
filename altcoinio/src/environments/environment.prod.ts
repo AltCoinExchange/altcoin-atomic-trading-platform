@@ -9,5 +9,6 @@ export const environment = {
   appid: "DLiUBJ8NGMh6ojuFjwAqhF4L8D2hUsSH5CCcH1X648Fe",
   appkey: "GgZtjS6WPDNAePNM43ZdPoJ1Ap61RU3jnsgjHqELxgHX",
   orderApi: "https://service1.altcoin.io:3001",
-  wsOrderApi: "wss://service1.altcoin.io:3003"
+  wsOrderApi: "wss://service1.altcoin.io:3003",
+  moscaService: "wss://swap.altcoin.io:8080"
 };

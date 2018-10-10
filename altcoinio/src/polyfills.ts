@@ -14,6 +14,12 @@
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
 
+// TODO: remove once Mosca service is removed
+const process = require("process");
+(window as any).global = window;
+(window as any).process = process;
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */

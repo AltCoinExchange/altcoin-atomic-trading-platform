@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Actions, Effect, toPayload} from "@ngrx/effects";
+import {Actions, Effect} from "@ngrx/effects";
 import {Action, Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {RedeemData} from "altcoinio-wallet";
@@ -21,6 +21,7 @@ import {LinkService} from "../services/link.service";
 import {MoscaService} from "../services/mosca.service";
 import {WalletFactory} from "../models/wallets/wallet";
 import {OrderService} from "../services/order.service";
+import {toPayload} from "../common/util";
 
 @Injectable()
 export class SideAEffect {

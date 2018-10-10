@@ -1,9 +1,14 @@
 import {Params, RouterStateSnapshot} from "@angular/router";
 import {RouterStateSerializer} from "@ngrx/router-store";
+import {Action} from "@ngrx/store";
 
 export interface RouterStateUrl {
   url: string;
   queryParams: Params;
+}
+
+export function toPayload(action: Action): any {
+  return (action as any).payload;
 }
 
 export class CustomRouterStateSerializer
@@ -35,7 +40,7 @@ export class HttpRequester {
     // console.log(requestOptions);
 
     const result = new Promise(function (resolve, reject) {
-      const http = require("https");
+      const http = require("@angular/http");
 
       const req = http.request(requestOptions, function (res) {
         console.log(res.statusCode);

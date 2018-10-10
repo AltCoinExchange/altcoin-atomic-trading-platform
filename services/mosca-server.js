@@ -1,8 +1,8 @@
 var mosca = require('mosca');
 
 // TODO: Insert your own key
-var SECURE_KEY = 'privkey.pem';
-var SECURE_CERT = 'fullchain.pem';
+var SECURE_KEY = './privkey.pem';
+var SECURE_CERT = './fullchain.pem';
 
 var settings = {
   port: 1883,

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Actions, Effect, toPayload} from "@ngrx/effects";
+import {Actions, Effect, ofType} from "@ngrx/effects";
 import {Action} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {TOKENS} from "altcoinio-wallet";
@@ -12,6 +12,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import {AccountHelperService} from "../services/account-helper.service";
 import {Go} from "../actions/router.action";
+import {toPayload} from "../common/util";
 
 @Injectable()
 export class BalanceEffect {

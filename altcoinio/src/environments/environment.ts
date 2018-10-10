@@ -14,5 +14,6 @@ export const environment = {
   appid: "DLiUBJ8NGMh6ojuFjwAqhF4L8D2hUsSH5CCcH1X648Fe",
   appkey: "GgZtjS6WPDNAePNM43ZdPoJ1Ap61RU3jnsgjHqELxgHX",
   orderApi: "http://localhost:3000",
-  wsOrderApi: "ws://localhost:3002"
+  wsOrderApi: "ws://localhost:3002",
+  moscaService: "wss://localhost:8080"
 };
