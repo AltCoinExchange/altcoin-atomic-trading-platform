@@ -77,10 +77,11 @@ export class CreateWalletComponent implements OnInit {
   createWallet() {
     this.cardVisible = false;
     this.createBtcWallet(this.codes);
+    let that = this; // TODO: Remove and handle it properly
     setTimeout(() => {
       this.fundingWallet = true;
       this.fundingMsg = 'We are funding your account with some testnet coins. Please wait a moment...';
-      const {ethWallet} = AccountHelper.generateWalletsFromPrivKey(this.store);
+      const {ethWallet} = AccountHelper.generateWalletsFromPrivKey(that.store);
       this.store.dispatch(new FundEthWalletAction(ethWallet.address));
     }, 1500);
   }
@@ -91,7 +92,7 @@ export class CreateWalletComponent implements OnInit {
     btc.create(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
+    const xkey = btc.hdPrivateKey.toBase58();
     this.store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,

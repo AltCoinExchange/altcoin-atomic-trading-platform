@@ -72,7 +72,7 @@ export class ImportWalletComponent implements OnInit {
     btc.create(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
+    const xkey = btc.hdPrivateKey.toBase58();;
     this.store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,

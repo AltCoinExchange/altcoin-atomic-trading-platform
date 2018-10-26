@@ -235,7 +235,7 @@ export class SwapStartComponent extends AnimationEnabledComponent implements OnI
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ENJINCOIN, name: "ENJ"}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.MONACO, name: "MCO"}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.EDGELESS, name: "EDG"}));
-    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.VECHAIN, name: "VEN"}));
+    this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.VECHAIN, name: "VET"}));
     this.store.dispatch(new GetTokenBalanceAction({token: TOKENS.ICON, name: "ICX"}));
 
     this.coins.forEach((coin) => {

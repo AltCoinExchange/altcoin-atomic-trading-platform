@@ -24,7 +24,7 @@ export class AccountHelper {
     btc.recover(wallet);
     const WIF = btc.WIF;
     const address = btc.generateAddressFromWif(WIF);
-    const xkey = btc.hdPrivateKey.xprivkey;
+    const xkey = btc.hdPrivateKey.toBase58();
     store.dispatch(new walletAction.SetBtcWalletAction({
       xprivkey: xkey,
       WIF,

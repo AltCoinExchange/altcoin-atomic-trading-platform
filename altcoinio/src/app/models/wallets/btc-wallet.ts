@@ -21,12 +21,14 @@ export class BtcWallet extends BitcoinWallet implements Wallet {
   Participate(data: InitiateData, btc: BtcCoinModel): Observable<ParticipateData> {
     // tslint:disable-next-line
     console.log("PARTICIPATING BTC:... ", InitiateData);
-    const btcParticipateParams = new BtcParticipateParams();
-    btcParticipateParams.address = (<any>data).address;
-    btcParticipateParams.secretHash = data.secretHash;
-    btcParticipateParams.amount = btc.amount;
-    btcParticipateParams.privateKey = AltcoinioStorage.get("btc-wif");
-    btcParticipateParams.refundTime = 7200;
+    const btcParticipateParams = new BtcParticipateParams(
+      7200,
+      AltcoinioStorage.get("btc-wif"),
+      (<any>data).address,
+      btc.amount,
+      data.secretHash
+    );
+
     console.log("btcParticipateParams", btcParticipateParams);
     return Observable.fromPromise(super.participate(btcParticipateParams));
   }

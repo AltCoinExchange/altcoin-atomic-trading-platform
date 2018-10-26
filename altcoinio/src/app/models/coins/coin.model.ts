@@ -35,7 +35,7 @@ import {StorjCoinModel} from "./storj-coin.model";
 import {EnjCoinModel} from "./enj-coin.model";
 import {McoCoinModel} from "./mco-coin.model";
 import {EdgCoinModel} from "./edg-coin.model";
-import {VenCoinModel} from "./ven-coin.model";
+import {VetCoinModel} from "./vet-coin.model";
 import {IcxCoinModel} from "./icx-coin.model";
 import {PartCoinModel} from "./part-coin.model";
 import {XvgCoinModel} from "./xvg-coin.model";
@@ -160,8 +160,8 @@ export class CoinFactory {
       case Coins.PAY: {
         return new TenxCoinModel();
       }
-      case Coins.VEN: {
-        return new VenCoinModel();
+      case Coins.VET: {
+        return new VetCoinModel();
       }
       case Coins.STORJ: {
         return new StorjCoinModel();
@@ -213,7 +213,7 @@ export class CoinFactory {
       new EnjCoinModel(),
       new McoCoinModel(),
       new EdgCoinModel(),
-      new VenCoinModel(),
+      new VetCoinModel(),
       new IcxCoinModel()
     ];
   }

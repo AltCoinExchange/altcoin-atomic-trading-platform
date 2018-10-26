@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "mosca": "^2.8.3",
-    "mqtt": "^2.18.8"
+    "mqtt": "^2.18.8",
+    "redis": "^2.8.0"
   }
 }

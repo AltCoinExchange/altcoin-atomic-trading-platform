@@ -33,7 +33,7 @@ export enum Coins {
   ENJ,
   MCO,
   EDG,
-  VEN,
+  VET,
   ICX,
   PART,
   XVG,
