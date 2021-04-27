@@ -12,6 +12,6 @@
   "dependencies": {
     "mosca": "^2.8.3",
     "mqtt": "^2.18.8",
-    "redis": "^2.8.0"
+    "redis": "^3.1.1"
   }
 }
