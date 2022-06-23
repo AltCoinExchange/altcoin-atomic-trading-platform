@@ -65,7 +65,7 @@
     "inert": "^5.1.0",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.1.0",
-    "jsdom": "^11.6.0",
+    "jsdom": "^16.5.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "~2.1.1",
     "karma-cli": "~1.0.1",
